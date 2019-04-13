@@ -555,3 +555,31 @@ if (!localStorage.showIntro) {
   localStore("showIntro",1);
   show_intro();
 }
+
+
+    //Show Intro 
+    function show_intro() {
+      document.getElementById("swip_intro").style.display = "inline";
+      introSwiper.update;
+      //introSwiper.reInit;
+      introSwiper.slideTo(0, 1, false);
+      document.getElementById("swip_intro").style.display = "table";
+      document.getElementById('form-id1').style.display = "none";
+      document.getElementById('form-id2').style.display = "inline";
+      document.getElementById("myNav").style.height = "100%";
+      needReload = 1;
+    }
+    //Reload to show intro
+    function show_intro_reload() {
+      localStorage.removeItem("showIntro");
+      location.reload();
+    }
+    //Show Settings 
+    function show_settings() {
+      document.getElementById("swip_intro").style.display = "none";
+      introSwiper.slideTo(1, 1, false);
+      document.getElementById('form-id1').style.display = "none";
+      document.getElementById('form-id2').style.display = "inline";
+      document.getElementById("myNav").style.height = "100%";
+      needReload = 0;
+    }
