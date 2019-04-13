@@ -537,7 +537,31 @@ var kiwiIcon="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEgAAABICAYAAABV7bNH
 var ar_klogo = document.getElementsByClassName("k-logo");
 for(var i=0;i<ar_klogo.length;i++)
   ar_klogo[i].src=kiwiIcon;
-
+//Show Intro 
+function show_intro() {
+  document.getElementById("swip_intro").style.display = "inline";
+  introSwiper.update;
+  introSwiper.slideTo(0, 1, false);
+  document.getElementById("swip_intro").style.display = "table";
+  document.getElementById('form-id1').style.display = "none";
+  document.getElementById('form-id2').style.display = "inline";
+  document.getElementById("myNav").style.height = "100%";
+  needReload = 1;
+}
+//Reload to show intro
+function show_intro_reload() {
+  localStorage.removeItem("showIntro");
+  location.reload();
+}
+//Show Settings 
+function show_settings() {
+  document.getElementById("swip_intro").style.display = "none";
+  introSwiper.slideTo(1, 1, false);
+  document.getElementById('form-id1').style.display = "none";
+  document.getElementById('form-id2').style.display = "inline";
+  document.getElementById("myNav").style.height = "100%";
+  needReload = 0;
+}
 //Check ntpVersion
 if (localStorage.ntpVersion) {
   if (localStorage.ntpVersion != "1.0.6") {
