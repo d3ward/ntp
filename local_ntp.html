@@ -93,7 +93,7 @@
   <div id="myNav" class="vrlay">
     <button type="button" class="btn-dark btn-close" onclick="close_dialog()">&#10006;</button>
     <div class="vrlay-content">
-      <div id="form-id1" action="" class="form" autocomplete="off" style="max-width:30%">
+      <form id="form-id1" action="" class="form" autocomplete="off" style="max-width:30%">
         <label>Preview Tile</label><br>
         <img id="p-tile" name="ptile" onerror="defaultSRC()"><br>
         <button type="button" onclick="editIURL(this)" id="e-icon">&nbsp;&#9998 Auto&nbsp;</button><br>
@@ -122,7 +122,7 @@
           <button type="submit" id="btn-save" class="btn-save" onclick="save_edited_tile()">Save</button>
           <button type="button" id="btn-dark" class="btn-dark" onclick="close_dialog()">Close</button>
         </div>
-      </div>
+      </form>
       <div id="form-id2">
         <div class="swiper-c-intro" id="sc-intro">
           <!-- Additional required wrapper -->
@@ -339,21 +339,11 @@
       document.getElementById("myNav").style.height = "100%";
       needReload = 0;
     }
-    var introSwiper = new Swiper('.swiper-c-intro', {
-      speed: 400, //speed:  Fast|150 , Normal|450 , Slow|850 
-      pagination: {
-        el: '.swiper-p-intro',
-        clickable: true,
-      },
-      observer:true,
-      observeParents:true,
-      initialSlide: 0,
-    })
+    
     //Show Intro 
     function show_intro() {
       document.getElementById("swip_intro").style.display = "inline";
       introSwiper.update;
-      //introSwiper.reInit;
       introSwiper.slideTo(0, 1, false);
       document.getElementById("swip_intro").style.display = "table";
       document.getElementById('form-id1').style.display = "none";
