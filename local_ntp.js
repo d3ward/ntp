@@ -578,3 +578,31 @@ if (!localStorage.showIntro) {
   show_intro();
 }
 
+
+function enable_news() {
+  localStorage.removeItem('hideNews');
+  location.reload();
+  addSwipeToDelete();
+
+}
+
+function reset_page() {
+  if (confirm("This will reset all the homepage back to default, are you sure ?")) {
+    localStorage.clear();
+    location.reload();
+  }
+}
+if (typeof window.chrome.embeddedSearch != "undefined" && window.chrome.embeddedSearch.newTabPage.isIncognito) {
+  document.getElementById('bottom_panel').style.display = 'none';
+} else {
+  //document.getElementById('enable-news-button').addEventListener('click', enable_news);
+  document.getElementById('settings-button').addEventListener('click', show_settings);
+  //document.getElementById('resetNH-button').addEventListener('click', resetNH_items);
+}
+if (typeof localStorage.hideNews == "undefined") {
+  //document.getElementById('enable-news-button').style.display='none';
+  document.getElementById("sc-grids").style.minHeight = "auto";
+} else {
+  document.getElementById("sc-grids").style.minHeight = "calc(80vh - 50px)";
+}
+
