@@ -109,55 +109,15 @@ function setup_grid() {
       window.setTimeout(function () {
         if (typeof localStorage.storedItems1 == "undefined") {
           fetch_tiles_from_most_visited();
-          globalGrid.appendNew();
+          globalGrid1.appendNew();
           swap_if_ready();
         }
-      }, 10);
+      }, 200);
     if (typeof localStorage.storedItems1 == "undefined")
       window.setTimeout(function () {
         if (typeof localStorage.storedItems1 == "undefined") {
           fetch_tiles_from_most_visited();
-          globalGrid.appendNew();
-          swap_if_ready();
-        }
-      }, 100);
-    if (typeof localStorage.storedItems1 == "undefined")
-      window.setTimeout(function () {
-        if (typeof localStorage.storedItems1 == "undefined") {
-          fetch_tiles_from_most_visited();
-          globalGrid.appendNew();
-          swap_if_ready();
-        }
-      }, 500);
-    if (typeof localStorage.storedItems1 == "undefined")
-      window.setTimeout(function () {
-        if (typeof localStorage.storedItems1 == "undefined") {
-          fetch_tiles_from_most_visited();
-          globalGrid.appendNew();
-          swap_if_ready();
-        }
-      }, 1000);
-    if (typeof localStorage.storedItems1 == "undefined")
-      window.setTimeout(function () {
-        if (typeof localStorage.storedItems1 == "undefined") {
-          fetch_tiles_from_most_visited();
-          globalGrid.appendNew();
-          swap_if_ready();
-        }
-      }, 2000);
-    if (typeof localStorage.storedItems1 == "undefined")
-      window.setTimeout(function () {
-        if (typeof localStorage.storedItems1 == "undefined") {
-          fetch_tiles_from_most_visited();
-          globalGrid.appendNew();
-          swap_if_ready();
-        }
-      }, 4000);
-    if (typeof localStorage.storedItems1 == "undefined")
-      window.setTimeout(function () {
-        if (typeof localStorage.storedItems1 == "undefined") {
-          fetch_tiles_from_most_visited();
-          globalGrid.appendNew();
+          globalGrid1.appendNew();
           swap_if_ready();
         }
       }, 8000);
@@ -521,7 +481,6 @@ mySwiper.on('slideChange', function () {
   sessionStorage.currentSwiperSlide = mySwiper.activeIndex;
 });
 document.getElementById('bdy').classList.add('inited');
-alert(" Test Localstorage : 1 "+localGet("storedItems1")+" 2 " +localGet("storedItems2")+" 3 :"+localGet("storedItems3"));
 var introSwiper = new Swiper('.swiper-c-intro', {
   speed: 400, //speed:  Fast|150 , Normal|450 , Slow|850 
   pagination: {
