@@ -521,6 +521,7 @@ mySwiper.on('slideChange', function () {
   sessionStorage.currentSwiperSlide = mySwiper.activeIndex;
 });
 document.getElementById('bdy').classList.add('inited');
+alert(" Test Localstorage : 1 "+localGet("storedItems1")+" 2 " +localGet("storedItems2")+" 3 :"+localGet("storedItems3"));
 var introSwiper = new Swiper('.swiper-c-intro', {
   speed: 400, //speed:  Fast|150 , Normal|450 , Slow|850 
   pagination: {
