@@ -764,9 +764,12 @@
       }
 
       function fetch_tiles_from_most_visited() {
+        console.log(" Test 1 , im inside fetch_tiles_from_most_visited");
         if (typeof localStorage.useCustomTiles == "undefined" || localStorage.useCustomTiles == "false") {
+          console.log(" Test2 , im inside fetch_tiles_from_most_visited");
           if (typeof window.chrome.embeddedSearch != "undefined" && chrome.embeddedSearch.newTabPage
             .mostVisitedAvailable) {
+            console.log(" Test3 , im inside fetch_tiles_from_most_visited");
             localStore("storedItems1", []);
             localStore("storedItems2", []);
             localStore("storedItems3", []);
