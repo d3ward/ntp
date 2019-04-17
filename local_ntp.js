@@ -112,7 +112,47 @@ function setup_grid() {
           globalGrid1.appendNew();
           swap_if_ready();
         }
-      }, 200);
+      }, 10);
+    if (typeof localStorage.storedItems1 == "undefined")
+      window.setTimeout(function () {
+        if (typeof localStorage.storedItems1 == "undefined") {
+          fetch_tiles_from_most_visited();
+          globalGrid1.appendNew();
+          swap_if_ready();
+        }
+      }, 100);
+    if (typeof localStorage.storedItems1 == "undefined")
+      window.setTimeout(function () {
+        if (typeof localStorage.storedItems1 == "undefined") {
+          fetch_tiles_from_most_visited();
+          globalGrid1.appendNew();
+          swap_if_ready();
+        }
+      }, 500);
+    if (typeof localStorage.storedItems1 == "undefined")
+      window.setTimeout(function () {
+        if (typeof localStorage.storedItems1 == "undefined") {
+          fetch_tiles_from_most_visited();
+          globalGrid1.appendNew();
+          swap_if_ready();
+        }
+      }, 1000);
+    if (typeof localStorage.storedItems1 == "undefined")
+      window.setTimeout(function () {
+        if (typeof localStorage.storedItems1 == "undefined") {
+          fetch_tiles_from_most_visited();
+          globalGrid1.appendNew();
+          swap_if_ready();
+        }
+      }, 2000);
+    if (typeof localStorage.storedItems1 == "undefined")
+      window.setTimeout(function () {
+        if (typeof localStorage.storedItems1 == "undefined") {
+          fetch_tiles_from_most_visited();
+          globalGrid1.appendNew();
+          swap_if_ready();
+        }
+      }, 4000);
     if (typeof localStorage.storedItems1 == "undefined")
       window.setTimeout(function () {
         if (typeof localStorage.storedItems1 == "undefined") {
