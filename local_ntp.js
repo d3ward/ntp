@@ -604,13 +604,13 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
   }
   //Check ntpVersion
   if (localStorage.ntpVersion) {
-    if (localStorage.ntpVersion != "1.0.6") {
+    if (localStorage.ntpVersion != "1.0.7") {
       show_changelog();
-      localStorage.ntpVersion = "1.0.6"
+      localStorage.ntpVersion = "1.0.7"
     }
   } else {
     show_changelog();
-    localStorage.ntpVersion = "1.0.6"
+    localStorage.ntpVersion = "1.0.7"
   }
   //Check Intro
   if (!localStorage.showIntro) {
