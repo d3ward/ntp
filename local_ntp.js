@@ -578,11 +578,16 @@ function reset_page() {
 
 
 if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
-    document.getElementById('bottom_panel').style.display = 'none';
     document.body.style.backgroundColor = 'black';
+    document.getElementById('bottom_panel').style.display = 'none';
     document.getElementById('incognito').style.display = 'block';
     document.getElementById('add-button').style.display = 'none';
     document.getElementById('myNav').style.display = 'none';
+    document.getElementById('news').style.display = 'none';
+    document.getElementById('newsMore').style.display = 'none';
+    document.getElementById('configure-button').style.display = 'none';
+    document.getElementById('close-button').style.display = 'none';
+
 } else {
   if (typeof localStorage.hideNews == "undefined") {
     //document.getElementById('enable-news-button').style.display='none';
@@ -592,11 +597,11 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
     document.getElementById('configure-button').style.display = 'none';
     document.getElementById('close-button').style.display = 'none';
   } else {
-    document.getElementById("sc-grids").style.minHeight = "calc(80vh - 50px)";
     document.getElementById('configure-button').addEventListener('click', configure_news);
     document.getElementById('close-button').addEventListener('click', close_news);
     document.getElementById('newsMore').addEventListener('click', load_more_news);
     preconnectTo(newsServer);
+    document.getElementById("sc-grids").style.minHeight = "calc(80vh - 50px)";
   }
   //Check ntpVersion
   if (localStorage.ntpVersion) {
@@ -613,9 +618,7 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
     localStore("showIntro",1);
     show_intro();
   }
-  //document.getElementById('enable-news-button').addEventListener('click', enable_news);
   document.getElementById('settings-button').addEventListener('click', show_settings);
-  //document.getElementById('resetNH-button').addEventListener('click', resetNH_items);
 }
 
 //Show NTP
