@@ -562,22 +562,6 @@ function show_settings() {
   document.getElementById("myNav").style.height = "100%";
   needReload = 0;
 }
-//Check ntpVersion
-if (localStorage.ntpVersion) {
-  if (localStorage.ntpVersion != "1.0.6") {
-    show_changelog();
-    localStorage.ntpVersion = "1.0.6"
-  }
-} else {
-  show_changelog();
-  localStorage.ntpVersion = "1.0.6"
-}
-//Check Intro
-if (!localStorage.showIntro) {
-  localStore("showIntro",1);
-  show_intro();
-}
-
 
 function enable_news() {
   localStorage.removeItem('hideNews');
@@ -585,16 +569,17 @@ function enable_news() {
   addSwipeToDelete();
 
 }
-
 function reset_page() {
   if (confirm("This will reset all the homepage back to default, are you sure ?")) {
     localStorage.clear();
     location.reload();
   }
 }
+
 if (typeof window.chrome.embeddedSearch != "undefined" && window.chrome.embeddedSearch.newTabPage.isIncognito) {
   document.getElementById('bottom_panel').style.display = 'none';
 } else {
+
   //document.getElementById('enable-news-button').addEventListener('click', enable_news);
   document.getElementById('settings-button').addEventListener('click', show_settings);
   //document.getElementById('resetNH-button').addEventListener('click', resetNH_items);
@@ -603,6 +588,22 @@ if (typeof localStorage.hideNews == "undefined") {
   //document.getElementById('enable-news-button').style.display='none';
   document.getElementById("sc-grids").style.minHeight = "auto";
 } else {
+  //Check ntpVersion
+  if (localStorage.ntpVersion) {
+    if (localStorage.ntpVersion != "1.0.6") {
+      show_changelog();
+      localStorage.ntpVersion = "1.0.6"
+    }
+  } else {
+    show_changelog();
+    localStorage.ntpVersion = "1.0.6"
+  }
+  //Check Intro
+  if (!localStorage.showIntro) {
+    localStore("showIntro",1);
+    show_intro();
+  }
   document.getElementById("sc-grids").style.minHeight = "calc(80vh - 50px)";
 }
+
 
