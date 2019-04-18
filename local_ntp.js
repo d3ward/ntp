@@ -579,15 +579,12 @@ function reset_page() {
 
 if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
     document.body.style.backgroundColor = 'black';
-    document.getElementById('bottom_panel').style.display = 'none';
     document.getElementById('incognito').style.display = 'block';
     document.getElementById('add-button').style.display = 'none';
     document.getElementById('myNav').style.display = 'none';
-    document.getElementById('news').style.display = 'none';
-    document.getElementById('newsMore').style.display = 'none';
-    document.getElementById('configure-button').style.display = 'none';
-    document.getElementById('close-button').style.display = 'none';
-
+    document.getElementById('floating-btn').style.display = 'none';
+    document.getElementById('ntp-contents').style.display = 'none';
+    document.getElementById('bottom_panel').style.display = 'none';
 } else {
   if (typeof localStorage.hideNews == "undefined") {
     //document.getElementById('enable-news-button').style.display='none';
