@@ -1318,8 +1318,10 @@
             news_time = parseInt(news_time.substr(news_time.lastIndexOf(":") + 2));
           else
             news_time = parseInt(Date.parse(news_time) / 1000);
-          if (link)
-            link = link.replace('chrome-search://local-ntp/', newsServer);
+          if (link){
+            link = link.replace('https://d3ward.github.io/ntp/', 'https://news.google.com/');
+          }
+            
           if (link && image && title) {
             has_valid_entries = true;
             console.log('Title: ' + title);
