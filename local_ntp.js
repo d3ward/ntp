@@ -584,7 +584,6 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
 
   if (typeof localStorage.hideNews == "undefined") {
     console.log("Test 1 localstorage.hideNews == undefined");
-    //document.getElementById('enable-news-button').style.display='none';
     document.getElementById("sc-grids").style.minHeight = "auto";
     document.getElementById('news').style.display = 'inline';
     document.getElementById('newsMore').style.display = 'inline';
@@ -595,7 +594,6 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
     document.getElementById('newsMore').addEventListener('click', load_more_news);
     preconnectTo(newsServer);
   } else {
-    console.log("Test 2 localstorage.hideNews != undefined");
     document.getElementById('news').style.display = 'none';
     document.getElementById('newsMore').style.display = 'none';
     document.getElementById('configure-button').style.display = 'none';
