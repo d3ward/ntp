@@ -520,7 +520,7 @@ var mySwiper = new Swiper('.swiper-container', {
 mySwiper.on('slideChange', function () {
   sessionStorage.currentSwiperSlide = mySwiper.activeIndex;
 });
-document.getElementById('bdy').classList.add('inited');
+
 var introSwiper = new Swiper('.swiper-c-intro', {
   speed: 400, //speed:  Fast|150 , Normal|450 , Slow|850 
   pagination: {
@@ -562,7 +562,6 @@ function show_settings() {
   document.getElementById("myNav").style.height = "100%";
   needReload = 0;
 }
-
 function enable_news() {
   localStorage.removeItem('hideNews');
   location.reload();
@@ -576,18 +575,29 @@ function reset_page() {
   }
 }
 
-if (typeof window.chrome.embeddedSearch != "undefined" && window.chrome.embeddedSearch.newTabPage.isIncognito) {
-  document.getElementById('bottom_panel').style.display = 'none';
-} else {
 
-  //document.getElementById('enable-news-button').addEventListener('click', enable_news);
-  document.getElementById('settings-button').addEventListener('click', show_settings);
-  //document.getElementById('resetNH-button').addEventListener('click', resetNH_items);
-}
-if (typeof localStorage.hideNews == "undefined") {
-  //document.getElementById('enable-news-button').style.display='none';
-  document.getElementById("sc-grids").style.minHeight = "auto";
+
+if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
+    document.getElementById('bottom_panel').style.display = 'none';
+    document.body.style.backgroundColor = 'black';
+    document.getElementById('incognito').style.display = 'block';
+    document.getElementById('add-button').style.display = 'none';
+    document.getElementById('myNav').style.display = 'none';
 } else {
+  if (typeof localStorage.hideNews == "undefined") {
+    //document.getElementById('enable-news-button').style.display='none';
+    document.getElementById("sc-grids").style.minHeight = "auto";
+    document.getElementById('news').style.display = 'none';
+    document.getElementById('newsMore').style.display = 'none';
+    document.getElementById('configure-button').style.display = 'none';
+    document.getElementById('close-button').style.display = 'none';
+  } else {
+    document.getElementById("sc-grids").style.minHeight = "calc(80vh - 50px)";
+    document.getElementById('configure-button').addEventListener('click', configure_news);
+    document.getElementById('close-button').addEventListener('click', close_news);
+    document.getElementById('newsMore').addEventListener('click', load_more_news);
+    preconnectTo(newsServer);
+  }
   //Check ntpVersion
   if (localStorage.ntpVersion) {
     if (localStorage.ntpVersion != "1.0.6") {
@@ -603,7 +613,11 @@ if (typeof localStorage.hideNews == "undefined") {
     localStore("showIntro",1);
     show_intro();
   }
-  document.getElementById("sc-grids").style.minHeight = "calc(80vh - 50px)";
+  //document.getElementById('enable-news-button').addEventListener('click', enable_news);
+  document.getElementById('settings-button').addEventListener('click', show_settings);
+  //document.getElementById('resetNH-button').addEventListener('click', resetNH_items);
 }
 
+//Show NTP
+document.getElementById('bdy').classList.add('inited');
 

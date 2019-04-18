@@ -516,12 +516,7 @@
           document.getElementById('fake-bookmarks-grid3').style.display = 'block';
         }
       }
-      if (typeof window.chrome.embeddedSearch != "undefined" && window.chrome.embeddedSearch.newTabPage.isIncognito) {
-        document.body.style.backgroundColor = 'black';
-        document.getElementById('incognito').style.display = 'block';
-        document.getElementById('add-button').style.display = 'none';
-        document.getElementById('myNav').style.display = 'none';
-      } else {
+      if (! window.chrome.embeddedSearch.newTabPage.isIncognito) {
         try {
           instant_grid();
           window.setTimeout(function () {
@@ -981,19 +976,6 @@
         hint.rel = "preconnect";
         hint.href = url;
         document.head.appendChild(hint);
-      }
-
-      if ((typeof window.chrome.embeddedSearch != "undefined" && window.chrome.embeddedSearch.newTabPage.isIncognito) ||
-        typeof localStorage.hideNews != "undefined") {
-        document.getElementById('news').style.display = 'none';
-        document.getElementById('newsMore').style.display = 'none';
-        document.getElementById('configure-button').style.display = 'none';
-        document.getElementById('close-button').style.display = 'none';
-      } else {
-        document.getElementById('configure-button').addEventListener('click', configure_news);
-        document.getElementById('close-button').addEventListener('click', close_news);
-        document.getElementById('newsMore').addEventListener('click', load_more_news);
-        preconnectTo(newsServer);
       }
 
       ! function (t, e) {
