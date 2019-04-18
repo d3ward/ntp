@@ -579,7 +579,7 @@ function reset_page() {
 
 if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
     document.body.style.backgroundColor = 'black';
-    document.getElementById('incognito').style.display = 'block';
+    document.getElementById('incognito').style.display = 'inline';
     document.getElementById('add-button').style.display = 'none';
     document.getElementById('myNav').style.display = 'none';
     document.getElementById('floating-btn').style.display = 'none';
