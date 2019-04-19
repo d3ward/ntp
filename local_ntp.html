@@ -931,19 +931,20 @@
       }
     </script>
 
-    <div style="clear: both;"></div>
-    <div id="center-confclose">
+    <div id="news-stuff">
+      <div id="center-confclose">
       <div class="configure-item dropbtn" role="button" aria-label="Choose news region" title="Choose news region"
         id="configure-button"><span id="locale"></span><span class="arrow-down">▼</span></div>
       <button class="close-item" role="button" aria-label="Close news" title="Close news"
         id="close-button" />&#10006;</button>
+      </div>
+      <div id="localDropdown" class="dropdown-content">
+      </div>
+      <div id="newsHeader" style="display: none;"></div>
+      <div id="news"></div>
+      <div id="newsMore"></div>
     </div>
-    <br />
-    <div id="localDropdown" class="dropdown-content">
-    </div>
-    <div id="newsHeader" style="display: none;"></div>
-    <div id="news"></div>
-    <div id="newsMore"></div>
+    
     <script>
       function preconnectTo(url) {
         var hint = document.createElement("link");

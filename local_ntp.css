@@ -85,7 +85,6 @@ button {
 
 #ntp-contents {
   position: relative;
-  z-index: 1;
 }
 
 a:-webkit-any-link {
