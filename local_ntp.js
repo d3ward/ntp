@@ -598,7 +598,7 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
     document.getElementById('newsMore').style.display = 'none';
     document.getElementById('configure-button').style.display = 'none';
     document.getElementById('close-button').style.display = 'none';
-    document.getElementById("sc-grids").style.minHeight = "calc(100vh - 33px)";
+    document.getElementById("sc-grids").style.minHeight = "calc(100vh - 85px)";
   }
   //Check ntpVersion
   if (localStorage.ntpVersion) {
