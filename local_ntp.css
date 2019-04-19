@@ -12,6 +12,9 @@ html {
   --text-color-light: #fff;
   --text-color-link: rgb(17, 85, 204);
 
+  --bg-color-btns: #efefef;
+  --bg-color-newsI : #ddd;
+
   height: 100%;
 }
 
@@ -109,7 +112,7 @@ a:link {
 #fake-bookmarks-grid1,
 #fake-bookmarks-grid2,
 #fake-bookmarks-grid3 {
-  z-index: -99999;
+  z-index: -100;
 }
 
 .grid-item {
@@ -123,10 +126,8 @@ a:link {
   text-align: center;
   z-index: 999999;
 }
-
 .grid-item a {
   text-decoration: none;
-  color: #555;
 }
 
 .grid-image {
@@ -167,7 +168,8 @@ a:link {
   z-index: 999999;
   color: #777;
   float: left;
-  border: 2px solid #efefef;
+  background: var(--bg-color-btns);
+  border: 2px solid var(--bg-color-btns);
   border-radius: 5px;
   padding-left: 5px;
   padding-right: 5px;
@@ -197,8 +199,8 @@ a:link {
   margin: 8px;
   border-radius: 5px;
   max-width: calc(100vw - 30px);
-  background: #efefef;
-  border: 2px solid #efefef;
+  background: var(--bg-color-newsI);
+  border: 2px solid var(--bg-color-newsI);
   padding: 5px !important;
   font-family: Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
 }
