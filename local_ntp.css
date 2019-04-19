@@ -84,10 +84,8 @@ button {
 }
 
 #ntp-contents {
-  min-height: calc(90vh - 80px);
   position: relative;
   z-index: 1;
-  width: 100%;
 }
 
 a:-webkit-any-link {
@@ -180,6 +178,7 @@ a:link {
 #center-confclose {
   max-width: 800px;
   margin: auto;
+  margin-bottom: 10px;
 }
 
 #news {
