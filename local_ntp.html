@@ -872,11 +872,8 @@
       }
       function close_news() {
         localStorage.hideNews = true;
-        document.getElementById('news').style.display = 'none';
-        document.getElementById('newsMore').style.display = 'none';
-        document.getElementById('configure-button').style.display = 'none';
-        document.getElementById('close-button').style.display = 'none';
-        document.getElementById('enable-news-button').style.display = 'inline-block';
+        document.getElementById('news-stuff').style.display = 'none';
+        document.getElementById('enable-news-button').style.display = 'inline';
         document.getElementById("sc-grids").style.minHeight = "calc(100vh - 140px)";
       }
 
@@ -932,15 +929,14 @@
     </script>
 
     <div id="news-stuff">
-      <div id="center-confclose">
-      <div class="configure-item dropbtn" role="button" aria-label="Choose news region" title="Choose news region"
-        id="configure-button"><span id="locale"></span><span class="arrow-down">▼</span></div>
-      <button class="close-item" role="button" aria-label="Close news" title="Close news"
-        id="close-button" />&#10006;</button>
+      <div id="news-header" style="height: 30px;padding-bottom: 5px;padding-top: 5px;">
+        <div class="configure-item dropbtn" role="button" aria-label="Choose news region" title="Choose news region"
+          id="configure-button"><span id="locale"></span><span class="arrow-down">▼</span></div>
+        <button class="close-item" role="button" aria-label="Close news" title="Close news"
+          id="close-button" />&#10006;</button>
       </div>
       <div id="localDropdown" class="dropdown-content">
       </div>
-      <div id="newsHeader" style="display: none;"></div>
       <div id="news"></div>
       <div id="newsMore"></div>
     </div>
