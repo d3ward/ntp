@@ -76,7 +76,8 @@
 <!-- Copyright 2019 Geometry OU / Kiwi Browser -->
 <!-- Licensed under https://creativecommons.org/licenses/by-nc-sa/4.0/ -->
 <head>
-  <base href="https://d3ward.github.io/ntp/">
+  <!--
+  <base href="https://d3ward.github.io/ntp/">-->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="theme-color" content="#ffffff">
   <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
@@ -928,7 +929,7 @@
       }
     </script>
 
-    <div id="news-stuff">
+    <div id="news-stuff" style="max-width:800px;margin:auto;">
       <div id="news-header" style="height: 30px;padding-bottom: 5px;padding-top: 5px;">
         <div class="configure-item dropbtn" role="button" aria-label="Choose news region" title="Choose news region"
           id="configure-button"><span id="locale"></span><span class="arrow-down">▼</span></div>
@@ -1333,7 +1334,7 @@
           */
           if (articles.length > (i + 1) && i <= 29) {
             document.getElementById('newsMore').innerHTML =
-              '<div style="color: #007aff; font-size: 24px; width: 100%; text-align: center"><b>...</b></div><br />&nbsp;<br />';
+              '<div style="color: #007aff;background: #efefef;font-size: 24px;text-align: center;border-radius: 5px;margin: 8px;"><b>...</b></div>';
           } else {
             document.getElementById('newsMore').innerHTML = '';
           }
@@ -1451,6 +1452,7 @@
 
         function handleTouchMove(evt) {
           var el = (evt.target.closest("div.newsItem"));
+          el.style.transition="margin 0ms";
           if (!xDown) {
             return;
           }
@@ -1458,7 +1460,7 @@
           var yUp = evt.touches[0].clientY;
           xDiff = xDown - xUp;
           if (xDiff < 30) return;
-          el.style.marginLeft = "-" + (xDiff - 30) + 'px';
+          el.style.marginLeft = "-" + (xDiff - 20) + 'px';
 
           var wrap = el.previousSibling;
           wrap.style.width = xDiff + 'px';
@@ -1486,9 +1488,10 @@
             localStorage.setItem('itemsNewsH', JSON.stringify(itemsArray));
             console.log("News with id : " + el.id + " added to hide list");
           } else {
+            el.style.transition="margin 600ms";
             el.style.opacity = "1";
             el.style.marginLeft = '8px';
-            wrap.style.marginRight = '9px';
+            wrap.style.marginLeft = '8px';
             wrap.style.width = '1px';
           }
           xDiff = null;

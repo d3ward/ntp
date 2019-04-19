@@ -177,11 +177,9 @@ a:link {
 #news-header{
   max-width: 800px;
   margin: auto;
-  margin-bottom: 10px;
 }
 
 #news {
-
   margin: auto;
   margin-top: 20px !important;
   max-width: 800px;
