@@ -1,4 +1,4 @@
-html {
+:root{
   --tile-height: 128px;
   --tile-margin: 20px;
   --tile-width: 64px;
@@ -7,14 +7,11 @@ html {
   /* Width of grids based on column-count and user width device */
   --content-width: calc((var(--column-count) * (var(--tile-width) + var(--tile-margin))) + 1px);
   /* These can be overridden by themes. */
-  --ntp-pcolor: #007aff;
-  --text-color: #000;
-  --text-color-light: #fff;
-  --text-color-link: rgb(17, 85, 204);
-
+  --primary-color: #007aff;
+  --bg-color-tIcon: #dddddd;
+  --bg-color-tLabel: #dddddd;
+  --bg-color-newsI : #dddddd;
   --bg-color-btns: #efefef;
-  --bg-color-newsI : #ddd;
-
   height: 100%;
 }
 
@@ -26,35 +23,35 @@ html {
    in the media queries it is not possible to use calc and access to the variables, use a css compiler to simplify the code
 /*   253px < (device width) < 337px */
 @media (min-width: 253px) {
-  html {
+  :root {
     --column-count: 3;
   }
 }
 
 /*   337px < (device width) < 420px */
 @media (min-width: 337px) {
-  html {
+  :root {
     --column-count: 4;
   }
 }
 
 /*   420px < (device width) < 510px */
 @media (min-width: 420px) {
-  html {
+  :root {
     --column-count: 5;
   }
 }
 
 /*   510px < (device width) < 672px */
 @media (min-width: 510px) {
-  html {
+  :root {
     --column-count: 6;
   }
 }
 
 /*   672px < (device width) */
 @media (min-width: 672px) {
-  html {
+  :root {
     --column-count: 8;
   }
 }
@@ -128,14 +125,15 @@ a:link {
 }
 .grid-item a {
   text-decoration: none;
+  color: var(--bg-color-tLabel);
 }
 
 .grid-image {
   border-radius: 6px;
   height: 60px;
   width: 60px;
-  background: #efefef;
-  border: 2px solid #efefef;
+  background: var(--bg-color-tIcon);
+  border: 2px solid var(--bg-color-tIcon);
   object-fit: contain;
 }
 
@@ -425,7 +423,7 @@ button:focus {
 
 .ei_selected {
   background: #000 !important;
-  border: 2px solid var(--ntp-pcolor) !important;
+  border: 2px solid var(--primary-color) !important;
 }
 
 .bp_icons {
@@ -438,7 +436,7 @@ button:focus {
   vertical-align: middle;
   line-height: 14px;
   color: #777;
-  background: #efefef;
+  background: var(--bg-color-btns);
   border-radius: 5px;
   padding: 10px;
   margin: 4px;
@@ -486,7 +484,9 @@ button:focus {
   height: 142px;
   z-index: -10;
 }
-
+.swiper-pagination-bullet-active {
+  background: var(--primary-color);
+}
 .swiper-pagination {
   position: relative;
   width: 100%;
@@ -559,7 +559,7 @@ button[disabled] {
 
 .trigger {
   margin: 10px 0px 0px auto;
-  background: #007aff;
+  background: var(--primary-color);
   color: #fff;
   height: 35px;
   width: 35px;
@@ -605,4 +605,85 @@ button[disabled] {
 .plus-item span {
   display: inline-block;
   transform: rotate(45deg);
+}
+
+.toggle {
+    -webkit-appearance: none;
+    width: 50px;
+    height: 24px;
+    position: relative;
+    vertical-align: middle;
+    border-radius: 50px;
+    overflow: hidden;
+    outline: none;
+    background-color: #707070;
+    transition: background-color ease 0.3s;
+}
+.toggle:before {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  width: 18px;
+  height: 18px;
+  background: #fff;
+  left: 2px;
+  top: 3px;
+  border-radius: 50%;
+  transition: all cubic-bezier(0.3, 1.5, 0.7, 1) 0.3s;
+}
+.toggle:checked {
+  background-color: var(--primary-color);
+}
+.toggle:checked:before {
+  left: 28px;
+}
+.toggle-options{
+  width: 50px;
+}
+.settings-options{
+  display: inline-block;
+  width: 250px;
+}
+.settings-colors{
+  display: inline-block;
+  width: 200px;
+}
+.vw1,.vw2{
+  text-align: left;
+  margin: auto;
+}
+.vw1{max-width: 312px;}
+.vw2{max-width: 240px;}
+
+input[type="color"] {
+	-webkit-appearance: none;
+  border: none;
+  vertical-align: middle;
+  border-radius: 5px;
+	width: 26px;
+	height: 26px;
+}
+input[type="color"]::-webkit-color-swatch-wrapper {
+	padding: 0;
+}
+input[type="color"]::-webkit-color-swatch {
+  border: none;
+  border-radius: 5px;
+}
+
+.radio-toolbar input[type="radio"] {
+  display:none; 
+}
+.radio-toolbar label {
+  display: inline-block;
+    background-color: transparent;
+    padding: 8px 0px;
+    margin: 5px;
+    width: 80px;
+    border: 2px solid #fff;
+    border-radius: 5px;   
+}
+.radio-toolbar input[type="radio"]:checked + label { 
+  background-color: black;
+  border-color: var(--primary-color);
 }

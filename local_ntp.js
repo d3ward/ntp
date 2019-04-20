@@ -365,160 +365,196 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
       setup_grid();
     }, 100);
   }
-  //Settings Functions
-  // Settings for e1
-  function setE1(ei1) {
-    //Check Buttons
-    try {
-      document.getElementById('e1i1').classList.remove('ei_selected');
-      document.getElementById('e1i2').classList.remove('ei_selected');
-      document.getElementById('e1i3').classList.remove('ei_selected');
-    } catch (err) {};
-    switch (ei1) {
-      case '0':
-        document.getElementById('e1i1').classList.add('ei_selected');
-        break;
-      case '6':
-        document.getElementById('e1i2').classList.add('ei_selected');
-        break;
-      case '40':
-        document.getElementById('e1i3').classList.add('ei_selected');
-        break;
-    }
+
+  //---------------------------- Settings -------------------
+  // Global Var
+  var colorsSettings   =localGet("colorsSettings");
+  var optionsSettings  =localGet("optionsSettings");
+  var generalSettings1 =localGet("savedSettings");
+
+
+  // Settings for r1ES1
+  function setES1(ei1) {
+    //Check radio
+    document.getElementById('r1_Es'+ei1).checked=true;
     //Apply Settings
     var elements = document.querySelectorAll('.grid-image');
-    for (var i = 0; i < elements.length; i++) {
-      elements[i].style.borderRadius = ei1 + "px";
-    }
+    for (var i = 0; i < elements.length; i++) {elements[i].style.borderRadius = ei1 + "px";}
     //Save Settings
-    var arrayD = localGet("savedSettings");
-    arrayD[0] = ei1;
-    localStore("savedSettings", arrayD);
+    generalSettings1[0]=ei1;
+    localStore("savedSettings", generalSettings1);
     needReload = 1;
   }
-  // Settings for e2 
-  function setE2(ei2) {
+  // Settings for r1ES2
+  function setES2(ei2) {
     //Check Buttons
-    try {
-      document.getElementById('e2i1').classList.remove('ei_selected');
-      document.getElementById('e2i2').classList.remove('ei_selected');
-    } catch (err) {};
-    switch (ei2) {
-      case 'slide':
-        document.getElementById('e2i1').classList.add('ei_selected');
-        break;
-      case 'fade':
-        document.getElementById('e2i2').classList.add('ei_selected');
-        break;
-    }
+    document.getElementById('r2_Es'+ei2).checked=true;
     //Save Settings
-    var arrayD = localGet("savedSettings");
-    arrayD[1] = ei2;
-    localStore("savedSettings", arrayD);
+    generalSettings1[1]=ei2;
+    localStore("savedSettings", generalSettings1);
     needReload = 1;
   }
-  //Settings for e3
-  function setE3(ei3) {
+  //Settings for r1ES3
+  function setES3(ei3) {
     //Check Buttons
-    try {
-      document.getElementById('e3i1').classList.remove('ei_selected');
-      document.getElementById('e3i2').classList.remove('ei_selected');
-      document.getElementById('e3i3').classList.remove('ei_selected');
-    } catch (err) {};
-    switch (ei3) {
-      case '150':
-        document.getElementById('e3i1').classList.add('ei_selected');
-        break;
-      case '450':
-        document.getElementById('e3i2').classList.add('ei_selected');
-        break;
-      case '850':
-        document.getElementById('e3i3').classList.add('ei_selected');
-        break;
-    }
+    document.getElementById('r3_Es'+ei3).checked=true;
     //Save Settings
-    var arrayD = localGet("savedSettings");
-    arrayD[2] = ei3;
-    localStore("savedSettings", arrayD);
-    needReload = 1;
-  }
-  //Settings for e3
-  function setE4(ei4) {
-    //Check Buttons
-    try {
-      document.getElementById('e4i1').classList.remove('ei_selected');
-      document.getElementById('e4i2').classList.remove('ei_selected');
-    } catch (err) {};
-    if (ei4 == null) ei4 = 'classic';
-    switch (ei4) {
-      case 'classic':
-        document.getElementById('e4i1').classList.add('ei_selected');
-        var Elems = document.getElementsByClassName('show-classic');
-        for (var i = 0; i < Elems.length; i++) {
-          Elems[i].style.display = "block";
-        }
-        document.getElementById('floating-btn').style.display = "none";
-        break;
-      case 'compact':
-        document.getElementById('e4i2').classList.add('ei_selected');
-        var Elems = document.getElementsByClassName('show-classic');
-        for (var i = 0; i < Elems.length; i++) {
-          Elems[i].style.display = "none";
-        }
-        document.getElementById('floating-btn').style.display = "inline";
-        break;
-      default:
-        document.getElementById('e4i1').classList.add('ei_selected');
-        var Elems = document.getElementsByClassName('show-classic');
-        for (var i = 0; i < Elems.length; i++) {
-          Elems[i].style.display = "block";
-        }
-        document.getElementById('floating-btn').style.display = "none";
-        break;
-        break;
-    }
-    //Save Settings
-    var arrayD = localGet("savedSettings");
-    arrayD[3] = ei4;
-    localStore("savedSettings", arrayD);
+    generalSettings1[2]=ei3;
+    localStore("savedSettings", generalSettings1);
     needReload = 1;
   }
   
+
+function setOptionES(indexO){
+   var id="set-optCB"+(indexO+1);
+   var e=document.getElementById(id).checked;
+   optionsSettings[indexO]= e?1:0;
+   localStore("optionsSettings",optionsSettings);
+   applyOption(indexO);
+}
+function applyOption(indexO){
+  switch(indexO){
+    case 0:
+          if(optionsSettings[indexO]==0) {
+            document.getElementById('set-optCB1').checked=false;
+            var Elems = document.getElementsByClassName('show-classic');
+            for (var i = 0; i < Elems.length; i++) {
+              Elems[i].style.display = "block";
+            }
+            document.getElementById('floating-btn').style.display = "none";
+          }else{
+            document.getElementById('set-optCB1').checked=true ;
+            var Elems = document.getElementsByClassName('show-classic');
+            for (var i = 0; i < Elems.length; i++) {
+              Elems[i].style.display = "none";
+            }
+            document.getElementById('floating-btn').style.display = "inline";
+          }
+    break;
+    case 1:
+          var d=document.getElementsByClassName('newsItem');
+          if(optionsSettings[indexO]==0){
+            document.getElementById('set-optCB2').checked=false;
+            for (let i = 0; i < d.length; i++) {
+              d[i].style.background = "var(--bg-color-newsI)";
+            }
+          } 
+          else {
+            document.getElementById('set-optCB2').checked=true;
+            for (let i = 0; i < d.length; i++) {
+              d[i].style.background = "transparent";
+            }
+          }
+    break;
+    case 2:if(optionsSettings[indexO]==0) document.getElementById('set-optCB3').checked=false;
+    else document.getElementById('set-optCB3').checked=true;
+    break;
+    case 3:if(optionsSettings[indexO]==0)document.getElementById('set-optCB4').checked=false;
+    else document.getElementById('set-optCB4').checked=true;
+    break;
+    case 4:if(optionsSettings[indexO]==0) document.getElementById('set-optCB5').checked=false;
+    else document.getElementById('set-optCB5').checked=true;
+    break;
+  }
+}
+
+function defaultSet(i){
+    switch(i){
+      case 1: defaultSettings1();
+      break;
+      case 2: defaultOptions();
+      break
+      case 3: defaultColors();
+      break;
+    }
+}
+
+  var propertyColors= ["--primary-color","--bg-color-tIcon","--bg-color-tLabel","--bg-color-newsI","--bg-color-btns"];
+  function setColors(color,i){
+    var root = document.documentElement;
+    root.style.setProperty(propertyColors[i],color);
+    document.getElementById("set-color"+i).value=color;
+    colorsSettings[i]=color;
+    localStore("colorsSettings",colorsSettings);
+  }
   //Swiper
   //Check active slide on this session
   var currentSwiperSlide = sessionStorage.getItem("currentSwiperSlide");
   if (currentSwiperSlide == undefined) {
-    currentSwiperSlide = 0;
-  } //Set default slide
+    currentSwiperSlide = 0;//Set default slide
+  } 
+  
+  function userOptions(){
+    for(var i=0;i<optionsSettings.length;i++){
+      var id="set-optCB"+(i+1);
+      document.getElementById(id).checked=optionsSettings[i]?true:false;
+      applyOption(i);
+    }
+  }
+
+ 
+
+  function defaultSettings1(){
+    generalSettings1 = ['6', 'slide', '450'];
+    localStore("savedSettings", generalSettings1);
+    setES1('6');
+    setES2('slide');
+    setES3('450');
+  }
+  function defaultOptions(){
+    optionsSettings = ['0','0','0','0','0'];
+    localStore("optionsSettings",optionsSettings);
+   userOptions()
+    
+  }
+  function defaultColors(){
+    colorsSettings = ['#007aff', '#dddddd', '#555555', '#dddddd',"#efefef"];
+    localStore("colorsSettings", colorsSettings);
+    for(var i=0;i<colorsSettings.length;i++)
+        setColors(colorsSettings[i],i);
+    
+  }
+
   //Check saved settings
   var currentSettings = localGet("savedSettings");
+
+
   
-  if (currentSettings == undefined) {
-    currentSettings = ['6', 'slide', '450', 'classic'];
-    localStore("savedSettings", currentSettings);
-    setE1('6');
-    setE2('slide');
-    setE3('450');
-    setE4('classic');
-  } else { //Set default Settings
-    if (currentSettings[0] == null) currentSettings[0] = "6";
-    if (currentSettings[1] == null) currentSettings[0] = "slide";
-    if (currentSettings[2] == null) currentSettings[0] = "450";
-    if (currentSettings[3] == null) currentSettings[0] = "classic";
-    setE1(currentSettings[0]);
-    setE2(currentSettings[1]);
-    setE3(currentSettings[2]);
-    setE4(currentSettings[3]);
+  if( generalSettings1 == undefined){
+    defaultSettings1();
+  }else{
+    setES1(generalSettings1[0]);
+    setES2(generalSettings1[1]);
+    setES3(generalSettings1[2]);
   }
+  if (colorsSettings == undefined) {
+    defaultColors();
+  } else { 
+    //Load User Colors
+    for(var i=0;i<colorsSettings.length;i++)
+      setColors(colorsSettings[i],i);
+  }
+  if( optionsSettings == undefined){
+    defaultOptions();
+    defaultSet(1);
+  }
+  else{
+    userOptions();
+  }
+
+
+
+
+
   //Create swiper with settings 
   var mySwiper = new Swiper('.swiper-container', {
     autoHeight: true,
-    speed: parseInt(currentSettings[2]), //speed:  Fast|150 , Normal|450 , Slow|850 
+    speed: parseInt(generalSettings1[2]), //speed:  Fast|150 , Normal|450 , Slow|850 
     pagination: {
       el: '.swiper-pagination',
       clickable: true,
     },
-    effect: currentSettings[1], // effect : "slide", "fade"
+    effect: generalSettings1[1], // effect : "slide", "fade"
     fadeEffect: {
       crossFade: true
     }, //Better fade effect
@@ -583,8 +619,8 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
   }
 
   if (typeof localStorage.hideNews == "undefined") {
-    console.log("Test 1 localstorage.hideNews == undefined");
     document.getElementById("sc-grids").style.minHeight = "auto";
+    document.getElementById('news-header').style.display = 'inline-block';
     document.getElementById('news').style.display = 'inline';
     document.getElementById('newsMore').style.display = 'inline';
     document.getElementById('configure-button').style.display = 'inline';
@@ -594,6 +630,7 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
     document.getElementById('newsMore').addEventListener('click', load_more_news);
     preconnectTo(newsServer);
   } else {
+    document.getElementById('news-header').style.display = 'none';
     document.getElementById('news').style.display = 'none';
     document.getElementById('newsMore').style.display = 'none';
     document.getElementById('configure-button').style.display = 'none';
@@ -602,13 +639,13 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
   }
   //Check ntpVersion
   if (localStorage.ntpVersion) {
-    if (localStorage.ntpVersion != "1.0.7") {
+    if (localStorage.ntpVersion != "1.0.8") {
       show_changelog();
-      localStorage.ntpVersion = "1.0.7"
+      localStorage.ntpVersion = "1.0.8"
     }
   } else {
     show_changelog();
-    localStorage.ntpVersion = "1.0.7"
+    localStorage.ntpVersion = "1.0.8"
   }
   //Check Intro
   if (!localStorage.showIntro) {
