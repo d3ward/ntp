@@ -514,12 +514,11 @@ function defaultSet(i){
         setColors(colorsSettings[i],i);
     
   }
+  function checkNull(arr){
+    return arr.indexOf(null);
+  }
 
-  //Check saved settings
-  var currentSettings = localGet("savedSettings");
-
-
-  
+ 
   if( generalSettings1 == undefined){
     defaultSettings1();
   }else{
@@ -539,10 +538,9 @@ function defaultSet(i){
     defaultSet(1);
   }
   else{
+    
     userOptions();
   }
-
-
 
 
 
@@ -639,13 +637,13 @@ function defaultSet(i){
   }
   //Check ntpVersion
   if (localStorage.ntpVersion) {
-    if (localStorage.ntpVersion != "1.0.8") {
+    if (localStorage.ntpVersion != "1.0.9") {
       show_changelog();
-      localStorage.ntpVersion = "1.0.8"
+      localStorage.ntpVersion = "1.0.9";
     }
   } else {
     show_changelog();
-    localStorage.ntpVersion = "1.0.8"
+    localStorage.ntpVersion = "1.0.9";
   }
   //Check Intro
   if (!localStorage.showIntro) {
@@ -654,6 +652,37 @@ function defaultSet(i){
   }
   document.getElementById('settings-button').addEventListener('click', show_settings);
 }
+document.getElementById('exportJSON').onclick = function(){
+  var dataStr = JSON.stringify(localStorage);
+  var dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+  var today = new Date();
+  var date = today.getFullYear()+(today.getMonth()+1)+today.getDate();
+  var time = today.getHours()+'-'+today.getMinutes() ;
+  var exportFileDefaultName = 'ntpB_'+date+'_'+time+'.json';
+  var linkElement = document.createElement('a');
+  linkElement.setAttribute('href', dataUri);
+  linkElement.setAttribute('download', exportFileDefaultName);
+  linkElement.click();
+}
+
+document.getElementById('file').onchange = function(){
+  var file = this.files[0];
+  var reader = new FileReader();
+  reader.onload = function(progressEvent){
+    // Entire file
+    var test=this.result;
+    var test2= JSON.parse(test);
+    
+    var values = Object.values(test2),
+        keys = Object.keys(test2),
+        i = keys.length;
+    //console.log(localStorage + test2 +"keys("+i+") :"+keys +"values("+values.length+") :" +values);
+    while ( i-- ) {
+      localStorage.setItem(keys[i],values[i]);
+    }
+  };
+  reader.readAsText(file);
+};
 
 //Show NTP
 document.getElementById('bdy').classList.add('inited');
