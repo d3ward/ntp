@@ -412,6 +412,7 @@ function setOptionES(indexO){
    localStore("optionsSettings",optionsSettings);
    applyOption(indexO);
 }
+var root = document.documentElement;
 function applyOption(indexO){
   switch(indexO){
     case 0:
@@ -446,14 +447,37 @@ function applyOption(indexO){
             }
           }
     break;
-    case 2:if(optionsSettings[indexO]==0) document.getElementById('set-optCB3').checked=false;
-    else document.getElementById('set-optCB3').checked=true;
+    case 2:
+          if(optionsSettings[indexO]==0) {
+            document.getElementById('set-optCB3').checked=false;
+            root.style.setProperty("--box-shadow-ntp","rgba(0, 0, 0, 0)");
+          }
+          else {
+            document.getElementById('set-optCB3').checked=true;
+            root.style.setProperty("--box-shadow-ntp","rgba(0, 0, 0, 0.6)");
+          }
     break;
-    case 3:if(optionsSettings[indexO]==0)document.getElementById('set-optCB4').checked=false;
-    else document.getElementById('set-optCB4').checked=true;
+    case 3:
+          
+          if(optionsSettings[indexO]==0)
+            document.getElementById('set-optCB4').checked=false;
+          else document.getElementById('set-optCB4').checked=true;
+          var el= document.getElementsByClassName("tile_target");
+          var s=(optionsSettings[indexO]==1) ? '_blank' : '';
+          for(var i=0; i<el.length; i++) {
+            el[i].setAttribute('target', s);
+          }
+          
     break;
-    case 4:if(optionsSettings[indexO]==0) document.getElementById('set-optCB5').checked=false;
-    else document.getElementById('set-optCB5').checked=true;
+    case 4:
+          if(optionsSettings[indexO]==0){
+            document.getElementById('set-optCB5').checked=false;
+            root.style.setProperty("--title-tilev","visible");
+          }
+          else {
+            document.getElementById('set-optCB5').checked=true;
+            root.style.setProperty("--title-tilev","hidden");
+          }
     break;
   }
 }
@@ -637,13 +661,13 @@ function defaultSet(i){
   }
   //Check ntpVersion
   if (localStorage.ntpVersion) {
-    if (localStorage.ntpVersion != "1.0.9") {
+    if (localStorage.ntpVersion != "1.1.0") {
       show_changelog();
-      localStorage.ntpVersion = "1.0.9";
+      localStorage.ntpVersion = "1.1.0";
     }
   } else {
     show_changelog();
-    localStorage.ntpVersion = "1.0.9";
+    localStorage.ntpVersion = "1.1.0";
   }
   //Check Intro
   if (!localStorage.showIntro) {

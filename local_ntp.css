@@ -12,6 +12,8 @@
   --bg-color-tLabel: #dddddd;
   --bg-color-newsI : #dddddd;
   --bg-color-btns: #efefef;
+  --title-tilev:visible;
+  --box-shadow-ntp :rgba(0, 0, 0, 0.6);
   height: 100%;
 }
 
@@ -114,11 +116,10 @@ a:link {
 
 .grid-item {
   float: left;
-  width: 64px;
+  width: var(--tile-width);
   font-size: 10px;
   overflow: hidden;
-  background: #fff;
-  margin: 10px;
+  margin: calc(var(--tile-margin) / 2);
   color: #3c3c3c;
   text-align: center;
   z-index: 999999;
@@ -130,12 +131,13 @@ a:link {
 
 .grid-image {
   border-radius: 6px;
-  height: 60px;
-  width: 60px;
+  height: calc(var(--tile-width) - 4px);
+  width:  calc(var(--tile-width) - 4px);
   background: var(--bg-color-tIcon);
   border: 2px solid var(--bg-color-tIcon);
   object-fit: contain;
 }
+#title_span{visibility: var(--title-tilev);}
 
 .plus-item a,
 .configure-item a,
@@ -161,13 +163,14 @@ a:link {
 }
 
 .configure-item {
-  font-size: 21px;
+  font-size: 25px;
   font-weight: 450;
   z-index: 999999;
   color: #777;
   float: left;
   background: var(--bg-color-btns);
   border: 2px solid var(--bg-color-btns);
+  box-shadow: 0 1px 4px var(--box-shadow-ntp);
   border-radius: 5px;
   padding-left: 5px;
   padding-right: 5px;
@@ -198,7 +201,8 @@ a:link {
   border-radius: 5px;
   max-width: calc(100vw - 30px);
   background: var(--bg-color-newsI);
-  border: 2px solid var(--bg-color-newsI);
+  border: 1px solid var(--bg-color-newsI);
+  box-shadow: 0 1px 4px var(--box-shadow-ntp);
   padding: 5px !important;
   font-family: Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
 }
@@ -363,6 +367,7 @@ a:link {
   padding: 5px;
   border: none;
   border-radius: 5px;
+  box-shadow: 0 1px 4px var(--box-shadow-ntp);
   width: 80px;
   height: 35px;
 }
@@ -437,6 +442,7 @@ button:focus {
   line-height: 14px;
   color: #777;
   background: var(--bg-color-btns);
+  box-shadow: 0 1px 4px var(--box-shadow-ntp);
   border-radius: 5px;
   padding: 10px;
   margin: 4px;
@@ -529,9 +535,11 @@ button:focus {
   top: 8px;
   position: absolute;
   right: 8px;
+  font-size: 16px;
   z-index: 10;
   border: none;
   border-radius: 5px;
+  line-height: 25px;
   width: 25px;
   height: 25px;
 }
@@ -685,5 +693,5 @@ input[type="color"]::-webkit-color-swatch {
 }
 .radio-toolbar input[type="radio"]:checked + label { 
   background-color: black;
-  border-color: var(--primary-color);
+  border:2px solid var(--primary-color);
 }
