@@ -129,7 +129,7 @@ a:link {
   border: 2px solid var(--bg-color-tIcon);
   object-fit: contain;
 }
-#title_span{visibility: var(--title-tilev);}
+#title_span{display: var(--title-tilev);}
 
 .plus-item a,
 .configure-item a,

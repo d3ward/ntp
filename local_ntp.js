@@ -472,12 +472,13 @@ function applyOption(indexO){
     case 4:
           if(optionsSettings[indexO]==0){
             document.getElementById('set-optCB5').checked=false;
-            root.style.setProperty("--title-tilev","visible");
+            root.style.setProperty("--title-tilev","inline-block");
           }
           else {
             document.getElementById('set-optCB5').checked=true;
-            root.style.setProperty("--title-tilev","hidden");
+            root.style.setProperty("--title-tilev","none ");
           }
+          needReload=1;
     break;
   }
 }
@@ -768,7 +769,6 @@ function defaultSet(i){
     root.style.setProperty("--tile-margin",tMargin+'px');
   }
 
-  
   setColRow();
   
 }
