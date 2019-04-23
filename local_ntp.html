@@ -143,9 +143,9 @@
                 style="overflow-x:hidden;overflow-y: scroll;max-height: 90vh;max-width:80vw;margin: auto;text-align: left;">
                 <h2># Changelog</h2>
                 <hr style="width:80vw;">
-                <h3>## [1.1.0] - 2019-04-22</h3>
-                <h4>### Changed <br>
-                  - 3 new options are enabled <br>( MD Shadow , open on new tab , hide icon text  ) <br>
+                <h3>## [1.1.1] - 2019-04-23</h3>
+                <h4>### Added <br>
+                  - New option to set number of icons per row ( min 3 to max 8 ) <br>
                 </h4>
                 <hr style="width:80vw;">
                 <div class="vrlay-wrap">
@@ -153,6 +153,10 @@
                   <button type="button" class="btn-dark" onclick="close_dialog()">Close</button>
                 </div>
                 <div id="old-changelog" style="color:#757575;display: none;">
+                  <h3>## [1.1.0] - 2019-04-22</h3>
+                  <h4>### Changed <br>
+                    - 3 new options are enabled <br>( MD Shadow , open on new tab , hide icon text  ) <br>
+                  </h4>
                   <h3>## [1.0.9] - 2019-04-22</h3>
                   <h4>### Added <br>
                     - Export & Import data ( tiles, settings , etc.)<br>
@@ -248,6 +252,12 @@
                         <label for="r1_Es40"><img class="k-logo" style="width: 54px;height: 54px;border-radius: 40px;" src="">Circle</label> 
                       </div>
                   </div>
+                  <div class="vrlay-wrap"><label class="settings-label">Tiles per row</label></div>
+                <div class="vrlay-wrap">
+                  <button class="btn-dark" style="width:35px;" id="prevCols" onclick="removeColRow()">⯇</button>
+                  <label id="nColsLabel">4</label>
+                  <button class="btn-dark" style="width:35px;" id="nextCols" onclick="addColRow()">⯈</button>
+                </div>
                 <div class="vrlay-wrap"><label class="settings-label">Swipe Effect</label></div>
                 <div class="vrlay-wrap">
                   <div class="radio-toolbar">
@@ -763,7 +773,7 @@
           '" class="closeImg closeImgInvisible" height="20" width="20" style="position: absolute; right: 0px; bottom: 0px; border: 0px;" /><a id="tile_target" class="tile_target" name="' +
           item.title + '" href="' + item.url + '" '+targetBlank+'><img border="0" class="grid-image" style="border-radius:' + arrayD[
             0] + 'px" title="' + item.title + '" src="' + imageUri + '" id="icon' + randomId +
-          '" onError="invalidate_image(this)"/><span id="title_span" style="width: 60px; line-height: 15px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; display: inline-block">' +
+          '" onError="invalidate_image(this)"/><span id="title_span" style="line-height: 15px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; display: inline-block">' +
           item.title + '</span></a>';
         innerDiv.style.minHeight = '64px';
 

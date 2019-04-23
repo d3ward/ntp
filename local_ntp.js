@@ -524,6 +524,9 @@ function defaultSet(i){
     setES1('6');
     setES2('slide');
     setES3('450');
+    localStorage.removeItem("itemsPerRow");
+    document.getElementById('nColsLabel').textContent=getNumberOfCols();
+
   }
   function defaultOptions(){
     optionsSettings = ['0','0','0','0','0'];
@@ -661,13 +664,13 @@ function defaultSet(i){
   }
   //Check ntpVersion
   if (localStorage.ntpVersion) {
-    if (localStorage.ntpVersion != "1.1.0") {
+    if (localStorage.ntpVersion != "1.1.1") {
       show_changelog();
-      localStorage.ntpVersion = "1.1.0";
+      localStorage.ntpVersion = "1.1.1";
     }
   } else {
     show_changelog();
-    localStorage.ntpVersion = "1.1.0";
+    localStorage.ntpVersion = "1.1.1";
   }
   //Check Intro
   if (!localStorage.showIntro) {
@@ -675,38 +678,101 @@ function defaultSet(i){
     show_intro();
   }
   document.getElementById('settings-button').addEventListener('click', show_settings);
-}
-document.getElementById('exportJSON').onclick = function(){
-  var dataStr = JSON.stringify(localStorage);
-  var dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
-  var today = new Date();
-  var date = today.getFullYear()+(today.getMonth()+1)+today.getDate();
-  var time = today.getHours()+'-'+today.getMinutes() ;
-  var exportFileDefaultName = 'ntpB_'+date+'_'+time+'.json';
-  var linkElement = document.createElement('a');
-  linkElement.setAttribute('href', dataUri);
-  linkElement.setAttribute('download', exportFileDefaultName);
-  linkElement.click();
+
+  document.getElementById('exportJSON').onclick = function(){
+    var dataStr = JSON.stringify(localStorage);
+    var dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+    var today = new Date();
+    var date = today.getFullYear()+(today.getMonth()+1)+today.getDate();
+    var time = today.getHours()+'-'+today.getMinutes() ;
+    var exportFileDefaultName = 'ntpB_'+date+'_'+time+'.json';
+    var linkElement = document.createElement('a');
+    linkElement.setAttribute('href', dataUri);
+    linkElement.setAttribute('download', exportFileDefaultName);
+    linkElement.click();
+  }
+  document.getElementById('file').onchange = function(){
+    var file = this.files[0];
+    var reader = new FileReader();
+    reader.onload = function(progressEvent){
+      // Entire file
+      var test=this.result;
+      var test2= JSON.parse(test);
+      
+      var values = Object.values(test2),
+          keys = Object.keys(test2),
+          i = keys.length;
+      //console.log(localStorage + test2 +"keys("+i+") :"+keys +"values("+values.length+") :" +values);
+      while ( i-- ) {
+        localStorage.setItem(keys[i],values[i]);
+      }
+    };
+    reader.readAsText(file);
+  };
+  function getNumberOfCols(){
+    if(wid >253 && wid<337  ){
+      return 3;
+     } else if(wid >336 && wid<421  ){
+        return 4;
+       } else if(wid >420 && wid<510  ){
+         return 5;
+         } else if(wid >509 && wid<672 ){
+           return 6;
+           } else if(wid >672){
+             return 8;
+             }
+  }
+  function addColRow(){
+    var el=document.getElementById('nColsLabel');
+    var t=parseInt(el.textContent);
+    if(t<8){
+      el.textContent=t+1;
+    }
+    localStore("itemsPerRow",el.textContent);
+    setColRow();
+    needReload=1;
+  }
+  function removeColRow(){
+    var el=document.getElementById('nColsLabel');
+    var t=el.textContent;
+    if(t>3)el.textContent=t-1;
+    localStore("itemsPerRow",el.textContent);
+    setColRow();
+    needReload=1;
+  }
+  var wid = (window.innerWidth)? window.innerWidth : screen.width;
+  var userColC=getNumberOfCols();
+  function setColRow (){
+    var cols=getNumberOfCols();
+    var c=localGet("itemsPerRow");
+    if(c){
+      userColC=c;
+      document.getElementById('nColsLabel').textContent=userColC;
+    }
+    //Standard 64 px + 20 px
+    var tWidth=64;
+    var tMargin= 20;
+    if(userColC > cols)
+    {
+      var calcCOL = ( userColC * (tWidth + tMargin))+1;
+      while(calcCOL > wid){
+        calcCOL = ( userColC * (tWidth + tMargin))+1;
+        if(tMargin>10)
+          tMargin-=1;
+        else
+          tWidth-=1;
+      }
+    }
+    root.style.setProperty("--column-count",userColC);
+    root.style.setProperty("--tile-width",tWidth+'px');
+    root.style.setProperty("--tile-margin",tMargin+'px');
+  }
+
+  
+  setColRow();
+  
 }
 
-document.getElementById('file').onchange = function(){
-  var file = this.files[0];
-  var reader = new FileReader();
-  reader.onload = function(progressEvent){
-    // Entire file
-    var test=this.result;
-    var test2= JSON.parse(test);
-    
-    var values = Object.values(test2),
-        keys = Object.keys(test2),
-        i = keys.length;
-    //console.log(localStorage + test2 +"keys("+i+") :"+keys +"values("+values.length+") :" +values);
-    while ( i-- ) {
-      localStorage.setItem(keys[i],values[i]);
-    }
-  };
-  reader.readAsText(file);
-};
 
 //Show NTP
 document.getElementById('bdy').classList.add('inited');

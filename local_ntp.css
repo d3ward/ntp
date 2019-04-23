@@ -23,40 +23,32 @@
    411 is between 337  and 420 , this device will have at most 4 col per row
    Changing the size of tiles, the formulas must be recalculated, 
    in the media queries it is not possible to use calc and access to the variables, use a css compiler to simplify the code
-/*   253px < (device width) < 337px */
+/*   253px < (device width) < 337px 
 @media (min-width: 253px) {
   :root {
     --column-count: 3;
   }
 }
-
-/*   337px < (device width) < 420px */
 @media (min-width: 337px) {
   :root {
     --column-count: 4;
   }
 }
-
-/*   420px < (device width) < 510px */
 @media (min-width: 420px) {
   :root {
     --column-count: 5;
   }
 }
-
-/*   510px < (device width) < 672px */
 @media (min-width: 510px) {
   :root {
     --column-count: 6;
   }
 }
-
-/*   672px < (device width) */
 @media (min-width: 672px) {
   :root {
     --column-count: 8;
   }
-}
+}*/
 
 /* TODO: Need to discuss with NTP folks before we remove font-family from the
  * body tag. */
@@ -144,6 +136,9 @@ a:link {
 .close-item a,
 .newsItem a {
   text-decoration: none;
+}
+#title_span{
+  width: var(--tile-width);
 }
 
 .plus-item {
