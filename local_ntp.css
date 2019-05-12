@@ -12,43 +12,13 @@
   --bg-color-tLabel: #dddddd;
   --bg-color-newsI : #dddddd;
   --bg-color-btns: #efefef;
+  --bg-color-ntp: #ffffff;
+  --dots-grids-ntp:inline;
   --title-tilev:visible;
   --box-shadow-ntp :rgba(0, 0, 0, 0.6);
+  --newsItem-height : 130px;
   height: 100%;
 }
-
-/* Change the number of columns based on the size of the device.
-   Formula : (( tile-margin + tile-width ) * number of maximum capacity columns ) 
-   For example if I have a smartphone with 411x823 resolution, the formula give us 253px with 3 col , and 337 with 4 col , and 420px with 5 col
-   411 is between 337  and 420 , this device will have at most 4 col per row
-   Changing the size of tiles, the formulas must be recalculated, 
-   in the media queries it is not possible to use calc and access to the variables, use a css compiler to simplify the code
-/*   253px < (device width) < 337px 
-@media (min-width: 253px) {
-  :root {
-    --column-count: 3;
-  }
-}
-@media (min-width: 337px) {
-  :root {
-    --column-count: 4;
-  }
-}
-@media (min-width: 420px) {
-  :root {
-    --column-count: 5;
-  }
-}
-@media (min-width: 510px) {
-  :root {
-    --column-count: 6;
-  }
-}
-@media (min-width: 672px) {
-  :root {
-    --column-count: 8;
-  }
-}*/
 
 /* TODO: Need to discuss with NTP folks before we remove font-family from the
  * body tag. */
@@ -60,6 +30,7 @@ body {
   margin: 0;
   min-height: 100%;
   overflow-x: hidden;
+  background-color: var(--bg-color-ntp);
   opacity: 0;
 }
 
@@ -491,6 +462,7 @@ button:focus {
 .swiper-pagination {
   position: relative;
   width: 100%;
+  height: 27px;
   margin-bottom: 5px;
 }
 .swiper-p-intro {
@@ -520,6 +492,7 @@ button:focus {
 
 
 .swiper-pagination-bullet {
+  display: var(--dots-grids-ntp)!important;
   width: 14px;
   height: 14px;
   margin: 5px;

@@ -77,7 +77,6 @@
 <!-- Licensed under https://creativecommons.org/licenses/by-nc-sa/4.0/ -->
 
 <head>
-  <!---->
   <base href="https://d3ward.github.io/ntp/">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="theme-color" content="#ffffff">
@@ -143,11 +142,11 @@
                 style="overflow-x:hidden;overflow-y: scroll;max-height: 90vh;max-width:80vw;margin: auto;text-align: left;">
                 <h2># Changelog</h2>
                 <hr style="width:80vw;">
-                <h3>## [1.1.1] - 2019-04-23</h3>
+                <h3>## [1.1.2] - 2019-05-12</h3>
                 <h4>### Added <br>
-                  - New option to set number of icons per row ( min 3 to max 8 ) <br>
-                  <h4>### Fixed <br>
-                    - Tile title hiding <br>
+                  - Option to set background color of NTP <br>
+                  (Go to colors page and click default to make sure that works )<br>
+                  - Option to hide/show 3dots of Swipers ( Settings and Bookmarks Grid)
                 </h4>
                 <hr style="width:80vw;">
                 <div class="vrlay-wrap">
@@ -155,6 +154,12 @@
                   <button type="button" class="btn-dark" onclick="close_dialog()">Close</button>
                 </div>
                 <div id="old-changelog" style="color:#757575;display: none;">
+                  <h3>## [1.1.1] - 2019-04-23</h3>
+                  <h4>### Added <br>
+                    - New option to set number of icons per row ( min 3 to max 8 ) <br>
+                    <h4>### Fixed <br>
+                      - Tile title hiding <br>
+                  </h4>
                   <h3>## [1.1.0] - 2019-04-22</h3>
                   <h4>### Changed <br>
                     - 3 new options are enabled <br>( MD Shadow , open on new tab , hide icon text  ) <br>
@@ -256,9 +261,9 @@
                   </div>
                   <div class="vrlay-wrap"><label class="settings-label">Tiles per row</label></div>
                 <div class="vrlay-wrap">
-                  <button class="btn-dark" style="width:35px;" id="prevCols" onclick="removeColRow()">⯇</button>
+                  <button class="btn-dark" style="width:35px;" id="prevCols" onclick="removeColRow()">◀</button>
                   <label id="nColsLabel">4</label>
-                  <button class="btn-dark" style="width:35px;" id="nextCols" onclick="addColRow()">⯈</button>
+                  <button class="btn-dark" style="width:35px;" id="nextCols" onclick="addColRow()">▶</button>
                 </div>
                 <div class="vrlay-wrap"><label class="settings-label">Swipe Effect</label></div>
                 <div class="vrlay-wrap">
@@ -309,6 +314,10 @@
                   <label class="settings-options">Hide icon text </label>
                   <input id="set-optCB5" class="toggle" type="checkbox" onchange="setOptionES(4)" />
                 </div>
+                <div class="vrlay-wrap vw1">
+                  <label class="settings-options">Hide dots of Swipers </label>
+                  <input id="set-optCB6" class="toggle" type="checkbox" onchange="setOptionES(5)" />
+                </div>
                 <br><hr style="max-width:400px;margin: auto;"><br>
                 <div class="vrlay-wrap">
                   <button type="button" class="btn-dark" onclick="defaultSet(2)">Default</button>
@@ -320,23 +329,27 @@
               <div class="sc-intro-wrapper">
                 <div class="vrlay-wrap vw2 ">
                   <label class="settings-colors"> Primary Color </label>
-                  <input id="set-color0" type=color value="#ff0000" onchange="setColors((this.value) ,0)" onkeyup="test(this)">
+                  <input id="set-color0" type=color onchange="setColors((this.value) ,0)" onkeyup="test(this)">
                 </div>
                 <div class="vrlay-wrap vw2">
                   <label class="settings-colors"> Icon Tile background</label>
-                  <input id="set-color1" type=color value="#ff0000" onchange="setColors((this.value) ,1)" onkeyup="test(this)">
+                  <input id="set-color1" type=color onchange="setColors((this.value) ,1)" onkeyup="test(this)">
                 </div>
                 <div class="vrlay-wrap vw2 ">
                   <label class="settings-colors"> Tile Label  </label>
-                  <input id="set-color2" type=color value="#ff0000" onchange="setColors((this.value) ,2)" onkeyup="test(this)">
+                  <input id="set-color2" type=color onchange="setColors((this.value) ,2)" onkeyup="test(this)">
                 </div>
                 <div class="vrlay-wrap vw2 ">
                   <label class="settings-colors"> News Item Background </label>
-                  <input id="set-color3" type=color value="#ff0000" onchange="setColors((this.value) ,3)" onkeyup="test(this)">
+                  <input id="set-color3" type=color  onchange="setColors((this.value) ,3)" onkeyup="test(this)">
                 </div>
                 <div class="vrlay-wrap vw2 ">
                   <label class="settings-colors">UI Buttons</label>
-                  <input id="set-color4" type=color value="#ff0000" onchange="setColors((this.value) ,4)" onkeyup="test(this)">
+                  <input id="set-color4" type=color onchange="setColors((this.value) ,4)" onkeyup="test(this)">
+                </div>
+                <div class="vrlay-wrap vw2 ">
+                  <label class="settings-colors">NTP Background</label>
+                  <input id="set-color5" type=color onchange="setColors((this.value) ,5)" onkeyup="test(this)">
                 </div>
                 <br><hr style="max-width:400px;margin: auto;"><br>
                 <div class="vrlay-wrap">

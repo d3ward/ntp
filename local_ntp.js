@@ -479,6 +479,15 @@ function applyOption(indexO){
             root.style.setProperty("--title-tilev","none ");
           }
           needReload=1;
+    case 5:
+          if(optionsSettings[indexO]==0) {
+            document.getElementById('set-optCB6').checked=false;
+            root.style.setProperty("--dots-grids-ntp","inline-block");
+          }
+          else {
+            document.getElementById('set-optCB3').checked=true;
+            root.style.setProperty("--dots-grids-ntp","none");
+          }
     break;
   }
 }
@@ -494,7 +503,7 @@ function defaultSet(i){
     }
 }
 
-  var propertyColors= ["--primary-color","--bg-color-tIcon","--bg-color-tLabel","--bg-color-newsI","--bg-color-btns"];
+  var propertyColors= ["--primary-color","--bg-color-tIcon","--bg-color-tLabel","--bg-color-newsI","--bg-color-btns","--bg-color-ntp"];
   function setColors(color,i){
     var root = document.documentElement;
     root.style.setProperty(propertyColors[i],color);
@@ -530,13 +539,13 @@ function defaultSet(i){
 
   }
   function defaultOptions(){
-    optionsSettings = ['0','0','0','0','0'];
+    optionsSettings = ['0','0','0','0','0','0'];
     localStore("optionsSettings",optionsSettings);
    userOptions()
     
   }
   function defaultColors(){
-    colorsSettings = ['#007aff', '#dddddd', '#555555', '#dddddd',"#efefef"];
+    colorsSettings = ['#007aff', '#dddddd', '#555555', '#dddddd',"#efefef","#ffffff"];
     localStore("colorsSettings", colorsSettings);
     for(var i=0;i<colorsSettings.length;i++)
         setColors(colorsSettings[i],i);
@@ -589,7 +598,6 @@ function defaultSet(i){
   mySwiper.on('slideChange', function () {
     sessionStorage.currentSwiperSlide = mySwiper.activeIndex;
   });
-  
   var introSwiper = new Swiper('.swiper-c-intro', {
     speed: 400, //speed:  Fast|150 , Normal|450 , Slow|850 
     pagination: {
@@ -665,13 +673,13 @@ function defaultSet(i){
   }
   //Check ntpVersion
   if (localStorage.ntpVersion) {
-    if (localStorage.ntpVersion != "1.1.1") {
+    if (localStorage.ntpVersion != "1.1.2") {
       show_changelog();
-      localStorage.ntpVersion = "1.1.1";
+      localStorage.ntpVersion = "1.1.2";
     }
   } else {
     show_changelog();
-    localStorage.ntpVersion = "1.1.1";
+    localStorage.ntpVersion = "1.1.2";
   }
   //Check Intro
   if (!localStorage.showIntro) {
