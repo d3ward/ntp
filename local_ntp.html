@@ -77,8 +77,8 @@
 <!-- Licensed under https://creativecommons.org/licenses/by-nc-sa/4.0/ -->
 
 <head>
-  <!---->
-  <base href="https://d3ward.github.io/ntp/">
+  <!--
+  <base href="https://d3ward.github.io/ntp/">-->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="theme-color" content="#ffffff">
   <script src="https://kit.fontawesome.com/528a166104.js"></script>
@@ -255,10 +255,9 @@
                 </div>
               </div>
             </div>
-            
             <div class="swiper-slide">
               <div class="sc-intro-wrapper">
-                  <div class="vrlay-wrap"><label class="settings-label">Bookmarks Tile Style</label></div>
+                  <div class="vrlay-wrap"><div class="settings-label">Bookmarks Tile Style</div></div>
                   <div class="vrlay-wrap">
                       <div class="radio-toolbar">
                         <input type="radio" id="r1_Es0" name="radioES1" value="Square" onchange="setES1(0);">
@@ -269,7 +268,7 @@
                         <label for="r1_Es40"><img class="k-logo" style="width: 54px;height: 54px;border-radius: 40px;" src="">Circle</label> 
                       </div>
                   </div>
-                  <div class="vrlay-wrap"><label class="settings-label">Tiles per row</label></div>
+                  <div class="vrlay-wrap"><div class="settings-label">Tiles per row</div></div>
                 <div class="vrlay-wrap">
                     <button class="btn-dark" style="width:35px;" id="prevCols" onclick="removeColRow()"><i
                       class="fas fa-caret-left fa-2x"></i></button>
@@ -277,7 +276,7 @@
                     <button class="btn-dark" style="width:35px;" id="nextCols" onclick="addColRow()"><i
                       class="fas fa-caret-right fa-2x"></i></button>
                 </div>
-                <div class="vrlay-wrap"><label class="settings-label">Swipe Effect</label></div>
+                <div class="vrlay-wrap"><div class="settings-label">Swipe Effect</div></div>
                 <div class="vrlay-wrap">
                   <div class="radio-toolbar">
                     <input type="radio" id="r2_Esslide" name="radioES2" value="Slide" onchange="setES2('slide');">
@@ -286,7 +285,7 @@
                     <label for="r2_Esfade">Fade</label> 
                   </div>
                 </div>
-                <div class="vrlay-wrap"><label class="settings-label">Swipe Speed</label></div>
+                <div class="vrlay-wrap"><div class="settings-label">Swipe Speed</div></div>
                 <div class="vrlay-wrap">
                   <div class="radio-toolbar">
                     <input type="radio" id="r3_Es150" name="radioES3" value="Fast" onchange="setES3(150);">
@@ -305,70 +304,100 @@
               </div>
             </div>
             <div class="swiper-slide">
-              <div class="sc-intro-wrapper">
-                <div class="vrlay-wrap vw1">
-                  <label class="settings-options">UI Compact </label>
-                  <input id="set-optCB1" class="toggle" type="checkbox" onchange="setOptionES(0)"/>
-                </div>
-                <div class="vrlay-wrap vw1">
-                  <label class="settings-options"> News Item background empty</label>
-                  <input id="set-optCB2" class="toggle" type="checkbox" onchange="setOptionES(1)" />
-                </div>
-                <div class="vrlay-wrap vw1">
-                  <label class="settings-options">Material Design Shadow</label>
-                  <input id="set-optCB3" class="toggle" type="checkbox" onchange="setOptionES(2)" />
-                </div>
-                <div class="vrlay-wrap vw1">
-                  <label class="settings-options">Open icon link in new tab </label>
-                  <input id="set-optCB4" class="toggle" type="checkbox" onchange="setOptionES(3)" />
-                </div>
-                <div class="vrlay-wrap vw1">
-                  <label class="settings-options">Hide icon text </label>
-                  <input id="set-optCB5" class="toggle" type="checkbox" onchange="setOptionES(4)" />
-                </div>
-                <div class="vrlay-wrap vw1">
-                  <label class="settings-options">Hide dots of Swipers </label>
-                  <input id="set-optCB6" class="toggle" type="checkbox" onchange="setOptionES(5)" />
-                </div>
-                <br><hr style="max-width:400px;margin: auto;"><br>
-                <div class="vrlay-wrap">
-                  <button type="button" class="btn-dark" onclick="defaultSet(2)">Default</button>
-                  <button type="button" class="btn-dark" onclick="close_dialog()">Close</button>
-                </div>
-              </div>
+                <div class="sc-intro-wrapper">
+                    <div class="vrlay-wrap vw1">
+                      <label class="settings-options">UI Compact </label>
+                      <input id="set-optCB1" class="toggle" type="checkbox" onchange="setOptionES(0)" />
+                    </div>
+                    <div class="vrlay-wrap vw1">
+                      <label class="settings-options"> News Item background empty</label>
+                      <input id="set-optCB2" class="toggle" type="checkbox" onchange="setOptionES(1)" />
+                    </div>
+                    <div class="vrlay-wrap vw1">
+                      <label class="settings-options">Material Design Shadow</label>
+                      <input id="set-optCB3" class="toggle" type="checkbox" onchange="setOptionES(2)" />
+                    </div>
+                    <div class="vrlay-wrap vw1">
+                      <label class="settings-options">Open icon link in new tab </label>
+                      <input id="set-optCB4" class="toggle" type="checkbox" onchange="setOptionES(3)" />
+                    </div>
+                    <div class="vrlay-wrap vw1">
+                      <label class="settings-options">Hide icon text </label>
+                      <input id="set-optCB5" class="toggle" type="checkbox" onchange="setOptionES(4)" />
+                    </div>
+                    <div class="vrlay-wrap vw1">
+                      <label class="settings-options">Hide dots of Swipers </label>
+                      <input id="set-optCB6" class="toggle" type="checkbox" onchange="setOptionES(5)" />
+                    </div>
+                    <div class="vrlay-wrap vw1">
+                      <label class="settings-options">Quick Links ( Test ) </label>
+                      <input id="set-optCB7" class="toggle" type="checkbox" onchange="setOptionES(6)" />
+                    </div>
+                    <br>
+                    <hr style="max-width:400px;margin: auto;"><br>
+                    <div class="vrlay-wrap">
+                      <button type="button" class="btn-dark" onclick="defaultSet(2)">Default</button>
+                      <button type="button" class="btn-dark" onclick="close_dialog()">Close</button>
+                    </div>
+                  </div>
             </div>
             <div class="swiper-slide">
-              <div class="sc-intro-wrapper">
-                <div class="vrlay-wrap vw2 ">
-                  <label class="settings-colors"> Primary Color </label>
-                  <input id="set-color0" type=color onchange="setColors((this.value) ,0)" onkeyup="test(this)">
+                <div class="sc-intro-wrapper">
+                    <div class="vrlay-wrap">
+                      <div class="settings-label">NTP</div>
+                    </div>
+                    <div class="vrlay-wrap vw2 ">
+                      <label class="settings-colors"> Primary Color </label>
+                      <input id="set-color0" type=color onchange="setColors((this.value) ,0)" onkeyup="test(this)">
+                    </div>
+                    <div class="vrlay-wrap vw2 ">
+                      <label class="settings-colors">NTP Background</label>
+                      <input id="set-color5" type=color onchange="setColors((this.value) ,5)" onkeyup="test(this)">
+                    </div>
+                    <div class="vrlay-wrap vw2 ">
+                      <label class="settings-colors">UI Buttons</label>
+                      <input id="set-color4" type=color onchange="setColors((this.value) ,4)" onkeyup="test(this)">
+                    </div>
+                    <div class="vrlay-wrap">
+                      <div class="settings-label">Grid Bookmarks</div>
+                    </div>
+                    <div class="vrlay-wrap vw2">
+                      <label class="settings-colors"> Icon Tile background</label>
+                      <input id="set-color1" type=color onchange="setColors((this.value) ,1)" onkeyup="test(this)">
+                    </div>
+                    <div class="vrlay-wrap vw2 ">
+                      <label class="settings-colors"> Tile Label </label>
+                      <input id="set-color2" type=color onchange="setColors((this.value) ,2)" onkeyup="test(this)">
+                    </div>
+                    <div class="vrlay-wrap">
+                      <div class="settings-label">News Items</div>
+                    </div>
+                    <div class="vrlay-wrap vw2 ">
+                      <label class="settings-colors"> News Item Background </label>
+                      <input id="set-color3" type=color onchange="setColors((this.value) ,3)" onkeyup="test(this)">
+                    </div>
+                    <div class="vrlay-wrap">
+                      <div class="settings-label">Quick Links Bar</div>
+                    </div>
+                    <div class="vrlay-wrap vw2 ">
+                      <label class="settings-colors">QL Background Bar </label>
+                      <input id="set-color6" type=color onchange="setColors((this.value) ,6)" onkeyup="test(this)">
+                    </div>
+                    <div class="vrlay-wrap vw2 ">
+                      <label class="settings-colors">QL Icons Background</label>
+                      <input id="set-color7" type=color onchange="setColors((this.value) ,7)" onkeyup="test(this)">
+                    </div>
+                    <div class="vrlay-wrap vw2 ">
+                      <label class="settings-colors">QL Icons Color</label>
+                      <input id="set-color8" type=color onchange="setColors((this.value) ,8)" onkeyup="test(this)">
+                    </div>
+                    <br>
+                    <hr style="max-width:400px;margin: auto;"><br>
+                    <div class="vrlay-wrap">
+                      <button type="button" class="btn-dark" onclick="defaultSet(3)">Default</button>
+                      <button type="button" class="btn-dark" onclick="close_dialog()">Close</button>
+                    </div>
                 </div>
-                <div class="vrlay-wrap vw2">
-                  <label class="settings-colors"> Icon Tile background</label>
-                  <input id="set-color1" type=color onchange="setColors((this.value) ,1)" onkeyup="test(this)">
-                </div>
-                <div class="vrlay-wrap vw2 ">
-                  <label class="settings-colors"> Tile Label  </label>
-                  <input id="set-color2" type=color onchange="setColors((this.value) ,2)" onkeyup="test(this)">
-                </div>
-                <div class="vrlay-wrap vw2 ">
-                  <label class="settings-colors"> News Item Background </label>
-                  <input id="set-color3" type=color  onchange="setColors((this.value) ,3)" onkeyup="test(this)">
-                </div>
-                <div class="vrlay-wrap vw2 ">
-                  <label class="settings-colors">UI Buttons</label>
-                  <input id="set-color4" type=color onchange="setColors((this.value) ,4)" onkeyup="test(this)">
-                </div>
-                <div class="vrlay-wrap vw2 ">
-                  <label class="settings-colors">NTP Background</label>
-                  <input id="set-color5" type=color onchange="setColors((this.value) ,5)" onkeyup="test(this)">
-                </div>
-                <br><hr style="max-width:400px;margin: auto;"><br>
-                <div class="vrlay-wrap">
-                  <button type="button" class="btn-dark" onclick="defaultSet(3)">Default</button>
-                  <button type="button" class="btn-dark" onclick="close_dialog()">Close</button>
-                </div>
-              </div>
             </div>
 
             
@@ -587,6 +616,13 @@
     }
   </script>
   <div id="ntp-contents" oncontextmenu="return false">
+      <div id="quick_links" class="ql_icons" style="text-align: center;padding-bottom: 5px;padding-top: 5px;">
+
+          <a href="chrome-native://bookmarks"> <i class="fas fa-bookmark"></i></a>
+          <a href="chrome://extensions"> <i class="far fa-puzzle-piece"></i></a>
+          <a href="chrome://downloads"> <i class="fas fa-download"></i></a>
+  
+        </div>
     <div class="swiper-pagination"></div>
     <button id="add-button" type="button" class="plus-item show-classic"onclick="newT()"><i class="far fa-plus"></i></button>
     <div class="swiper-container" id="sc-grids">
@@ -1016,7 +1052,7 @@
         localStorage.hideNews = true;
         document.getElementById('news-stuff').style.display = 'none';
         document.getElementById('enable-news-button').style.display = 'inline';
-        document.getElementById("sc-grids").style.minHeight = "calc(100vh - 140px)";
+        document.getElementById("sc-grids").style.minHeight = "calc(100vh - 165px)";
       }
 
       function create_new_item() {

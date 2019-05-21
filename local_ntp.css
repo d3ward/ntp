@@ -13,6 +13,11 @@
   --bg-color-newsI : #dddddd;
   --bg-color-btns: #efefef;
   --bg-color-ntp: #ffffff;
+  --bg-ql-bgbar: #007aff; 
+  --bg-ql-bgicon: #000000a8;
+  --bg-ql-cicon: #ffffff;
+  --plus-i-top:0px;
+  --ql-show :none;
   --dots-grids-ntp:inline;
   --title-tilev:visible;
   --box-shadow-ntp :rgba(0, 0, 0, 0.6);
@@ -28,7 +33,6 @@ body {
   font-family: arial, sans-serif;
   font-size: small;
   margin: 0;
-  min-height: 100%;
   overflow-x: hidden;
   background-color: var(--bg-color-ntp);
   opacity: 0;
@@ -113,7 +117,7 @@ a:link {
 }
 
 .plus-item {
-  top: 5px;
+  top: var(--plus-i-top);
 }
 
 .plus-item,
@@ -303,6 +307,12 @@ a:link {
 .settings-label {
   color: #fff;
   font-weight: bold;
+  margin: auto;
+  width: 242px;
+  padding: 5px;
+  border-radius: 5px;
+  background: #101010d6;
+  box-shadow: 0 1px 4px var(--box-shadow-ntp);
 }
 
 .form-input {
@@ -662,4 +672,30 @@ input[type="color"]::-webkit-color-swatch {
 .radio-toolbar input[type="radio"]:checked + label { 
   background-color: black;
   border:2px solid var(--primary-color);
+}
+
+#quick_links{
+  display: var(--ql-show);
+  background: var(--bg-ql-bgbar);
+  border-radius: 4px ;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.55);
+  max-width: calc(100vw - 20px);
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.ql_icons a{
+    display:inline-block;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.55);
+    font-size: 20px;
+    line-height: 35px;
+    border-radius: 4px;
+    background-color:var(--bg-ql-bgicon);
+    color:var(--bg-ql-cicon);
+    width: 35px;
+    height: 35px;
+    text-align: center;
+    vertical-align: bottom;
+    text-decoration: none;
 }

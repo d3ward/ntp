@@ -458,7 +458,6 @@ function applyOption(indexO){
           }
     break;
     case 3:
-          
           if(optionsSettings[indexO]==0)
             document.getElementById('set-optCB4').checked=false;
           else document.getElementById('set-optCB4').checked=true;
@@ -467,7 +466,6 @@ function applyOption(indexO){
           for(var i=0; i<el.length; i++) {
             el[i].setAttribute('target', s);
           }
-          
     break;
     case 4:
           if(optionsSettings[indexO]==0){
@@ -479,15 +477,28 @@ function applyOption(indexO){
             root.style.setProperty("--title-tilev","none ");
           }
           needReload=1;
+    break;
     case 5:
           if(optionsSettings[indexO]==0) {
             document.getElementById('set-optCB6').checked=false;
             root.style.setProperty("--dots-grids-ntp","inline-block");
           }
           else {
-            document.getElementById('set-optCB3').checked=true;
+            document.getElementById('set-optCB6').checked=true;
             root.style.setProperty("--dots-grids-ntp","none");
           }
+    break;
+    case 6:
+      if(optionsSettings[indexO]==0) {
+        document.getElementById('set-optCB7').checked=false;
+        root.style.setProperty("--ql-show","none");
+        root.style.setProperty("--plus-i-top",'0px');
+      }
+      else {
+        document.getElementById('set-optCB7').checked=true;
+        root.style.setProperty("--ql-show","block");
+        root.style.setProperty("--plus-i-top",'56px');
+      }
     break;
   }
 }
@@ -503,7 +514,8 @@ function defaultSet(i){
     }
 }
 
-  var propertyColors= ["--primary-color","--bg-color-tIcon","--bg-color-tLabel","--bg-color-newsI","--bg-color-btns","--bg-color-ntp"];
+var propertyColors= ["--primary-color","--bg-color-tIcon","--bg-color-tLabel","--bg-color-newsI","--bg-color-btns","--bg-color-ntp","--bg-ql-bgbar","--bg-ql-bgicon","--bg-ql-cicon"];
+  
   function setColors(color,i){
     var root = document.documentElement;
     root.style.setProperty(propertyColors[i],color);
@@ -519,7 +531,7 @@ function defaultSet(i){
   } 
   
   function userOptions(){
-    for(var i=0;i<6;i++){
+    for(var i=0;i<7;i++){
       var id="set-optCB"+(i+1);
       document.getElementById(id).checked=optionsSettings[i]?true:false;
       applyOption(i);
@@ -539,15 +551,15 @@ function defaultSet(i){
 
   }
   function defaultOptions(){
-    optionsSettings = ['0','0','0','0','0','0'];
+    optionsSettings = ['0','0','0','0','0','0','0'];
     localStore("optionsSettings",optionsSettings);
     userOptions()
     
   }
   function defaultColors(){
-    colorsSettings = ['#007aff', '#dddddd', '#555555', '#dddddd',"#efefef","#ffffff"];
+    colorsSettings = ['#007aff', '#dddddd', '#555555', '#dddddd',"#efefef","#ffffff",'#007aff','#000000a8','#ffffff'];
     localStore("colorsSettings", colorsSettings);
-    for(var i=0;i<6;i++)
+    for(var i=0;i<9;i++)
         setColors(colorsSettings[i],i);
     
   }
@@ -669,7 +681,7 @@ function defaultSet(i){
     document.getElementById('newsMore').style.display = 'none';
     document.getElementById('configure-button').style.display = 'none';
     document.getElementById('close-button').style.display = 'none';
-    document.getElementById("sc-grids").style.minHeight = "calc(100vh - 140px)";
+    document.getElementById("sc-grids").style.minHeight = "calc(100vh - 156px)";
   }
   //Check ntpVersion
   if (localStorage.ntpVersion) {
