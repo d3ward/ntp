@@ -681,17 +681,17 @@ var propertyColors= ["--primary-color","--bg-color-tIcon","--bg-color-tLabel","-
     document.getElementById('newsMore').style.display = 'none';
     document.getElementById('configure-button').style.display = 'none';
     document.getElementById('close-button').style.display = 'none';
-    document.getElementById("sc-grids").style.minHeight = "calc(100vh - 190px)";
+    document.getElementById("sc-grids").style.minHeight = "calc(100vh - 200px)";
   }
   //Check ntpVersion
   if (localStorage.ntpVersion) {
-    if (localStorage.ntpVersion != "1.1.2") {
+    if (localStorage.ntpVersion != "2.0") {
       show_changelog();
-      localStorage.ntpVersion = "1.1.2";
+      localStorage.ntpVersion = "2.0";
     }
   } else {
     show_changelog();
-    localStorage.ntpVersion = "1.1.2";
+    localStorage.ntpVersion = "2.0";
   }
   //Check Intro
   if (!localStorage.showIntro) {
