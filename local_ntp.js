@@ -681,7 +681,7 @@ var propertyColors= ["--primary-color","--bg-color-tIcon","--bg-color-tLabel","-
     document.getElementById('newsMore').style.display = 'none';
     document.getElementById('configure-button').style.display = 'none';
     document.getElementById('close-button').style.display = 'none';
-    document.getElementById("sc-grids").style.minHeight = "calc(100vh - 156px)";
+    document.getElementById("sc-grids").style.minHeight = "calc(100vh - 190px)";
   }
   //Check ntpVersion
   if (localStorage.ntpVersion) {
