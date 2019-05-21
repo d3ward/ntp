@@ -788,9 +788,11 @@ var propertyColors= ["--primary-color","--bg-color-tIcon","--bg-color-tLabel","-
     root.style.setProperty("--tile-width",tWidth+'px');
     root.style.setProperty("--tile-margin",tMargin+'px');
   }
-
   setColRow();
   
+  //Load Theme Color
+  var metaThemeColor=document.querySelector("meta[name=theme-color]");
+  metaThemeColor.setAttribute("content",colorsSettings[5]);
 }
 
 
