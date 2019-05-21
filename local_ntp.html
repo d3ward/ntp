@@ -142,6 +142,11 @@
                 style="overflow-x:hidden;overflow-y: scroll;max-height: 90vh;max-width:80vw;margin: auto;text-align: left;">
                 <h2># Changelog</h2>
                 <hr style="width:80vw;">
+                <h3>## [2.0.1] </h3>
+                <h4>
+                  - Longpress on a color let you enter a custom RGB ( with Alpha).<br>
+                  - Test the fix for news 404 not found
+                </h4>
                 <h3>## [2.0] - 2019-05-21</h3>
                 <h4>### Added <br>
                   - Add FontAwesome icons<br>
@@ -350,50 +355,51 @@
                     </div>
                     <div class="vrlay-wrap vw2 ">
                       <label class="settings-colors"> Primary Color </label>
-                      <input id="set-color0" type=color onchange="setColors((this.value) ,0)" onkeyup="test(this)">
+                      <input id="set-color0" type=color onchange="setColors((this.value) ,0)" oncontextmenu="setCustomRGB(0)">
                     </div>
                     <div class="vrlay-wrap vw2 ">
                       <label class="settings-colors">NTP Background</label>
-                      <input id="set-color5" type=color onchange="setColors((this.value) ,5)" onkeyup="test(this)">
+                      <input id="set-color5" type=color onchange="setColors((this.value) ,5)" oncontextmenu="setCustomRGB(5)">
                     </div>
                     <div class="vrlay-wrap vw2 ">
                       <label class="settings-colors">UI Buttons</label>
-                      <input id="set-color4" type=color onchange="setColors((this.value) ,4)" onkeyup="test(this)">
+                      <input id="set-color4" type=color onchange="setColors((this.value) ,4)" oncontextmenu="setCustomRGB(4)">
                     </div>
                     <div class="vrlay-wrap">
                       <div class="settings-label">Grid Bookmarks</div>
                     </div>
                     <div class="vrlay-wrap vw2">
                       <label class="settings-colors"> Icon Tile background</label>
-                      <input id="set-color1" type=color onchange="setColors((this.value) ,1)" onkeyup="test(this)">
+                      <input id="set-color1" type=color onchange="setColors((this.value) ,1)" oncontextmenu="setCustomRGB(1)">
                     </div>
                     <div class="vrlay-wrap vw2 ">
                       <label class="settings-colors"> Tile Label </label>
-                      <input id="set-color2" type=color onchange="setColors((this.value) ,2)" onkeyup="test(this)">
+                      <input id="set-color2" type=color onchange="setColors((this.value) ,2)" oncontextmenu="setCustomRGB(2)">
                     </div>
                     <div class="vrlay-wrap">
                       <div class="settings-label">News Items</div>
                     </div>
                     <div class="vrlay-wrap vw2 ">
                       <label class="settings-colors"> News Item Background </label>
-                      <input id="set-color3" type=color onchange="setColors((this.value) ,3)" onkeyup="test(this)">
+                      <input id="set-color3" type=color onchange="setColors((this.value) ,3)" oncontextmenu="setCustomRGB(3)">
                     </div>
                     <div class="vrlay-wrap">
                       <div class="settings-label">Quick Links Bar</div>
                     </div>
                     <div class="vrlay-wrap vw2 ">
                       <label class="settings-colors">QL Background Bar </label>
-                      <input id="set-color6" type=color onchange="setColors((this.value) ,6)" onkeyup="test(this)">
+                      <input id="set-color6" type=color onchange="setColors((this.value) ,6)" oncontextmenu="setCustomRGB(6)">
                     </div>
                     <div class="vrlay-wrap vw2 ">
                       <label class="settings-colors">QL Icons Background</label>
-                      <input id="set-color7" type=color onchange="setColors((this.value) ,7)" onkeyup="test(this)">
+                      <input id="set-color7" type=color onchange="setColors((this.value) ,7)" oncontextmenu="setCustomRGB(7)">
                     </div>
                     <div class="vrlay-wrap vw2 ">
                       <label class="settings-colors">QL Icons Color</label>
-                      <input id="set-color8" type=color onchange="setColors((this.value) ,8)" onkeyup="test(this)">
+                      <input id="set-color8" type=color onchange="setColors((this.value) ,8)" oncontextmenu="setCustomRGB(8)">
                     </div>
                     <br>
+                    <i style="color:red">Long press on color to enter custom RGB</i>
                     <hr style="max-width:400px;margin: auto;"><br>
                     <div class="vrlay-wrap">
                       <button type="button" class="btn-dark" onclick="defaultSet(3)">Default</button>
@@ -620,9 +626,10 @@
   <div id="ntp-contents" oncontextmenu="return false">
       <div id="quick_links" class="ql_icons" style="text-align: center;padding-bottom: 5px;padding-top: 5px;">
 
-          <a href="chrome-native://bookmarks"> <i class="fas fa-bookmark"></i></a>
+          <a href="chrome://bookmarks" target="_blank"> <i class="fas fa-bookmark"></i></a>
           <a href="chrome://extensions"> <i class="far fa-puzzle-piece"></i></a>
           <a href="chrome://downloads"> <i class="fas fa-download"></i></a>
+          <a href="chrome://history/"><i class="far fa-history"></i></a>
   
         </div>
     <div class="swiper-pagination"></div>
@@ -1396,7 +1403,7 @@
         }
         var el = document.createElement('div');
         el.style.display = 'none';
-        el.baseURI = 'https://news.google.com/';
+        el.baseURI = newsServer;
         el.innerHTML = answer.replace(new RegExp('<img', 'gi'), '<source');
         var articles = el.getElementsByTagName('article');
         //          console.log(articles);
@@ -1502,8 +1509,8 @@
             news_time = parseInt(news_time.substr(news_time.lastIndexOf(":") + 2));
           else
             news_time = parseInt(Date.parse(news_time) / 1000);
-          if (link)
-            link = link.replace('chrome-search://local-ntp/', 'https://news.google.com/');
+            if (link) 
+              link = link.replace('https://d3ward.github.io/ntp/', 'https://news.google.com/');
           if (link && image && title) {
             has_valid_entries = true;
             console.log('Title: ' + title);

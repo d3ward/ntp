@@ -523,6 +523,12 @@ var propertyColors= ["--primary-color","--bg-color-tIcon","--bg-color-tLabel","-
     colorsSettings[i]=color;
     localStore("colorsSettings",colorsSettings);
   }
+
+  function setCustomRGB(i){
+    var color = prompt("Enter the RGB or RGBA color. \nExample : #d6d6d6 or #d6d6d6aa (aa is for transparency )", "#d6d6d6");
+    if (color != null) setColors(color,i);
+  }
+  
   //Swiper
   //Check active slide on this session
   var currentSwiperSlide = sessionStorage.getItem("currentSwiperSlide");
@@ -579,7 +585,7 @@ var propertyColors= ["--primary-color","--bg-color-tIcon","--bg-color-tLabel","-
     defaultColors();
   } else { 
     //Load User Colors
-    for(var i=0;i<6;i++)
+    for(var i=0;i<9;i++)
       setColors(colorsSettings[i],i);
   }
   if( optionsSettings == undefined){
@@ -685,13 +691,13 @@ var propertyColors= ["--primary-color","--bg-color-tIcon","--bg-color-tLabel","-
   }
   //Check ntpVersion
   if (localStorage.ntpVersion) {
-    if (localStorage.ntpVersion != "2.0") {
+    if (localStorage.ntpVersion != "2.0.1") {
       show_changelog();
-      localStorage.ntpVersion = "2.0";
+      localStorage.ntpVersion = "2.0.1";
     }
   } else {
     show_changelog();
-    localStorage.ntpVersion = "2.0";
+    localStorage.ntpVersion = "2.0.1";
   }
   //Check Intro
   if (!localStorage.showIntro) {
