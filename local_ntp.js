@@ -541,13 +541,13 @@ function defaultSet(i){
   function defaultOptions(){
     optionsSettings = ['0','0','0','0','0','0'];
     localStore("optionsSettings",optionsSettings);
-   userOptions()
+    userOptions()
     
   }
   function defaultColors(){
     colorsSettings = ['#007aff', '#dddddd', '#555555', '#dddddd',"#efefef","#ffffff"];
     localStore("colorsSettings", colorsSettings);
-    for(var i=0;i<colorsSettings.length;i++)
+    for(var i=0;i<6;i++)
         setColors(colorsSettings[i],i);
     
   }
