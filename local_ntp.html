@@ -77,9 +77,11 @@
 <!-- Licensed under https://creativecommons.org/licenses/by-nc-sa/4.0/ -->
 
 <head>
+  <!---->
   <base href="https://d3ward.github.io/ntp/">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="theme-color" content="#ffffff">
+  <script src="https://kit.fontawesome.com/528a166104.js"></script>
   <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
   <link rel="stylesheet" href="./swiper.min.css">
   <link rel="stylesheet" href="./local_ntp.css">
@@ -91,9 +93,8 @@
 
 <body id="bdy">
 
-  <button id="add-button" type="button" class="plus-item show-classic" onclick="newT()"><span>&#10006;</span></button>
   <div id="myNav" class="vrlay">
-    <button type="button" class="btn-dark btn-close" onclick="close_dialog()">&#10006;</button>
+    <button type="button" class="btn-dark btn-close" onclick="close_dialog()"><i class="far fa-times"></i></button>
     <div class="vrlay-content">
       <form id="form-id1" action="" class="form" autocomplete="off" style="max-width:30%">
         <label>Preview Tile</label><br>
@@ -142,11 +143,14 @@
                 style="overflow-x:hidden;overflow-y: scroll;max-height: 90vh;max-width:80vw;margin: auto;text-align: left;">
                 <h2># Changelog</h2>
                 <hr style="width:80vw;">
-                <h3>## [1.1.2] - 2019-05-12</h3>
+                <h3>## [2.0] - 2019-05-21</h3>
                 <h4>### Added <br>
-                  - Option to set background color of NTP <br>
-                  (Go to colors page and click default to make sure that works )<br>
-                  - Option to hide/show 3dots of Swipers ( Settings and Bookmarks Grid)
+                  - Add FontAwesome icons<br>
+                  - <br>
+                  - <br>
+                  ### Fixed <br>
+                  - Colors nullPointerException
+                  - null of news source logo 
                 </h4>
                 <hr style="width:80vw;">
                 <div class="vrlay-wrap">
@@ -154,6 +158,12 @@
                   <button type="button" class="btn-dark" onclick="close_dialog()">Close</button>
                 </div>
                 <div id="old-changelog" style="color:#757575;display: none;">
+                  <h3>## [1.1.2] - 2019-05-12</h3>
+                  <h4>### Added <br>
+                    - Option to set background color of NTP <br>
+                    (Go to colors page and click default to make sure that works )<br>
+                    - Option to hide/show 3dots of Swipers ( Settings and Bookmarks Grid)
+                  </h4>
                   <h3>## [1.1.1] - 2019-04-23</h3>
                   <h4>### Added <br>
                     - New option to set number of icons per row ( min 3 to max 8 ) <br>
@@ -261,9 +271,11 @@
                   </div>
                   <div class="vrlay-wrap"><label class="settings-label">Tiles per row</label></div>
                 <div class="vrlay-wrap">
-                  <button class="btn-dark" style="width:35px;" id="prevCols" onclick="removeColRow()">◀</button>
-                  <label id="nColsLabel">4</label>
-                  <button class="btn-dark" style="width:35px;" id="nextCols" onclick="addColRow()">▶</button>
+                    <button class="btn-dark" style="width:35px;" id="prevCols" onclick="removeColRow()"><i
+                      class="fas fa-caret-left fa-2x"></i></button>
+                    <label id="nColsLabel">4</label>
+                    <button class="btn-dark" style="width:35px;" id="nextCols" onclick="addColRow()"><i
+                      class="fas fa-caret-right fa-2x"></i></button>
                 </div>
                 <div class="vrlay-wrap"><label class="settings-label">Swipe Effect</label></div>
                 <div class="vrlay-wrap">
@@ -386,11 +398,11 @@
   <div id="floating-btn" class="buttons" onclick="fabAction()">
     <div class="floating-actions">
       <!--<div class="action" id="fullScreen-btn" onclick="setFullscreen()">Focus Mode</div>-->
-      <div class="action" id="changelog-btn" onclick="show_changelog()"> Changelog</div>
-      <div class="action" id="settings-btn" onclick="show_settings()">⚙️ Settings</div>
-      <div class="action" id="news-btn" onclick="enable_news()">📰 View News</div>
-      <div class="action" id="resetN-btn" onclick="resetNH_items()">📰 Reset read News</div>
-      <div class="action" id="add-btn" onclick="newT()">&nbsp; &#x2b; Add Item</div>
+      <div class="action" id="changelog-btn" onclick="show_changelog()"><i class="far fa-list-alt"></i> Changelog</div>
+      <div class="action" id="settings-btn" onclick="show_settings()"> <i class="fas fa-cogs fa-lg"></i> Settings</div>
+      <div class="action" id="news-btn" onclick="enable_news()"><i class="far fa-newspaper fa-lg"></i> View News</div>
+      <div class="action" id="resetN-btn" onclick="resetNH_items()"><i class="fas fa-eye-slash fa-lg"></i> Reset read News</div>
+      <div class="action" id="add-btn" onclick="newT()"><i class="far fa-plus"></i> Add Item</div>
     </div>
     <div class="trigger"><span id="fb-btn">▲</span></div>
   </div>
@@ -576,6 +588,7 @@
   </script>
   <div id="ntp-contents" oncontextmenu="return false">
     <div class="swiper-pagination"></div>
+    <button id="add-button" type="button" class="plus-item show-classic"onclick="newT()"><i class="far fa-plus"></i></button>
     <div class="swiper-container" id="sc-grids">
       <!-- Additional required wrapper -->
       <div class="swiper-wrapper">
@@ -1061,8 +1074,7 @@
       <div id="news-header" style="height: 30px;padding-bottom: 5px;padding-top: 5px;">
         <div class="configure-item dropbtn" role="button" aria-label="Choose news region" title="Choose news region"
           id="configure-button"><span id="locale"></span><span class="arrow-down">▼</span></div>
-        <button class="close-item" role="button" aria-label="Close news" title="Close news"
-          id="close-button" />&#10006;</button>
+          <button class="close-item" role="button" aria-label="Close news" title="Close news" id="close-button" /><i class="far fa-times"></i></button>
       </div>
       <div id="localDropdown" class="dropdown-content">
       </div>
@@ -1633,9 +1645,9 @@
       }
     </script>
     <div id="bottom_panel" class="show-classic" style="text-align: center;padding-bottom: 5px;padding-top: 5px;">
-      <button id="enable-news-button" class="bp_buttons" onclick="enable_news()"> 📰 View News </button>
-      <button id="settings-button" class="bp_buttons"> ⚙️ Settings </button>
-      <button id="resetNH-button" class="bp_buttons" onclick="resetNH_items()"> Reset read news </button>
+      <button id="enable-news-button" class="bp_buttons" onclick="enable_news()"><i class="far fa-newspaper fa-lg"></i> View News </button>
+      <button id="settings-button" class="bp_buttons"> <i class="fas fa-cogs fa-lg"></i> Settings </button>
+      <button id="resetNH-button" class="bp_buttons" onclick="resetNH_items()"><i class="fas fa-eye-slash fa-lg"></i> Reset read news </button>
     </div>
   </div>
 

@@ -519,7 +519,7 @@ function defaultSet(i){
   } 
   
   function userOptions(){
-    for(var i=0;i<optionsSettings.length;i++){
+    for(var i=0;i<6;i++){
       var id="set-optCB"+(i+1);
       document.getElementById(id).checked=optionsSettings[i]?true:false;
       applyOption(i);
@@ -567,7 +567,7 @@ function defaultSet(i){
     defaultColors();
   } else { 
     //Load User Colors
-    for(var i=0;i<colorsSettings.length;i++)
+    for(var i=0;i<6;i++)
       setColors(colorsSettings[i],i);
   }
   if( optionsSettings == undefined){
