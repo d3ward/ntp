@@ -458,6 +458,11 @@
      
     }
 
+    function setCustomRGB(i){
+      var color = prompt("Enter the RGB or RGBA color. \nExample : #d6d6d6 or #d6d6d6aa (aa is for transparency )", "#d6d6d6");
+      if (color != null) setColors(color,i);
+    }
+
     function fabAction() {
       var el = document.getElementById('floating-btn');
       el.classList.toggle('open');

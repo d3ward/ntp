@@ -524,10 +524,7 @@ var propertyColors= ["--primary-color","--bg-color-tIcon","--bg-color-tLabel","-
     localStore("colorsSettings",colorsSettings);
   }
 
-  function setCustomRGB(i){
-    var color = prompt("Enter the RGB or RGBA color. \nExample : #d6d6d6 or #d6d6d6aa (aa is for transparency )", "#d6d6d6");
-    if (color != null) setColors(color,i);
-  }
+ 
   
   //Swiper
   //Check active slide on this session
