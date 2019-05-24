@@ -685,13 +685,13 @@ var propertyColors= ["--primary-color","--bg-color-tIcon","--bg-color-tLabel","-
   }
   //Check ntpVersion
   if (localStorage.ntpVersion) {
-    if (localStorage.ntpVersion != "2.0.1") {
+    if (localStorage.ntpVersion != "2.0.2") {
       show_changelog();
-      localStorage.ntpVersion = "2.0.1";
+      localStorage.ntpVersion = "2.0.2";
     }
   } else {
     show_changelog();
-    localStorage.ntpVersion = "2.0.1";
+    localStorage.ntpVersion = "2.0.2";
   }
   //Check Intro
   if (!localStorage.showIntro) {
