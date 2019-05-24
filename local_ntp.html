@@ -68,6 +68,7 @@
   function localStore(key, obj) {
     return window.localStorage.setItem(key, JSON.stringify(obj));
   }
+
   function localGet(key) {
     return JSON.parse(window.localStorage.getItem(key));
   }
@@ -128,6 +129,7 @@
       <div id="form-id2">
         <div class="swiper-c-intro" id="sc-intro">
           <!-- Additional required wrapper -->
+          <div class="swiper-p-intro"></div>
           <div class="swiper-wrapper">
             <!-- Slides -->
             <div class="swiper-slide" id="swip_intro">
@@ -138,26 +140,18 @@
               </div>
             </div>
             <div class="swiper-slide">
-              <div
-                style="overflow-x:hidden;overflow-y: scroll;max-height: 90vh;max-width:80vw;margin: auto;text-align: left;">
+              <div style="overflow-x:hidden;overflow-y: scroll;max-height: calc(100vh - 120px);max-width:80vw;margin: auto;text-align: left;">
                 <h2># Changelog</h2>
                 <hr style="width:80vw;">
-                <h3>## [2.0.1] </h3>
-                <h4>
-                  - Longpress on a color let you enter a custom RGB ( with Alpha).<br>
-                  - Test the fix for news 404 not found
-                </h4>
-                <h3>## [2.0] - 2019-05-21</h3>
+                <h3>## [2.0.2] - 2019-05-25</h3>
                 <h4>### Added <br>
-                  - Add FontAwesome icons<br>
-                  - Quick Links (Test) <br>
-                  - MetaThemeColor ! ( Choose ntp background and set Kiwi theme to Default) addressbar and status bar will have the same color of ntp <br><br>
+                  - New option to change News text color<br>
                   ## Changed <br>
-                  - Some Settings UI imrpovements<br><br>
+                  - Settings UI imrpovements (swiper moved on top)<br>
                   ### Fixed <br>
-                  - Colors nullPointerException<br>
-                  - null of news source logo <br><br>
-                 <i style="color: red;">Important : if you find any bugs, I would like it if you report it on discord by tagging me:)</i> 
+                  - Settings elements now fit the page<br>
+                  <i style="color: red;">Important : if you find any bugs, I would like it if you report it on discord
+                    by tagging me :)</i>
                 </h4>
                 <hr style="width:80vw;">
                 <div class="vrlay-wrap">
@@ -165,6 +159,23 @@
                   <button type="button" class="btn-dark" onclick="close_dialog()">Close</button>
                 </div>
                 <div id="old-changelog" style="color:#757575;display: none;">
+                    <h3>## [2.0.1] </h3>
+                    <h4>
+                      - Longpress on a color let you enter a custom RGB ( with Alpha).<br>
+                      - Test the fix for news 404 not found
+                    </h4>
+                    <h3>## [2.0] - 2019-05-21</h3>
+                    <h4>### Added <br>
+                      - Add FontAwesome icons<br>
+                      - Quick Links (Test) <br>
+                      - MetaThemeColor ! ( Choose ntp background and set Kiwi theme to Default) addressbar and status bar
+                      will have the same color of ntp <br>
+                      ## Changed <br>
+                      - Some Settings UI imrpovements<br>
+                      ### Fixed <br>
+                      - Colors nullPointerException<br>
+                      - null of news source logo <br>
+                    </h4>
                   <h3>## [1.1.2] - 2019-05-12</h3>
                   <h4>### Added <br>
                     - Option to set background color of NTP <br>
@@ -176,239 +187,270 @@
                     - New option to set number of icons per row ( min 3 to max 8 ) <br>
                     <h4>### Fixed <br>
                       - Tile title hiding <br>
-                  </h4>
-                  <h3>## [1.1.0] - 2019-04-22</h3>
-                  <h4>### Changed <br>
-                    - 3 new options are enabled <br>( MD Shadow , open on new tab , hide icon text  ) <br>
-                  </h4>
-                  <h3>## [1.0.9] - 2019-04-22</h3>
-                  <h4>### Added <br>
-                    - Export & Import data ( tiles, settings , etc.)<br>
-                  </h4>
-                  <h3>## [1.0.8] - 2019-04-18</h3>
-                  <h4>### Added <br>
-                    - New Options on settings (only first 2 are enabled )<br>
-                    - Colors! Allow the user to change some colors <br><br>
-                    ### Changed <br>
-                    - General settings rewritten <br>
-                    - Some UI improvements <br>
-                  </h4>
-                  <h3>## [1.0.7] - 2019-04-18</h3>
-                  <h4>### Added <br>
-                    - New Incognito Page<br><br>
+                    </h4>
+                    <h3>## [1.1.0] - 2019-04-22</h3>
+                    <h4>### Changed <br>
+                      - 3 new options are enabled <br>( MD Shadow , open on new tab , hide icon text ) <br>
+                    </h4>
+                    <h3>## [1.0.9] - 2019-04-22</h3>
+                    <h4>### Added <br>
+                      - Export & Import data ( tiles, settings , etc.)<br>
+                    </h4>
+                    <h3>## [1.0.8] - 2019-04-18</h3>
+                    <h4>### Added <br>
+                      - New Options on settings (only first 2 are enabled )<br>
+                      - Colors! Allow the user to change some colors <br>
+                      ### Changed <br>
+                      - General settings rewritten <br>
+                      - Some UI improvements <br>
+                    </h4>
+                    <h3>## [1.0.7] - 2019-04-18</h3>
+                    <h4>### Added <br>
+                      - New Incognito Page<br>
 
-                    ### Changed <br>
-                    - Don't load ntp stuff ( bookmarks grids ,animations, buttons ) on incognito mode <br>
-                    - Some UI improvements <br>
-                  </h4>
-                  <h3>## [1.0.6] - 2019-04-13</h3>
-                  <h4>### Added <br>
-                    - New intro page for Kiwi &lt;3 ( can be used to help user on first use of kiwi , show settings,
-                    show what kiwi can do etc. )<br>
-                    - Rewritten screens management and optimized UI <br><br>
-                    - Settings more user-friendly
-                    ### Changed <br>
-                    - UI improvements<br>
-                    ### Removed
-                    - Focus Mode ( )
-                  </h4>
-                  <h3>## [1.0.5] - 2019-04-08</h3>
-                  <h4>### Added <br>
-                    - Button to move tile to other pages ( available in edit tile dialog )<br>
-                    - Testing : Focus Mode ( on compact UI there's a button to enable it) <br><br>
-                    ### Changed <br>
-                    - UI improvements
-                  </h4>
-                  <h3>## [1.0.4] - 2019-04-04</h3>
-                  <h4>### Added <br>
-                    - Button to edit tile ( longpress on tile to enter edit mode , then pick the edit icon :D
-                    ).<br>
-                    - Option to switch UI Interactions to classic(default) or compact (all buttons are inside one
-                    floating
-                    button ) <br><br>
-                    ### Changed <br>
-                    - Some UI improvement
-                  </h4>
-                  <h3>## [1.0.3] - 2019-04-02</h3>
-                  <h4>### Added <br>
-                    - New UI Interactions .<br>
-                    - Option to change speed of swiping <br><br>
-                    ### Changed <br>
-                    - Swipe to read news require less effort
-                  </h4>
-                  <h3>## [1.0.2] - 2019-04-01</h3>
-                  <h4>
-                    ### Added <br>
-                    - Option to change effect on grids when swiping<br>
-                    - Option to change speed of swiping <br><br>
-                    ### Changed <br>
-                    - Some UI improvements on settings dialog
-                  </h4>
-                  <h3>## [1.0.1] - 2019-03-31</h3>
-                  <h4>
-                    ### Changed <br>
-                    - On item longpress , dont show context menu (let me know on discord if you want it
-                    back)<br>
-                    - #Fixed :autoheight on grids with more than 8 items
-                  </h4>
-                  <h3>## [1.0.0] - 2019-03-28</h3>
-                  <h4>### Added<br>
-                    - Keep current grid in sessionStorage (reset when user close the tab)<br><br>
-                    ### Changed<br>
-                    - When the news is deactivated, keep the buttons in the bottom (user can use all the
-                    screen to
-                    scroll through the grids) <br>
-                    - #Fixed : After adding an item, stay on the current grid</h4>
+                      ### Changed <br>
+                      - Don't load ntp stuff ( bookmarks grids ,animations, buttons ) on incognito mode <br>
+                      - Some UI improvements <br>
+                    </h4>
+                    <h3>## [1.0.6] - 2019-04-13</h3>
+                    <h4>### Added <br>
+                      - New intro page for Kiwi &lt;3 ( can be used to help user on first use of kiwi , show settings,
+                      show what kiwi can do etc. )<br>
+                      - Rewritten screens management and optimized UI <br>
+                      - Settings more user-friendly
+                      ### Changed <br>
+                      - UI improvements<br>
+                      ### Removed
+                      - Focus Mode ( )
+                    </h4>
+                    <h3>## [1.0.5] - 2019-04-08</h3>
+                    <h4>### Added <br>
+                      - Button to move tile to other pages ( available in edit tile dialog )<br>
+                      - Testing : Focus Mode ( on compact UI there's a button to enable it) <br>
+                      ### Changed <br>
+                      - UI improvements
+                    </h4>
+                    <h3>## [1.0.4] - 2019-04-04</h3>
+                    <h4>### Added <br>
+                      - Button to edit tile ( longpress on tile to enter edit mode , then pick the edit icon :D
+                      ).<br>
+                      - Option to switch UI Interactions to classic(default) or compact (all buttons are inside one
+                      floating
+                      button ) <br>
+                      ### Changed <br>
+                      - Some UI improvement
+                    </h4>
+                    <h3>## [1.0.3] - 2019-04-02</h3>
+                    <h4>### Added <br>
+                      - New UI Interactions .<br>
+                      - Option to change speed of swiping <br>
+                      ### Changed <br>
+                      - Swipe to read news require less effort
+                    </h4>
+                    <h3>## [1.0.2] - 2019-04-01</h3>
+                    <h4>
+                      ### Added <br>
+                      - Option to change effect on grids when swiping<br>
+                      - Option to change speed of swiping <br>
+                      ### Changed <br>
+                      - Some UI improvements on settings dialog
+                    </h4>
+                    <h3>## [1.0.1] - 2019-03-31</h3>
+                    <h4>
+                      ### Changed <br>
+                      - On item longpress , dont show context menu (let me know on discord if you want it
+                      back)<br>
+                      - #Fixed :autoheight on grids with more than 8 items
+                    </h4>
+                    <h3>## [1.0.0] - 2019-03-28</h3>
+                    <h4>### Added<br>
+                      - Keep current grid in sessionStorage (reset when user close the tab)<br>
+                      ### Changed<br>
+                      - When the news is deactivated, keep the buttons in the bottom (user can use all the
+                      screen to
+                      scroll through the grids) <br>
+                      - #Fixed : After adding an item, stay on the current grid</h4>
                 </div>
               </div>
             </div>
             <div class="swiper-slide">
               <div class="sc-intro-wrapper">
-                  <div class="vrlay-wrap"><div class="settings-label">Bookmarks Tile Style</div></div>
+                <div class="scrollable-wrap">
                   <div class="vrlay-wrap">
-                      <div class="radio-toolbar">
-                        <input type="radio" id="r1_Es0" name="radioES1" value="Square" onchange="setES1(0);">
-                        <label for="r1_Es0"><img class="k-logo" style="width: 54px;height: 54px;" src="">Square</label>
-                        <input type="radio" id="r1_Es6" name="radioES1" value="Rounded" onchange="setES1(6);">
-                        <label for="r1_Es6"><img class="k-logo" style="width: 54px;height: 54px;border-radius: 6px;" src="">Round</label> 
-                        <input type="radio" id="r1_Es40" name="radioES1" value="Circle" onchange="setES1(40);">
-                        <label for="r1_Es40"><img class="k-logo" style="width: 54px;height: 54px;border-radius: 40px;" src="">Circle</label> 
-                      </div>
+                    <div class="settings-label">Bookmarks Tile Style</div>
                   </div>
-                  <div class="vrlay-wrap"><div class="settings-label">Tiles per row</div></div>
-                <div class="vrlay-wrap">
+                  <div class="vrlay-wrap">
+                    <div class="radio-toolbar">
+                      <input type="radio" id="r1_Es0" name="radioES1" value="Square" onchange="setES1(0);">
+                      <label for="r1_Es0"><img class="k-logo" style="width: 54px;height: 54px;" src="">Square</label>
+                      <input type="radio" id="r1_Es6" name="radioES1" value="Rounded" onchange="setES1(6);">
+                      <label for="r1_Es6"><img class="k-logo" style="width: 54px;height: 54px;border-radius: 6px;"
+                          src="">Round</label>
+                      <input type="radio" id="r1_Es40" name="radioES1" value="Circle" onchange="setES1(40);">
+                      <label for="r1_Es40"><img class="k-logo" style="width: 54px;height: 54px;border-radius: 40px;"
+                          src="">Circle</label>
+                    </div>
+                  </div>
+                  <div class="vrlay-wrap">
+                    <div class="settings-label">Tiles per row</div>
+                  </div>
+                  <div class="vrlay-wrap">
                     <button class="btn-dark" style="width:35px;" id="prevCols" onclick="removeColRow()"><i
-                      class="fas fa-caret-left fa-2x"></i></button>
+                        class="fas fa-caret-left fa-2x"></i></button>
                     <label id="nColsLabel">4</label>
                     <button class="btn-dark" style="width:35px;" id="nextCols" onclick="addColRow()"><i
-                      class="fas fa-caret-right fa-2x"></i></button>
-                </div>
-                <div class="vrlay-wrap"><div class="settings-label">Swipe Effect</div></div>
-                <div class="vrlay-wrap">
-                  <div class="radio-toolbar">
-                    <input type="radio" id="r2_Esslide" name="radioES2" value="Slide" onchange="setES2('slide');">
-                    <label for="r2_Esslide">Slide</label>
-                    <input type="radio" id="r2_Esfade" name="radioES2" value="Fade" onchange="setES2('fade');">
-                    <label for="r2_Esfade">Fade</label> 
+                        class="fas fa-caret-right fa-2x"></i></button>
                   </div>
-                </div>
-                <div class="vrlay-wrap"><div class="settings-label">Swipe Speed</div></div>
-                <div class="vrlay-wrap">
-                  <div class="radio-toolbar">
-                    <input type="radio" id="r3_Es150" name="radioES3" value="Fast" onchange="setES3(150);">
-                    <label for="r3_Es150">Fast</label>
-                    <input type="radio" id="r3_Es450" name="radioES3" value="Normal" onchange="setES3(450);">
-                    <label for="r3_Es450">Normal</label> 
-                    <input type="radio" id="r3_Es850" name="radioES3" value="Slow" onchange="setES3(850);">
-                    <label for="r3_Es850">Slow</label> 
+                  <div class="vrlay-wrap">
+                    <div class="settings-label">Swipe Effect</div>
                   </div>
-                </div>
-                <br><hr style="max-width:400px;margin: auto;"><br>
-                <div class="vrlay-wrap">
-                  <button type="button" class="btn-dark" onclick="defaultSet(1)">Default</button>
-                  <button type="button" class="btn-dark" onclick="close_dialog()">Close</button>
+                  <div class="vrlay-wrap">
+                    <div class="radio-toolbar">
+                      <input type="radio" id="r2_Esslide" name="radioES2" value="Slide" onchange="setES2('slide');">
+                      <label for="r2_Esslide">Slide</label>
+                      <input type="radio" id="r2_Esfade" name="radioES2" value="Fade" onchange="setES2('fade');">
+                      <label for="r2_Esfade">Fade</label>
+                    </div>
+                  </div>
+                  <div class="vrlay-wrap">
+                    <div class="settings-label">Swipe Speed</div>
+                  </div>
+                  <div class="vrlay-wrap">
+                    <div class="radio-toolbar">
+                      <input type="radio" id="r3_Es150" name="radioES3" value="Fast" onchange="setES3(150);">
+                      <label for="r3_Es150">Fast</label>
+                      <input type="radio" id="r3_Es450" name="radioES3" value="Normal" onchange="setES3(450);">
+                      <label for="r3_Es450">Normal</label>
+                      <input type="radio" id="r3_Es850" name="radioES3" value="Slow" onchange="setES3(850);">
+                      <label for="r3_Es850">Slow</label>
+                    </div>
+                  </div>
+                  <br>
+                  <hr style="max-width:400px;margin: auto;"><br>
+                  <div class="vrlay-wrap">
+                    <button type="button" class="btn-dark" onclick="defaultSet(1)">Default</button>
+                    <button type="button" class="btn-dark" onclick="close_dialog()">Close</button>
+                  </div>
                 </div>
               </div>
             </div>
             <div class="swiper-slide">
-                <div class="sc-intro-wrapper">
-                    <div class="vrlay-wrap vw1">
-                      <label class="settings-options">UI Compact </label>
-                      <input id="set-optCB1" class="toggle" type="checkbox" onchange="setOptionES(0)" />
-                    </div>
-                    <div class="vrlay-wrap vw1">
-                      <label class="settings-options"> News Item background empty</label>
-                      <input id="set-optCB2" class="toggle" type="checkbox" onchange="setOptionES(1)" />
-                    </div>
-                    <div class="vrlay-wrap vw1">
-                      <label class="settings-options">Material Design Shadow</label>
-                      <input id="set-optCB3" class="toggle" type="checkbox" onchange="setOptionES(2)" />
-                    </div>
-                    <div class="vrlay-wrap vw1">
-                      <label class="settings-options">Open icon link in new tab </label>
-                      <input id="set-optCB4" class="toggle" type="checkbox" onchange="setOptionES(3)" />
-                    </div>
-                    <div class="vrlay-wrap vw1">
-                      <label class="settings-options">Hide icon text </label>
-                      <input id="set-optCB5" class="toggle" type="checkbox" onchange="setOptionES(4)" />
-                    </div>
-                    <div class="vrlay-wrap vw1">
-                      <label class="settings-options">Hide dots of Swipers </label>
-                      <input id="set-optCB6" class="toggle" type="checkbox" onchange="setOptionES(5)" />
-                    </div>
-                    <div class="vrlay-wrap vw1">
-                      <label class="settings-options">Quick Links ( Test ) </label>
-                      <input id="set-optCB7" class="toggle" type="checkbox" onchange="setOptionES(6)" />
-                    </div>
-                    <br>
-                    <hr style="max-width:400px;margin: auto;"><br>
-                    <div class="vrlay-wrap">
-                      <button type="button" class="btn-dark" onclick="defaultSet(2)">Default</button>
-                      <button type="button" class="btn-dark" onclick="close_dialog()">Close</button>
-                    </div>
+              <div class="sc-intro-wrapper">
+                <div class="scrollable-wrap">
+                  <div class="vrlay-wrap vw1">
+                    <label class="settings-options">UI Compact </label>
+                    <input id="set-optCB1" class="toggle" type="checkbox" onchange="setOptionES(0)" />
                   </div>
+                  <div class="vrlay-wrap vw1">
+                    <label class="settings-options"> News Item background empty</label>
+                    <input id="set-optCB2" class="toggle" type="checkbox" onchange="setOptionES(1)" />
+                  </div>
+                  <div class="vrlay-wrap vw1">
+                    <label class="settings-options">Material Design Shadow</label>
+                    <input id="set-optCB3" class="toggle" type="checkbox" onchange="setOptionES(2)" />
+                  </div>
+                  <div class="vrlay-wrap vw1">
+                    <label class="settings-options">Open icon link in new tab </label>
+                    <input id="set-optCB4" class="toggle" type="checkbox" onchange="setOptionES(3)" />
+                  </div>
+                  <div class="vrlay-wrap vw1">
+                    <label class="settings-options">Hide icon text </label>
+                    <input id="set-optCB5" class="toggle" type="checkbox" onchange="setOptionES(4)" />
+                  </div>
+                  <div class="vrlay-wrap vw1">
+                    <label class="settings-options">Hide dots of Swipers </label>
+                    <input id="set-optCB6" class="toggle" type="checkbox" onchange="setOptionES(5)" />
+                  </div>
+                  <div class="vrlay-wrap vw1">
+                    <label class="settings-options">Quick Links ( Test ) </label>
+                    <input id="set-optCB7" class="toggle" type="checkbox" onchange="setOptionES(6)" />
+                  </div>
+                  <br>
+                  <hr style="max-width:400px;margin: auto;"><br>
+                  <div class="vrlay-wrap">
+                    <button type="button" class="btn-dark" onclick="defaultSet(2)">Default</button>
+                    <button type="button" class="btn-dark" onclick="close_dialog()">Close</button>
+                  </div>
+                </div>
+              </div>
             </div>
             <div class="swiper-slide">
-                <div class="sc-intro-wrapper">
-                    <div class="vrlay-wrap">
-                      <div class="settings-label">NTP</div>
-                    </div>
-                    <div class="vrlay-wrap vw2 ">
-                      <label class="settings-colors"> Primary Color </label>
-                      <input id="set-color0" type=color onchange="setColors((this.value) ,0)" oncontextmenu="setCustomRGB(0)">
-                    </div>
-                    <div class="vrlay-wrap vw2 ">
-                      <label class="settings-colors">NTP Background</label>
-                      <input id="set-color5" type=color onchange="setColors((this.value) ,5)" oncontextmenu="setCustomRGB(5)">
-                    </div>
-                    <div class="vrlay-wrap vw2 ">
-                      <label class="settings-colors">UI Buttons</label>
-                      <input id="set-color4" type=color onchange="setColors((this.value) ,4)" oncontextmenu="setCustomRGB(4)">
-                    </div>
-                    <div class="vrlay-wrap">
-                      <div class="settings-label">Grid Bookmarks</div>
-                    </div>
-                    <div class="vrlay-wrap vw2">
-                      <label class="settings-colors"> Icon Tile background</label>
-                      <input id="set-color1" type=color onchange="setColors((this.value) ,1)" oncontextmenu="setCustomRGB(1)">
-                    </div>
-                    <div class="vrlay-wrap vw2 ">
-                      <label class="settings-colors"> Tile Label </label>
-                      <input id="set-color2" type=color onchange="setColors((this.value) ,2)" oncontextmenu="setCustomRGB(2)">
-                    </div>
-                    <div class="vrlay-wrap">
-                      <div class="settings-label">News Items</div>
-                    </div>
-                    <div class="vrlay-wrap vw2 ">
-                      <label class="settings-colors"> News Item Background </label>
-                      <input id="set-color3" type=color onchange="setColors((this.value) ,3)" oncontextmenu="setCustomRGB(3)">
-                    </div>
-                    <div class="vrlay-wrap">
-                      <div class="settings-label">Quick Links Bar</div>
-                    </div>
-                    <div class="vrlay-wrap vw2 ">
-                      <label class="settings-colors">QL Background Bar </label>
-                      <input id="set-color6" type=color onchange="setColors((this.value) ,6)" oncontextmenu="setCustomRGB(6)">
-                    </div>
-                    <div class="vrlay-wrap vw2 ">
-                      <label class="settings-colors">QL Icons Background</label>
-                      <input id="set-color7" type=color onchange="setColors((this.value) ,7)" oncontextmenu="setCustomRGB(7)">
-                    </div>
-                    <div class="vrlay-wrap vw2 ">
-                      <label class="settings-colors">QL Icons Color</label>
-                      <input id="set-color8" type=color onchange="setColors((this.value) ,8)" oncontextmenu="setCustomRGB(8)">
-                    </div>
-                    <br>
-                    <i style="color:red">Long press on color to enter custom RGB</i>
-                    <hr style="max-width:400px;margin: auto;"><br>
-                    <div class="vrlay-wrap">
-                      <button type="button" class="btn-dark" onclick="defaultSet(3)">Default</button>
-                      <button type="button" class="btn-dark" onclick="close_dialog()">Close</button>
-                    </div>
+              <div class="sc-intro-wrapper">
+                <div class="scrollable-wrap">
+                  <div class="vrlay-wrap">
+                    <div class="settings-label">NTP</div>
+                  </div>
+                  <div class="vrlay-wrap vw2 ">
+                    <label class="settings-colors"> Primary Color </label>
+                    <input id="set-color0" type=color onchange="setColors((this.value) ,0)"
+                      oncontextmenu="setCustomRGB((this.value) ,0)">
+                  </div>
+                  <div class="vrlay-wrap vw2 ">
+                    <label class="settings-colors">NTP Background</label>
+                    <input id="set-color5" type=color onchange="setColors((this.value) ,5)"
+                      oncontextmenu="setCustomRGB((this.value) ,5)">
+                  </div>
+                  <div class="vrlay-wrap vw2 ">
+                    <label class="settings-colors">UI Buttons</label>
+                    <input id="set-color4" type=color onchange="setColors((this.value) ,4)"
+                      oncontextmenu="setCustomRGB((this.value) ,4)">
+                  </div>
+                  <div class="vrlay-wrap">
+                    <div class="settings-label">Grid Bookmarks</div>
+                  </div>
+                  <div class="vrlay-wrap vw2">
+                    <label class="settings-colors"> Icon Tile background</label>
+                    <input id="set-color1" type=color onchange="setColors((this.value) ,1)"
+                      oncontextmenu="setCustomRGB((this.value) ,1)">
+                  </div>
+                  <div class="vrlay-wrap vw2 ">
+                    <label class="settings-colors"> Tile Label </label>
+                    <input id="set-color2" type=color onchange="setColors((this.value) ,2)"
+                      oncontextmenu="setCustomRGB((this.value) ,2)">
+                  </div>
+                  <div class="vrlay-wrap">
+                    <div class="settings-label">News Items</div>
+                  </div>
+                  <div class="vrlay-wrap vw2 ">
+                    <label class="settings-colors"> News Item Background </label>
+                    <input id="set-color3" type=color onchange="setColors((this.value) ,3)"
+                      oncontextmenu="setCustomRGB((this.value) ,3)">
+                  </div>
+                  <div class="vrlay-wrap vw2 ">
+                    <label class="settings-colors"> News Text Color </label>
+                    <input id="set-color9" type=color onchange="setColors((this.value) ,9)"
+                      oncontextmenu="setCustomRGB((this.value) ,9)">
+                  </div>
+                  <div class="vrlay-wrap">
+                    <div class="settings-label">Quick Links Bar</div>
+                  </div>
+                  <div class="vrlay-wrap vw2 ">
+                    <label class="settings-colors">QL Background Bar </label>
+                    <input id="set-color6" type=color onchange="setColors((this.value) ,6)"
+                      oncontextmenu="setCustomRGB((this.value) ,6)">
+                  </div>
+                  <div class="vrlay-wrap vw2 ">
+                    <label class="settings-colors">QL Icons Background</label>
+                    <input id="set-color7" type=color onchange="setColors((this.value) ,7)"
+                      oncontextmenu="setCustomRGB((this.value) ,7)">
+                  </div>
+                  <div class="vrlay-wrap vw2 ">
+                    <label class="settings-colors">QL Icons Color</label>
+                    <input id="set-color8" type=color onchange="setColors((this.value) ,8)"
+                      oncontextmenu="setCustomRGB((this.value) ,8)">
+                  </div>
+                  <br>
+                  <i style="color:red">Long press on color to enter custom RGB</i>
+                  <hr style="max-width:400px;margin: auto;"><br>
+                  <div class="vrlay-wrap">
+                    <button type="button" class="btn-dark" onclick="defaultSet(3)">Default</button>
+                    <button type="button" class="btn-dark" onclick="close_dialog()">Close</button>
+                  </div>
                 </div>
+              </div>
             </div>
 
-            
+
             <div class="swiper-slide">
               <div class="sc-intro-wrapper">
                 <div class="vrlay-wrap">
@@ -416,9 +458,10 @@
                   <button type="button" id="btn-dark" class="btn-dark" onclick="show_changelog()">Changelog</button>
                 </div>
                 <div class="vrlay-wrap">
-                  <button type="button"  class="btn-dark" id="exportJSON">Export</button>
+                  <button type="button" class="btn-dark" id="exportJSON">Export</button>
                   <input type="file" name="file" id="file" style="opacity: 0;position: absolute;z-index: -1;">
-                  <label for="file" style="display: inline-block;color: #fff;border: none;margin: 5px;padding-top: 10px;padding-bottom: 10px;border-radius: 5px;width: 80px;background: #000;">Import</label>
+                  <label for="file"
+                    style="display: inline-block;color: #fff;border: none;margin: 5px;padding-top: 10px;padding-bottom: 10px;border-radius: 5px;width: 80px;background: #000;">Import</label>
                 </div>
                 <div class="vrlay-wrap">
                   <button type="button" id="btn-dark" class="btn-dark" onclick="show_intro_reload()">Intro</button>
@@ -427,7 +470,7 @@
               </div>
             </div>
           </div>
-          <div class="swiper-p-intro"></div>
+
         </div>
       </div>
     </div>
@@ -438,7 +481,8 @@
       <div class="action" id="changelog-btn" onclick="show_changelog()"><i class="far fa-list-alt"></i> Changelog</div>
       <div class="action" id="settings-btn" onclick="show_settings()"> <i class="fas fa-cogs fa-lg"></i> Settings</div>
       <div class="action" id="news-btn" onclick="enable_news()"><i class="far fa-newspaper fa-lg"></i> View News</div>
-      <div class="action" id="resetN-btn" onclick="resetNH_items()"><i class="fas fa-eye-slash fa-lg"></i> Reset read News</div>
+      <div class="action" id="resetN-btn" onclick="resetNH_items()"><i class="fas fa-eye-slash fa-lg"></i> Reset read
+        News</div>
       <div class="action" id="add-btn" onclick="newT()"><i class="far fa-plus"></i> Add Item</div>
     </div>
     <div class="trigger"><span id="fb-btn">▲</span></div>
@@ -452,15 +496,15 @@
       remove_favorite(currentTileEdit);
       mySwiper.slideTo(ngrid, "400");
       create_new_item();
-      setTimeout(function(){
+      setTimeout(function () {
         location.reload();
       }, 500);
-     
+
     }
 
-    function setCustomRGB(i){
-      var color = prompt("Enter the RGB or RGBA color. \nExample : #d6d6d6 or #d6d6d6aa (aa is for transparency )", "#d6d6d6");
-      if (color != null) setColors(color,i);
+    function setCustomRGB(color, i) {
+      c = prompt("Enter the RGB or RGBA color. \nExample : #d6d6d6 or #d6d6d6aa (aa is for transparency )", color);
+      if (c != null) setColors(c, i);
     }
 
     function fabAction() {
@@ -629,16 +673,17 @@
     }
   </script>
   <div id="ntp-contents" oncontextmenu="return false">
-      <div id="quick_links" class="ql_icons" style="text-align: center;padding-bottom: 5px;padding-top: 5px;">
+    <div id="quick_links" class="ql_icons" style="text-align: center;padding-bottom: 5px;padding-top: 5px;">
 
-          <a href="chrome://bookmarks" target="_blank"> <i class="fas fa-bookmark"></i></a>
-          <a href="chrome://extensions"> <i class="far fa-puzzle-piece"></i></a>
-          <a href="chrome://downloads"> <i class="fas fa-download"></i></a>
-          <a href="chrome://history/"><i class="far fa-history"></i></a>
-  
-        </div>
+      <a href="chrome://bookmarks" target="_blank"> <i class="fas fa-bookmark"></i></a>
+      <a href="chrome://extensions"> <i class="far fa-puzzle-piece"></i></a>
+      <a href="chrome://downloads"> <i class="fas fa-download"></i></a>
+      <a href="chrome://history/"><i class="far fa-history"></i></a>
+
+    </div>
     <div class="swiper-pagination"></div>
-    <button id="add-button" type="button" class="plus-item show-classic"onclick="newT()"><i class="far fa-plus"></i></button>
+    <button id="add-button" type="button" class="plus-item show-classic" onclick="newT()"><i
+        class="far fa-plus"></i></button>
     <div class="swiper-container" id="sc-grids">
       <!-- Additional required wrapper -->
       <div class="swiper-wrapper">
@@ -843,13 +888,14 @@
           imageUri = item.imgSrc;
         }
         var nGrid = item.ngrid;
-        
-        var targetBlank = optionsSettings[3]==1 ? 'target="_blank"' : '';
+
+        var targetBlank = optionsSettings[3] == 1 ? 'target="_blank"' : '';
         innerDiv.innerHTML = '<img id="closeImg" src="' + closeImg +
           '" class="closeImg closeImgInvisible" height="20" width="20" style="position: absolute; right: 0px; border: 0px;" /><img id="editImg" src="' +
           editImg +
           '" class="closeImg closeImgInvisible" height="20" width="20" style="position: absolute; right: 0px; bottom: 0px; border: 0px;" /><a id="tile_target" class="tile_target" name="' +
-          item.title + '" href="' + item.url + '" '+targetBlank+'><img border="0" class="grid-image" style="border-radius:' + arrayD[
+          item.title + '" href="' + item.url + '" ' + targetBlank +
+          '><img border="0" class="grid-image" style="border-radius:' + arrayD[
             0] + 'px" title="' + item.title + '" src="' + imageUri + '" id="icon' + randomId +
           '" onError="invalidate_image(this)"/><span id="title_span" style="line-height: 15px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">' +
           item.title + '</span></a>';
@@ -1124,7 +1170,8 @@
       <div id="news-header" style="height: 30px;padding-bottom: 5px;padding-top: 5px;">
         <div class="configure-item dropbtn" role="button" aria-label="Choose news region" title="Choose news region"
           id="configure-button"><span id="locale"></span><span class="arrow-down">▼</span></div>
-          <button class="close-item" role="button" aria-label="Close news" title="Close news" id="close-button" /><i class="far fa-times"></i></button>
+        <button class="close-item" role="button" aria-label="Close news" title="Close news" id="close-button" /><i
+          class="far fa-times"></i></button>
       </div>
       <div id="localDropdown" class="dropdown-content">
       </div>
@@ -1376,7 +1423,7 @@
           '<span class="newsAttribution"><img src="' + source_logo +
           '" style="max-height: 12px;" />&nbsp;&nbsp;<a style="color: #333" href="' + link + '">' + source +
           '</a></span>' +
-          '<div class="newsTitle"><a style="color: #333" href="' + link + '">' +
+          '<div class="newsTitle"><a href="' + link + '">' +
           title + '</a></div>' +
           '<span class="newsTime">' +
           timeagoInstance.format(creationTime) + '</span></a></div>';
@@ -1514,8 +1561,8 @@
             news_time = parseInt(news_time.substr(news_time.lastIndexOf(":") + 2));
           else
             news_time = parseInt(Date.parse(news_time) / 1000);
-            if (link) 
-              link = link.replace('https://d3ward.github.io/ntp/', 'https://news.google.com/');
+          if (link)
+            link = link.replace('https://d3ward.github.io/ntp/', 'https://news.google.com/');
           if (link && image && title) {
             has_valid_entries = true;
             console.log('Title: ' + title);
@@ -1695,9 +1742,11 @@
       }
     </script>
     <div id="bottom_panel" class="show-classic" style="text-align: center;padding-bottom: 5px;padding-top: 5px;">
-      <button id="enable-news-button" class="bp_buttons" onclick="enable_news()"><i class="far fa-newspaper fa-lg"></i> View News </button>
+      <button id="enable-news-button" class="bp_buttons" onclick="enable_news()"><i class="far fa-newspaper fa-lg"></i>
+        View News </button>
       <button id="settings-button" class="bp_buttons"> <i class="fas fa-cogs fa-lg"></i> Settings </button>
-      <button id="resetNH-button" class="bp_buttons" onclick="resetNH_items()"><i class="fas fa-eye-slash fa-lg"></i> Reset read news </button>
+      <button id="resetNH-button" class="bp_buttons" onclick="resetNH_items()"><i class="fas fa-eye-slash fa-lg"></i>
+        Reset read news </button>
     </div>
   </div>
 

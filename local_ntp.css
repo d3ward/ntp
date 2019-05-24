@@ -8,14 +8,19 @@
   --content-width: calc((var(--column-count) * (var(--tile-width) + var(--tile-margin))) + 1px);
   /* These can be overridden by themes. */
   --primary-color: #007aff;
-  --bg-color-tIcon: #dddddd;
-  --bg-color-tLabel: #dddddd;
-  --bg-color-newsI : #dddddd;
   --bg-color-btns: #efefef;
   --bg-color-ntp: #ffffff;
+
+  --bg-color-tIcon: #dddddd;
+  --bg-color-tLabel: #dddddd;
+
+  --bg-color-newsI : #dddddd;
+  --bg-textC-newsI : #333333;
+  
   --bg-ql-bgbar: #007aff; 
   --bg-ql-bgicon: #000000a8;
   --bg-ql-cicon: #ffffff;
+
   --plus-i-top:0px;
   --ql-show :none;
   --dots-grids-ntp:inline;
@@ -181,6 +186,9 @@ a:link {
   color: #222;
   padding-right: 148px;
   padding-top: 5px;
+}
+.newsTitle a{
+  color: var(--bg-textC-newsI);
 }
 
 .newsAttribution,
@@ -581,7 +589,14 @@ button[disabled] {
 
 .action+.action,
 .vrlay-wrap+.vrlay-wrap {
-  margin-top: 10px;
+  margin-top: 5px;
+}
+.scrollable-wrap{
+  overflow-x:hidden;
+  overflow-y: scroll;
+  max-height: calc(100vh - 120px);
+  max-width:80vw;
+  margin: auto;
 }
 
 .show-classic {

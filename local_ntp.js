@@ -514,7 +514,7 @@ function defaultSet(i){
     }
 }
 
-var propertyColors= ["--primary-color","--bg-color-tIcon","--bg-color-tLabel","--bg-color-newsI","--bg-color-btns","--bg-color-ntp","--bg-ql-bgbar","--bg-ql-bgicon","--bg-ql-cicon"];
+var propertyColors= ["--primary-color","--bg-color-tIcon","--bg-color-tLabel","--bg-color-newsI","--bg-color-btns","--bg-color-ntp","--bg-ql-bgbar","--bg-ql-bgicon","--bg-ql-cicon","--bg-textC-newsI"];
   
   function setColors(color,i){
     var root = document.documentElement;
@@ -541,8 +541,6 @@ var propertyColors= ["--primary-color","--bg-color-tIcon","--bg-color-tLabel","-
     }
   }
 
- 
-
   function defaultSettings1(){
     generalSettings1 = ['6', 'slide', '450'];
     localStore("savedSettings", generalSettings1);
@@ -560,11 +558,10 @@ var propertyColors= ["--primary-color","--bg-color-tIcon","--bg-color-tLabel","-
     
   }
   function defaultColors(){
-    colorsSettings = ['#007aff', '#dddddd', '#555555', '#dddddd',"#efefef","#ffffff",'#007aff','#000000a8','#ffffff'];
+    colorsSettings = ['#007aff', '#dddddd', '#555555', '#dddddd',"#efefef","#ffffff",'#007aff','#000000a8','#ffffff','#333333'];
     localStore("colorsSettings", colorsSettings);
-    for(var i=0;i<9;i++)
+    for(var i=0;i<10;i++)
         setColors(colorsSettings[i],i);
-    
   }
   function checkNull(arr){
     return arr.indexOf(null);
@@ -582,7 +579,7 @@ var propertyColors= ["--primary-color","--bg-color-tIcon","--bg-color-tLabel","-
     defaultColors();
   } else { 
     //Load User Colors
-    for(var i=0;i<9;i++)
+    for(var i=0;i<10;i++)
       setColors(colorsSettings[i],i);
   }
   if( optionsSettings == undefined){
