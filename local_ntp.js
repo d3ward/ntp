@@ -575,7 +575,7 @@ var propertyColors= ["--primary-color","--bg-color-tIcon","--bg-color-tLabel","-
     
   }
   function defaultColors(){
-    colorSettings=localGet("colorsSettings");
+    colorsSettings=localGet("colorsSettings");
     var defaultColors = ['#007aff', '#dddddd', '#555555', '#dddddd',"#efefef","#ffffff",'#007aff','#000000a8','#ffffff','#333333'];
     for(var i=0;i<10;i++){
       if(i!=5){
