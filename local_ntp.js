@@ -380,6 +380,7 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
   var generalSettings1 =localGet("savedSettings");
 
 
+
   // Settings for r1ES1
   function setES1(ei1) {
     //Check radio
@@ -589,21 +590,22 @@ var propertyColors= ["--primary-color","--bg-color-tIcon","--bg-color-tLabel","-
   }
 
  
-  if( generalSettings1 == undefined){
+  if( generalSettings1 == undefined || generalSettings1 == null){
     defaultSettings1();
   }else{
     setES1(generalSettings1[0]);
     setES2(generalSettings1[1]);
     setES3(generalSettings1[2]);
   }
-  if (colorsSettings == undefined) {
+  if (colorsSettings == undefined || colorsSettings == null) {
     defaultColors();
+    defaultBgNTP();
   } else { 
     //Load User Colors
     for(var i=0;i<10;i++)
       setColors(colorsSettings[i],i);
   }
-  if( optionsSettings == undefined){
+  if( optionsSettings == undefined || optionsSettings == null){
     defaultOptions();
     defaultSet(1);
   }
