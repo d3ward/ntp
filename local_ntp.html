@@ -68,11 +68,9 @@
   function localStore(key, obj) {
     return window.localStorage.setItem(key, JSON.stringify(obj));
   }
-
   function localGet(key) {
     return JSON.parse(window.localStorage.getItem(key));
   }
-
   if(sessionStorage.checkUpdate == undefined){
       fetch('https://api.github.com/repos/d3ward/ntp/commits').then(function(response) {
           return response.json();
@@ -96,7 +94,7 @@
 
 <head>
   <!---->
-  
+
   <base href="https://d3ward.github.io/ntp/">
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
