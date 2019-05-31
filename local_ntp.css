@@ -10,6 +10,7 @@
   --primary-color: #007aff;
   --bg-color-btns: #efefef;
   --bg-color-ntp: #ffffff;
+  --bg-nStyle :0;
 
   --bg-color-tIcon: #dddddd;
   --bg-color-tLabel: #dddddd;
@@ -40,6 +41,7 @@ body {
   margin: 0;
   overflow-x: hidden;
   background-color: var(--bg-color-ntp);
+  background-image: var(--bg-nStyle);
   opacity: 0;
 }
 
@@ -119,6 +121,8 @@ a:link {
 }
 #title_span{
   width: var(--tile-width);
+  background: var(--bg-color-tIcon);
+  border-radius: 5px;
 }
 
 .plus-item {
@@ -226,6 +230,14 @@ a:link {
 .dropdown {
   position: relative;
   display: inline-block;
+}
+#bg-preview{
+  width: 150px;
+  height: 250px;
+  margin: auto;
+  border: 4px solid white;
+  background-color: var(--bg-color-ntp);
+  background-image: var(--bg-nStyle);
 }
 
 .dropdown-content {
@@ -483,10 +495,7 @@ button:focus {
   height: 27px;
   margin-bottom: 5px;
 }
-.swiper-p-intro {
-  position: relative;
-  bottom: 27px !important;
-}
+
 .swiper-c-intro{
   height: 100%;
 }
@@ -508,9 +517,11 @@ button:focus {
   left: 20px;
 }
 
-
-.swiper-pagination-bullet {
+#ntp-contents .swiper-pagination-bullet{
   display: var(--dots-grids-ntp)!important;
+}
+.swiper-pagination-bullet {
+  
   width: 14px;
   height: 14px;
   margin: 5px;
@@ -692,13 +703,11 @@ input[type="color"]::-webkit-color-swatch {
 #quick_links{
   display: var(--ql-show);
   background: var(--bg-ql-bgbar);
-  border-radius: 4px ;
-  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.55);
-  max-width: calc(100vw - 20px);
-  margin-top: 10px;
-  margin-bottom: 10px;
-  margin-left: auto;
-  margin-right: auto;
+  border-radius: 4px;
+  box-shadow: 0 1px 4px var(--box-shadow-ntp);
+  max-width: 800px;
+  padding: 5px;
+  margin: 10px;
 }
 .ql_icons a{
     display:inline-block;
