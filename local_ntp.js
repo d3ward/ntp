@@ -537,7 +537,7 @@ var propertyColors= ["--primary-color","--bg-color-tIcon","--bg-color-tLabel","-
     var root = document.documentElement;
     root.style.setProperty(propertyColors[i],color);
     document.getElementById("set-color"+i).value=color;
-    if(colorsSettings[i] == null){defaultColors();break;}
+    if(colorsSettings[i] == null){defaultColors();return;}
     colorsSettings[i]=color;
     localStore("colorsSettings",colorsSettings);
   }
