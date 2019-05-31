@@ -71,23 +71,7 @@
   function localGet(key) {
     return JSON.parse(window.localStorage.getItem(key));
   }
-  if(sessionStorage.checkUpdate == undefined){
-      fetch('https://api.github.com/repos/d3ward/ntp/commits').then(function(response) {
-          return response.json();
-        })
-        .then(function(answer) {
-          //console.log(answer);
-          var last_update_time = answer[0].commit.committer.date;
-          console.log("Last update of the repo: " + last_update_time);
-          var local_update_time = localGet("localNTPdate");
-          console.log("Local update of the repo: "+local_update_time);
-          if(last_update_time != local_update_time || local_update_time==null){
-            localStore("localNTPdate",last_update_time);
-            localStore("forceUpdate",true);
-          }
-        });
-        sessionStorage.checkUpdate=1;
-  }
+  
 </script>
 <!-- Copyright 2019 Geometry OU / Kiwi Browser -->
 <!-- Licensed under https://creativecommons.org/licenses/by-nc-sa/4.0/ -->
