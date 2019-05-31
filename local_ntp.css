@@ -374,6 +374,9 @@ a:link {
   display: table-cell;
   vertical-align: middle;
 }
+.swiper-wrapper{
+  height: auto!important;
+}
 
 #e-icon {
   background-color: #000;

@@ -559,7 +559,7 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
       case 3:
         colorsSettings = new Array(10);
         defaultColors();   
-      break;
+        break;
       case 4:defaultBgNTP();     break;
     }
   }
