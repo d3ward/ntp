@@ -77,6 +77,7 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
     sortDispersion: false,
     toggle: "visibility"
   });*/
+  
   function setup_grid() {
     var bookmarksGrid1 = document.getElementById("bookmarks-grid1");
     var bookmarksGrid2 = document.getElementById("bookmarks-grid2");
