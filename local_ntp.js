@@ -70,12 +70,13 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
     document.getElementById('ntp-contents').style.display = 'none';
     document.getElementById('bottom_panel').style.display = 'none';
 } else {
+  /*
   var quick_L= document.getElementById("quick_links");
   var ql_grid = new Gridifier(quick_L, {
     dragifier: false,
     sortDispersion: false,
     toggle: "visibility"
-  });
+  });*/
   function setup_grid() {
     var bookmarksGrid1 = document.getElementById("bookmarks-grid1");
     var bookmarksGrid2 = document.getElementById("bookmarks-grid2");
