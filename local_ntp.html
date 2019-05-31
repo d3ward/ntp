@@ -998,7 +998,7 @@
           localStore("storedItems1", []);
           localStore("storedItems2", []);
           localStore("storedItems3", []);
-          //if (typeof window.chrome.embeddedSearch != "undefined" && chrome.embeddedSearch.newTabPage.mostVisitedAvailable) {
+          if (typeof window.chrome.embeddedSearch != "undefined" && chrome.embeddedSearch.newTabPage.mostVisitedAvailable) {
             console.log(" Test3 , im inside fetch_tiles_from_most_visited");
             var pages = chrome.embeddedSearch.newTabPage.mostVisited;
             for (var ind = 1; ind < 4; ind++) {
@@ -1014,7 +1014,7 @@
               }
               localStore("storedItems" + ind, sItems);
             }
-          //}
+          }
         }
       }
 
