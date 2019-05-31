@@ -812,9 +812,7 @@ var propertyColors= ["--primary-color","--bg-color-tIcon","--bg-color-tLabel","-
   var nStyle=localGet("bgNStyle");
   if( nStyle == undefined)nStyle=0;
   if(nStyle != 0)root.style.setProperty("--bg-nStyle","url("+patternsURI[nStyle-1]+")");
-  //=============================================================================
-//************************** Next Style Setting Div ***************************
-//=============================================================================
+
 function nextStyle(){
   if(nStyle==45) nStyle=1;
   else nStyle++;
