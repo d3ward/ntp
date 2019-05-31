@@ -90,7 +90,6 @@
         });
         sessionStorage.checkUpdate=1;
   }
-  
 </script>
 <!-- Copyright 2019 Geometry OU / Kiwi Browser -->
 <!-- Licensed under https://creativecommons.org/licenses/by-nc-sa/4.0/ -->
@@ -534,6 +533,7 @@
     /* Get the documentElement (<html>) to display the page in fullscreen */
     var elem = document.documentElement;
     var statusFS = 1;
+    var needReload = 0;
 
     function moveItem_toSlide(ngrid) {
       remove_favorite(currentTileEdit);
@@ -542,14 +542,11 @@
       setTimeout(function () {
         location.reload();
       }, 500);
-
     }
-
     function setCustomRGB(color, i) {
       c = prompt("Enter the RGB or RGBA color. \nExample : #d6d6d6 or #d6d6d6aa (aa is for transparency )", color);
       if (c != null) setColors(c, i);
     }
-
     function fabAction() {
       var el = document.getElementById('floating-btn');
       el.classList.toggle('open');
@@ -559,7 +556,6 @@
         document.getElementById("fb-btn").innerHTML = "▲";
       }
     }
-    var needReload = 0;
     //Changelog
     function show_changelog() {
       document.getElementById("swip_intro").style.display = "none";
@@ -590,7 +586,6 @@
       document.getElementById("myNav").style.height = "100%";
       needReload = 0;
     }
-
 
     var currentTileEdit;
     //Delete current Tile
