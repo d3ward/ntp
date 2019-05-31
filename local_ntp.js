@@ -77,6 +77,32 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
     sortDispersion: false,
     toggle: "visibility"
   });*/
+  function fetch_tiles_from_most_visited() {
+    console.log(" Test 1 , im inside fetch_tiles_from_most_visited");
+    if (typeof localStorage.useCustomTiles == "undefined" || localStorage.useCustomTiles == "false") {
+      console.log(" Test2 , im inside fetch_tiles_from_most_visited");
+      localStore("storedItems1", []);
+      localStore("storedItems2", []);
+      localStore("storedItems3", []);
+      if (typeof window.chrome.embeddedSearch != "undefined" && chrome.embeddedSearch.newTabPage.mostVisitedAvailable) {
+        console.log(" Test3 , im inside fetch_tiles_from_most_visited");
+        var pages = chrome.embeddedSearch.newTabPage.mostVisited;
+        for (var ind = 1; ind < 4; ind++) {
+          var sItems = localGet("storedItems" + ind);
+          for (var i = 0; i < Math.min(4, pages.length); ++i) {
+            offset = sItems.length;
+            console.log('Loading most visited: ' + pages[i].rid);
+            sItems[offset] = {
+              url: chrome.embeddedSearch.newTabPage.getMostVisitedItemData(pages[i].rid).url,
+              ngrid: ind
+            }
+            add_favorite(sItems[offset]);
+          }
+          localStore("storedItems" + ind, sItems);
+        }
+      }
+    }
+  }
   function setup_grid() {
     var bookmarksGrid1 = document.getElementById("bookmarks-grid1");
     var bookmarksGrid2 = document.getElementById("bookmarks-grid2");
@@ -126,7 +152,8 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
             globalGrid1.appendNew();
             swap_if_ready();
           }
-        }, 10);
+        }, 1000);
+        /*
       if (typeof localStorage.storedItems1 == "undefined")
         window.setTimeout(function () {
           if (typeof localStorage.storedItems1 == "undefined") {
@@ -174,7 +201,7 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
             globalGrid1.appendNew();
             swap_if_ready();
           }
-        }, 8000);
+        }, 8000);*/
     }
     grid1.appendNew();
     grid2.appendNew();

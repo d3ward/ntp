@@ -374,7 +374,7 @@ a:link {
   display: table-cell;
   vertical-align: middle;
 }
-.swiper-wrapper{
+#ntp-contents .swiper-wrapper{
   height: auto!important;
 }
 
