@@ -71,14 +71,33 @@
   function localGet(key) {
     return JSON.parse(window.localStorage.getItem(key));
   }
+
   
+  window.onerror = function (msg, url, lineNo, columnNo, error) {
+    var string = msg.toLowerCase();
+      var message = [
+        'Message: ' + msg,
+        'URL: ' + url,
+        'Line: ' + lineNo,
+        'Column: ' + columnNo,
+        'Error obj: ' + JSON.stringify(error)
+      ].join(' - ');
+  
+      //Add to div
+      var div= document.getElementById("logC_section");
+      div.innerHTML+=message+"<br>\r\n";
+      //Cache the log 
+      localStore("cached-logC",div.innerHTML);
+      //alert(message);
+    return false;
+  };
+
 </script>
 <!-- Copyright 2019 Geometry OU / Kiwi Browser -->
 <!-- Licensed under https://creativecommons.org/licenses/by-nc-sa/4.0/ -->
 
 <head>
   <!---->
-
   <base href="https://d3ward.github.io/ntp/">
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -92,8 +111,7 @@
 </head>
 <!-- Remember to update the test HTML files in chrome/test/data/local_ntp/
    whenever making changes to this file.-->
-<body id="bdy">
-
+<body id="bdy" >
   <div id="myNav" class="vrlay">
     <button type="button" class="btn-dark btn-close" onclick="close_dialog()"><i class="far fa-times"></i></button>
     <div class="vrlay-content">
@@ -145,13 +163,12 @@
                 style="overflow-x:hidden;overflow-y: scroll;max-height: calc(100vh - 120px);max-width:80vw;margin: auto;text-align: left;">
                 <h2># Changelog</h2>
                 <hr style="width:80vw;">
-                <h3>## [2.0.3] - 2019-05-31</h3>
+                <h3>## [2.0.4] - 2019-06-02</h3>
                 <h4>### Added <br>
-                  - New 'ntp background' section in settings to change color and pattern style <br>
-                  - Test: new background check of ntp updates ( should speed up the ntp loading after new build of Kiwi) <br>
+                  - New log section in the last page of settings <br>
+                 Use the ntp , if something will not work like a button ,<br> then the error will be saved and can help me to  fix bugs <br>
                   ## Changed <br>
-                  - Icon tile label will have a rounded background to be more visible when user change the ntp background<br>
-                  - Settings UI improvements (dots on settings will not be hided by the option)<br>
+                  - The backup file of ntp now has a smaller size <br>
                 </h4>
                 <hr style="width:80vw;">
                 <div class="vrlay-wrap">
@@ -159,6 +176,14 @@
                   <button type="button" class="btn-dark" onclick="close_dialog()">Close</button>
                 </div>
                 <div id="old-changelog" style="color:#757575;display: none;">
+                    <h3>## [2.0.3] - 2019-05-31</h3>
+                    <h4>### Added <br>
+                      - New 'ntp background' section in settings to change color and pattern style <br>
+                      - Test: new background check of ntp updates ( should speed up the ntp loading after new build of Kiwi) <br>
+                      ## Changed <br>
+                      - Icon tile label will have a rounded background to be more visible when user change the ntp background<br>
+                      - Settings UI improvements (dots on settings will not be hided by the option)<br>
+                    </h4>
                   <h3>## [2.0.2] - 2019-05-25</h3>
                   <h4>### Added <br>
                     - New option to change News text color<br>
@@ -492,6 +517,31 @@
                 <div class="vrlay-wrap">
                   <button type="button" id="btn-dark" class="btn-dark" onclick="show_intro_reload()">Intro</button>
                   <button type="button" id="btn-dark" class="btn-dark" onclick="close_dialog()">Close</button>
+                </div>
+                <div class="vrlay-wrap">
+                    <button type="button" class="btn-dark" onclick="clear_log()">Clear Log</button>
+                    <button type="button" class="btn-dark" onclick="test_log()">Test Log</button>
+                    <button type="button" class="btn-dark" onclick="export_logfile()">Export Log</button>
+                </div>
+                <div class="vrlay-wrap">
+                  <div class="settings-label">Console Log </div>
+                  <div id="logC_section"></div>
+                  <script>document.getElementById("logC_section").innerHTML=localGet("cached-logC");
+                  function clear_log(){
+                    localStore("cached-logC","");
+                    document.getElementById("logC_section").innerHTML="";
+                  }
+                  function export_logfile(){
+                    var dataStr = localGet("cached-logC");
+                    dataStr.replace("<br>","\\n");
+                    var dataUri = 'data:text/plain;charset=utf-8,'+ encodeURIComponent(dataStr);
+                    var exportFileDefaultName = 'ntpLog_.text';
+                    var linkElement = document.createElement('a');
+                    linkElement.setAttribute('href', dataUri);
+                    linkElement.setAttribute('download', exportFileDefaultName);
+                    linkElement.click();
+                  }
+                  </script>
                 </div>
               </div>
             </div>
@@ -1705,7 +1755,6 @@
         function handleTouchStart(evt) {
           xDown = evt.touches[0].clientX;
         }
-
         function handleTouchMove(evt) {
           var el = (evt.target.closest("div.newsItem"));
           el.style.transition = "margin 0ms";
@@ -1780,6 +1829,7 @@
     </div>
   </div>
 </body>
-<script async defer src="./local_ntp.js" {{LOCAL_NTP_INTEGRITY}}></script>
+<script async defer src="./local_ntp.js" {{LOCAL_NTP_INTEGRITY}} crossorigin="anonymous"></script>
+
 
 </html>

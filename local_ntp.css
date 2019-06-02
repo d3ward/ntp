@@ -379,6 +379,16 @@ a:link {
   height: auto!important;
 }
 
+#logC_section{
+  height: 100px;
+    overflow: auto;
+    color: red;
+    margin: 10px;
+    padding: 5px;
+    background: #282828;
+    border: 2px solid #aaa;
+    border-radius: 5px;
+}
 #e-icon {
   background-color: #000;
     height: 35px;
