@@ -64,1759 +64,512 @@
     }
     newsServer = 'https://chromecontentsuggestions-pa.kiwibrowser.com/testnews/?';
   }
-  //Functions for localstorage store and get
-  function localStore(key, obj) {
-    return window.localStorage.setItem(key, JSON.stringify(obj));
-  }
-  function localGet(key) {
-    return JSON.parse(window.localStorage.getItem(key));
-  }
 
-  
+  //Cache errors of NTP
   window.onerror = function (msg, url, lineNo, columnNo, error) {
     var string = msg.toLowerCase();
-      var message = [
-        'Message: ' + msg,
-        'URL: ' + url,
-        'Line: ' + lineNo,
-        'Column: ' + columnNo,
-        'Error obj: ' + JSON.stringify(error)
-      ].join(' - ');
-  
-      //Add to div
-      var div= document.getElementById("logC_section");
-      div.innerHTML+=message+"<br>\r\n";
-      //Cache the log 
-      localStore("cached-logC",div.innerHTML);
-      //alert(message);
+    var message = [
+      'Message: ' + msg,
+      'URL: ' + url,
+      'Line: ' + lineNo,
+      'Column: ' + columnNo,
+      'Error obj: ' + JSON.stringify(error)
+    ].join(' - ');
+
+    addLogS(message);
     return false;
   };
-
 </script>
 <!-- Copyright 2019 Geometry OU / Kiwi Browser -->
 <!-- Licensed under https://creativecommons.org/licenses/by-nc-sa/4.0/ -->
 
 <head>
-  <!---->
   <base href="https://d3ward.github.io/ntp/">
-
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="theme-color" content="#ffffff">
   <script src="https://kit.fontawesome.com/528a166104.js"></script>
-  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
-  <link rel="stylesheet" href="./swiper.min.css">
+  <link rel="stylesheet" href="./local_min.css">
   <link rel="stylesheet" href="./local_ntp.css">
+  <script async defer src="./local_min.js" crossorigin="anonymous"></script>
+  <script async defer src="./local_ntp.js" crossorigin="anonymous"></script><!--  -->
   <meta charset="utf-8">
   <meta name="google" value="notranslate">
 </head>
-<!-- Remember to update the test HTML files in chrome/test/data/local_ntp/
-   whenever making changes to this file.-->
-<body id="bdy" >
-  <div id="myNav" class="vrlay">
-    <button type="button" class="btn-dark btn-close" onclick="close_dialog()"><i class="far fa-times"></i></button>
-    <div class="vrlay-content">
-      <form id="form-id1" action="" class="form" autocomplete="off" style="max-width:30%">
-        <label>Preview Tile</label><br>
-        <img id="p-tile" name="ptile" onerror="defaultSRC()"><br>
-        <button type="button" onclick="editIURL(this)" id="e-icon">&nbsp;&#9998 Auto&nbsp;</button><br>
-        <div class="vrlay-wrap">
-          <input id="i-url" onpaste="setPT_fromIurl(this);" onblur="setPT_fromIurl(this);" class="form-input"
-            type="text" style="text-align: center;display: none;" />
-        </div>
-        <br>
-        <label class="settings-label" for="t-url">Website adress</label>
-        <div class="vrlay-wrap">
-          <input id="t-url" onkeyup="setPT_fromTurl(this);" class="form-input" type="text" value="http://">
-        </div>
-        <br>
-        <label class="settings-label" for="t-lab">Tile label</label>
-        <div class="vrlay-wrap">
-          <input id="t-lab" class="form-input" type="text" placeholder="Optional" />
-        </div>
-        <div class="vrlay-wrap" id="buttons-mtGrids">
-          <button type="submit" id="btn-mt1g" class="btn-mtg" onclick="moveItem_toSlide(0)">Move to 1 </button>
-          <button type="submit" id="btn-mt2g" class="btn-mtg" onclick="moveItem_toSlide(1)">Move to 2 </button>
-          <button type="submit" id="btn-mt3g" class="btn-mtg" onclick="moveItem_toSlide(2)">Move to 3 </button>
-        </div>
-        <div class="vrlay-wrap">
-          <button type="submit" id="btn-add" class="btn-add" onclick="create_new_item()">Add</button>
-          <button type="submit" id="btn-del" class="btn-del" onclick="delete_favorite()">Delete</button>
-          <button type="submit" id="btn-save" class="btn-save" onclick="save_edited_tile()">Save</button>
-          <button type="button" id="btn-dark" class="btn-dark" onclick="close_dialog()">Close</button>
-        </div>
-      </form>
-      <div id="form-id2">
-        <div class="swiper-c-intro" id="sc-intro">
-          <!-- Additional required wrapper -->
-          <div class="swiper-p-intro"></div>
-          <div class="swiper-wrapper">
-            <!-- Slides -->
-            <div class="swiper-slide" id="swip_intro">
-              <div class="sc-intro-wrapper">
-                <h1> Welcome to Kiwi Browser</h1>
-                <img class="k-logo" style="width: 64px;height: 64px;border-radius: 40px;" src="">
-                <h3 style="margin-top:200px;">Swipe to continue ⇒ </h3>
-              </div>
-            </div>
-            <div class="swiper-slide">
-              <div
-                style="overflow-x:hidden;overflow-y: scroll;max-height: calc(100vh - 120px);max-width:80vw;margin: auto;text-align: left;">
-                <h2># Changelog</h2>
-                <hr style="width:80vw;">
-                <h3>## [2.0.4] - 2019-06-02</h3>
-                <h4>### Added <br>
-                  - New log section in the last page of settings <br>
-                 Use the ntp , if something will not work like a button ,<br> then the error will be saved and can help me to  fix bugs <br>
-                  ## Changed <br>
-                  - The backup file of ntp now has a smaller size <br>
-                </h4>
-                <hr style="width:80vw;">
-                <div class="vrlay-wrap">
-                  <button type="button" class="btn-dark" onclick="show_old_changelog()">More</button>
-                  <button type="button" class="btn-dark" onclick="close_dialog()">Close</button>
-                </div>
-                <div id="old-changelog" style="color:#757575;display: none;">
-                    <h3>## [2.0.3] - 2019-05-31</h3>
-                    <h4>### Added <br>
-                      - New 'ntp background' section in settings to change color and pattern style <br>
-                      - Test: new background check of ntp updates ( should speed up the ntp loading after new build of Kiwi) <br>
-                      ## Changed <br>
-                      - Icon tile label will have a rounded background to be more visible when user change the ntp background<br>
-                      - Settings UI improvements (dots on settings will not be hided by the option)<br>
-                    </h4>
-                  <h3>## [2.0.2] - 2019-05-25</h3>
-                  <h4>### Added <br>
-                    - New option to change News text color<br>
-                    ## Changed <br>
-                    - Settings UI improvements (swiper moved on top)<br>
-                    ### Fixed <br>
-                    - Settings elements now fit the page<br>
-                  </h4>
-                  <h3>## [2.0.1] </h3>
-                  <h4>
-                    - Longpress on a color let you enter a custom RGB ( with Alpha).<br>
-                    - Test the fix for news 404 not found
-                  </h4>
-                  <h3>## [2.0] - 2019-05-21</h3>
-                  <h4>### Added <br>
-                    - Add FontAwesome icons<br>
-                    - Quick Links (Test) <br>
-                    - MetaThemeColor ! ( Choose ntp background and set Kiwi theme to Default) addressbar and status bar
-                    will have the same color of ntp <br>
-                    ## Changed <br>
-                    - Some Settings UI imrpovements<br>
-                    ### Fixed <br>
-                    - Colors nullPointerException<br>
-                    - null of news source logo <br>
-                  </h4>
-                  <h3>## [1.1.2] - 2019-05-12</h3>
-                  <h4>### Added <br>
-                    - Option to set background color of NTP <br>
-                    (Go to colors page and click default to make sure that works )<br>
-                    - Option to hide/show 3dots of Swipers ( Settings and Bookmarks Grid)
-                  </h4>
-                  <h3>## [1.1.1] - 2019-04-23</h3>
-                  <h4>### Added <br>
-                    - New option to set number of icons per row ( min 3 to max 8 ) <br>
-                    <h4>### Fixed <br>
-                      - Tile title hiding <br>
-                    </h4>
-                    <h3>## [1.1.0] - 2019-04-22</h3>
-                    <h4>### Changed <br>
-                      - 3 new options are enabled <br>( MD Shadow , open on new tab , hide icon text ) <br>
-                    </h4>
-                    <h3>## [1.0.9] - 2019-04-22</h3>
-                    <h4>### Added <br>
-                      - Export & Import data ( tiles, settings , etc.)<br>
-                    </h4>
-                    <h3>## [1.0.8] - 2019-04-18</h3>
-                    <h4>### Added <br>
-                      - New Options on settings (only first 2 are enabled )<br>
-                      - Colors! Allow the user to change some colors <br>
-                      ### Changed <br>
-                      - General settings rewritten <br>
-                      - Some UI improvements <br>
-                    </h4>
-                    <h3>## [1.0.7] - 2019-04-18</h3>
-                    <h4>### Added <br>
-                      - New Incognito Page<br>
 
-                      ### Changed <br>
-                      - Don't load ntp stuff ( bookmarks grids ,animations, buttons ) on incognito mode <br>
-                      - Some UI improvements <br>
-                    </h4>
-                    <h3>## [1.0.6] - 2019-04-13</h3>
-                    <h4>### Added <br>
-                      - New intro page for Kiwi &lt;3 ( can be used to help user on first use of kiwi , show settings,
-                      show what kiwi can do etc. )<br>
-                      - Rewritten screens management and optimized UI <br>
-                      - Settings more user-friendly
-                      ### Changed <br>
-                      - UI improvements<br>
-                      ### Removed
-                      - Focus Mode ( )
-                    </h4>
-                    <h3>## [1.0.5] - 2019-04-08</h3>
-                    <h4>### Added <br>
-                      - Button to move tile to other pages ( available in edit tile dialog )<br>
-                      - Testing : Focus Mode ( on compact UI there's a button to enable it) <br>
-                      ### Changed <br>
-                      - UI improvements
-                    </h4>
-                    <h3>## [1.0.4] - 2019-04-04</h3>
-                    <h4>### Added <br>
-                      - Button to edit tile ( longpress on tile to enter edit mode , then pick the edit icon :D
-                      ).<br>
-                      - Option to switch UI Interactions to classic(default) or compact (all buttons are inside one
-                      floating
-                      button ) <br>
-                      ### Changed <br>
-                      - Some UI improvement
-                    </h4>
-                    <h3>## [1.0.3] - 2019-04-02</h3>
-                    <h4>### Added <br>
-                      - New UI Interactions .<br>
-                      - Option to change speed of swiping <br>
-                      ### Changed <br>
-                      - Swipe to read news require less effort
-                    </h4>
-                    <h3>## [1.0.2] - 2019-04-01</h3>
-                    <h4>
-                      ### Added <br>
-                      - Option to change effect on grids when swiping<br>
-                      - Option to change speed of swiping <br>
-                      ### Changed <br>
-                      - Some UI improvements on settings dialog
-                    </h4>
-                    <h3>## [1.0.1] - 2019-03-31</h3>
-                    <h4>
-                      ### Changed <br>
-                      - On item longpress , dont show context menu (let me know on discord if you want it
-                      back)<br>
-                      - #Fixed :autoheight on grids with more than 8 items
-                    </h4>
-                    <h3>## [1.0.0] - 2019-03-28</h3>
-                    <h4>### Added<br>
-                      - Keep current grid in sessionStorage (reset when user close the tab)<br>
-                      ### Changed<br>
-                      - When the news is deactivated, keep the buttons in the bottom (user can use all the
-                      screen to
-                      scroll through the grids) <br>
-                      - #Fixed : After adding an item, stay on the current grid</h4>
+<body id="bdy">
+  <div class="dlg-vrlay" id="dlg_eg">
+    <div style="width: 100%;text-align: center;margin-top:50%;">
+        <img class="k-logo" id="logo_eg" src="" onclick="close_eg()">
+    </div>
+      
+  </div>
+  <div class="dlg-vrlay" id="dlg_nt">
+    <form id="form-id1" action=""  autocomplete="off">
+      <div class="clearcenter">
+          <figure>
+              <img id="p-tile" name="ptile" onerror="get_fallback_icon()"><br>
+              <figcaption><b>Preview Tile</b></figcaption>
+          </figure>
+      </div>
+      <button type="button" onclick="switch_auto_custom(this)" id="e-icon"><i class="far fa-sync-alt"></i>&nbsp; Auto&nbsp;</button><br>
+      <label><b>Icon Url</b></label> 
+      <input id="i-url" onpaste="setPT_fromIurl(this);" onblur="setPT_fromIurl(this);"  type="text" style="text-align: center;" disabled/>
+      <br>
+      <label><b>Website address</b></label> 
+      <input id="t-url" onkeyup="setPT_fromTurl(this);" type="text" value="http://">
+      <br>
+      <label><b>Tile Label</b></label> 
+      <input id="t-lab" type="text" placeholder="Optional" />
+      <div class="vrlay-wrap clearcenter">
+        <button type="button" id="btn-add" class="btn-add" onclick="create_new_tile()">Add</button>
+        <button type="button" id="btn-del" class="btn-del" onclick="remove_tile_from_editMode();func_co_dlg(0,1)">Delete</button>
+        <button type="button" id="btn-save" class="btn-save" onclick="save_edited_tile()">Save</button>
+        <button type="button" id="btn-dark" class="btn-dark" onclick="func_co_dlg(0,1)">Close</button>
+      </div>
+    </form>
+  </div>
+  <!--<div class="swiper-slide" id="swip_kiwi_intro">
+                <div class="sc-intro-wrapper">
+                  <h1> Welcome to Kiwi Browser</h1>
+                  <img class="k-logo" style="width: 64px;height: 64px;border-radius: 40px;" src="">
+                  <h3 style="margin-top:200px;">Swipe to continue ⇒ </h3>
                 </div>
+  </div>-->
+  <div class="dlg-vrlay" id="dlg_st" >
+      <button type="button" class="btn-dark btn-close" onclick="func_dlg_st(0)"><i class="far fa-times"></i></button>
+      <button class="setting_menu" onclick="func_st_page(0);">
+          <i class="far fa-bars"></i>
+        </button> 
+      <div class="dlg-content">
+          <div class="swiper-c-intro" id="sc-intro">
+            <div class="swiper-p-intro"></div>
+            <div class="swiper-wrapper">
+              <div class="swiper-slide" id="swip_settings_list">
+                    <button onclick="func_st_page(1);"><i class="fal fa-cogs icon"></i></i>General</button>
+                    <button onclick="func_st_page(2);"><i class="fal fa-image icon"></i>NTP Background</button>
+                    <button onclick="func_st_page(3);"><i class="fas fa-rectangle-wide icon"></i>Widgets</button>
+                    <button onclick="func_st_page(4);"><i class="fas fa-grip-horizontal icon"></i>Bookmarks Grid</button>
+                    <button onclick="func_st_page(5);"><i class="far fa-newspaper icon"></i>News Section</button>
+                    <button onclick="func_st_page(6);"><i class="fa fa-css3 icon"></i>QuickLinks</button>
+                    <button onclick="func_st_page(7);"><i class="far fa-search icon"></i>Search Bar</button>
+                    <button onclick="func_st_page(8);"><i class="far fa-window-alt icon"></i>Tabs Widget</button>
+                    <button onclick="func_st_page(9);"><i class="far fa-redo-alt icon"></i>Backup&Restore</button>
+                    <button onclick="func_st_page(10);"><i class="far fa-list-alt icon"></i>Changelog</button>
+                    <button onclick="func_st_page(11);"><i class="fal fa-info-square icon"></i>About</button>
               </div>
-            </div>
-            <div class="swiper-slide">
-              <div class="sc-intro-wrapper">
-                <div class="scrollable-wrap">
-                  <div class="vrlay-wrap">
-                    <div class="settings-label">Bookmarks Tile Style</div>
-                  </div>
-                  <div class="vrlay-wrap">
-                    <div class="radio-toolbar">
-                      <input type="radio" id="r1_Es0" name="radioES1" value="Square" onchange="setES1(0);">
-                      <label for="r1_Es0"><img class="k-logo" style="width: 54px;height: 54px;" src="">Square</label>
-                      <input type="radio" id="r1_Es6" name="radioES1" value="Rounded" onchange="setES1(6);">
-                      <label for="r1_Es6"><img class="k-logo" style="width: 54px;height: 54px;border-radius: 6px;"
-                          src="">Round</label>
-                      <input type="radio" id="r1_Es40" name="radioES1" value="Circle" onchange="setES1(40);">
-                      <label for="r1_Es40"><img class="k-logo" style="width: 54px;height: 54px;border-radius: 40px;"
-                          src="">Circle</label>
-                    </div>
-                  </div>
-                  <div class="vrlay-wrap">
-                    <div class="settings-label">Tiles per row</div>
-                  </div>
-                  <div class="vrlay-wrap">
-                    <button class="btn-dark" style="width:35px;" id="prevCols" onclick="removeColRow()"><i
-                        class="fas fa-caret-left fa-2x"></i></button>
-                    <label id="nColsLabel">4</label>
-                    <button class="btn-dark" style="width:35px;" id="nextCols" onclick="addColRow()"><i
-                        class="fas fa-caret-right fa-2x"></i></button>
-                  </div>
-                  <div class="vrlay-wrap">
-                    <div class="settings-label">Swipe Effect</div>
-                  </div>
-                  <div class="vrlay-wrap">
-                    <div class="radio-toolbar">
-                      <input type="radio" id="r2_Esslide" name="radioES2" value="Slide" onchange="setES2('slide');">
-                      <label for="r2_Esslide">Slide</label>
-                      <input type="radio" id="r2_Esfade" name="radioES2" value="Fade" onchange="setES2('fade');">
-                      <label for="r2_Esfade">Fade</label>
-                    </div>
-                  </div>
-                  <div class="vrlay-wrap">
-                    <div class="settings-label">Swipe Speed</div>
-                  </div>
-                  <div class="vrlay-wrap">
-                    <div class="radio-toolbar">
-                      <input type="radio" id="r3_Es150" name="radioES3" value="Fast" onchange="setES3(150);">
-                      <label for="r3_Es150">Fast</label>
-                      <input type="radio" id="r3_Es450" name="radioES3" value="Normal" onchange="setES3(450);">
-                      <label for="r3_Es450">Normal</label>
-                      <input type="radio" id="r3_Es850" name="radioES3" value="Slow" onchange="setES3(850);">
-                      <label for="r3_Es850">Slow</label>
-                    </div>
-                  </div>
-                  <br>
-                  <hr style="max-width:400px;margin: auto;"><br>
-                  <div class="vrlay-wrap">
-                    <button type="button" class="btn-dark" onclick="defaultSet(1)">Default</button>
-                    <button type="button" class="btn-dark" onclick="close_dialog()">Close</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="swiper-slide">
-              <div class="sc-intro-wrapper">
-                <div class="scrollable-wrap">
-                  <div class="vrlay-wrap vw1">
-                    <label class="settings-options">UI Compact </label>
-                    <input id="set-optCB1" class="toggle" type="checkbox" onchange="setOptionES(0)" />
-                  </div>
-                  <div class="vrlay-wrap vw1">
-                    <label class="settings-options"> News Item background empty</label>
-                    <input id="set-optCB2" class="toggle" type="checkbox" onchange="setOptionES(1)" />
-                  </div>
-                  <div class="vrlay-wrap vw1">
-                    <label class="settings-options">Material Design Shadow</label>
-                    <input id="set-optCB3" class="toggle" type="checkbox" onchange="setOptionES(2)" />
-                  </div>
-                  <div class="vrlay-wrap vw1">
-                    <label class="settings-options">Open icon link in new tab </label>
-                    <input id="set-optCB4" class="toggle" type="checkbox" onchange="setOptionES(3)" />
-                  </div>
-                  <div class="vrlay-wrap vw1">
-                    <label class="settings-options">Hide icon text </label>
-                    <input id="set-optCB5" class="toggle" type="checkbox" onchange="setOptionES(4)" />
-                  </div>
-                  <div class="vrlay-wrap vw1">
-                    <label class="settings-options">Hide dots of Swipers </label>
-                    <input id="set-optCB6" class="toggle" type="checkbox" onchange="setOptionES(5)" />
-                  </div>
-                  <div class="vrlay-wrap vw1">
-                    <label class="settings-options">Quick Links ( Test ) </label>
-                    <input id="set-optCB7" class="toggle" type="checkbox" onchange="setOptionES(6)" />
-                  </div>
-                  <br>
-                  <hr style="max-width:400px;margin: auto;"><br>
-                  <div class="vrlay-wrap">
-                    <button type="button" class="btn-dark" onclick="defaultSet(2)">Default</button>
-                    <button type="button" class="btn-dark" onclick="close_dialog()">Close</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="swiper-slide">
-              <div class="sc-intro-wrapper">
-                <div class="scrollable-wrap">
-                  <div class="vrlay-wrap">
-                    <div class="settings-label">NTP</div>
-                  </div>
-                  <div class="vrlay-wrap vw2 ">
-                    <label class="settings-colors"> Primary Color </label>
-                    <input id="set-color0" type=color onchange="setColors((this.value) ,0)"
-                      oncontextmenu="setCustomRGB((this.value) ,0)">
-                  </div>
-                 
-                  <div class="vrlay-wrap vw2 ">
-                    <label class="settings-colors">UI Buttons</label>
-                    <input id="set-color4" type=color onchange="setColors((this.value) ,4)"
-                      oncontextmenu="setCustomRGB((this.value) ,4)">
-                  </div>
-                  <div class="vrlay-wrap">
-                    <div class="settings-label">Grid Bookmarks</div>
-                  </div>
-                  <div class="vrlay-wrap vw2">
-                    <label class="settings-colors"> Icon Tile background</label>
-                    <input id="set-color1" type=color onchange="setColors((this.value) ,1)"
-                      oncontextmenu="setCustomRGB((this.value) ,1)">
-                  </div>
-                  <div class="vrlay-wrap vw2 ">
-                    <label class="settings-colors"> Tile Label </label>
-                    <input id="set-color2" type=color onchange="setColors((this.value) ,2)"
-                      oncontextmenu="setCustomRGB((this.value) ,2)">
-                  </div>
-                  <div class="vrlay-wrap">
-                    <div class="settings-label">News Items</div>
-                  </div>
-                  <div class="vrlay-wrap vw2 ">
-                    <label class="settings-colors"> News Item Background </label>
-                    <input id="set-color3" type=color onchange="setColors((this.value) ,3)"
-                      oncontextmenu="setCustomRGB((this.value) ,3)">
-                  </div>
-                  <div class="vrlay-wrap vw2 ">
-                    <label class="settings-colors"> News Text Color </label>
-                    <input id="set-color9" type=color onchange="setColors((this.value) ,9)"
-                      oncontextmenu="setCustomRGB((this.value) ,9)">
-                  </div>
-                  <div class="vrlay-wrap">
-                    <div class="settings-label">Quick Links Bar</div>
-                  </div>
-                  <div class="vrlay-wrap vw2 ">
-                    <label class="settings-colors">QL Background Bar </label>
-                    <input id="set-color6" type=color onchange="setColors((this.value) ,6)"
-                      oncontextmenu="setCustomRGB((this.value) ,6)">
-                  </div>
-                  <div class="vrlay-wrap vw2 ">
-                    <label class="settings-colors">QL Icons Background</label>
-                    <input id="set-color7" type=color onchange="setColors((this.value) ,7)"
-                      oncontextmenu="setCustomRGB((this.value) ,7)">
-                  </div>
-                  <div class="vrlay-wrap vw2 ">
-                    <label class="settings-colors">QL Icons Color</label>
-                    <input id="set-color8" type=color onchange="setColors((this.value) ,8)"
-                      oncontextmenu="setCustomRGB((this.value) ,8)">
-                  </div>
-                  <br>
-                  <i style="color:red">Long press on color to enter custom RGB</i>
-                  <hr style="max-width:400px;margin: auto;"><br>
-                  <div class="vrlay-wrap">
-                    <button type="button" class="btn-dark" onclick="defaultSet(3)">Default</button>
-                    <button type="button" class="btn-dark" onclick="close_dialog()">Close</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="swiper-slide">
-              <div class="sc-intro-wrapper">
+              <!-- General -->
+              <div class="swiper-slide">
+                <div class="sc-intro-wrapper">
                   <div class="scrollable-wrap">
-                  <div class="vrlay-wrap  ">
-                      <div class="settings-label">NTP Background</div>
+                    <div class="vrlay-wrap">
+                      <div class="settings-label">Floating Button</div>
+                    </div>
+                    <div class="vrlay-wrap vw2 ">
+                        <label class="settings-colors"> Background Color </label>
+                        <input id="set-color0" type=color onchange="set_color_property(0,(this.value))"
+                          oncontextmenu="setCustomRGB((this.value) ,0)">
+                      </div>
+                      <div class="vrlay-wrap vw2 ">
+                        <label class="settings-colors">Icon Color</label>
+                        <input id="set-color1" type=color onchange="set_color_property(1,(this.value))"
+                          oncontextmenu="setCustomRGB((this.value) ,1)">
+                      </div>
+                      <br><hr style="max-width:400px;margin: auto;"><br>
+                    <div class="vrlay-wrap vw1">
+                      <label class="settings-options">Material Design Shadow</label>
+                      <input id="set-opt3" class="toggle" type="checkbox" onchange="set_option_t(this,'rgba(0, 0, 0, 0.6)','',3)" />
+                    </div>
                   </div>
-                  <div class="vrlay-wrap vw2 ">
-                    <div id="bg-preview"></div>
-                  </div>
-                  <div class="vrlay-wrap">
-                      <button type="button" class="btn-dark" id="prevS" onclick="prevStyle()">Prev Style</button>
-                      <input id="set-color5" type=color onchange="setColors((this.value) ,5)"
-                        oncontextmenu="setCustomRGB((this.value) ,5)">
-                      <button type="button" class="btn-dark" id="nextS" onclick="nextStyle()">Next Style</button>
-                  </div>
-                  <hr style="max-width:400px;margin: auto;"><br>
-                  <div class="vrlay-wrap">
-                    <button type="button" class="btn-dark" onclick="defaultSet(4)">Default</button>
-                    <button type="button" class="btn-dark" onclick="close_dialog()">Close</button>
-                  </div>
-                  
                 </div>
               </div>
-            </div>
-            <div class="swiper-slide">
-              <div class="sc-intro-wrapper">
-                <div class="vrlay-wrap">
-                  <button type="submit" id="btn-res" class="btn-del" onclick="reset_page()">Reset</button>
-                  <button type="button" id="btn-dark" class="btn-dark" onclick="show_changelog()">Changelog</button>
+              <!-- NTP Background-->
+              <div class="swiper-slide">
+                <div class="sc-intro-wrapper">
+                  <div class="scrollable-wrap">
+                    <div class="vrlay-wrap  ">
+                        <div class="settings-label">NTP Background</div>
+                    </div>
+                    <div class="vrlay-wrap vw2 ">
+                      <div id="bg-preview"></div>
+                    </div>
+                    <br><br><hr style="max-width:400px;margin: auto;"><br>
+                    <div class="vrlay-wrap">
+                        <ul id="list_ntp_bg">
+                            <li>
+                              <label class="checkbox"><input type="checkbox" name="lntpbg" value="0" >Solid Color<span></span></label>
+                              <span class="li_onright">
+                              <input id="set-color22" type=color onchange="set_color_property2(this.value)"oncontextmenu="setCustomRGB((this.value),22)"></span>
+                            </li>
+                            
+                            <li>
+                              <label class="checkbox"><input type="checkbox" name="lntpbg" value="1">Gradient Generator<span></span></label>
+                              <span class="li_onright">
+                              <button type="button" class="btn-dark" id="" onclick="random_gradient();"><i class="far fa-random"></i></button></span>
+                            </li>
+                            
+                            <li>
+                              <label class="checkbox"><input type="checkbox" name="lntpbg" value="2">Pattern Style<span></span></label>
+                              <span class="li_onright">
+                              <button type="button" class="btn-dark" id="prevS" onclick="prevStyle()"><i class="fas fa-chevron-left"></i></button>
+                              <button type="button" class="btn-dark" id="nextS" onclick="nextStyle()"><i class="fas fa-chevron-right"></i></button></span>
+                            </li>
+                            
+                            <li>
+                              <label class="checkbox"><input type="checkbox" name="lntpbg" value="3">Wallpaper URL <span></span>
+                              </label>
+                              <span class="li_onright">
+                                <button type="button" class="btn-dark" id="" onclick="cWallpaper1();"><i class="far fa-link"></i></button></span>
+                            </li>
+                            
+                            <li>
+                              <label class="checkbox"><input type="checkbox" name="lntpbg" value="4">Wallpaper File<span></span></label>
+                              <span class="li_onright">
+                                  <label class="btn" style="width: 45px;padding: 0;text-align: center;height: 35px;line-height: 35px;display: inline-block;border-radius: 5px;background: #000;">
+                                      <input type="file" id="wallpaper_file" onchange="cWallpaper2();" style="opacity: 0;position: absolute;z-index: -1;"/>
+                                      <i class="far fa-file-upload"></i>
+                                  </label>
+                              </span>
+                            </li>
+                        </ul> 
+                    </div>
+                    
+                  </div>
                 </div>
-                <div class="vrlay-wrap">
-                  <button type="button" class="btn-dark" id="exportJSON">Export</button>
-                  <input type="file" name="file" id="file" style="opacity: 0;position: absolute;z-index: -1;">
-                  <label for="file"
-                    style="display: inline-block;color: #fff;border: none;margin: 5px;padding-top: 10px;padding-bottom: 10px;border-radius: 5px;width: 80px;background: #000;">Import</label>
+              </div>
+              <!-- Widgets -->
+              <div class="swiper-slide">
+                <div class="sc-intro-wrapper">
+                  <div class="scrollable-wrap">
+                     <!-- List with handle -->
+                    <ul id="listWidgetOrder">
+                       <li></li>
+                       <li></li>
+                       <li></li>
+                       <li></li>
+                       <li></li>
+                    </ul>
+                    <br>
+                  </div>
                 </div>
-                <div class="vrlay-wrap">
-                  <button type="button" id="btn-dark" class="btn-dark" onclick="show_intro_reload()">Intro</button>
-                  <button type="button" id="btn-dark" class="btn-dark" onclick="close_dialog()">Close</button>
+              </div>
+              <!-- Bookmarks Grid-->
+              <div class="swiper-slide">
+                <div class="sc-intro-wrapper">
+                  <div class="scrollable-wrap">
+                    <div class="vrlay-wrap">
+                      <div class="settings-label">Bookmarks Tile Style</div>
+                    </div>
+                    <div class="vrlay-wrap">
+                      <div class="radio-toolbar">
+                        <input type="radio" id="r1_0" name="radioES1" value="0px" onchange="set_option_r(this,0);">
+                        <label for="r1_0"><img class="k-logo" style="width: 54px;height: 54px;" src="">Square</label>
+                        <input type="radio" id="r1_1" name="radioES1" value="6px" onchange="set_option_r(this,0);">
+                        <label for="r1_1"><img class="k-logo" style="width: 54px;height: 54px;border-radius: 6px;"
+                            src="">Round</label>
+                        <input type="radio" id="r1_2" name="radioES1" value="40px" onchange="set_option_r(this,0);">
+                        <label for="r1_2"><img class="k-logo" style="width: 54px;height: 54px;border-radius: 40px;"
+                            src="">Circle</label>
+                      </div>
+                    </div>
+                    <div class="vrlay-wrap">
+                      <div class="settings-label">Tiles per row</div>
+                    </div>
+                    <div class="vrlay-wrap">
+                      <button class="btn-dark" style="width:35px;" id="prevCols" onclick="removeColRow()"><i
+                          class="fas fa-caret-left fa-2x"></i></button>
+                      <label id="nColsLabel">4</label>
+                      <button class="btn-dark" style="width:35px;" id="nextCols" onclick="addColRow()"><i
+                          class="fas fa-caret-right fa-2x"></i></button>
+                    </div>
+                    <div class="vrlay-wrap">
+                      <div class="settings-label">Swipe Effect</div>
+                    </div>
+                    <div class="vrlay-wrap">
+                      <div class="radio-toolbar">
+                        <input type="radio" id="r2_0" name="radioES2" value="slide" onchange="set_option_r(this,1);">
+                        <label for="r2_0">Slide</label>
+                        <input type="radio" id="r2_1" name="radioES2" value="fade" onchange="set_option_r(this,1);">
+                        <label for="r2_1">Fade</label>
+                      </div>
+                    </div>
+                    <div class="vrlay-wrap">
+                      <div class="settings-label">Swipe Speed</div>
+                    </div>
+                    <div class="vrlay-wrap">
+                      <div class="radio-toolbar">
+                        <input type="radio" id="r3_0" name="radioES3" value=150 onchange="set_option_r(this,2);">
+                        <label for="r3_0">Fast</label>
+                        <input type="radio" id="r3_1" name="radioES3" value=450 onchange="set_option_r(this,2);">
+                        <label for="r3_1">Normal</label>
+                        <input type="radio" id="r3_2" name="radioES3" value=850 onchange="set_option_r(this,2);">
+                        <label for="r3_2">Slow</label>
+                      </div>
+                    </div>
+                      <div class="vrlay-wrap vw2">
+                        <label class="settings-colors"> Icon tile background</label>
+                        <input id="set-color8" type=color onchange="set_color_property(8,(this.value))"
+                          oncontextmenu="setCustomRGB((this.value) ,8)">
+                      </div>
+                      <div class="vrlay-wrap vw2 ">
+                        <label class="settings-colors"> Icon tile border </label>
+                        <input id="set-color9" type=color onchange="set_color_property(9,(this.value))"
+                          oncontextmenu="setCustomRGB((this.value) ,9)">
+                      </div>
+                      <div class="vrlay-wrap vw2 ">
+                        <label class="settings-colors"> Tile label text color </label>
+                        <input id="set-color10" type=color onchange="set_color_property(10,(this.value))"
+                          oncontextmenu="setCustomRGB((this.value) ,10)">
+                      </div>
+                      <div class="vrlay-wrap vw2 ">
+                        <label class="settings-colors"> Tile label background color </label>
+                        <input id="set-color11" type=color onchange="set_color_property(11,(this.value))"
+                          oncontextmenu="setCustomRGB((this.value) ,11)">
+                      </div>
+                      <div class="vrlay-wrap vw2 ">
+                        <label class="settings-colors"> Swiper bullets </label>
+                        <input id="set-color12" type=color onchange="set_color_property(12,(this.value))"
+                          oncontextmenu="setCustomRGB((this.value) ,12)">
+                      </div>
+                    <br>
+                    
+                    <div class="vrlay-wrap vw1">
+                      <label class="settings-options">Open icon link in new tab </label>
+                      <input id="set-opt4" class="toggle" type="checkbox" onchange="set_option_t(this,'target=_blank','',4)" />
+                    </div>
+                    <div class="vrlay-wrap vw1">
+                      <label class="settings-options">Hide icon text </label>
+                      <input id="set-opt5" class="toggle" type="checkbox" onchange="set_option_t(this,'inline-block','none',5)" />
+                    </div>
+                    <div class="vrlay-wrap vw1">
+                      <label class="settings-options">Hide dots of Swipers </label>
+                      <input id="set-opt6" class="toggle" type="checkbox" onchange="set_option_t(this,'inline-block','none',6)" />
+                    </div>
+                  </div>
                 </div>
-                <div class="vrlay-wrap">
-                    <button type="button" class="btn-dark" onclick="clear_log()">Clear Log</button>
-                    <button type="button" class="btn-dark" onclick="test_log()">Test Log</button>
-                    <button type="button" class="btn-dark" onclick="export_logfile()">Export Log</button>
+              </div>
+              <!-- News Section-->
+              <div class="swiper-slide">
+                <div class="sc-intro-wrapper">
+                  <div class="scrollable-wrap">
+                        <div class="vrlay-wrap">
+                          <div class="settings-label">News Section</div>
+                        </div>
+                        <div class="vrlay-wrap vw2 ">
+                          <label class="settings-colors"> News Item Background color </label>
+                          <input id="set-color13" type=color onchange="set_color_property(13,(this.value))"
+                          oncontextmenu="setCustomRGB((this.value) ,13)">
+                        </div>
+                        <div class="vrlay-wrap vw2 ">
+                          <label class="settings-colors"> News Text Color </label>
+                          <input id="set-color14" type=color onchange="set_color_property(14,(this.value))"
+                          oncontextmenu="setCustomRGB((this.value) ,14)">
+                        </div>
+                        <div class="vrlay-wrap vw2 ">
+                          <label class="settings-colors"> News Item border color </label>
+                          <input id="set-color15" type=color onchange="set_color_property(15,(this.value))"
+                          oncontextmenu="setCustomRGB((this.value) ,15)">
+                        </div>
+                        <div class="vrlay-wrap vw2 ">
+                          <label class="settings-colors"> News Section toolbar color</label>
+                          <input id="set-color16" type=color onchange="set_color_property(16,(this.value))"
+                          oncontextmenu="setCustomRGB((this.value) ,16)">
+                        </div>
+                    <br>
+                    <hr style="max-width:400px;margin: auto;"><br>
+                    
+                  </div>
                 </div>
-                <div class="vrlay-wrap">
-                  <div class="settings-label">Console Log </div>
-                  <div id="logC_section"></div>
-                  <script>document.getElementById("logC_section").innerHTML=localGet("cached-logC");
-                  function clear_log(){
-                    localStore("cached-logC","");
-                    document.getElementById("logC_section").innerHTML="";
-                  }
-                  function export_logfile(){
-                    var dataStr = localGet("cached-logC");
-                    dataStr.replace("<br>","\\n");
-                    var dataUri = 'data:text/plain;charset=utf-8,'+ encodeURIComponent(dataStr);
-                    var exportFileDefaultName = 'ntpLog_.text';
-                    var linkElement = document.createElement('a');
-                    linkElement.setAttribute('href', dataUri);
-                    linkElement.setAttribute('download', exportFileDefaultName);
-                    linkElement.click();
-                  }
-                  </script>
+              </div>
+              <!-- Quick Links-->
+              <div class="swiper-slide">
+                <div class="sc-intro-wrapper">
+                  <div class="scrollable-wrap">
+                    <div class="vrlay-wrap">
+                      <div class="settings-label">NTP</div>
+                    </div>
+                    <div class="vrlay-wrap">
+                      <div class="settings-label">Quick Links Bar</div>
+                    </div>
+                    <div class="vrlay-wrap vw2 ">
+                      <label class="settings-colors">QL Background Bar </label>
+                      <input id="set-color2" type=color onchange="set_color_property(2,(this.value))"
+                      oncontextmenu="setCustomRGB((this.value) ,2)">
+                    </div>
+                    <div class="vrlay-wrap vw2 ">
+                      <label class="settings-colors">QL Icons Background</label>
+                      <input id="set-color3" type=color onchange="set_color_property(3,(this.value))"
+                          oncontextmenu="setCustomRGB((this.value) ,3)">
+                    </div>
+                    <div class="vrlay-wrap vw2 ">
+                      <label class="settings-colors">QL Icons Color</label>
+                      <input id="set-color4" type=color onchange="set_color_property(4,(this.value))"
+                          oncontextmenu="setCustomRGB((this.value) ,4)">
+                    </div>
+                    <br>
+                    <hr style="max-width:400px;margin: auto;"><br>
+                    <div class="vrlay-wrap">
+                      <button type="button" class="btn-dark" onclick="defaultSet(3)">Default</button>
+                      <button type="button" class="btn-dark" onclick="close_dialog()">Close</button>
+                    </div>
+                  </div>
                 </div>
+              </div>
+              <!-- Search Bar-->
+              <div class="swiper-slide">
+                <div class="sc-intro-wrapper">
+                  <div class="scrollable-wrap">
+                    <div class="vrlay-wrap  ">
+                        <div class="settings-label">Search Bar Widget</div>
+                    </div>
+                    <div class="vrlay-wrap vw2 ">
+                      <label class="settings-colors"> Background color  </label>
+                      <input id="set-color5" type=color onchange="set_color_property(5,(this.value))"
+                        oncontextmenu="setCustomRGB((this.value) ,5)">
+                    </div>
+                    <div class="vrlay-wrap vw2 ">
+                      <label class="settings-colors"> Text color  </label>
+                      <input id="set-color6" type=color onchange="set_color_property(6,(this.value))"
+                        oncontextmenu="setCustomRGB((this.value) ,6)">
+                    </div>
+                    <div class="vrlay-wrap vw2 ">
+                      <label class="settings-colors"> Border color  </label>
+                      <input id="set-color7" type=color onchange="set_color_property(7,(this.value))"
+                        oncontextmenu="setCustomRGB((this.value) ,7)">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Tabs Widget-->
+              <div class="swiper-slide">
+                <div class="sc-intro-wrapper">
+                  <div class="scrollable-wrap">
+                    <div class="vrlay-wrap  ">
+                        <div class="settings-label">Tabs Widget</div>
+                    </div>
+                    <div class="vrlay-wrap vw2 ">
+                      <label class="settings-colors"> Active tab button color </label>
+                      <input id="set-color17" type=color onchange="set_color_property(17,(this.value))"
+                        oncontextmenu="setCustomRGB((this.value) ,17)">
+                    </div>
+                    <div class="vrlay-wrap vw2 ">
+                      <label class="settings-colors"> Not active tab  button color </label>
+                      <input id="set-color18" type=color onchange="set_color_property(18,(this.value))"
+                        oncontextmenu="setCustomRGB((this.value) ,18)">
+                    </div>
+                    <div class="vrlay-wrap vw2 ">
+                      <label class="settings-colors"> Tab button text color  </label>
+                      <input id="set-color19" type=color onchange="set_color_property(19,(this.value))"
+                        oncontextmenu="setCustomRGB((this.value) ,19)">
+                    </div>
+                    <div class="vrlay-wrap vw2 ">
+                      <label class="settings-colors"> Tab content background color  </label>
+                      <input id="set-color20" type=color onchange="set_color_property(20,(this.value))"
+                        oncontextmenu="setCustomRGB((this.value) ,20)">
+                    </div>
+                    <div class="vrlay-wrap vw2 ">
+                      <label class="settings-colors"> Tab content text color  </label>
+                      <input id="set-color21" type=color onchange="set_color_property(21,(this.value))"
+                        oncontextmenu="setCustomRGB((this.value) ,21)">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Bakcup&Restore-->
+              <div class="swiper-slide">
+                <div class="sc-intro-wrapper">
+                  <div class="vrlay-wrap">
+                    <button type="submit" id="btn-res" class="btn-res" onclick="reset_page()" style="background:red;">Reset</button>
+                    <button type="button" id="btn-dark" class="btn-dark" onclick="show_changelog()">Changelog</button>
+                  </div>
+                  <div class="vrlay-wrap">
+                    <button type="button" class="btn-dark" id="exportJSON">Export</button>
+                    <input type="file" name="file" id="file" style="opacity: 0;position: absolute;z-index: -1;">
+                    <label for="file"
+                      style="display: inline-block;color: #fff;border: none;margin: 5px;padding-top: 10px;padding-bottom: 10px;border-radius: 5px;width: 80px;background: #000;">Import</label>
+                  </div>
+                  <hr style="width:80vw;"> 
+                  <div class="vrlay-wrap">
+                      <button type="button" class="btn-dark" onclick="clear_log()">Clear Log</button>
+                      <button type="button" class="btn-dark" onclick="test_log()">Test Log</button>
+                      <button type="button" class="btn-dark" onclick="export_logfile()">Export Log</button>
+                  </div>
+                  <div class="vrlay-wrap">
+                    <div class="settings-label">Console Log </div>
+                    <div id="logC_section"></div>
+                  </div>
+                </div>
+              </div>
+              <!--Changelog -->
+              <div class="swiper-slide">
+                  <div
+                    style="overflow-x:hidden;overflow-y: scroll;max-height: calc(100vh - 120px);max-width:80vw;margin: auto;text-align: left;">
+                    <h2># Changelog</h2>
+                    <hr style="width:80vw;">
+                    <h3>## [3.0.0] - 2019-07-12</h3>
+                    <h4>### Added <br>
+                      - Settings rewritted from scratch , with menu navigation system and categorized options <br>
+                      - NTP widgets ( a new system to put stuff on your ntp , more widgets coming in future)<br>
+                      - NTP Bakcground : more options to customize your background ! <br><br>
+                      - 2 new widget : Tabs,and Search Bar( enabled in a few days , QuickLinks too)
+                      ## Changed <br>
+                      - 80% of javascript code has been rewritted to fit the widget system<br>
+                      - Replaced Gridifier with SortableJS <br>
+                      - Some core functions for news ( no need to reload page , use the reload button ! ) <br>
+                      - There are other minimal changes  <br>
+                    </h4>
+                    <h3>I added an easter egg , let's see if you can find it </h3>
+                    <hr style="width:80vw;"> 
+                    <div id="old-changelog" style="color:#757575;display: none;">
+                    </div>
+                    </div>
+              </div>
+              <!-- About-->
+              <div class="swiper-slide">
+                <div style="width:80vw;margin: auto;">
+                    <h2>About</h2>
+                    <hr style="width:80vw;">
+                    <h4>
+                      This NTP ( New Tab Page ) is inspired and based on the NTP from Kiwi Browser <br>
+                       <br>
+                    </h4>
+                    <div id="old-changelog" style="color:#757575;display: none;">
+                    </div>
+                    <a href="https://github.com/d3ward/ntp" style="color: #429dc0;">Source Code</a>
+                    <br><br>
+                    <a href="https://discordapp.com/invite/XyMppQq" style="color: #429dc0;">Discord Server of Kiwi Browser</a>
+                    <br><br>
+                    For any question , bug report , feature request ping me (@d3ward) on Discord Server of Kiwi Browser . <br><br>
+                    Thanks for using this NTP and contributing on it  <br>
+                    <br><br>
+                    <hr style="width:80vw;"> 
+                    <br>
+                    <div style="width: 100%;text-align: center;">Made with <i class="fas fa-heart" style="color: red"></i> by Eduard Ursu (@d3ward)</div>  
+                  </div>
               </div>
             </div>
           </div>
-
-        </div>
       </div>
-    </div>
   </div>
-  <div id="floating-btn" class="buttons" onclick="fabAction()">
+  <div id="floating-btn" class="buttons">
     <div class="floating-actions">
       <!--<div class="action" id="fullScreen-btn" onclick="setFullscreen()">Focus Mode</div>-->
-      <div class="action" id="changelog-btn" onclick="show_changelog()"><i class="far fa-list-alt"></i> Changelog</div>
-      <div class="action" id="settings-btn" onclick="show_settings()"> <i class="fas fa-cogs fa-lg"></i> Settings</div>
+      <div class="action" id="changelog-btn" onclick="func_dlg_st(1);func_st_page(10);"><i class="far fa-list-alt"></i> Changelog</div>
+      <div class="action" id="settings-btn" onclick="func_dlg_st(1)"> <i class="fas fa-cogs fa-lg"></i> Settings</div>
       <div class="action" id="news-btn" onclick="enable_news()"><i class="far fa-newspaper fa-lg"></i> View News</div>
       <div class="action" id="resetN-btn" onclick="resetNH_items()"><i class="fas fa-eye-slash fa-lg"></i> Reset read
         News</div>
-      <div class="action" id="add-btn" onclick="newT()"><i class="far fa-plus"></i> Add Item</div>
+      <div class="action" id="add-btn" onclick="func_co_dlg(1,0)"><i class="far fa-plus"></i> Add Item</div>
     </div>
-    <div class="trigger"><span id="fb-btn">▲</span></div>
+    <div class="trigger" onclick="fabAction()" id="fb-eg"><span id="fb-btn"><i class="fas fa-caret-up"></i></span></div>
   </div>
-  <script>
-    /* Get the documentElement (<html>) to display the page in fullscreen */
-    var elem = document.documentElement;
-    var statusFS = 1;
-    var needReload = 0;
 
-    function moveItem_toSlide(ngrid) {
-      remove_favorite(currentTileEdit);
-      mySwiper.slideTo(ngrid, "400");
-      create_new_item();
-      setTimeout(function () {
-        location.reload();
-      }, 500);
-    }
-    function setCustomRGB(color, i) {
-      c = prompt("Enter the RGB or RGBA color. \nExample : #d6d6d6 or #d6d6d6aa (aa is for transparency )", color);
-      if (c != null) setColors(c, i);
-    }
-    function fabAction() {
-      var el = document.getElementById('floating-btn');
-      el.classList.toggle('open');
-      if (el.classList.contains('open')) {
-        document.getElementById("fb-btn").innerHTML = "▼";
-      } else {
-        document.getElementById("fb-btn").innerHTML = "▲";
-      }
-    }
-    //Changelog
-    function show_changelog() {
-      document.getElementById("swip_intro").style.display = "none";
-      introSwiper.slideTo(0, 1, false);
-      document.getElementById('form-id1').style.display = "none";
-      document.getElementById('form-id2').style.display = "inline";
-      document.getElementById("myNav").style.height = "100%";
-      needReload = 0;
-    }
-    //Show  old changelog
-    function show_old_changelog() {
-      var x = document.getElementById("old-changelog");
-      if (x.style.display === "none") {
-        x.style.display = "block";
-      } else {
-        x.style.display = "none";
-      }
-    }
-    //New Tile function config
-    function newT() {
-      document.getElementById('form-id2').style.display = "none";
-      document.getElementById('form-id1').style.display = "inline";
-      document.getElementById("btn-del").style.display = "none";
-      document.getElementById("btn-save").style.display = "none";
-      document.getElementById("btn-add").style.display = "inline";
-      document.getElementById("buttons-mtGrids").style.display = "none";
-      //document.getElementById("add-button").style.display="none";
-      document.getElementById("myNav").style.height = "100%";
-      needReload = 0;
-    }
-
-    var currentTileEdit;
-    //Delete current Tile
-    function delete_favorite() {
-      remove_favorite(currentTileEdit);
-      close_dialog();
-    }
-    //Edit Tile function config
-    function edit_tile(el) {
-      var nGrid = ((document.querySelector('.swiper-slide-active .bm-grid')).id)[14];
-      for (var i = 1; i < 4; i++) {
-        document.getElementById("btn-mt" + (i) + "g").disabled = false;
-      }
-      document.getElementById("btn-mt" + nGrid + "g").disabled = true;
-      document.getElementById('form-id2').style.display = "none";
-      document.getElementById('form-id1').style.display = "inline";
-      document.getElementById("btn-del").style.display = "inline";
-      document.getElementById("btn-save").style.display = "inline";
-      document.getElementById("btn-add").style.display = "none";
-      document.getElementById("buttons-mtGrids").style.display = "block";
-      document.getElementById("myNav").style.height = "100%";
-      needReload = 0;
-      currentTileEdit = el;
-      //Get current item data 
-      var item = el.target;
-      item = item.parentNode;
-      var url = item.querySelector('#tile_target').href;
-      var title = item.textContent;
-      var img;
-      try {
-        img = item.querySelector('#tile_target > img').src;
-      } catch {
-        console.log("error image null");
-      }
-      //Set dialog with current item to edit
-      document.getElementById('e-icon').innerHTML = "&#9998 Custom";
-      document.getElementById('i-url').style.display = "inline";
-      document.getElementById('p-tile').src = img;
-      document.getElementById('i-url').value = img;
-      document.getElementById('t-url').value = url;
-      document.getElementById('t-lab').value = title;
-    }
-
-    function save_edited_tile() {
-      console.log("Save the edited tile");
-      var nGrid = (parseInt(currentSwiperSlide) + 1);
-      var keyS = "storedItems" + nGrid;
-      var items = localGet(keyS);
-      var item = currentTileEdit.target;
-      item = item.parentNode;
-      var bkmg = document.getElementById("bookmarks-grid" + nGrid);
-      var index = items.offset;
-      for (var i = 0, len = bkmg.children.length; i < len; i++) {
-        if (bkmg.children[i] == item) index = i;
-      }
-      var url = document.getElementById('t-url').value;
-      var imgSrc = document.getElementById('p-tile').src;
-      var title = document.getElementById('t-lab').value;
-      items[index] = {
-        url: url,
-        title: title,
-        imgSrc: imgSrc,
-        ngrid: nGrid
-      }
-      localStore(keyS, items);
-      console.log("Edit to storage, item with index" + index + " grid n°: " + nGrid + "the URL: " + url + " title: " +
-        title + " imgSRc: " + imgSrc);
-    }
-    //Close Dialog 
-    function close_dialog() {
-      document.getElementById("myNav").style.height = "0%";
-      //document.getElementById("add-button").style.display="inline";
-      document.getElementById('p-tile').src = "#";
-      document.getElementById('i-url').value = "";
-      document.getElementById("form-id1").reset();
-      document.getElementsByTagName('input').className = "form-input";
-      if (needReload) {
-        location.reload();
-      }
-    }
-
-    function defaultSRC() {
-      document.getElementById('p-tile').src =
-        'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=';
-    }
-
-    //Activate/Disable custom icon url
-    function editIURL(eID) {
-      var idIURL = document.getElementById('i-url');
-      if (idIURL.style.display == "none") {
-        eID.innerHTML = "&nbsp;&#9998 Custom&nbsp;";
-        idIURL.value = "";
-        idIURL.style.display = "inline";
-        idIURL.select();
-        idIURL.focus();
-      } else {
-        idIURL.style.display = "none";
-        eID.innerHTML = "&nbsp;&#9998 Auto&nbsp;";
-        var bID = document.getElementById('t-url');
-        if (bID.value != "http://") {
-          var iUrl = "http://logos.kiwibrowser.com/" + (bID.value.replace("http://", ""));
-          document.getElementById('p-tile').src = iUrl;
-          idIURL.value = iUrl;
-        } else {
-          idIURL.value = "";
-        }
-        (bID).classList.remove('filled');
-      }
-    }
-    //Set p-tile image from t-url
-    function setPT_fromTurl(tID) {
-      if (document.getElementById('i-url').style.display == "none") {
-        var rex = new RegExp("http://|https://", "g");
-        var iUrl = "http://logos.kiwibrowser.com/" + (tID.value.replace(rex, "")).toLowerCase();
-        document.getElementById('p-tile').src = iUrl;
-      }
-    }
-    //Set p-tile image from i-url
-    function setPT_fromIurl(tID) {
-      setTimeout(function () {
-        document.getElementById('p-tile').src = tID.value;
-      }, 500);
-    }
-  </script>
-  <div id="ntp-contents" >
-    <div id="quick_links" class="ql_icons" style="text-align: center;padding-bottom: 5px;padding-top: 5px;">
-
-      <a href="chrome://bookmarks" target="_blank"> <i class="fas fa-bookmark"></i></a>
-      <a href="chrome://extensions"> <i class="far fa-puzzle-piece"></i></a>
-      <a href="chrome://downloads"> <i class="fas fa-download"></i></a>
-      <a href="chrome://history/"><i class="far fa-history"></i></a>
-
-    </div>
-    <div class="swiper-pagination"></div>
-    <button id="add-button" type="button" class="plus-item show-classic" onclick="newT()"><i
-        class="far fa-plus"></i></button>
-    <div class="swiper-container" id="sc-grids" oncontextmenu="return false" >
-      <!-- Additional required wrapper -->
-      <div class="swiper-wrapper">
-        <!-- Slides -->
-        <div class="swiper-slide">
-          <div id="fake-bookmarks-grid1" style="display: none"></div>
-          <div id="bookmarks-grid1" class="bm-grid full-hidden"></div>
-        </div>
-        <div class="swiper-slide">
-          <div id="fake-bookmarks-grid2" style="display: none"></div>
-          <div id="bookmarks-grid2" class="bm-grid full-hidden"></div>
-        </div>
-        <div class="swiper-slide">
-          <div id="fake-bookmarks-grid3" style="display: none"></div>
-          <div id="bookmarks-grid3" class="bm-grid full-hidden"></div>
-        </div>
-      </div>
-    </div>
-    <script>
-      var instant_grid_done = false;
-
-      function instant_grid() {
-        instant_grid_done = true;
-        console.log('Calling instant grid generation');
-        if (typeof localStorage.cachedGrid1 != "undefined") {
-          document.getElementById('fake-bookmarks-grid1').innerHTML = localStorage.cachedGrid1;
-          document.getElementById('fake-bookmarks-grid1').style.cssText = localStorage.cachedGridStyle1;
-          document.getElementById('fake-bookmarks-grid1').style.display = 'block';
-        }
-        if (typeof localStorage.cachedGrid2 != "undefined") {
-          document.getElementById('fake-bookmarks-grid2').innerHTML = localStorage.cachedGrid2;
-          document.getElementById('fake-bookmarks-grid2').style.cssText = localStorage.cachedGridStyle2;
-          document.getElementById('fake-bookmarks-grid2').style.display = 'block';
-        }
-        if (typeof localStorage.cachedGrid3 != "undefined") {
-          document.getElementById('fake-bookmarks-grid3').innerHTML = localStorage.cachedGrid3;
-          document.getElementById('fake-bookmarks-grid3').style.cssText = localStorage.cachedGridStyle3;
-          document.getElementById('fake-bookmarks-grid3').style.display = 'block';
-        }
-      }
-      if (!window.chrome.embeddedSearch.newTabPage.isIncognito) {
-        try {
-          instant_grid();
-          window.setTimeout(function () {
-            if (!instant_grid_done) instant_grid();
-          }, 1);
-        } catch (err) {
-          console.log("Instant init failed, retrying later");
-        }
-      }
-
-      var closeImg =
-        'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAMAAAD04JH5AAAAA3NCSVQICAjb4U/gAAAACXBIWXMAACNvAAAjbwE1/Af7AAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAANVQTFRF////11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK2F9P2WBR2WJT2mVW33pt5ZSJ5peN6J+V6KGY/PHv/PHw/PPy/PTz/fb1////fP+U/wAAADd0Uk5TAAEDBAYLDA4VHB4fNDg8PUJDR0pbc3yCg4SGiImVlqWnq661uLq/wsPFy9DT2d7m6+zt8/n6/uYUS2MAAANwSURBVHjazVvnWiJBEBwjBjwRCSfgkWHJectAUnTf/5FuDeehIhN3euv3fFu1aaa7upsxFUSiiXS+7LS6/fG432055Xw6EY0wKziI52o9bESvlosfBEq+H7tqTLAVk8bv2H5A9GfXQwhheH1mnv001YEEOqlTo/TRkgtJuKWoMfrzCpRQOTdCf1GHMuoX2vTHRWiheKxFv5ccQROj5J46/682DKD9S5F+N+PCCNzMrtLbd2AMjsKXcDmAQQwuJel3si6Mws3uSJ06BRhHQeKMOqwiAFQPRfmPmggEzSMx/pMOAkLnROj+A+P3FQg8g8MmAkST+x3sVxEoqpx/YaeAgFHYvh9kETiyW/dfN3gB7pZd+XgACxj8eDLtOrAC56fTOQNLyPwQ/7i2BLgbY6S9NqyhvSlOTMIikhv+gJFNAaPvf0IRVlH8lv/AMr7mTHXbAupf8k9Yx+fMtWJfQOVT/g8CrPsHJe7q28XsRvzad8v5PXdRac1/4W7C9yvPe5iK8k8fPW91y92Q/7s4Ke4l556PJ0EF06eX1QvuutSHAH4cvPTEFbzxezN+jPzhvwm81EdhBe/8DwKfzD8371r8tvgKhBf6+PMeiQ9hToEMP4ZvMXpM5tPiXFqKH4i9CriCMQWS/Lh6FdCAKQWy/Gi8+u8TGFIgzY/Ji7sfl9i+t1LI8wNxX0AOZhSo8CPnC6jBiAIlftR8AT2YUKDGjx5jEdljfCOVIj8QUYhFNpAp8/tRSQL6CtT5kWBpaCvQ4Eea5aGrQIcfeVaGpgItfpSZoinxQavHD4e1oKXg+VmLHy3WhZ4CPX50WR/6CtT50Wdj9dRm+vb4vWd1fozpBZC/AvKPkPw3JN+IyLdi8sOI/DgmD0jIQzLyoJQ8LKdPTMhTM/LklDw9Jzco6C0acpOK3KYjNypFrNqbB1mr9vGOv/RM3KyeyZvVS+7CjoRdv5C36+fcdSmJgsXtyn+o4gUL/4WtuCWTtYKFQMnmfr68E97gcDNbcAsm6yUb+qIVedmOvnBJXrqlL16Tl+/pGxjIWzjom1jI23joG5noW7nIm9no2/noGxrpWzrJm1rp23rpG5vpW7vpm9vp2/vpBxzoRzzoh1xCMOZDP+hEP+oVgmE3+nG/EAw8hmDkMwRDryEY+w3B4HMYRr9DMPwexPj/X+Yt8H/u7e31AAAAAElFTkSuQmCC';
-      var editImg =
-        'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAEAElEQVRYR7WXf0zUdRjHX89x8tumhYiKig4yhxEH+kfN5ubMFbmmm2TLjVbKEBr9MBbmamP90GisEicH5WzV/AO3cnPYmrUlaTZH/AhchpBKYRMitZKAOO5p3zuPuzju7ht33Pbd7vv5PM/7/f48n+/n+TyPYPZXlxuP0/kQyKNABkoSaDKIExhAGADtRPiEmOsNPHl52Ay0hDSqts1hBntQ2YoQF9LeMFCGED3MKLt5pvW3YD6BBVRgZW5OOaovIZJginiikeogInvpa6mkAsdkGJMLqLl7NlgbELlvSsT+Qs6AYwMlHdcnTvkLqM3OQOUESFpEyMdB9DKi69nR1uWL+18BdblJOJ1tIAsiS34LTbWHKMtKipoHPPheAW+nxhGXfBrImRZyL2gLQ/2r2dk7ZAx5BdizK8Hy4jST34J3vkVxW7lXgP2eBRDVDcSGK2DL4nVXf7hxKaHjj59mBsEaxurIoLC91x0Bu+19kO3hkj971xZeXvEUQ45hnvj2Vb7qaw4CqQcpbi0UjmRGMxBzw3SSCQJZtnwr5ZkFLguH00Hh2T00XPlmcg8jWSWNzBJqs/NQy/FwVv/0nZvp/LOHL682YfyvyCp0wVX/WM9r5w4FhlbNE+y2WpCiqQrwhP0f5yiPn36Fxv5Wtqc/wvLbllDWsg8NCqx1Qo3tJCJrpiLAQ+7xHR4bYVNjOd9dO28OTrXRiMAFkAxzHl6rieSemQ8vHqespdocnOoFwZ4zCMSb83BbFaVv4vXsHX4uR385SdHZvSHC7uOmOmhswV+IJJoVEDFyg1D1piGgC5F0MwICkdf3fEFpU5X5lXvIVLuNLfgauD+UgMcWP8D+VWV+ZlMmdyOdMn0MU+OTObamioUJc8dFfHzpM15oDnXUgixNeS9kIipdls+82CR2f29nXtwdLhFpifMxyHc27wsVuODz4nzYnYp/jzEqFb+TMNMaz8WNR10gntXOiZ1NwZI8qs4fDo98PBUbMDW2g4hsm4i4NmUl9avfGB8Oc78nwOshilu3uW/DAysWYpnRDRLta+V7uRjj//ucB47RKFbHUu917IpCzjsIz/n6bF60lnUpqzjV3+bK8b1/94cX9vHjx7uUtDxvvHoroo+yErhpPYOQFRmWgCgdJDjupaDdyMA+AlxbkZmCJboJJHV6ROgVrKO5FJ7r8+D7l+U1WcsQ6wlgUYRF/Iw61lPS3umLO3ljYpTnY/o5Qm5ERCjNRMmDvuV44Ah4Zj5Ii2X4dqNy3RVGsWo0qG8Se60yULMaujndb5tPlFSC5iMSYyoiqiMIR3Cwi9LWX4P5hBbg8T6QmYglegNKPrAUMdpzklHU3Zq7ni6ET4kfO+b5ykMJ/heL12GStB7T3QAAAABJRU5ErkJggg==';
-
-      var longpress = false;
-      var presstimer = null;
-      var longtarget = null;
-      var iseditable = false;
-
-      function load_more_news() {
-        localStorage.lastOffsetRendered = last_offset_rendered;
-        render_gnews(localStorage.cachedGNews, last_offset_rendered, 10);
-        addSwipeToDelete();
-        applyOption(1);
-      }
-
-      function process_cancel(e) {
-        console.log('We received process_cancel');
-        console.log(e);
-        if (iseditable) {
-          e.preventDefault();
-          return;
-        }
-        if (presstimer !== null) {
-          clearTimeout(presstimer);
-          presstimer = null;
-        }
-        this.classList.remove("longpress");
-      };
-
-      function process_body_click(e) {
-        if (iseditable) {
-          toggle_edit_mode();
-          e.preventDefault();
-        }
-      }
-
-      function process_click(e) {
-        console.log('We received process_click');
-        console.log(e);
-        if (iseditable)
-          return;
-        e.preventDefault();
-        if (presstimer !== null) {
-          clearTimeout(presstimer);
-          presstimer = null;
-        }
-
-        this.classList.remove("longpress");
-
-        if (longpress) {
-          return false;
-        }
-      };
-
-      function process_start(e) {
-        if (iseditable)
-          return;
-        //    e.preventDefault();
-
-        if (e.type === "click" && e.button !== 0) {
-          return;
-        }
-
-        longpress = false;
-
-        this.classList.add("longpress");
-
-        presstimer = setTimeout(function () {
-          toggle_edit_mode();
-          longpress = true;
-        }, 550);
-
-        return false;
-      };
-
-      function arrayBufferToBase64(buffer) {
-        var binary = '';
-        var bytes = [].slice.call(new Uint8Array(buffer));
-
-        bytes.forEach((b) => binary += String.fromCharCode(b));
-
-        return window.btoa(binary);
-      };
-
-      function invalidate_image(item) {
-        //console.log("Invalidating item: " + item.title);
-        var parser = document.createElement('a');
-        parser.href = item.title;
-        var rootDomain = psl.get(parser.hostname);
-        //console.log("Invalidating rootDomain: " + rootDomain);
-        item.src = "data:image/svg+xml;base64," + btoa(jdenticon.toSvg(parser.hostname, 64));
-        localStorage.setItem('icon-' + rootDomain, item.src);
-      }
-
-      function remove_favorite(e) {
-        console.log("Removing favorite");
-        console.log(e);
-        item = e.target;
-        item = item.parentNode;
-        console.log("Removing item");
-        var nGrid = ((document.querySelector('.swiper-slide-active .bm-grid')).id)[14];
-        if (nGrid == 1) globalGrid1.disconnect(item);
-        if (nGrid == 2) globalGrid2.disconnect(item);
-        if (nGrid == 3) globalGrid3.disconnect(item);
-      }
-
-      function add_favorite(item) {
-        var arrayD = ['6', 0, 0];
-        if (localStorage['savedSettings']) arrayD = localGet("savedSettings");
-        var parser = document.createElement('a');
-        parser.href = item.url;
-        // Our intent is buzz.blogspot.com to stay buzz.blogspot.com
-        // and m.wikipedia.org to become wikipedia.org
-        var rootDomain = psl.get(parser.hostname);
-        if (typeof item.title === "undefined" || item.title === "") item.title = rootDomain;
-        //console.log(" Function add_favorite -> grid :" + item.ngrid + " | url : " + item.url + "   |  title : " + item.title + " | img : " + item.imgSrc);
-        var innerDiv = document.createElement('div');
-        innerDiv.className = 'grid-item';
-        var cachedImage = localStorage.getItem('icon-' + rootDomain);
-        var imageUri = null;
-
-        var randomId = Math.random().toString(36).substr(2, 9) + Math.random().toString(36).substr(2, 9) + Math.random()
-          .toString(36).substr(2, 9);
-
-        if (cachedImage != null) {
-          imageUri = cachedImage;
-          //console.log('Loading icon for ' + rootDomain + ' from cache');
-        } else if (typeof item.imgSrc === "undefined") {
-          //console.log('Fetching icon for ' + rootDomain);
-          loadingImage = "data:image/svg+xml;base64," + btoa(
-            '<svg width="85px"  height="85px"  xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid" class="lds-tail">    <defs>      <filter id="tail-0.a4db4fdd84ecd" x="-100%" y="-100%" width="300%" height="300%" color-interpolation-filters="sRGB">        <feGaussianBlur in="SourceGraphic" stdDeviation="3"></feGaussianBlur>        <feColorMatrix mode="matrix" values="1 0 0 0 0   0 1 0 0 0   0 0 1 0 0   0 0 0 60 -40" result="cm"></feColorMatrix>      </filter>    </defs>    <g ng-attr-filter="url(#{{config.filterid}})" filter="url(#tail-0.a4db4fdd84ecd)" transform="rotate(54 50 50)">      <animateTransform attributeName="transform" type="rotate" calcMode="linear" values="0 50 50;360 50 50" keyTimes="0;1" dur="4s" begin="0s" repeatCount="indefinite"></animateTransform>      <g transform="rotate(333.474 50 50)">        <g ng-attr-transform="translate(50 {{config.cy}})" transform="translate(50 19.6)">          <circle cx="0" cy="0" r="19" ng-attr-fill="{{config.fill}}" ng-attr-transform="scale({{config.scale}})" fill="#ff7c81" transform="scale(0.48)"></circle>        </g>        <animateTransform attributeName="transform" calcMode="spline" type="rotate" values="0 50 50;360 50 50" keyTimes="0;1" ng-attr-dur="{{config.speed2}}" keySplines="0.13333333333333333 0 0.03333333333333333 1" repeatCount="indefinite" dur="1"></animateTransform>      </g>      <g transform="rotate(331.178 50 50)">        <g ng-attr-transform="translate(50 {{config.cy}})" transform="translate(50 19.6)">          <circle cx="0" cy="0" r="18" ng-attr-fill="{{config.fill}}" ng-attr-transform="scale({{config.scale}})" fill="#ff7c81" transform="scale(0.48)"></circle>        </g>        <animateTransform attributeName="transform" calcMode="spline" type="rotate" values="0 50 50;360 50 50" keyTimes="0;1" ng-attr-dur="{{config.speed2}}" keySplines="0.16666666666666669 0 0.06666666666666667 1" repeatCount="indefinite" dur="1"></animateTransform>      </g>      <g transform="rotate(328.576 50.0001 50)">        <g ng-attr-transform="translate(50 {{config.cy}})" transform="translate(50 19.6)">          <circle cx="0" cy="0" r="17" ng-attr-fill="{{config.fill}}" ng-attr-transform="scale({{config.scale}})" fill="#ff7c81" transform="scale(0.48)"></circle>        </g>        <animateTransform attributeName="transform" calcMode="spline" type="rotate" values="0 50 50;360 50 50" keyTimes="0;1" ng-attr-dur="{{config.speed2}}" keySplines="0.2 0 0.1 1" repeatCount="indefinite" dur="1"></animateTransform>      </g>      <g transform="rotate(325.612 50 50)">        <g ng-attr-transform="translate(50 {{config.cy}})" transform="translate(50 19.6)">          <circle cx="0" cy="0" r="16" ng-attr-fill="{{config.fill}}" ng-attr-transform="scale({{config.scale}})" fill="#ff7c81" transform="scale(0.48)"></circle>        </g>        <animateTransform attributeName="transform" calcMode="spline" type="rotate" values="0 50 50;360 50 50" keyTimes="0;1" ng-attr-dur="{{config.speed2}}" keySplines="0.23333333333333334 0 0.13333333333333333 1" repeatCount="indefinite" dur="1"></animateTransform>      </g>      <g transform="rotate(322.212 50 50)">        <g ng-attr-transform="translate(50 {{config.cy}})" transform="translate(50 19.6)">          <circle cx="0" cy="0" r="15" ng-attr-fill="{{config.fill}}" ng-attr-transform="scale({{config.scale}})" fill="#ff7c81" transform="scale(0.48)"></circle>        </g>        <animateTransform attributeName="transform" calcMode="spline" type="rotate" values="0 50 50;360 50 50" keyTimes="0;1" ng-attr-dur="{{config.speed2}}" keySplines="0.26666666666666666 0 0.16666666666666666 1" repeatCount="indefinite" dur="1"></animateTransform>      </g>      <g transform="rotate(318.287 50 50)">        <g ng-attr-transform="translate(50 {{config.cy}})" transform="translate(50 19.6)">          <circle cx="0" cy="0" r="14" ng-attr-fill="{{config.fill}}" ng-attr-transform="scale({{config.scale}})" fill="#ff7c81" transform="scale(0.48)"></circle>        </g>        <animateTransform attributeName="transform" calcMode="spline" type="rotate" values="0 50 50;360 50 50" keyTimes="0;1" ng-attr-dur="{{config.speed2}}" keySplines="0.30000000000000004 0 0.2 1" repeatCount="indefinite" dur="1"></animateTransform>      </g>      <g transform="rotate(314.708 50 50)">        <g ng-attr-transform="translate(50 {{config.cy}})" transform="translate(50 19.6)">          <circle cx="0" cy="0" r="13" ng-attr-fill="{{config.fill}}" ng-attr-transform="scale({{config.scale}})" fill="#ff7c81" transform="scale(0.48)"></circle>        </g>        <animateTransform attributeName="transform" calcMode="spline" type="rotate" values="0 50 50;360 50 50" keyTimes="0;1" ng-attr-dur="{{config.speed2}}" keySplines="0.33333333333333337 0 0.23333333333333334 1" repeatCount="indefinite" dur="1"></animateTransform>      </g>      <g transform="rotate(309.018 50 50)">        <g ng-attr-transform="translate(50 {{config.cy}})" transform="translate(50 19.6)">          <circle cx="0" cy="0" r="12" ng-attr-fill="{{config.fill}}" ng-attr-transform="scale({{config.scale}})" fill="#ff7c81" transform="scale(0.48)"></circle>        </g>        <animateTransform attributeName="transform" calcMode="spline" type="rotate" values="0 50 50;360 50 50" keyTimes="0;1" ng-attr-dur="{{config.speed2}}" keySplines="0.3666666666666667 0 0.26666666666666666 1" repeatCount="indefinite" dur="1"></animateTransform>      </g>      <g transform="rotate(302.443 50 50)">        <g ng-attr-transform="translate(50 {{config.cy}})" transform="translate(50 19.6)">          <circle cx="0" cy="0" r="11" ng-attr-fill="{{config.fill}}" ng-attr-transform="scale({{config.scale}})" fill="#ff7c81" transform="scale(0.48)"></circle>        </g>        <animateTransform attributeName="transform" calcMode="spline" type="rotate" values="0 50 50;360 50 50" keyTimes="0;1" ng-attr-dur="{{config.speed2}}" keySplines="0.4 0 0.3 1" repeatCount="indefinite" dur="1"></animateTransform>      </g>      <g transform="rotate(294.767 50 50)">        <g ng-attr-transform="translate(50 {{config.cy}})" transform="translate(50 19.6)">          <circle cx="0" cy="0" r="10" ng-attr-fill="{{config.fill}}" ng-attr-transform="scale({{config.scale}})" fill="#ff7c81" transform="scale(0.48)"></circle>        </g>        <animateTransform attributeName="transform" calcMode="spline" type="rotate" values="0 50 50;360 50 50" keyTimes="0;1" ng-attr-dur="{{config.speed2}}" keySplines="0.43333333333333335 0 0.3333333333333333 1" repeatCount="indefinite" dur="1"></animateTransform>      </g>      <g transform="rotate(285.715 50 50)">        <g ng-attr-transform="translate(50 {{config.cy}})" transform="translate(50 19.6)">          <circle cx="0" cy="0" r="9" ng-attr-fill="{{config.fill}}" ng-attr-transform="scale({{config.scale}})" fill="#ff7c81" transform="scale(0.48)"></circle>        </g>        <animateTransform attributeName="transform" calcMode="spline" type="rotate" values="0 50 50;360 50 50" keyTimes="0;1" ng-attr-dur="{{config.speed2}}" keySplines="0.4666666666666667 0 0.36666666666666664 1" repeatCount="indefinite" dur="1"></animateTransform>      </g>      <g transform="rotate(274.96 50 50)">        <g ng-attr-transform="translate(50 {{config.cy}})" transform="translate(50 19.6)">          <circle cx="0" cy="0" r="8" ng-attr-fill="{{config.fill}}" ng-attr-transform="scale({{config.scale}})" fill="#ff7c81" transform="scale(0.48)"></circle>        </g>        <animateTransform attributeName="transform" calcMode="spline" type="rotate" values="0 50 50;360 50 50" keyTimes="0;1" ng-attr-dur="{{config.speed2}}" keySplines="0.5 0 0.4 1" repeatCount="indefinite" dur="1"></animateTransform>      </g>      <g transform="rotate(263.29 50 50)">        <g ng-attr-transform="translate(50 {{config.cy}})" transform="translate(50 19.6)">          <circle cx="0" cy="0" r="7" ng-attr-fill="{{config.fill}}" ng-attr-transform="scale({{config.scale}})" fill="#ff7c81" transform="scale(0.48)"></circle>        </g>        <animateTransform attributeName="transform" calcMode="spline" type="rotate" values="0 50 50;360 50 50" keyTimes="0;1" ng-attr-dur="{{config.speed2}}" keySplines="0.5333333333333333 0 0.43333333333333335 1" repeatCount="indefinite" dur="1"></animateTransform>      </g>      <g transform="rotate(247.243 50 50)">        <g ng-attr-transform="translate(50 {{config.cy}})" transform="translate(50 19.6)">          <circle cx="0" cy="0" r="6" ng-attr-fill="{{config.fill}}" ng-attr-transform="scale({{config.scale}})" fill="#ff7c81" transform="scale(0.48)"></circle>        </g>        <animateTransform attributeName="transform" calcMode="spline" type="rotate" values="0 50 50;360 50 50" keyTimes="0;1" ng-attr-dur="{{config.speed2}}" keySplines="0.5666666666666667 0 0.4666666666666667 1" repeatCount="indefinite" dur="1"></animateTransform>      </g>      <g transform="rotate(233.28 50 50)">        <g ng-attr-transform="translate(50 {{config.cy}})" transform="translate(50 19.6)">          <circle cx="0" cy="0" r="5" ng-attr-fill="{{config.fill}}" ng-attr-transform="scale({{config.scale}})" fill="#ff7c81" transform="scale(0.48)"></circle>        </g>        <animateTransform attributeName="transform" calcMode="spline" type="rotate" values="0 50 50;360 50 50" keyTimes="0;1" ng-attr-dur="{{config.speed2}}" keySplines="0.6 0 0.5 1" repeatCount="indefinite" dur="1"></animateTransform>      </g>      <g transform="rotate(210.448 50 50)">        <g ng-attr-transform="translate(50 {{config.cy}})" transform="translate(50 19.6)">          <circle cx="0" cy="0" r="4" ng-attr-fill="{{config.fill}}" ng-attr-transform="scale({{config.scale}})" fill="#ff7c81" transform="scale(0.48)"></circle>        </g>        <animateTransform attributeName="transform" calcMode="spline" type="rotate" values="0 50 50;360 50 50" keyTimes="0;1" ng-attr-dur="{{config.speed2}}" keySplines="0.6333333333333333 0 0.5333333333333333 1" repeatCount="indefinite" dur="1"></animateTransform>      </g>      <g transform="rotate(189.723 50 50)">        <g ng-attr-transform="translate(50 {{config.cy}})" transform="translate(50 19.6)">          <circle cx="0" cy="0" r="3" ng-attr-fill="{{config.fill}}" ng-attr-transform="scale({{config.scale}})" fill="#ff7c81" transform="scale(0.48)"></circle>        </g>        <animateTransform attributeName="transform" calcMode="spline" type="rotate" values="0 50 50;360 50 50" keyTimes="0;1" ng-attr-dur="{{config.speed2}}" keySplines="0.6666666666666666 0 0.5666666666666667 1" repeatCount="indefinite" dur="1"></animateTransform>      </g>      <g transform="rotate(167.547 50 50)">        <g ng-attr-transform="translate(50 {{config.cy}})" transform="translate(50 19.6)">          <circle cx="0" cy="0" r="2" ng-attr-fill="{{config.fill}}" ng-attr-transform="scale({{config.scale}})" fill="#ff7c81" transform="scale(0.48)"></circle>        </g>        <animateTransform attributeName="transform" calcMode="spline" type="rotate" values="0 50 50;360 50 50" keyTimes="0;1" ng-attr-dur="{{config.speed2}}" keySplines="0.7 0 0.6 1" repeatCount="indefinite" dur="1"></animateTransform>      </g>      <g transform="rotate(151.39 50 50)">        <g ng-attr-transform="translate(50 {{config.cy}})" transform="translate(50 19.6)">          <circle cx="0" cy="0" r="1" ng-attr-fill="{{config.fill}}" ng-attr-transform="scale({{config.scale}})" fill="#ff7c81" transform="scale(0.48)"></circle>        </g>        <animateTransform attributeName="transform" calcMode="spline" type="rotate" values="0 50 50;360 50 50" keyTimes="0;1" ng-attr-dur="{{config.speed2}}" keySplines="0.7333333333333333 0 0.6333333333333333 1" repeatCount="indefinite" dur="1"></animateTransform>      </g>      <g transform="rotate(134.242 50 50)">        <g ng-attr-transform="translate(50 {{config.cy}})" transform="translate(50 19.6)">          <circle cx="0" cy="0" r="0" ng-attr-fill="{{config.fill}}" ng-attr-transform="scale({{config.scale}})" fill="#ff7c81" transform="scale(0.48)"></circle>        </g>        <animateTransform attributeName="transform" calcMode="spline" type="rotate" values="0 50 50;360 50 50" keyTimes="0;1" ng-attr-dur="{{config.speed2}}" keySplines="0.7666666666666666 0 0.6666666666666666 1" repeatCount="indefinite" dur="1"></animateTransform>      </g>    </g>  </svg>'
-          );
-          imageUri = loadingImage;
-          try {
-            fetch('https://logos.kiwibrowser.com/' + rootDomain).then(function (response) {
-                return response.arrayBuffer();
-              })
-              .then(function (answer) {
-                localStorage.setItem('icon-' + rootDomain, 'data:image/png;base64,' + arrayBufferToBase64(answer));
-                document.getElementById('icon' + randomId).src = 'data:image/png;base64,' + arrayBufferToBase64(
-                  answer);
-                console.log('Icon for ' + rootDomain + ' is now fetched');
-              });
-          } catch (err) {
-            console.log('Fetch failed for: ' + err.message);
-          }
-        } else {
-          imageUri = item.imgSrc;
-        }
-        var nGrid = item.ngrid;
-
-        var targetBlank = optionsSettings[3] == 1 ? 'target="_blank"' : '';
-        innerDiv.innerHTML = '<img id="closeImg" src="' + closeImg +
-          '" class="closeImg closeImgInvisible" height="20" width="20" style="position: absolute; right: 0px; border: 0px;" /><img id="editImg" src="' +
-          editImg +
-          '" class="closeImg closeImgInvisible" height="20" width="20" style="position: absolute; right: 0px; bottom: 0px; border: 0px;" /><a id="tile_target" class="tile_target" name="' +
-          item.title + '" href="' + item.url + '" ' + targetBlank +
-          '><img border="0" class="grid-image" style="border-radius:' + arrayD[
-            0] + 'px" title="' + item.title + '" src="' + imageUri + '" id="icon' + randomId +
-          '" onError="invalidate_image(this)"/><span id="title_span" style="line-height: 15px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">' +
-          item.title + '</span></a>';
-        //innerDiv.style.minHeight = '64px';
-
-        innerDiv.querySelector('#closeImg').addEventListener("touchstart", remove_favorite);
-        innerDiv.querySelector('#editImg').addEventListener("touchstart", edit_tile);
-        innerDiv.querySelector('#tile_target').addEventListener("touchstart", process_start);
-        document.body.addEventListener("click", process_body_click);
-        innerDiv.querySelector('#tile_target').addEventListener("touchend", process_cancel);
-        document.getElementById('bookmarks-grid' + nGrid).appendChild(innerDiv);
-      }
-
-      var globalGrid1, globalGrid2, globalGrid3;
-      var bookmarksGrid1 = document.getElementById("bookmarks-grid1");
-      var bookmarksGrid2 = document.getElementById("bookmarks-grid2");
-      var bookmarksGrid3 = document.getElementById("bookmarks-grid3");
-
-      function save_grid_snapshot() {
-        if (!document.getElementById('bookmarks-grid1').style.cssText)
-          return;
-        // Maximum 1 update per 0.1s (100ms)
-        if ((typeof localStorage.cachedGridUpdate == "undefined") || ((Date.now() / 1000) - localStorage
-            .cachedGridUpdate) >= 0.1) {
-          localStorage.cachedGrid1 = document.getElementById('bookmarks-grid1').innerHTML;
-          localStorage.cachedGridStyle1 = document.getElementById('bookmarks-grid1').style.cssText;
-          localStorage.cachedGrid2 = document.getElementById('bookmarks-grid2').innerHTML;
-          localStorage.cachedGridStyle2 = document.getElementById('bookmarks-grid2').style.cssText;
-          localStorage.cachedGrid3 = document.getElementById('bookmarks-grid3').innerHTML;
-          localStorage.cachedGridStyle3 = document.getElementById('bookmarks-grid3').style.cssText;
-          console.log("Saving grid snapshot and style is " + localStorage.cachedGridStyle1);
-          localStorage.cachedGridUpdate = (Date.now() / 1000);
-        }
-      }
-
-      function add_to_storage(el) {
-        var nGrid = ((el.parentNode).id)[14];
-        var keyS = "storedItems" + nGrid;
-        var items = localGet(keyS);
-        offset = items.length;
-        var url = el.querySelector('#tile_target').href;
-        var title = el.textContent;
-        var img;
-        try {
-          img = el.querySelector('#tile_target > img').src;
-        } catch {
-          console.log("error image null");
-        }
-        items[offset] = {
-          url: url,
-          title: title,
-          imgSrc: img,
-          ngrid: nGrid
-        }
-        localStore(keyS, items);
-        console.log("Add to storage, adding to offset " + offset + " grid n°: " + nGrid + "the URL: " + url +
-          " title: " + title + " imgSRc: " + img);
-      }
-
-      function swap_if_ready() {
-        if (bookmarksGrid1.style.cssText.includes("height")) {
-          document.getElementById('fake-bookmarks-grid1').style.display = 'none';
-          bookmarksGrid1.classList.remove("full-hidden");
-        }
-        if (bookmarksGrid2.style.cssText.includes("height")) {
-          document.getElementById('fake-bookmarks-grid2').style.display = 'none';
-          bookmarksGrid2.classList.remove("full-hidden");
-        }
-        if (bookmarksGrid3.style.cssText.includes("height")) {
-          document.getElementById('fake-bookmarks-grid3').style.display = 'none';
-          bookmarksGrid3.classList.remove("full-hidden");
-        }
-      }
-
-      function fetch_tiles_from_most_visited() {
-        console.log(" Test 1 , im inside fetch_tiles_from_most_visited");
-        if (typeof localStorage.useCustomTiles == "undefined" || localStorage.useCustomTiles == "false") {
-          console.log(" Test2 , im inside fetch_tiles_from_most_visited");
-          localStore("storedItems1", []);
-          localStore("storedItems2", []);
-          localStore("storedItems3", []);
-          if (typeof window.chrome.embeddedSearch != "undefined" && chrome.embeddedSearch.newTabPage.mostVisitedAvailable) {
-            console.log(" Test3 , im inside fetch_tiles_from_most_visited");
-            var pages = chrome.embeddedSearch.newTabPage.mostVisited;
-            for (var ind = 1; ind < 4; ind++) {
-              var sItems = localGet("storedItems" + ind);
-              for (var i = 0; i < Math.min(4, pages.length); ++i) {
-                offset = sItems.length;
-                console.log('Loading most visited: ' + pages[i].rid);
-                sItems[offset] = {
-                  url: chrome.embeddedSearch.newTabPage.getMostVisitedItemData(pages[i].rid).url,
-                  ngrid: ind
-                }
-                add_favorite(sItems[offset]);
-              }
-              localStore("storedItems" + ind, sItems);
-            }
-          }
-        }
-      }
-
-      function toggle_edit_mode() {
-        mySwiper.allowTouchMove = false;
-        var nGrid = ((document.querySelector('.swiper-slide-active .bm-grid')).id)[14];
-        var el = document.querySelector('.swiper-slide-active .bm-grid');
-        if (nGrid == 1) {
-          if (globalGrid1.isDragifierOn()) {
-            iseditable = false;
-            mySwiper.allowTouchMove = true;
-            globalGrid1.dragifierOff();
-            Array.prototype.forEach.call(el.getElementsByClassName("grid-item"), function (el) {
-              el.style.WebkitAnimation = 'none';
-            });
-            Array.prototype.forEach.call(el.getElementsByClassName('closeImg'), function (el) {
-              el.classList.add('closeImgInvisible');
-            });
-          } else {
-            iseditable = true;
-            globalGrid1.dragifierOn();
-            Array.prototype.forEach.call(el.getElementsByClassName("grid-item"), function (el) {
-              el.style.WebkitAnimation = 'shadow-inset-center 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both';
-            });
-            Array.prototype.forEach.call(el.getElementsByClassName('closeImg'), function (el) {
-              el.classList.remove('closeImgInvisible');
-            });
-          }
-        }
-        if (nGrid == 2) {
-          if (globalGrid2.isDragifierOn()) {
-            iseditable = false;
-            mySwiper.allowTouchMove = true;
-            globalGrid2.dragifierOff();
-            Array.prototype.forEach.call(el.getElementsByClassName("grid-item"), function (el) {
-              el.style.WebkitAnimation = 'none';
-            });
-            Array.prototype.forEach.call(el.getElementsByClassName('closeImg'), function (el) {
-              el.classList.add('closeImgInvisible');
-            });
-          } else {
-            iseditable = true;
-            globalGrid2.dragifierOn();
-            Array.prototype.forEach.call(el.getElementsByClassName("grid-item"), function (el) {
-              el.style.WebkitAnimation = 'shadow-inset-center 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both';
-            });
-            Array.prototype.forEach.call(el.getElementsByClassName('closeImg'), function (el) {
-              el.classList.remove('closeImgInvisible');
-            });
-          }
-        }
-        if (nGrid == 3) {
-          if (globalGrid3.isDragifierOn()) {
-            iseditable = false;
-            mySwiper.allowTouchMove = true;
-            globalGrid3.dragifierOff();
-            Array.prototype.forEach.call(el.getElementsByClassName("grid-item"), function (el) {
-              el.style.WebkitAnimation = 'none';
-            });
-            Array.prototype.forEach.call(el.getElementsByClassName('closeImg'), function (el) {
-              el.classList.add('closeImgInvisible');
-            });
-          } else {
-            iseditable = true;
-            globalGrid3.dragifierOn();
-            Array.prototype.forEach.call(el.getElementsByClassName("grid-item"), function (el) {
-              el.style.WebkitAnimation = 'shadow-inset-center 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both';
-            });
-            Array.prototype.forEach.call(el.getElementsByClassName('closeImg'), function (el) {
-              el.classList.remove('closeImgInvisible');
-            });
-          }
-        }
-        window.setTimeout(function () {
-          save_grid_snapshot();
-        }, 100);
-      }
-
-      function select_locale(locale) {
-        localStorage.newsLocale = locales[locale];
-        localStorage.removeItem('cachedNewsUpdate');
-        localStorage.removeItem('cachedGNews');
-        location.reload();
-      }
-
-      function configure_news() {
-        document.getElementById("localDropdown").classList.toggle('show');
-        var buf = '<ul class="localesList">';
-        for (var locale in locales) {
-          if (locale_to_readabletext(localStorage.newsLocale) == locale)
-            buf += '<li class="localesListSelected"><b>' + locale + '</b></li>';
-          else
-            buf += '<li class="localesListUnselected"><a href="#" onClick="javascript:select_locale(\'' + locale +
-            '\'); return false">' + locale + '</a></li>';
-        }
-        buf += '</ul>';
-        document.getElementById("localDropdown").innerHTML = buf;
-      }
-
-      window.onclick = function (event) {
-        if (!event.target.matches('.dropbtn') && !event.target.matches('#locale') && !event.target.matches(
-            '.arrow-down')) {
-          var dropdowns = document.getElementsByClassName("dropdown-content");
-          var i;
-          for (i = 0; i < dropdowns.length; i++) {
-            var openDropdown = dropdowns[i];
-            if (openDropdown.classList.contains('show')) {
-              openDropdown.classList.remove('show');
-            }
-          }
-        }
-      }
-
-      function close_news() {
-        localStorage.hideNews = true;
-        document.getElementById('news-stuff').style.display = 'none';
-        document.getElementById('enable-news-button').style.display = 'inline';
-        document.getElementById("sc-grids").style.minHeight = "calc(100vh - 200px)";
-      }
-
-      function create_new_item() {
-        preconnectTo('https://logos.kiwibrowser.com');
-        //var url = prompt("Enter website address", "http://");
-        var url = document.getElementById('t-url').value;
-        url = url.trim();
-        url = url.replace(' ', '.');
-        var parser = document.createElement('a');
-        parser.href = url;
-        var imgSrc = document.getElementById('p-tile').src;
-        var title = document.getElementById('t-lab').value;
-        var ngrid = ((document.querySelector('.swiper-slide-active .bm-grid')).id)[14];
-        var rootDomain = psl.get(parser.hostname);
-        //If user left the title empty pick the the rootDomain as title of tile
-        if (title == "") title = rootDomain;
-        if (!rootDomain)
-          return;
-        if (typeof localStorage.storedItems1 == "undefined" || localStorage.storedItems1 == "")
-          localStore("storedItems1", []);
-        var keyS = "storedItems" + (ngrid);
-        var sItems = localGet(keyS);
-        offset = sItems.length;
-        sItems[offset] = {
-          url: url,
-          title: title,
-          imgSrc: imgSrc,
-          ngrid: ngrid
-        }
-        add_favorite(sItems[offset]);
-        localStore(keyS, sItems);
-        if (ngrid == 1) {
-          globalGrid1.toggle("scaleWithFade");
-          globalGrid1.appendNew();
-        }
-        if (ngrid == 2) {
-          globalGrid2.toggle("scaleWithFade");
-          globalGrid2.appendNew();
-        }
-        if (ngrid == 3) {
-          globalGrid3.toggle("scaleWithFade");
-          globalGrid3.appendNew();
-        }
-        window.setTimeout(function () {
-          save_grid_snapshot();
-        }, 200);
-        window.setTimeout(function () {
-          save_grid_snapshot();
-        }, 800);
-        localStorage.useCustomTiles = "true";
-      }
-    </script>
-
-    <div id="news-stuff" style="max-width:800px;margin:auto;">
-      <div id="news-header" style="height: 30px;padding-bottom: 5px;padding-top: 5px;">
-        <div class="configure-item dropbtn" role="button" aria-label="Choose news region" title="Choose news region"
-          id="configure-button"><span id="locale"></span><span class="arrow-down">▼</span></div>
-        <button class="close-item" role="button" aria-label="Close news" title="Close news" id="close-button" /><i
-          class="far fa-times"></i></button>
-      </div>
-      <div id="localDropdown" class="dropdown-content">
-      </div>
-      <div id="news"></div>
-      <div id="newsMore"></div>
-    </div>
-
-    <script>
-      function preconnectTo(url) {
-        var hint = document.createElement("link");
-        hint.rel = "preconnect";
-        hint.href = url;
-        document.head.appendChild(hint);
-      }
-
-      ! function (t, e) {
-        "object" == typeof exports && "undefined" != typeof module ? module.exports = e() : "function" ==
-          typeof define && define.amd ? define(e) : t.timeago = e()
-      }(this, function () {
-        "use strict";
-        var t = "second_minute_hour_day_week_month_year".split("_"),
-          e = "秒_分钟_小时_天_周_月_年".split("_"),
-          n = [60, 60, 24, 7, 365 / 7 / 12, 12],
-          r = {
-            en: function (e, n) {
-              if (0 === n) return ["just now", "right now"];
-              var r = t[parseInt(n / 2)];
-              return e > 1 && (r += "s"), [e + " " + r + " ago", "in " + e + " " + r]
-            },
-            zh_CN: function (t, n) {
-              if (0 === n) return ["刚刚", "片刻后"];
-              var r = e[parseInt(n / 2)];
-              return [t + " " + r + "前", t + " " + r + "后"]
-            }
-          },
-          a = function (t) {
-            return parseInt(t)
-          },
-          i = function (t) {
-            return t instanceof Date ? t : !isNaN(t) || /^\d+$/.test(t) ? new Date(a(t)) : (t = (t || "").trim()
-              .replace(/\.\d+/, "").replace(/-/, "/").replace(/-/, "/").replace(/(\d)T(\d)/, "$1 $2").replace(/Z/,
-                " UTC").replace(/([\+\-]\d\d)\:?(\d\d)/, " $1$2"), new Date(t))
-          },
-          o = function (t, e, i) {
-            e = r[e] ? e : r[i] ? i : "en";
-            for (var o = 0, u = t < 0 ? 1 : 0, c = t = Math.abs(t); t >= n[o] && o < n.length; o++) t /= n[o];
-            return (t = a(t)) > (0 === (o *= 2) ? 9 : 1) && (o += 1), r[e](t, o, c)[u].replace("%s", t)
-          },
-          u = function (t, e) {
-            return ((e = e ? i(e) : new Date) - i(t)) / 1e3
-          },
-          c = function (t, e) {
-            return t.getAttribute ? t.getAttribute(e) : t.attr ? t.attr(e) : void 0
-          },
-          f = function (t) {
-            return c(t, "data-timeago") || c(t, "datetime")
-          },
-          d = [],
-          l = function (t) {
-            t && (clearTimeout(t), delete d[t])
-          },
-          s = function (t) {
-            if (t) l(c(t, "data-tid"));
-            else
-              for (var e in d) l(e)
-          },
-          h = function () {
-            function t(t, e) {
-              for (var n = 0; n < e.length; n++) {
-                var r = e[n];
-                r.enumerable = r.enumerable || !1, r.configurable = !0, "value" in r && (r.writable = !0), Object
-                  .defineProperty(t, r.key, r)
-              }
-            }
-            return function (e, n, r) {
-              return n && t(e.prototype, n), r && t(e, r), e
-            }
-          }();
-        var p = function () {
-            function t(e, n) {
-              ! function (t, e) {
-                if (!(t instanceof e)) throw new TypeError("Cannot call a class as a function")
-              }(this, t), this.nowDate = e, this.defaultLocale = n || "en"
-            }
-            return h(t, [{
-              key: "setLocale",
-              value: function (t) {
-                this.defaultLocale = t
-              }
-            }, {
-              key: "doRender",
-              value: function (t, e, r) {
-                var a = this,
-                  i = u(e, this.nowDate);
-                t.innerHTML = o(i, r, this.defaultLocale);
-                var c = function (t, e) {
-                  var n = setTimeout(function () {
-                    l(n), t()
-                  }, e);
-                  return d[n] = 0, n
-                }(function () {
-                  a.doRender(t, e, r)
-                }, Math.min(1e3 * function (t) {
-                  for (var e = 1, r = 0, a = Math.abs(t); t >= n[r] && r < n.length; r++) t /= n[r],
-                    e *= n[r];
-                  return a = (a %= e) ? e - a : e, Math.ceil(a)
-                }(i), 2147483647));
-                ! function (t, e) {
-                  t.setAttribute ? t.setAttribute("data-tid", e) : t.attr && t.attr("data-tid", e)
-                }(t, c)
-              }
-            }, {
-              key: "render",
-              value: function (t, e) {
-                void 0 === t.length && (t = [t]);
-                for (var n = void 0, r = 0, a = t.length; r < a; r++) n = t[r], s(n), this.doRender(n, f(n),
-                  e)
-              }
-            }, {
-              key: "format",
-              value: function (t, e) {
-                return o(u(t, this.nowDate), e, this.defaultLocale)
-              }
-            }]), t
-          }(),
-          v = function (t, e) {
-            return new p(t, e)
-          };
-        return v.register = function (t, e) {
-          r[t] = e
-        }, v.cancel = s, v
-      });
-
-      var locales = {};
-      locales['English | Australia'] = '?hl=en-AU&gl=AU&ceid=AU:en';
-      locales['English | Botswana'] = '?hl=en-BW&gl=BW&ceid=BW:en';
-      locales['English | Canada'] = '?hl=en-CA&gl=CA&ceid=CA:en';
-      locales['English | Ethiopia'] = '?hl=en-ET&gl=ET&ceid=ET:en';
-      locales['English | Ghana'] = '?hl=en-GH&gl=GH&ceid=GH:en';
-      locales['English | India'] = '?hl=en-IN&gl=IN&ceid=IN:en';
-      locales['English | Indonesia'] = '?hl=en-ID&gl=ID&ceid=ID:en';
-      locales['English | Ireland'] = '?hl=en-IE&gl=IE&ceid=IE:en';
-      locales['English | Israel'] = '?hl=en-IL&gl=IL&ceid=IL:en';
-      locales['English | Kenya'] = '?hl=en-KE&gl=KE&ceid=KE:en';
-      locales['English | Latvia'] = '?hl=en-LV&gl=LV&ceid=LV:en';
-      locales['English | Malaysia'] = '?hl=en-MY&gl=MY&ceid=MY:en';
-      locales['English | Namibia'] = '?hl=en-NA&gl=NA&ceid=NA:en';
-      locales['English | New Zealand'] = '?hl=en-NZ&gl=NZ&ceid=NZ:en';
-      locales['English | Nigeria'] = '?hl=en-NG&gl=NG&ceid=NG:en';
-      locales['English | Pakistan'] = '?hl=en-PK&gl=PK&ceid=PK:en';
-      locales['English | Philippines'] = '?hl=en-PH&gl=PH&ceid=PH:en';
-      locales['English | Singapore'] = '?hl=en-SG&gl=SG&ceid=SG:en';
-      locales['English | South Africa'] = '?hl=en-ZA&gl=ZA&ceid=ZA:en';
-      locales['English | Tanzania'] = '?hl=en-TZ&gl=TZ&ceid=TZ:en';
-      locales['English | Uganda'] = '?hl=en-UG&gl=UG&ceid=UG:en';
-      locales['English | United Kingdom'] = '?hl=en-GB&gl=GB&ceid=GB:en';
-      locales['English | United States'] = '?hl=en-US&gl=US&ceid=US:en';
-      locales['English | Zimbabwe'] = '?hl=en-ZW&gl=ZW&ceid=ZW:en';
-      locales['Bahasa Indonesia | Indonesia'] = '?hl=id&gl=ID&ceid=ID%3Aid';
-      locales['Čeština | Česko'] = '?hl=cs&gl=CZ&ceid=CZ%3Acs';
-      locales['Deutsch | Deutschland'] = '?hl=de&gl=DE&ceid=DE%3Ade';
-      locales['Deutsch | Österreich'] = '?hl=de&gl=AT&ceid=AT%3Ade';
-      locales['Deutsch | Schweiz'] = '?hl=de&gl=CH&ceid=CH%3Ade';
-      locales['Español | Argentina'] = '?hl=es-419&gl=AR&ceid=AR%3Aes-419';
-      locales['Español | Chile'] = '?hl=es-419&gl=CL&ceid=CL%3Aes-419';
-      locales['Español | Colombia'] = '?hl=es-419&gl=CO&ceid=CO%3Aes-419';
-      locales['Español | Cuba'] = '?hl=es-419&gl=CU&ceid=CU%3Aes-419';
-      locales['Español | Estados Unidos'] = '?hl=es-419&gl=US&ceid=US%3Aes-419';
-      locales['Español | México'] = '?hl=es-419&gl=MX&ceid=MX%3Aes-419';
-      locales['Español | Perú'] = '?hl=es-419&gl=PE&ceid=PE%3Aes-419';
-      locales['Español | Venezuela'] = '?hl=es-419&gl=VE&ceid=VE%3Aes-419';
-      locales['Français | Belgique'] = '?hl=fr&gl=BE&ceid=BE%3Afr';
-      locales['Français | Canada'] = '?hl=fr-CA&gl=CA&ceid=CA:fr';
-      locales['Français | France'] = '?hl=fr&gl=FR&ceid=FR%3Afr';
-      locales['Français | Maroc'] = '?hl=fr&gl=MA&ceid=MA%3Afr';
-      locales['Français | Sénégal'] = '?hl=fr&gl=SN&ceid=SN%3Afr';
-      locales['Français | Suisse'] = '?hl=fr&gl=CH&ceid=CH%3Afr';
-      locales['Italiano | Italia'] = '?hl=it&gl=IT&ceid=IT%3Ait';
-      locales['Latviešu | Latvija'] = '?hl=lv&gl=LV&ceid=LV%3Alv';
-      locales['Lietuvių | Lietuva'] = '?hl=lt&gl=LT&ceid=LT%3Alt';
-      locales['Magyar | Magyarország'] = '?hl=hu&gl=HU&ceid=HU%3Ahu';
-      locales['Nederlands | België'] = '?hl=nl&gl=BE&ceid=BE%3Anl';
-      locales['Nederlands | Nederland'] = '?hl=nl&gl=NL&ceid=NL%3Anl';
-      locales['Norsk | Norge'] = '?hl=no&gl=NO&ceid=NO%3Ano';
-      locales['Polski | Polska'] = '?hl=pl&gl=PL&ceid=PL%3Apl';
-      locales['Português | Brasil'] = '?hl=pt-BR&gl=BR&ceid=BR%3Apt-419';
-      locales['Português | Portugal'] = '?hl=pt-PT&gl=PT&ceid=PT%3Apt-150';
-      locales['Română | România'] = '?hl=ro&gl=RO&ceid=RO%3Aro';
-      locales['Slovenčina | Slovensko'] = '?hl=sk&gl=SK&ceid=SK%3Ask';
-      locales['Slovenščina | Slovenija'] = '?hl=sl&gl=SI&ceid=SI%3Asl';
-      locales['Svenska | Sverige'] = '?hl=sv&gl=SE&ceid=SE%3Asv';
-      locales['Tiếng Việt | Việt Nam'] = '?hl=vi&gl=VN&ceid=VN%3Avi';
-      locales['Türkçe | Türkiye'] = '?hl=tr&gl=TR&ceid=TR%3Atr';
-      locales['Ελληνικά | Ελλάδα'] = '?hl=el&gl=GR&ceid=GR%3Ael';
-      locales['Български | България'] = '?hl=bg&gl=BG&ceid=BG%3Abg';
-      locales['Русский | Россия'] = '?hl=ru&gl=RU&ceid=RU%3Aru';
-      locales['Русский | Украина'] = '?hl=ru&gl=UA&ceid=UA%3Aru';
-      locales['Српски | Србија'] = '?hl=sr&gl=RS&ceid=RS%3Asr';
-      locales['Українська | Україна'] = '?hl=uk&gl=UA&ceid=UA%3Auk';
-      locales['עברית | ישראל'] = '?hl=he&gl=IL&ceid=IL%3Ahe';
-      locales['العربية | الإمارات العربية المتحدة'] = '?hl=ar&gl=AE&ceid=AE%3Aar';
-      locales['العربية | المملكة العربية السعودية'] = '?hl=ar&gl=SA&ceid=SA%3Aar';
-      locales['العربية | لبنان'] = '?hl=ar&gl=LB&ceid=LB%3Aar';
-      locales['العربية | مصر'] = '?hl=ar&gl=EG&ceid=EG%3Aar';
-      locales['मराठी | भारत'] = '?hl=mr&gl=IN&ceid=IN%3Amr';
-      locales['हिन्दी | भारत'] = '?hl=hi&gl=IN&ceid=IN%3Ahi';
-      locales['বাংলা | বাংলাদেশ'] = '?hl=bn&gl=BD&ceid=BD%3Abn';
-      locales['தமிழ் | இந்தியா'] = '?hl=ta&gl=IN&ceid=IN%3Ata';
-      locales['മലയാളം | ഇന്ത്യ'] = '?hl=ml&gl=IN&ceid=IN%3Aml';
-      locales['తెలుగు | భారతదేశం'] = '?hl=te&gl=IN&ceid=IN%3Ate';
-      locales['ไทย | ไทย'] = '?hl=th&gl=TH&ceid=TH%3Ath';
-      locales['中文 | 中国'] = '?hl=zh-CN&gl=CN&ceid=CN:zh-Hans';
-      locales['中文 | 台灣'] = '?hl=zh-TW&gl=TW&ceid=TW%3Azh-Hant';
-      locales['中文 | 香港'] = '?hl=zh-HK&gl=HK&ceid=HK%3Azh-Hant';
-      locales['한국어 | 대한민국'] = '?hl=ko&gl=KR&ceid=KR%3Ako';
-
-      function locale_to_readabletext(string) {
-        string = string.replace('%3A', ':');
-        for (var locale in locales) {
-          if (locales[locale].replace('%3A', ':') == string)
-            return locale;
-        }
-        return null;
-      }
-
-      var must_clear_news = false;
-
-      function render_news_loading() {
-        must_clear_news = true;
-        document.getElementById('news').innerHTML =
-          '<div style="clear:both;text-align:center;width: 100%"><br />&nbsp;<br /><div class="lds-dual-ring"></div></div>';
-      }
-
-      function c_itemnews_ID(title, news_time) {
-        var result = title.toUpperCase().replace(/\b(\S{1,2})\S*/g, '$1').replace(/ /g, '');
-        var tResult = result.substring(0, 8);
-        return tResult + "_" + news_time;
-      }
-
-      function add_gnews(is_primary, title, news_time, source, source_logo, link, image) {
-        var innerDiv = document.createElement('div');
-        var creationTime = new Date(news_time * 1000);
-        var timeagoInstance = timeago();
-        innerDiv.className = 'newsItem';
-        innerDiv.id = c_itemnews_ID(title, news_time);
-        innerDiv.innerHTML = '<div style="float: right; height: 128px;"><img src="' + image +
-          '" class="newsImage" /></div>' +
-          '<div style="position: relative; left: 10px; font-size: 125%">' +
-          '<span class="newsAttribution"><img src="' + source_logo +
-          '" style="max-height: 12px;" />&nbsp;&nbsp;<a style="color: #333" href="' + link + '">' + source +
-          '</a></span>' +
-          '<div class="newsTitle"><a href="' + link + '">' +
-          title + '</a></div>' +
-          '<span class="newsTime">' +
-          timeagoInstance.format(creationTime) + '</span></a></div>';
-        var wrapper = document.createElement('div');
-        wrapper.className = "wrapOnSwipe";
-        document.getElementById('news').appendChild(wrapper);
-        document.getElementById('news').appendChild(innerDiv);
-        var spacer = document.createElement('div');
-        spacer.style.clear = 'both';
-        innerDiv.appendChild(spacer);
-        if (localStorage.itemsNewsH) {
-          //If the news has been read , hide it
-          if ((localStorage.itemsNewsH).indexOf(innerDiv.id) > -1) {
-            innerDiv.style.display = "none";
-            wrapper.style.display = "none";
-          }
-        }
-
-      }
-
-      var has_valid_entries = false;
-      var last_offset_rendered = 0;
-
-      function render_gnews(answer, start_offset, n) {
-        last_offset_rendered = start_offset + n;
-        if (must_clear_news) {
-          must_clear_news = false;
-          document.getElementById('news').innerHTML = '';
-        }
-        var el = document.createElement('div');
-        el.style.display = 'none';
-        el.baseURI = newsServer;
-        el.innerHTML = answer.replace(new RegExp('<img', 'gi'), '<source');
-        var articles = el.getElementsByTagName('article');
-        //          console.log(articles);
-        for (var i = start_offset; i < articles.length && i < (n + start_offset); i++) {
-          var article = articles[i];
-          var children = article.childNodes;
-          var title = null;
-          var link = null;
-          var image = null;
-          var source = null;
-          var source_logo = null;
-          var is_primary = false;
-          var news_time = null;
-          for (var j = 0; j < children.length; j++) {
-            var child = children[j];
-            if (child.tagName == 'A') {
-              link = child.href;
-            } else if (child.tagName == 'FIGURE') {
-              if (child.childNodes.length >= 2 && child.childNodes[0].tagName == 'SOURCE') {
-                image = child.childNodes[0].src;
-                is_primary = true;
-              } else if (child.childNodes.length >= 2 && child.childNodes[1].tagName == 'SOURCE') // video to play
-              {
-                image = child.childNodes[1].src;
-                is_primary = true;
-              } else if (child.childNodes.length == 1 && child.childNodes[0].tagName == 'SOURCE') {
-                image = child.childNodes[0].src;
-              }
-            } else if (child.tagName == 'H4') {
-              title = child.childNodes[0].innerText;
-            } else if (child.tagName == 'DIV') {
-              if (child.childNodes.length >= 2 && child.childNodes[0].tagName == 'DIV' && child.childNodes[1].tagName ==
-                'MENU') {
-                if (child.childNodes[0].childNodes[0].tagName == 'TIME')
-                  news_time = child.childNodes[0].childNodes[0].dateTime;
-                else if (child.childNodes[0].childNodes[1].tagName == 'TIME')
-                  news_time = child.childNodes[0].childNodes[1].dateTime;
-              } else if (child.childNodes.length >= 2 && child.childNodes[0].tagName == 'DIV') {
-                var subNode = child.childNodes[1];
-                if (subNode.childNodes[0].tagName == 'DIV' && subNode.childNodes[1].tagName == 'MENU') {
-                  if (subNode.childNodes[0].tagName == 'DIV' && subNode.childNodes[1].tagName == 'MENU') {
-                    if (subNode.childNodes[0].childNodes[0].tagName == 'TIME')
-                      news_time = subNode.childNodes[0].childNodes[0].dateTime;
-                    else if (subNode.childNodes[0].childNodes[1].tagName == 'TIME')
-                      news_time = subNode.childNodes[0].childNodes[1].dateTime;
-                  }
-                }
-                var subNode = child.childNodes[0].childNodes[0];
-                if (subNode.childNodes.length == 3 && subNode.childNodes[0].tagName == 'DIV') {
-                  source = subNode.childNodes[0].innerText;
-                  var sourceNode = subNode.childNodes[0].childNodes[0];
-                  if ((sourceNode.tagName == 'A' || sourceNode.tagName == 'SPAN') && sourceNode.childNodes[0].tagName ==
-                    'SOURCE')
-                    source_logo = sourceNode.childNodes[0].src;
-                }
-                if (subNode.childNodes.length == 3 && subNode.childNodes[1].tagName == 'H4')
-                  title = subNode.childNodes[1].innerText;
-              } else if (child.childNodes.length >= 2 && child.childNodes[0].tagName == 'FIGURE') {
-                if (child.childNodes[0].childNodes[0].tagName == 'SOURCE')
-                  image = child.childNodes[0].childNodes[0].src;
-                else if (child.childNodes[0].childNodes[1].tagName == 'SOURCE') // video to play
-                  image = child.childNodes[0].childNodes[1].src;
-                var divSubNode = child.childNodes[1];
-                if (divSubNode.childNodes.length == 3 && divSubNode.childNodes[0].tagName == 'DIV') {
-                  source = divSubNode.childNodes[0].innerText;
-                  var sourceNode = divSubNode.childNodes[0].childNodes[0];
-                  if ((sourceNode.tagName == 'A' || sourceNode.tagName == 'SPAN') && sourceNode.childNodes[0].tagName ==
-                    'SOURCE')
-                    source_logo = sourceNode.childNodes[0].src;
-                }
-                if (divSubNode.childNodes.length == 3 && divSubNode.childNodes[1].tagName == 'H4')
-                  title = divSubNode.childNodes[1].innerText;
-              } else if (child.childNodes.length >= 2 && child.childNodes[0].tagName == 'SOURCE') {
-                if (child.childNodes[0].tagName == 'SOURCE' && child.childNodes[1].tagName == 'A') {
-                  source_logo = child.childNodes[0].src;
-                  if (child.childNodes[1].innerText)
-                    source = child.childNodes[1].innerText;
-                }
-              } else if (child.childNodes.length == 1 && child.childNodes[0].tagName == 'A') {
-                subNode = child.childNodes[0];
-                source = subNode.innerText;
-                var sourceNode = subNode.childNodes[0];
-                if (sourceNode.tagName == 'SOURCE')
-                  source_logo = sourceNode.src;
-              } else if (child.childNodes.length >= 2 && child.childNodes[0].tagName == 'A') {
-                source = child.childNodes[1].innerText;
-                var sourceNode = child.childNodes[0].childNodes[0];
-                if (sourceNode.tagName == 'SOURCE')
-                  source_logo = sourceNode.src;
-              } else if (child.childNodes.length >= 2 && child.childNodes[0].tagName == 'SPAN') {
-                source = child.childNodes[1].innerText;
-                var sourceNode = child.childNodes[0].childNodes[0];
-                if (sourceNode.tagName == 'SOURCE')
-                  source_logo = sourceNode.src;
-              } else if (child.childNodes.length >= 2 && child.childNodes[0].tagName == 'SOURCE') {
-                if (child.childNodes[1].innerText)
-                  source = child.childNodes[1].innerText;
-              }
-            }
-          }
-
-          if (news_time && parseInt(news_time.substr(news_time.lastIndexOf(":") + 2)) > 1518000000)
-            news_time = parseInt(news_time.substr(news_time.lastIndexOf(":") + 2));
-          else
-            news_time = parseInt(Date.parse(news_time) / 1000);
-          if (link)
-            link = link.replace('https://d3ward.github.io/ntp/', 'https://news.google.com/');
-          if (link && image && title) {
-            has_valid_entries = true;
-            console.log('Title: ' + title);
-            add_gnews(is_primary, title, news_time, source, source_logo, link, image);
-          }
-          if (articles.length > (i + 1) && i <= 29) {
-            document.getElementById('newsMore').innerHTML =
-              '<div style="    color: var(--primary-color);background-color: var(--bg-color-newsI);box-shadow: 0 1px 4px var(--box-shadow-ntp);width: calc(100vw - 30px);font-size: 24px;border-radius: 5px;margin: auto;text-align: center;"><i class="fas fa-ellipsis-h"></i></div><br />&nbsp;<br />';
-          } else {
-            document.getElementById('newsMore').innerHTML = '';
-          }
-        }
-        localStorage.cachedGNews = answer;
-      }
-
-      if (typeof window.chrome.embeddedSearch == "undefined" || (typeof window.chrome.embeddedSearch != "undefined" && !
-          window.chrome.embeddedSearch.newTabPage.isIncognito)) {
-        if (typeof localStorage.newsLocale == "undefined") {
-          localStorage.newsLocale = '';
-        } else if (localStorage.newsLocale != '') {
-          document.getElementById('locale').innerHTML = locale_to_readabletext(localStorage.newsLocale);
-        }
-        console.log('News locale is ' + localStorage.newsLocale);
-        if (typeof localStorage.cachedGNews != "undefined" && typeof localStorage.hideNews == "undefined") {
-          console.log('Rendering GNews from cache');
-          render_gnews(localStorage.cachedGNews, 0, 10);
-          if (typeof localStorage.lastOffsetRendered != "undefined") {
-            for (var i = 10; i <= localStorage.lastOffsetRendered; i += 10)
-              render_gnews(localStorage.cachedGNews, i, 10);
-          }
-        }
-        if ((typeof localStorage.cachedNewsUpdate == "undefined") || ((Date.now() / 1000) - localStorage
-            .cachedNewsUpdate) > 3600 || (typeof localStorage.needFetch == "undefined")) {
-          if (typeof localStorage.hideNews == "undefined") {
-            localStorage.needFetch = false;
-            console.log("Fetching fresh news");
-            has_valid_entries = false;
-            try {
-              document.getElementById('newsMore').innerHTML = '';
-              last_offset_rendered = 0;
-              localStorage.lastOffsetRendered = 0;
-              render_news_loading();
-              fetch(newsServer + 'foryou' + localStorage.newsLocale, {
-                  method: 'GET',
-                  credentials: 'include'
-                })
-                .then(function (response) {
-                  if (response.url.includes("&ceid=")) {
-                    localStorage.newsLocale = response.url.substr(response.url.lastIndexOf('?'));
-                    document.getElementById('locale').innerHTML = locale_to_readabletext(localStorage.newsLocale);
-                  }
-                  return response.text();
-                }).then(function (answer) {
-                  if (answer != localStorage.cachedGNews) {
-                    render_gnews(answer, 0, 10);
-                  }
-                  localStorage.cachedNewsUpdate = (Date.now() / 1000);
-                });
-            } catch (err) {
-              console.log('Fetch news failed for: ' + err.message);
-            }
-            try {
-              if (!has_valid_entries) {
-                last_offset_rendered = 0;
-                localStorage.lastOffsetRendered = 0;
-                render_news_loading();
-                fetch(newsServer + localStorage.newsLocale, {
-                    method: 'GET',
-                    mode: 'cors'
-                  })
-                  .then(function (response) {
-                    console.log('News Response:');
-                    console.log(response);
-                    if (response.url.includes("&ceid=")) {
-                      localStorage.newsLocale = response.url.substr(response.url.lastIndexOf('?'));
-                      document.getElementById('locale').innerHTML = locale_to_readabletext(localStorage.newsLocale);
-                    }
-                    return response.text();
-                  })
-                  .then(function (answer) {
-                    //console.log('News Answer:');
-                    //console.log(answer);
-                    console.log('Has valid entries: ' + has_valid_entries);
-                    if (answer != localStorage.cachedGNews && !has_valid_entries) {
-                      render_gnews(answer, 0, 10);
-                    }
-                    localStorage.cachedNewsUpdate = (Date.now() / 1000);
-                  });
-              }
-            } catch (err) {
-              console.log('Fetch generic news failed for: ' + err.message);
-            }
-          }
-        }
-      }
-
-      addSwipeToDelete();
-
-      function addSwipeToDelete() {
-        var xDown = null;
-        var xDiff = null;
-        var tasks = document.getElementsByClassName("newsItem");
-
-        function is_touch_device() {
-          try {
-            document.createEvent("TouchEvent");
-            return true;
-          } catch (e) {
-            return false;
-          }
-        }
-        for (var i = 0; i < tasks.length; i++) {
-          if (is_touch_device()) {
-            tasks[i].addEventListener('touchstart', handleTouchStart, false);
-            tasks[i].addEventListener('touchmove', handleTouchMove, false);
-            tasks[i].addEventListener('touchend', handleTouchEnd, false);
-          }
-        }
-
-        function handleTouchStart(evt) {
-          xDown = evt.touches[0].clientX;
-        }
-        function handleTouchMove(evt) {
-          var el = (evt.target.closest("div.newsItem"));
-          el.style.transition = "margin 0ms";
-          if (!xDown) {
-            return;
-          }
-          var xUp = evt.touches[0].clientX;
-          var yUp = evt.touches[0].clientY;
-          xDiff = xDown - xUp;
-          if (xDiff < 30) return;
-          el.style.marginLeft = "-" + (xDiff - 20) + 'px';
-
-          var wrap = el.previousSibling;
-          wrap.style.width = xDiff + 'px';
-          if (xDiff < 130) {
-            wrap.style.backgroundColor = "grey";
-            var op = (xDiff / 130);
-            el.style.opacity = "1" - op;
-            wrap.style.opacity = op;
-          }
-          if (xDiff > 130)
-            wrap.style.backgroundColor = "red";
-
-        }
-
-        function handleTouchEnd(evt) {
-          var el = (evt.target.closest("div.newsItem"));
-          var wrap = el.previousSibling;
-          if (xDiff > 130) {
-            wrap.style.display = "none"
-            el.style.display = "none";
-            var itemsArray;
-            if (localStorage.getItem('itemsNewsH')) itemsArray = JSON.parse(localStorage.getItem('itemsNewsH'));
-            else itemsArray = [];
-            itemsArray.push(el.id);
-            localStorage.setItem('itemsNewsH', JSON.stringify(itemsArray));
-            console.log("News with id : " + el.id + " added to hide list");
-          } else {
-            el.style.transition = "margin 600ms";
-            el.style.opacity = "1";
-            el.style.marginLeft = '8px';
-            wrap.style.marginLeft = '8px';
-            wrap.style.width = '0px';
-          }
-          xDiff = null;
-          xDown = null;
-        }
-
-      }
-
-      function resetNH_items() {
-        localStorage.removeItem("itemsNewsH");
-        location.reload();
-      }
-    </script>
-    <div id="bottom_panel" class="show-classic" style="text-align: center;padding-bottom: 5px;padding-top: 5px;">
-      <button id="enable-news-button" class="bp_buttons" onclick="enable_news()"><i class="far fa-newspaper fa-lg"></i>
-        View News </button>
-      <button id="settings-button" class="bp_buttons"> <i class="fas fa-cogs fa-lg"></i> Settings </button>
-      <button id="resetNH-button" class="bp_buttons" onclick="resetNH_items()"><i class="fas fa-eye-slash fa-lg"></i>
-        Reset read news </button>
-    </div>
+  <div id="ntp-contents">
+    <!--Widgets-->
+    <div id="wdg-0" class="wdg-ntp"></div>
+    <div id="wdg-1" class="wdg-ntp"></div>
+    <div id="wdg-2" class="wdg-ntp"></div>
+    <div id="wdg-3" class="wdg-ntp"></div>
+    <div id="wdg-4" class="wdg-ntp"></div>
   </div>
 
   <div id="incognito" style="display: none;width: 100%;height: 100%;background:black;">
@@ -1829,7 +582,4 @@
     </div>
   </div>
 </body>
-<script crossorigin="anonymous" async defer src="./local_ntp.js" ></script>
-
-
 </html>
