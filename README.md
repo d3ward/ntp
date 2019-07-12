@@ -3,7 +3,7 @@ Copyright 2019 Geometry OU / Kiwi Browser
 Licensed under https://creativecommons.org/licenses/by-nc-sa/4.0/
 
 
-This is the New Tab Page of Kiwi Browser, open-source and free to use in non-commercial projects.
+This is a fork of the New Tab Page from Kiwi Browser, open-source and free to use in non-commercial projects.
 
 
 The New Tab Page is in two parts:
