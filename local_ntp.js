@@ -1153,11 +1153,11 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
   }
   //Function to set options radio
   function set_option_r(t,i){
-    ntp_sett[2].options[i]=t.value;
+    ntp_sett[0].options[i]=t.value;
     localStore("ntp_sett",ntp_sett);
   }
   function set_option_t(t,v,f,i){
-    ntp_sett[2].options[i]=(t.checked)?v:f;
+    ntp_sett[0].options[i]=(t.checked)?v:f;
     localStore("ntp_sett",ntp_sett);
   }
   //Function to set solid color for ntp bg
