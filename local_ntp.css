@@ -246,6 +246,9 @@ display:none;
 .swiper-slide {
   display: table;
 }
+.swiper-slide{
+  height: auto!important;
+}
 .sc-intro-wrapper {
   display: table-cell;
   vertical-align: middle;
