@@ -283,8 +283,9 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
       //If user left the title empty pick the rootDomain as title of tile
       var title = document.getElementById('t-lab').value;
       if (title == "") title = rootDomain;
-      if (typeof localGet(keyS) == "undefined" || localGet(keyS) == "") localStore(keyS, []);
+      if (typeof localGet(keyS) == undefined || localGet(keyS) == "") localStore(keyS, []);
       var sItems = localGet(keyS);
+      if (sItems == undefined ) sItems=[];
       var newTile = {
         url: url,
         title: title,
