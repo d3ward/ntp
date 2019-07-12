@@ -69,7 +69,6 @@ function addLogS(msg) {
 if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
   document.body.style.backgroundColor = 'black';
   document.getElementById('incognito').style.display = 'inline';
-  document.getElementById('myNav').style.display = 'none';
   document.getElementById('ntp-contents').style.display = 'none';
 } else {
   var root = document.documentElement;
@@ -1058,7 +1057,7 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
     window.setTimeout(function () {addSwipeToDelete();},2000);
   }
 
-}
+  
 //Settings Stuff
   //Set all buttons color
   for(var i=0;i<21;i++)
@@ -1519,4 +1518,7 @@ function export_logfile(){
   linkElement.setAttribute('href', dataUri);
   linkElement.setAttribute('download', exportFileDefaultName);
   linkElement.click();
+}
+
+
 }
