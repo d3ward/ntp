@@ -21,7 +21,6 @@ function addLogS(msg) {
   //Cache the log 
   localStore("cached-logC", div.innerHTML);
 }
-
 if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
   document.body.style.backgroundColor = 'black';
   document.getElementById('incognito').style.display = 'inline';
@@ -360,8 +359,6 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
       document.getElementById('i-url').value = img;
       document.getElementById('t-url').value = url;
       document.getElementById('t-lab').value = title;
-
-      //event.stopPropagation();
       func_co_dlg(1, 0);
     }
     //Function to add a tile into the grid 
