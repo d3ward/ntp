@@ -7,6 +7,7 @@
   // You can also change window.chrome.embeddedSearch.newTabPage.isIncognito to true or false
   var newsServer = 'https://news.google.com/';
   if (typeof window.chrome.embeddedSearch == "undefined") {
+    console.log("Oh , looks like window.chrome.embeddedSearch is undefined");
     window.chrome = {
       "embeddedSearch": {
         "searchBox": {
