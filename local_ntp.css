@@ -119,7 +119,6 @@ button {
   max-width: 800px;
   user-select: none; /* Standard */
 }
-
 a:-webkit-any-link,a:link {
   text-decoration: none !important;
 }

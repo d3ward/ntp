@@ -44,6 +44,7 @@ function localStore(key, obj) {
 function localGet(key) {
   return JSON.parse(window.localStorage.getItem(key));
 }
+
 //Show NTP ( should reduce the flash effect )
 //document.getElementById('bdy').classList.add('inited');
 
