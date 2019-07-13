@@ -70,7 +70,7 @@
   function addLogS(msg) {
     var div = document.getElementById("logC_section");
     div.innerHTML += msg + "<br>\r\n";
-    localStore("cached-logC", div.innerHTML);
+    localStorage.setItem("cached-logC", div.innerHTML);
   }
   //Cache errors of NTP
   window.onerror = function (msg, url, lineNo, columnNo, error) {
