@@ -64,13 +64,7 @@
     }
     newsServer = 'https://chromecontentsuggestions-pa.kiwibrowser.com/testnews/?';
   }
-  //Functions for localstorage store and get
-  function localStore(key, obj) {
-    return window.localStorage.setItem(key, JSON.stringify(obj));
-  }
-  function localGet(key) {
-    return JSON.parse(window.localStorage.getItem(key));
-  }
+  
   //Function to add log of errors
   function addLogS(msg) {
     var div = document.getElementById("logC_section");
