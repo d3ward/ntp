@@ -80,13 +80,7 @@
     return false;
   };
   //NTP 
-  //Functions for localstorage store and get
-  function localStore(key, obj) {
-    return window.localStorage.setItem(key, JSON.stringify(obj));
-  }
-  function localGet(key) {
-    return JSON.parse(window.localStorage.getItem(key));
-  }
+  
   //Function to reset NTP
   function reset_page() {
     if (confirm("This will reset all the homepage back to default, are you sure ?")) {
@@ -598,5 +592,5 @@
     </div>
   </div>
 </body>
-<script async defer src="./local_ntp.js" crossorigin="anonymous"></script><!-- ""-->
+<script defer src="./local_ntp.js" crossorigin="anonymous"></script><!-- ""-->
 </html>
