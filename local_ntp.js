@@ -39,33 +39,9 @@ g:function(a,b,c,d){this.h.g(this.c.l(a,b,c,c),c,d)},a:function(a,b,c,d,f){this.
 return function(e,n,r){return n&&t(e.prototype,n),r&&t(e,r),e}}();var p=function(){function t(e,n){!function(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}(this,t),this.nowDate=e,this.defaultLocale=n||"en"}
 return h(t,[{key:"setLocale",value:function(t){this.defaultLocale=t}},{key:"doRender",value:function(t,e,r){var a=this,i=u(e,this.nowDate);t.innerHTML=o(i,r,this.defaultLocale);var c=function(t,e){var n=setTimeout(function(){l(n),t()},e);return d[n]=0,n}(function(){a.doRender(t,e,r)},Math.min(1e3*function(t){for(var e=1,r=0,a=Math.abs(t);t>=n[r]&&r<n.length;r++)t/=n[r],e*=n[r];return a=(a%=e)?e-a:e,Math.ceil(a)}(i),2147483647));!function(t,e){t.setAttribute?t.setAttribute("data-tid",e):t.attr&&t.attr("data-tid",e)}(t,c)}},{key:"render",value:function(t,e){void 0===t.length&&(t=[t]);for(var n=void 0,r=0,a=t.length;r<a;r++)n=t[r],s(n),this.doRender(n,f(n),e)}},{key:"format",value:function(t,e){return o(u(t,this.nowDate),e,this.defaultLocale)}}]),t}(),v=function(t,e){return new p(t,e)};return v.register=function(t,e){r[t]=e},v.cancel=s,v})
 
+//Show NTP ( should reduce the flash effect )
+//document.getElementById('bdy').classList.add('inited');
 
-
-
-
-//NTP 
-//Functions for localstorage store and get
-function localStore(key, obj) {
-  return window.localStorage.setItem(key, JSON.stringify(obj));
-}
-function localGet(key) {
-  return JSON.parse(window.localStorage.getItem(key));
-}
-//Function to reset NTP
-function reset_page() {
-  if (confirm("This will reset all the homepage back to default, are you sure ?")) {
-    localStorage.clear();
-    location.reload();
-  }
-}
-//Function to add log of errors
-function addLogS(msg) {
-  //Add to div
-  var div = document.getElementById("logC_section");
-  div.innerHTML += msg + "<br>\r\n";
-  //Cache the log 
-  localStore("cached-logC", div.innerHTML);
-}
 if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
   document.body.style.backgroundColor = 'black';
   document.getElementById('incognito').style.display = 'inline';
@@ -195,7 +171,7 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
       addLogS("Error:" + err.name + " ( " + err.message + " )");
     }
   }
-  
+  try {
   function load_widgets(){
     //Load widgets from cache
     try {
@@ -1174,7 +1150,6 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
     localStore("bgNStyle", nStyle);
     ntp_sett[1].c23='url(' +patternsURI[nStyle - 1]+')'+(ntp_sett[1].status[1]?','+ntp_sett[1].gradientC:"");
     root.style.setProperty("--ntp-c23",ntp_sett[1].c23);
-    
   }
   //Function change background to prev style
   function prevStyle() {
@@ -1183,7 +1158,6 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
     localStore("bgNStyle", nStyle);
     ntp_sett[1].c23='url(' +patternsURI[nStyle - 1]+')'+(ntp_sett[1].status[1]?','+ntp_sett[1].gradientC:"");
     root.style.setProperty("--ntp-c23",ntp_sett[1].c23);
-    
   }
   //Function to apply setting property
   function set_color_property(y,value){
@@ -1209,6 +1183,7 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
     };
     image.src = (url);
   }
+
   //Function to enter custom file image
   function cWallpaper2() {
     var fData = document.getElementById('wallpaper_file');
@@ -1430,18 +1405,13 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
     }
   }
 
-
   //Load Theme Color
   var metaThemeColor = document.querySelector("meta[name=theme-color]");
   metaThemeColor.setAttribute("content", ntp_sett[0].colors[3]);
-
-
   function test_log() {
     test;
   }
 
- 
-  
   //Function for settings dialog
   function func_dlg_st(a) {
     func_st_page(0);
@@ -1501,10 +1471,7 @@ function preconnectTo(url) {
   localStorage.ntpVersion = "3.0.0";
   func_dlg_st(1);func_st_page(10);
 }
-//Show NTP ( should reduce the flash effect )
-document.getElementById('bdy').classList.add('inited');
 
-document.getElementById("logC_section").innerHTML=localGet("cached-logC");
 function clear_log(){
   localStore("cached-logC","");
   document.getElementById("logC_section").innerHTML="";
@@ -1520,5 +1487,7 @@ function export_logfile(){
   linkElement.click();
 }
 
-
+} catch (err) {
+  addLogS("Error:" + err.name + " ( " + err.message + " )");
+}
 }

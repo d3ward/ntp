@@ -71,7 +71,7 @@ body {
   background-color: var(--ntp-c22);
   background-image: var(--ntp-c23);
   background-size: var(--ntp-c24);
-  opacity: 0;
+  opacity: 1;
 }
 
 /* Show the body after all components are loaded */
