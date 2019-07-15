@@ -45,18 +45,6 @@
     }, {
       "rid": 4,
       "faviconUrl": "chrome-search://favicon/size/16@2.625000x/1/28"
-    }, {
-      "rid": 5,
-      "faviconUrl": "chrome-search://favicon/size/16@2.625000x/1/29"
-    }, {
-      "rid": 6,
-      "faviconUrl": "chrome-search://favicon/size/16@2.625000x/1/30"
-    }, {
-      "rid": 7,
-      "faviconUrl": "chrome-search://favicon/size/16@2.625000x/1/31"
-    }, {
-      "rid": 8,
-      "faviconUrl": "chrome-search://favicon/size/16@2.625000x/1/32"
     }];
     chrome.embeddedSearch.newTabPage.getMostVisitedItemData = function (rid) {
       return {
@@ -65,7 +53,6 @@
     }
     newsServer = 'https://chromecontentsuggestions-pa.kiwibrowser.com/testnews/?';
   }
-  
   //Function to add log of errors
   function addLogS(msg) {
     var div = document.getElementById("logC_section");
@@ -96,20 +83,21 @@
 <!-- Copyright 2019 Geometry OU / Kiwi Browser -->
 <!-- Licensed under https://creativecommons.org/licenses/by-nc-sa/4.0/ -->
 <head>
-  <!---->
-  <base href="https://d3ward.github.io/ntp/">
+  <!-- <base href="https://d3ward.github.io/ntp/">-->
+ 
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="theme-color" content="#ffffff">
   <script src="https://kit.fontawesome.com/528a166104.js"></script>
-  <link rel="stylesheet" href="./local_min.css">
-  <link rel="stylesheet" href="./local_ntp.css">
+  <link rel="stylesheet" href="./local_min.css?1">
+  <link rel="stylesheet" href="./local_ntp.css?1">
   <meta charset="utf-8">
   <meta name="google" value="notranslate">
 </head>
 
 <body id="bdy">
-  <button type="submit" class="btn-res" onclick="reset_page()" style="background:red;">Reset</button>
+  
   <div id="ntp-contents">
+    <button type="submit" class="btn-res" onclick="reset_page()" style="background:transparent;">Reset</button>
     <div class="dlg-vrlay" id="dlg_eg">
       <div style="width: 100%;text-align: center;margin-top:50%;"><img class="k-logo" id="logo_eg" src="" onclick="close_eg()"></div>
     </div>
@@ -148,20 +136,22 @@
       </button>
       <div class="dlg-content">
         <div class="swiper-c-intro" id="sc-intro">
-          <div class="swiper-p-intro"></div>
+          
           <div class="swiper-wrapper">
             <div class="swiper-slide" id="swip_settings_list">
-              <button onclick="func_st_page(1);"><i class="fal fa-cogs icon"></i></i>General</button>
-              <button onclick="func_st_page(2);"><i class="fal fa-image icon"></i>NTP Background</button>
-              <button onclick="func_st_page(3);"><i class="fas fa-rectangle-wide icon"></i>Widgets</button>
-              <button onclick="func_st_page(4);"><i class="fas fa-grip-horizontal icon"></i>Bookmarks Grid</button>
-              <button onclick="func_st_page(5);"><i class="far fa-newspaper icon"></i>News Section</button>
-              <button onclick="func_st_page(6);"><i class="fa fa-css3 icon"></i>QuickLinks</button>
-              <button onclick="func_st_page(7);"><i class="far fa-search icon"></i>Search Bar</button>
-              <button onclick="func_st_page(8);"><i class="far fa-window-alt icon"></i>Tabs Widget</button>
-              <button onclick="func_st_page(9);"><i class="far fa-redo-alt icon"></i>Backup&Restore</button>
-              <button onclick="func_st_page(10);"><i class="far fa-list-alt icon"></i>Changelog</button>
-              <button onclick="func_st_page(11);"><i class="fal fa-info-square icon"></i>About</button>
+              <div class="scrollable-wrap">
+                <button onclick="func_st_page(1);"><i class="fal fa-cogs icon"></i></i>General</button>
+                <button onclick="func_st_page(2);"><i class="fal fa-image icon"></i>NTP Background</button>
+                <button onclick="func_st_page(3);"><i class="fas fa-rectangle-wide icon"></i>Widgets</button>
+                <button onclick="func_st_page(4);"><i class="fas fa-grip-horizontal icon"></i>Bookmarks Grid</button>
+                <button onclick="func_st_page(5);"><i class="far fa-newspaper icon"></i>News Section</button>
+                <button onclick="func_st_page(6);"><i class="fa fa-css3 icon"></i>QuickLinks</button>
+                <button onclick="func_st_page(7);"><i class="far fa-search icon"></i>Search Bar</button>
+                <button onclick="func_st_page(8);"><i class="far fa-window-alt icon"></i>Tabs Widget</button>
+                <button onclick="func_st_page(9);"><i class="far fa-redo-alt icon"></i>Backup&Restore</button>
+                <button onclick="func_st_page(10);"><i class="far fa-list-alt icon"></i>Changelog</button>
+                <button onclick="func_st_page(11);"><i class="fal fa-info-square icon"></i>About</button>
+              </div>
             </div>
             <!-- General -->
             <div class="swiper-slide">
@@ -172,26 +162,26 @@
                   </div>
                   <div class="vrlay-wrap vw2 ">
                     <label class="settings-colors"> Background Color </label>
-                    <input id="set-color0" type=color onchange="set_color_property(0,(this.value))"
-                      oncontextmenu="setCustomRGB((this.value) ,0)">
+                    <span class="color_front"></span>
+                    <input id="set-color0" type=color onchange="set_color_property(0,(this))"
+                      oncontextmenu="setCustomRGB((this) ,0)">
                   </div>
                   <div class="vrlay-wrap vw2 ">
                     <label class="settings-colors">Icon Color</label>
-                    <input id="set-color1" type=color onchange="set_color_property(1,(this.value))"
-                      oncontextmenu="setCustomRGB((this.value) ,1)">
+                    <span class="color_front"></span>
+                    <input id="set-color1" type=color onchange="set_color_property(1,(this))"
+                      oncontextmenu="setCustomRGB((this) ,1)">
                   </div>
-                  <br>
-                  <hr style="max-width:400px;margin: auto;"><br>
-                  <div class="vrlay-wrap vw1">
+                  <br><hr><br>
+                  <div class="vrlay-wrap vw2">
                     <label class="settings-options">Material Design Shadow</label>
-                    <input id="set-opt3" class="toggle" type="checkbox"
-                      onchange="set_option_t(this,'rgba(0, 0, 0, 0.6)','',3)" />
+                    <input id="set-opt3" class="toggle" type="checkbox" value="rgba(0,0,0,0.6"
+                      onchange="set_option_t(this,'',3)" />
                   </div>
                 </div>
               </div>
             </div>
             <!-- NTP Background-->
-            
             <div class="swiper-slide">
               <div class="sc-intro-wrapper">
                 <div class="scrollable-wrap">
@@ -202,17 +192,16 @@
                     <div id="bg-preview"></div>
                   </div>
                   <br><br>
-                  <hr style="max-width:400px;margin: auto;"><br>
-                  <div class="vrlay-wrap">
+                  <hr ><br>
+                  <div class="vrlay-wrap vw2">
                     <ul id="list_ntp_bg">
                       <li>
                         <label class="checkbox"><input type="checkbox" name="lntpbg" value="0">Solid
                           Color<span></span></label>
                         <span class="li_onright">
                           <input id="set-color22" type=color onchange="set_color_property2(this.value)"
-                            oncontextmenu="setCustomRGB((this.value),22)"></span>
+                            oncontextmenu="setCustomRGB((this),22)"></span>
                       </li>
-
                       <li>
                         <label class="checkbox"><input type="checkbox" name="lntpbg" value="1">Gradient
                           Generator<span></span></label>
@@ -220,7 +209,6 @@
                           <button type="button" class="btn-dark" id="" onclick="random_gradient();"><i
                               class="far fa-random"></i></button></span>
                       </li>
-
                       <li>
                         <label class="checkbox"><input type="checkbox" name="lntpbg" value="2">Pattern
                           Style<span></span></label>
@@ -230,7 +218,6 @@
                           <button type="button" class="btn-dark" id="nextS" onclick="nextStyle()"><i
                               class="fas fa-chevron-right"></i></button></span>
                       </li>
-
                       <li>
                         <label class="checkbox"><input type="checkbox" name="lntpbg" value="3">Wallpaper URL
                           <span></span>
@@ -239,7 +226,6 @@
                           <button type="button" class="btn-dark" id="" onclick="cWallpaper1();"><i
                               class="far fa-link"></i></button></span>
                       </li>
-
                       <li>
                         <label class="checkbox"><input type="checkbox" name="lntpbg" value="4">Wallpaper
                           File<span></span></label>
@@ -254,7 +240,6 @@
                       </li>
                     </ul>
                   </div>
-
                 </div>
               </div>
             </div>
@@ -271,14 +256,12 @@
             <div class="swiper-slide">
               <div class="sc-intro-wrapper">
                 <div class="scrollable-wrap">
-                  <div class="vrlay-wrap">
-                    <div class="settings-label">Bookmarks Tile Style</div>
-                  </div>
+                  <div class="vrlay-wrap"><div class="settings-label">Bookmarks Tile Style</div></div>
                   <div class="vrlay-wrap">
                     <div class="radio-toolbar">
                       <input type="radio" id="r1_0" name="radioES1" value="0px" onchange="set_option_r(this,0);">
                       <label for="r1_0"><img class="k-logo" style="width: 54px;height: 54px;" src="">Square</label>
-                      <input type="radio" id="r1_1" name="radioES1" value="6px" onchange="set_option_r(this,0);">
+                      <input type="radio" id="r1_1" name="radioES1" value="6px" onchange="set_option_r(this,0);" checked>
                       <label for="r1_1"><img class="k-logo" style="width: 54px;height: 54px;border-radius: 6px;"
                           src="">Round</label>
                       <input type="radio" id="r1_2" name="radioES1" value="40px" onchange="set_option_r(this,0);">
@@ -290,77 +273,80 @@
                     <div class="settings-label">Tiles per row</div>
                   </div>
                   <div class="vrlay-wrap">
-                    <button class="btn-dark" style="width:35px;" id="prevCols" onclick="removeColRow()"><i
+                    <button class="btn-dark" style="width:35px;" id="prevCols" onclick="editNCols(0)"><i
                         class="fas fa-caret-left fa-2x"></i></button>
                     <label id="nColsLabel">4</label>
-                    <button class="btn-dark" style="width:35px;" id="nextCols" onclick="addColRow()"><i
+                    <button class="btn-dark" style="width:35px;" id="nextCols" onclick="editNCols(1)"><i
                         class="fas fa-caret-right fa-2x"></i></button>
                   </div>
-                  <div class="vrlay-wrap">
-                    <div class="settings-label">Swipe Effect</div>
-                  </div>
+                  <div class="vrlay-wrap"><div class="settings-label">Swipe Effect</div></div>
                   <div class="vrlay-wrap">
                     <div class="radio-toolbar">
-                      <input type="radio" id="r2_0" name="radioES2" value="slide" onchange="set_option_r(this,1);">
+                      <input type="radio" id="r2_0" name="radioES2" value="slide" onchange="set_option_r(this,1);" checked>
                       <label for="r2_0">Slide</label>
                       <input type="radio" id="r2_1" name="radioES2" value="fade" onchange="set_option_r(this,1);">
                       <label for="r2_1">Fade</label>
                     </div>
                   </div>
-                  <div class="vrlay-wrap">
-                    <div class="settings-label">Swipe Speed</div>
-                  </div>
+                  <div class="vrlay-wrap"><div class="settings-label">Swipe Speed</div></div>
                   <div class="vrlay-wrap">
                     <div class="radio-toolbar">
                       <input type="radio" id="r3_0" name="radioES3" value=150 onchange="set_option_r(this,2);">
                       <label for="r3_0">Fast</label>
-                      <input type="radio" id="r3_1" name="radioES3" value=450 onchange="set_option_r(this,2);">
+                      <input type="radio" id="r3_1" name="radioES3" value=450 onchange="set_option_r(this,2);" checked>
                       <label for="r3_1">Normal</label>
                       <input type="radio" id="r3_2" name="radioES3" value=850 onchange="set_option_r(this,2);">
                       <label for="r3_2">Slow</label>
                     </div>
                   </div>
+                  <br><hr><br>
+                  <div class="vrlay-wrap"><div class="settings-label">Colors</div></div>
                   <div class="vrlay-wrap vw2">
                     <label class="settings-colors"> Icon tile background</label>
-                    <input id="set-color8" type=color onchange="set_color_property(8,(this.value))"
-                      oncontextmenu="setCustomRGB((this.value) ,8)">
+                    <span class="color_front"></span>
+                    <input id="set-color8" type=color onchange="set_color_property(8,(this))"
+                      oncontextmenu="setCustomRGB((this) ,8)">
                   </div>
                   <div class="vrlay-wrap vw2 ">
                     <label class="settings-colors"> Icon tile border </label>
-                    <input id="set-color9" type=color onchange="set_color_property(9,(this.value))"
-                      oncontextmenu="setCustomRGB((this.value) ,9)">
+                    <span class="color_front"></span>
+                    <input id="set-color9" type=color onchange="set_color_property(9,(this))"
+                      oncontextmenu="setCustomRGB((this) ,9)">
                   </div>
                   <div class="vrlay-wrap vw2 ">
                     <label class="settings-colors"> Tile label text color </label>
-                    <input id="set-color10" type=color onchange="set_color_property(10,(this.value))"
-                      oncontextmenu="setCustomRGB((this.value) ,10)">
+                    <span class="color_front"></span>
+                    <input id="set-color10" type=color onchange="set_color_property(10,(this))"
+                      oncontextmenu="setCustomRGB((this) ,10)">
                   </div>
                   <div class="vrlay-wrap vw2 ">
                     <label class="settings-colors"> Tile label background color </label>
-                    <input id="set-color11" type=color onchange="set_color_property(11,(this.value))"
-                      oncontextmenu="setCustomRGB((this.value) ,11)">
+                    <span class="color_front"></span>
+                    <input id="set-color11" type=color onchange="set_color_property(11,(this))"
+                      oncontextmenu="setCustomRGB((this) ,11)">
                   </div>
                   <div class="vrlay-wrap vw2 ">
                     <label class="settings-colors"> Swiper bullets </label>
-                    <input id="set-color12" type=color onchange="set_color_property(12,(this.value))"
-                      oncontextmenu="setCustomRGB((this.value) ,12)">
+                    <span class="color_front"></span>
+                    <input id="set-color12" type=color onchange="set_color_property(12,(this))"
+                      oncontextmenu="setCustomRGB((this) ,12)">
                   </div>
-                  <br>
+                  <br><hr><br>
 
-                  <div class="vrlay-wrap vw1">
+                  <div class="vrlay-wrap vw2">
                     <label class="settings-options">Open icon link in new tab </label>
-                    <input id="set-opt4" class="toggle" type="checkbox"
-                      onchange="set_option_t(this,'target=_blank','',4)" />
+                    <input id="set-opt4" class="toggle" type="checkbox" value="target=_blank"
+                      onchange="set_option_t(this,'',4)" />
                   </div>
-                  <div class="vrlay-wrap vw1">
+                  <div class="vrlay-wrap vw2">
                     <label class="settings-options">Hide icon text </label>
-                    <input id="set-opt5" class="toggle" type="checkbox"
-                      onchange="set_option_t(this,'inline-block','none',5)" />
+                    <input id="set-opt5" class="toggle" type="checkbox" value="inline-block"
+                      onchange="set_option_t(this,'none',5)" />
                   </div>
-                  <div class="vrlay-wrap vw1">
+                  <div class="vrlay-wrap vw2">
                     <label class="settings-options">Hide dots of Swipers </label>
-                    <input id="set-opt6" class="toggle" type="checkbox"
-                      onchange="set_option_t(this,'inline-block','none',6)" />
+                    <input id="set-opt6" class="toggle" type="checkbox" value="inline-block"
+                      onchange="set_option_t(this,'none',6)" />
                   </div>
                 </div>
               </div>
@@ -374,26 +360,30 @@
                   </div>
                   <div class="vrlay-wrap vw2 ">
                     <label class="settings-colors"> News Item Background color </label>
-                    <input id="set-color13" type=color onchange="set_color_property(13,(this.value))"
-                      oncontextmenu="setCustomRGB((this.value) ,13)">
+                    <span class="color_front"></span>
+                    <input id="set-color13" type=color onchange="set_color_property(13,(this))"
+                      oncontextmenu="setCustomRGB((this) ,13)">
                   </div>
                   <div class="vrlay-wrap vw2 ">
                     <label class="settings-colors"> News Text Color </label>
-                    <input id="set-color14" type=color onchange="set_color_property(14,(this.value))"
-                      oncontextmenu="setCustomRGB((this.value) ,14)">
+                    <span class="color_front"></span>
+                    <input id="set-color14" type=color onchange="set_color_property(14,(this))"
+                      oncontextmenu="setCustomRGB((this) ,14)">
                   </div>
                   <div class="vrlay-wrap vw2 ">
                     <label class="settings-colors"> News Item border color </label>
-                    <input id="set-color15" type=color onchange="set_color_property(15,(this.value))"
-                      oncontextmenu="setCustomRGB((this.value) ,15)">
+                    <span class="color_front"></span>
+                    <input id="set-color15" type=color onchange="set_color_property(15,(this))"
+                      oncontextmenu="setCustomRGB((this) ,15)">
                   </div>
                   <div class="vrlay-wrap vw2 ">
                     <label class="settings-colors"> News Section toolbar color</label>
-                    <input id="set-color16" type=color onchange="set_color_property(16,(this.value))"
-                      oncontextmenu="setCustomRGB((this.value) ,16)">
+                    <span class="color_front"></span>
+                    <input id="set-color16" type=color onchange="set_color_property(16,(this))"
+                      oncontextmenu="setCustomRGB((this) ,16)">
                   </div>
                   <br>
-                  <hr style="max-width:400px;margin: auto;"><br>
+                  <hr ><br>
 
                 </div>
               </div>
@@ -403,32 +393,28 @@
               <div class="sc-intro-wrapper">
                 <div class="scrollable-wrap">
                   <div class="vrlay-wrap">
-                    <div class="settings-label">NTP</div>
-                  </div>
-                  <div class="vrlay-wrap">
                     <div class="settings-label">Quick Links Bar</div>
                   </div>
                   <div class="vrlay-wrap vw2 ">
                     <label class="settings-colors">QL Background Bar </label>
-                    <input id="set-color2" type=color onchange="set_color_property(2,(this.value))"
-                      oncontextmenu="setCustomRGB((this.value) ,2)">
+                    <span class="color_front"></span>
+                    <input id="set-color2" type=color onchange="set_color_property(2,(this))"
+                      oncontextmenu="setCustomRGB((this) ,2)">
                   </div>
                   <div class="vrlay-wrap vw2 ">
                     <label class="settings-colors">QL Icons Background</label>
-                    <input id="set-color3" type=color onchange="set_color_property(3,(this.value))"
-                      oncontextmenu="setCustomRGB((this.value) ,3)">
+                    <span class="color_front"></span>
+                    <input id="set-color3" type=color onchange="set_color_property(3,(this))"
+                      oncontextmenu="setCustomRGB((this) ,3)">
                   </div>
                   <div class="vrlay-wrap vw2 ">
                     <label class="settings-colors">QL Icons Color</label>
-                    <input id="set-color4" type=color onchange="set_color_property(4,(this.value))"
-                      oncontextmenu="setCustomRGB((this.value) ,4)">
+                    <span class="color_front"></span>
+                    <input id="set-color4" type=color onchange="set_color_property(4,(this))"
+                      oncontextmenu="setCustomRGB((this) ,4)">
                   </div>
                   <br>
-                  <hr style="max-width:400px;margin: auto;"><br>
-                  <div class="vrlay-wrap">
-                    <button type="button" class="btn-dark" onclick="defaultSet(3)">Default</button>
-                    <button type="button" class="btn-dark" onclick="close_dialog()">Close</button>
-                  </div>
+                  <hr ><br>
                 </div>
               </div>
             </div>
@@ -441,18 +427,21 @@
                   </div>
                   <div class="vrlay-wrap vw2 ">
                     <label class="settings-colors"> Background color </label>
-                    <input id="set-color5" type=color onchange="set_color_property(5,(this.value))"
-                      oncontextmenu="setCustomRGB((this.value) ,5)">
+                    <span class="color_front"></span>
+                    <input id="set-color5" type=color onchange="set_color_property(5,(this))"
+                      oncontextmenu="setCustomRGB((this) ,5)">
                   </div>
                   <div class="vrlay-wrap vw2 ">
                     <label class="settings-colors"> Text color </label>
-                    <input id="set-color6" type=color onchange="set_color_property(6,(this.value))"
-                      oncontextmenu="setCustomRGB((this.value) ,6)">
+                    <span class="color_front"></span>
+                    <input id="set-color6" type=color onchange="set_color_property(6,(this))"
+                      oncontextmenu="setCustomRGB((this) ,6)">
                   </div>
                   <div class="vrlay-wrap vw2 ">
                     <label class="settings-colors"> Border color </label>
-                    <input id="set-color7" type=color onchange="set_color_property(7,(this.value))"
-                      oncontextmenu="setCustomRGB((this.value) ,7)">
+                    <span class="color_front"></span>
+                    <input id="set-color7" type=color onchange="set_color_property(7,(this))"
+                      oncontextmenu="setCustomRGB((this) ,7)">
                   </div>
                 </div>
               </div>
@@ -466,28 +455,33 @@
                   </div>
                   <div class="vrlay-wrap vw2 ">
                     <label class="settings-colors"> Active tab button color </label>
-                    <input id="set-color17" type=color onchange="set_color_property(17,(this.value))"
-                      oncontextmenu="setCustomRGB((this.value) ,17)">
+                    <span class="color_front"></span>
+                    <input id="set-color17" type=color onchange="set_color_property(17,(this))"
+                      oncontextmenu="setCustomRGB((this) ,17)">
                   </div>
                   <div class="vrlay-wrap vw2 ">
                     <label class="settings-colors"> Not active tab button color </label>
-                    <input id="set-color18" type=color onchange="set_color_property(18,(this.value))"
-                      oncontextmenu="setCustomRGB((this.value) ,18)">
+                    <span class="color_front"></span>
+                    <input id="set-color18" type=color onchange="set_color_property(18,(this))"
+                      oncontextmenu="setCustomRGB((this) ,18)">
                   </div>
                   <div class="vrlay-wrap vw2 ">
                     <label class="settings-colors"> Tab button text color </label>
-                    <input id="set-color19" type=color onchange="set_color_property(19,(this.value))"
-                      oncontextmenu="setCustomRGB((this.value) ,19)">
+                    <span class="color_front"></span>
+                    <input id="set-color19" type=color onchange="set_color_property(19,(this))"
+                      oncontextmenu="setCustomRGB((this) ,19)">
                   </div>
                   <div class="vrlay-wrap vw2 ">
                     <label class="settings-colors"> Tab content background color </label>
-                    <input id="set-color20" type=color onchange="set_color_property(20,(this.value))"
-                      oncontextmenu="setCustomRGB((this.value) ,20)">
+                    <span class="color_front"></span>
+                    <input id="set-color20" type=color onchange="set_color_property(20,(this))"
+                      oncontextmenu="setCustomRGB((this) ,20)">
                   </div>
                   <div class="vrlay-wrap vw2 ">
                     <label class="settings-colors"> Tab content text color </label>
-                    <input id="set-color21" type=color onchange="set_color_property(21,(this.value))"
-                      oncontextmenu="setCustomRGB((this.value) ,21)">
+                    <span class="color_front"></span>
+                    <input id="set-color21" type=color onchange="set_color_property(21,(this))"
+                      oncontextmenu="setCustomRGB((this) ,21)">
                   </div>
                 </div>
               </div>
@@ -506,7 +500,7 @@
                   <label for="file"
                     style="display: inline-block;color: #fff;border: none;margin: 5px;padding-top: 10px;padding-bottom: 10px;border-radius: 5px;width: 80px;background: #000;">Import</label>
                 </div>
-                <hr style="width:80vw;">
+                <hr >
                 <div class="vrlay-wrap">
                   <button type="button" class="btn-dark" onclick="clear_log()">Clear Log</button>
                   <button type="button" class="btn-dark" onclick="test_log()">Test Log</button>
@@ -527,22 +521,31 @@
               <div
                 style="overflow-x:hidden;overflow-y: scroll;max-height: calc(100vh - 120px);max-width:80vw;margin: auto;text-align: left;">
                 <h2># Changelog</h2>
-                <hr style="width:80vw;">
-                <h3>## [3.0.0] - 2019-07-12</h3>
+                <hr>
+                <h3>## [3.0.1] - 2019-07-15</h3>
+                <h4>### Fixed<br>
+                  - Colors not applied when setting transparency<br>
+                  - Options now are working and saved  <br>
+                  - Tiles on row not fit the width  <br>
+                  - Try to fix wrong local files on some users <br>
+                  - Some minimal bugs <br>
+                </h4>
+                
+                <hr >
+                <div id="old-changelog" style="color:#757575;">
+                  <h3>## [3.0.0] - 2019-07-12</h3>
                 <h4>### Added <br>
                   - Settings rewritted from scratch , with menu navigation system and categorized options <br>
                   - NTP widgets ( a new system to put stuff on your ntp , more widgets coming in future)<br>
                   - NTP Bakcground : more options to customize your background ! <br><br>
                   - 2 new widget : Tabs,and Search Bar( enabled in a few days , QuickLinks too)
-                  ## Changed <br>
+                  ### Changed <br>
                   - 80% of javascript code has been rewritted to fit the widget system<br>
                   - Replaced Gridifier with SortableJS <br>
                   - Some core functions for news ( no need to reload page , use the reload button ! ) <br>
                   - There are other minimal changes <br>
                 </h4>
                 <h3>I added an easter egg , let's see if you can find it </h3>
-                <hr style="width:80vw;">
-                <div id="old-changelog" style="color:#757575;display: none;">
                 </div>
               </div>
             </div>
@@ -550,7 +553,7 @@
             <div class="swiper-slide">
               <div style="width:80vw;margin: auto;">
                 <h2>About</h2>
-                <hr style="width:80vw;">
+                <hr >
                 <h4>
                   This NTP ( New Tab Page ) is inspired and based on the NTP from Kiwi Browser <br>
                   <br>
@@ -566,7 +569,7 @@
                 <br><br>
                 Thanks for using this NTP and contributing on it <br>
                 <br><br>
-                <hr style="width:80vw;">
+                <hr >
                 <br>
                 <div style="width: 100%;text-align: center;">Made with <i class="fas fa-heart" style="color: red"></i>
                   by Eduard Ursu (@d3ward)</div>
@@ -609,5 +612,5 @@
     </div>
   </div>
 </body>
-<script src="./local_ntp.js" crossorigin="anonymous"></script><!-- -->
+<script src="./local_ntp.js?1"></script><!-- crossorigin="anonymous" -->
 </html>
