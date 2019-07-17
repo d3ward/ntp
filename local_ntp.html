@@ -67,7 +67,6 @@
       'URL: ' + url,
       'Line: ' + lineNo,
       'Column: ' + columnNo,
-      'Error obj: ' + JSON.stringify(error)
     ].join(' - ');
     addLogS(message);
     return false;
@@ -79,25 +78,40 @@
       location.reload();
     }
   }
+  //Function to manage Floating Button
+  function fabAction() {
+       var el = document.getElementById('floating-btn');
+       el.classList.toggle('open');
+       if (el.classList.contains('open')) {
+         document.getElementById("fb-btn").innerHTML = '<i class="far fa-times"></i>';
+       } else {
+         document.getElementById("fb-btn").innerHTML = '<i class="fas fa-caret-up"></i>';
+       }
+     }
 </script>
 <!-- Copyright 2019 Geometry OU / Kiwi Browser -->
 <!-- Licensed under https://creativecommons.org/licenses/by-nc-sa/4.0/ -->
 <head>
-  <!----> <base href="https://d3ward.github.io/ntp/">
+  <!-- <base href="https://d3ward.github.io/ntp/">-->
  
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <meta name="theme-color" content="#ffffff">
+  <meta name="theme-color" content="#000000">
   <script src="https://kit.fontawesome.com/528a166104.js"></script>
   <link rel="stylesheet" href="./local_min.css?1">
   <link rel="stylesheet" href="./local_ntp.css?1">
   <meta charset="utf-8">
   <meta name="google" value="notranslate">
+  <script>
+  //Load Theme Color
+  var metaTColor = document.querySelector("meta[name=theme-color]");
+  if(localStorage.metaTColor)metaTColor.setAttribute("content", localStorage.metaTColor);   
+  </script>
 </head>
 
 <body id="bdy">
-  
+
   <div id="ntp-contents">
-    <button type="submit" class="btn-res" onclick="reset_page()" style="background:transparent;">Reset</button>
+    
     <div class="dlg-vrlay" id="dlg_eg">
       <div style="width: 100%;text-align: center;margin-top:50%;"><img class="k-logo" id="logo_eg" src="" onclick="close_eg()"></div>
     </div>
@@ -136,7 +150,6 @@
       </button>
       <div class="dlg-content">
         <div class="swiper-c-intro" id="sc-intro">
-          
           <div class="swiper-wrapper">
             <div class="swiper-slide" id="swip_settings_list">
               <div class="scrollable-wrap">
@@ -249,6 +262,7 @@
                 <div class="scrollable-wrap">
                   <!-- List with handle -->
                   <ul id="listWidgetOrder"><li></li><li></li><li></li><li></li><li></li></ul>
+                  
                 </div>
               </div>
             </div>
@@ -301,6 +315,12 @@
                   </div>
                   <br><hr><br>
                   <div class="vrlay-wrap"><div class="settings-label">Colors</div></div>
+                  <div class="vrlay-wrap vw2 ">
+                    <label class="settings-colors"> Widget Background </label>
+                    <span class="color_front"></span>
+                    <input id="set-bgw2" type=color onchange="set_bgcolor_w(2,(this))"
+                      oncontextmenu="setCustomRGB2((this) ,2)">
+                  </div>
                   <div class="vrlay-wrap vw2">
                     <label class="settings-colors"> Icon tile background</label>
                     <span class="color_front"></span>
@@ -359,6 +379,12 @@
                     <div class="settings-label">News Section</div>
                   </div>
                   <div class="vrlay-wrap vw2 ">
+                    <label class="settings-colors"> Widget Background </label>
+                    <span class="color_front"></span>
+                    <input id="set-bgw3" type=color onchange="set_bgcolor_w(3,(this))"
+                      oncontextmenu="setCustomRGB2((this) ,3)">
+                  </div>
+                  <div class="vrlay-wrap vw2 ">
                     <label class="settings-colors"> News Item Background color </label>
                     <span class="color_front"></span>
                     <input id="set-color13" type=color onchange="set_color_property(13,(this))"
@@ -396,6 +422,12 @@
                     <div class="settings-label">Quick Links Bar</div>
                   </div>
                   <div class="vrlay-wrap vw2 ">
+                    <label class="settings-colors"> Widget Background </label>
+                    <span class="color_front"></span>
+                    <input id="set-bgw1" type=color onchange="set_bgcolor_w(1,(this))"
+                      oncontextmenu="setCustomRGB2((this) ,1)">
+                  </div>
+                  <div class="vrlay-wrap vw2 ">
                     <label class="settings-colors">QL Background Bar </label>
                     <span class="color_front"></span>
                     <input id="set-color2" type=color onchange="set_color_property(2,(this))"
@@ -426,6 +458,12 @@
                     <div class="settings-label">Search Bar Widget</div>
                   </div>
                   <div class="vrlay-wrap vw2 ">
+                    <label class="settings-colors"> Widget Background </label>
+                    <span class="color_front"></span>
+                    <input id="set-bgw0" type=color onchange="set_bgcolor_w(0,(this))"
+                      oncontextmenu="setCustomRGB2((this) ,0)">
+                  </div>
+                  <div class="vrlay-wrap vw2 ">
                     <label class="settings-colors"> Background color </label>
                     <span class="color_front"></span>
                     <input id="set-color5" type=color onchange="set_color_property(5,(this))"
@@ -452,6 +490,12 @@
                 <div class="scrollable-wrap">
                   <div class="vrlay-wrap  ">
                     <div class="settings-label">Tabs Widget</div>
+                  </div>
+                  <div class="vrlay-wrap vw2 ">
+                    <label class="settings-colors"> Widget Bakcground </label>
+                    <span class="color_front"></span>
+                    <input id="set-bgw4" type=color onchange="set_bgcolor_w(4,(this))"
+                      oncontextmenu="setCustomRGB2((this) ,4)">
                   </div>
                   <div class="vrlay-wrap vw2 ">
                     <label class="settings-colors"> Active tab button color </label>
@@ -522,6 +566,20 @@
                 style="overflow-x:hidden;overflow-y: scroll;max-height: calc(100vh - 120px);max-width:80vw;margin: auto;text-align: left;">
                 <h2># Changelog</h2>
                 <hr>
+                <h3>## [3.0.2] - 2019-07-18</h3>
+                <h4>### Fixed<br>
+                  - News Item text wrap<br>
+                  - Save edited tile not working <br>
+                  - After moved widget , bookmarks not responding<br>
+                  ### Added<br>
+                  - Options to change widget background<br>
+                  ### Changed <br>
+                  - Reset button moved into floating button
+                  
+                </h4>
+                
+                <hr >
+                <div id="old-changelog" style="color:#757575;">
                 <h3>## [3.0.1] - 2019-07-15</h3>
                 <h4>### Fixed<br>
                   - Colors not applied when setting transparency<br>
@@ -530,10 +588,7 @@
                   - Try to fix wrong local files on some users <br>
                   - Some minimal bugs <br>
                 </h4>
-                
-                <hr >
-                <div id="old-changelog" style="color:#757575;">
-                  <h3>## [3.0.0] - 2019-07-12</h3>
+                <h3>## [3.0.0] - 2019-07-12</h3>
                 <h4>### Added <br>
                   - Settings rewritted from scratch , with menu navigation system and categorized options <br>
                   - NTP widgets ( a new system to put stuff on your ntp , more widgets coming in future)<br>
@@ -589,7 +644,7 @@
 
     <div id="floating-btn" class="buttons">
         <div class="floating-actions">
-          <!--<div class="action" id="fullScreen-btn" onclick="setFullscreen()">Focus Mode</div>-->
+          <div class="action" onclick="reset_page()">Reset</div>
           <div class="action" id="changelog-btn" onclick="func_dlg_st(1);func_st_page(10);"><i
               class="far fa-list-alt"></i> Changelog</div>
           <div class="action" id="settings-btn" onclick="func_dlg_st(1)"> <i class="fas fa-cogs fa-lg"></i> Settings</div>
@@ -612,5 +667,5 @@
     </div>
   </div>
 </body>
-<script src="./local_ntp.js?1" crossorigin="anonymous"></script><!--  -->
+<script src="./local_ntp.js" ></script><!-- crossorigin="anonymous" -->
 </html>

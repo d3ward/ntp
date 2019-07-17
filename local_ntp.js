@@ -56,6 +56,7 @@ return h(t,[{key:"setLocale",value:function(t){this.defaultLocale=t}},{key:"doRe
    document.getElementById('ntp-contents').style.display = 'none';
  } else {
    var root = document.documentElement;
+   var ntpVersion="3.0.2";
    //Function for innerHTML
    function customInner(oldDiv, html) {
      var newDiv = oldDiv.cloneNode(false);
@@ -130,6 +131,7 @@ return h(t,[{key:"setLocale",value:function(t){this.defaultLocale=t}},{key:"doRe
    var ntp_sett = localGet("ntp_sett");
    //Create default settings and cache them 
    if (ntp_sett == undefined) {
+     console.log("ntp_sett is undefined , let's create default one");
      ntp_sett = [{ //Widgets
          order: [0, 1, 2, 3, 4],
          status: [0, 0, 1, 1, 0],
@@ -186,6 +188,10 @@ return h(t,[{key:"setLocale",value:function(t){this.defaultLocale=t}},{key:"doRe
            var y = ntp_sett[0].order[z];
            var status = ntp_sett[0].status[z];
            var wdgn = document.getElementById("wdg-" + y);
+           root.style.setProperty("--ntp-wdg" + y, ntp_sett[0].values[z]);
+           var j =document.getElementById("set-bgw"+z);
+           var item2=j.parentElement;
+          item2.querySelector("span").style.backgroundColor=ntp_sett[0].values[z];
            var c = "";
            if (status) {
              wdgn.style.display = "block";
@@ -451,7 +457,6 @@ return h(t,[{key:"setLocale",value:function(t){this.defaultLocale=t}},{key:"doRe
 
        //Function to create the most visited tiles 
        function fetch_tiles_from_most_visited() {
-         if (typeof localStorage.useCustomTiles == "undefined" || localStorage.useCustomTiles == "false") {
            console.log(" fetch_tiles_from_most_visited...");
            if (typeof window.chrome.embeddedSearch != "undefined" && chrome.embeddedSearch.newTabPage.mostVisitedAvailable) {
              var pages = chrome.embeddedSearch.newTabPage.mostVisited;
@@ -468,8 +473,6 @@ return h(t,[{key:"setLocale",value:function(t){this.defaultLocale=t}},{key:"doRe
              }
              console.log(" Loaded 12 tiles from most visited");
            }
-           localStore("useCustomTiles", 1);
-         }
          save_grid_snapshot();
        }
        //Function to exit from editemode
@@ -525,8 +528,8 @@ return h(t,[{key:"setLocale",value:function(t){this.defaultLocale=t}},{key:"doRe
        function setup_grid() {
          console.log("setup_grid_ ");
          if (localGet("storedItems1") == undefined || localGet("storedItems2") == undefined || localGet("storedItems2") == undefined) {
-           fetch_tiles_from_most_visited()
-         } else if (localGet("getStoredItemsOnUpdate") == undefined) {
+           fetch_tiles_from_most_visited();
+         } else if (localGet("userCustomTiles") == 1) {
            console.log("First time,after update get user tiles");
            for (var i = 1; i < 4; i++) {
              var items = localGet("storedItems" + i);
@@ -537,7 +540,7 @@ return h(t,[{key:"setLocale",value:function(t){this.defaultLocale=t}},{key:"doRe
                });
              }
            }
-           localStore("getStoredItemsOnUpdate", 1);
+           localStore("userCustomTiles", 0);
          }
          //Create grids with draggable items 
          var bookmarksGrids = [document.getElementById("bookmarks-grid1"), document.getElementById("bookmarks-grid2"), document.getElementById("bookmarks-grid3")];
@@ -566,10 +569,10 @@ return h(t,[{key:"setLocale",value:function(t){this.defaultLocale=t}},{key:"doRe
            setup_grid();
          }, 100);
        }
-       var bk_swiper
+       var bk_swiper,currentSwiperSlide = sessionStorage.getItem("currentSwiperSlide");
+       
        function initSwiper(){
         //Check active slide on this session
-        var currentSwiperSlide = sessionStorage.getItem("currentSwiperSlide");
         if (currentSwiperSlide == undefined) currentSwiperSlide = 0;
         //Create swiper for grids
         bk_swiper = new Swiper(' .s1', {
@@ -582,6 +585,7 @@ return h(t,[{key:"setLocale",value:function(t){this.defaultLocale=t}},{key:"doRe
         fadeEffect: {
             crossFade: true
           }, //Better fade effect
+          autoHeight:true,
           initialSlide: currentSwiperSlide,
         });
         //Set activeIndex on slide change
@@ -1192,6 +1196,7 @@ return h(t,[{key:"setLocale",value:function(t){this.defaultLocale=t}},{key:"doRe
        if(i==1){ bk_swiper.destroy(true, true);initSwiper();save_grid_snapshot();}
        localStore("ntp_sett", ntp_sett);
      }
+    
 
      function set_option_t(t, f, i) {
        var value=(t.checked) ? t.value : f;
@@ -1199,6 +1204,15 @@ return h(t,[{key:"setLocale",value:function(t){this.defaultLocale=t}},{key:"doRe
        root.style.setProperty("--ntp-o"+i,value);
        localStore("ntp_sett", ntp_sett);
      }
+     
+     function set_bgcolor_w(y, t) {
+      var i= ntp_sett[0].order[y];
+      root.style.setProperty("--ntp-wdg" + i, t.value);
+      ntp_sett[0].values[y] = t.value;
+      localStore("ntp_sett", ntp_sett);
+      var item2=t.parentElement;
+       item2.querySelector("span").style.backgroundColor=t.value;
+    }
      //Function to set solid color for ntp bg
      function set_color_property2(value) {
        root.style.setProperty("--ntp-bgc", value);
@@ -1233,7 +1247,7 @@ return h(t,[{key:"setLocale",value:function(t){this.defaultLocale=t}},{key:"doRe
         item2.querySelector("span").style.backgroundColor=t.value;
      }
      //Function to input custom RGB color
-      function setCustomRGB(t, y) {
+     function setCustomRGB(t, y) {
         var v = prompt("Enter the RGB or RGBA color. \nExample : #d6d6d6 or #d6d6d6aa (aa is for transparency )", ntp_sett[0].colors[y]);
         if (v != null){
           color=v.substring(0,7);
@@ -1244,7 +1258,19 @@ return h(t,[{key:"setLocale",value:function(t){this.defaultLocale=t}},{key:"doRe
           ntp_sett[0].colors[y] = v;
           localStore("ntp_sett", ntp_sett);
         }
-      }
+     }
+      //Function to input custom RGB background color
+      function setCustomRGB2(t, y) {
+        var v = prompt("Enter the RGB or RGBA color. \nExample : #d6d6d6 or #d6d6d6aa (aa is for transparency )", ntp_sett[0].values[y]);
+        if (v != null){
+          var item2=t.parentElement;
+          var i= ntp_sett[0].order[y];
+          item2.querySelector("span").style.backgroundColor=v;
+          root.style.setProperty("--ntp-wdg" + i, v);
+          ntp_sett[0].values[y] = v;
+          localStore("ntp_sett", ntp_sett);
+        }
+     }
      //Function to enter custom url image
      function cWallpaper1() {
        var url = prompt("Enter url of the wallpaper . \nExample : ", "url");
@@ -1337,6 +1363,10 @@ return h(t,[{key:"setLocale",value:function(t){this.defaultLocale=t}},{key:"doRe
            ntp_sett[0].order[z] = y;
            var status = ntp_sett[0].status[z];
            var wdgn = document.getElementById("wdg-" + y);
+           root.style.setProperty("--ntp-wdg" + y, ntp_sett[0].values[z]);
+           var j =document.getElementById("set-bgw"+z);
+           var item2=j.parentElement;
+          item2.querySelector("span").style.backgroundColor=ntp_sett[0].values[z];
            if (status) {
              wdgn.style.display = "block";
              customInner(wdgn, ntp_wdg[z].cached);
@@ -1345,7 +1375,8 @@ return h(t,[{key:"setLocale",value:function(t){this.defaultLocale=t}},{key:"doRe
            }
          }
          localStore("ntp_sett", ntp_sett); //Save Settings
-         console.log("2->> " + ntp_sett[0].order);
+         bk_swiper.destroy(true, true);initSwiper();save_grid_snapshot();
+         reload_locale()
        }
      });
      //Create Swiper for settings
@@ -1365,10 +1396,14 @@ return h(t,[{key:"setLocale",value:function(t){this.defaultLocale=t}},{key:"doRe
      for (var i = 0; i < ar_klogo.length; i++) ar_klogo[i].src = kiwiIcon;
      //Show&Close  Settings 
      function func_dlg_st(a) {
-       document.getElementById("swip_kiwi_intro").style.display = "none";
+      func_st_page(0);
        document.getElementById("dlg_st").style.display = (a) ? "inline" : "none";
        document.getElementById("dlg_st").style.opacity = a;
-
+       if(a==0){
+        var el = document.getElementById('floating-btn');
+        el.classList.remove("open")
+        document.getElementById("fb-btn").innerHTML = '<i class="fas fa-caret-up"></i>';
+       }
      }
      //Function to slide
      function func_st_page(i) {
@@ -1400,20 +1435,26 @@ return h(t,[{key:"setLocale",value:function(t){this.defaultLocale=t}},{key:"doRe
        reader.onload = function (progressEvent) {
          var test = this.result;
          var test2 = JSON.parse(test);
-         var values = Object.values(test2),
-           keys = Object.keys(test2),
-           i = keys.length;
-         while (i--) {
-           localStorage.setItem(keys[i], values[i]);
-         }
+         var values = Object.values(test2),keys = Object.keys(test2),i = keys.length;
+         //Clear the localstorage
+         localStorage.clear();
+         localStorage.ntpVersion = ntpVersion;
+         //Let's take stuff we need from backup { ntp_sett  , userCols , storedItems(1,2,3) ,newsLocale}
+         if(test2["ntp_sett"])localStore("ntp_sett", test2["ntp_sett"]);
+         if(test2["userCols"])localStorage.userCols =test2["userCols"];
+         localStorage.storedItems1= (test2["storedItems1"])?test2["storedItems1"]:undefined;
+         localStorage.storedItems2= (test2["storedItems2"])?test2["storedItems2"]:undefined;
+         localStorage.storedItems3=(test2["storedItems3"])?test2["storedItems3"]:undefined;
+         localStore("newsLocale", (test2["newsLocale"])?test2["newsLocale"]:undefined);
+         localStore("metaTColor", (test2["metaTColor"])?test2["metaTColor"]:undefined);
+         //User imported tiles,widgets and settings let take the stored stuf after reload
+         localStorage.userCustomTiles=1;
        };
        reader.readAsText(file);
      };
 
-
-     /*************** Make tiles fit the screen *******************/
-     //Function to retrieve number of cols
-     function getNumberOfCols() {
+     /******* Make tiles fit the screen ***/
+     function getNumberOfCols() {//Function to retrieve number of cols
        if (wid > 253 && wid < 337) return 3;
        else if (wid > 336 && wid < 421) return 4;
        else if (wid > 420 && wid < 510) return 5;
@@ -1421,37 +1462,24 @@ return h(t,[{key:"setLocale",value:function(t){this.defaultLocale=t}},{key:"doRe
        else if (wid > 672) return 8;
        return 2;
      }
-     //Function to add or remove cols
-     function editNCols(a) {
+     function editNCols(a) {//Function to add or remove cols
        var el = document.getElementById('nColsLabel');
        var t = parseInt(el.textContent);
-       if (a) {
-         if (t < 8) el.textContent = t + 1;
-       } else {
-         if (t > 3) el.textContent = t - 1;
-       }
+       if (a) if (t < 8) el.textContent = t + 1;
+       else if (t > 3) el.textContent = t - 1;
        userCols = el.textContent;
        setColRow();
      }
-     //Get the width of device 
-     var wid = (window.innerWidth) ? window.innerWidth : screen.width;
-     //Remove the padding and margin of widget 
-     wid = (wid - 28);
-     //Get userCols for tiles 
-     var userCols = localStorage.getItem("userCols");
-     //If no cols cached , get default one 
-     if (userCols == undefined) userCols = getNumberOfCols();
+     var wid = (window.innerWidth) ? window.innerWidth : screen.width; //Get the width of device 
+     wid = (wid - 28);//Remove the padding and margin of widget 
+     var userCols = localStorage.getItem("userCols");//Get userCols for tiles 
+     if (userCols == undefined) userCols = getNumberOfCols();//If no cols cached , get default one 
      console.log("User width : " + wid + " , user cols for bookmarks : " + userCols);
-     //Set value in settings of n cols
-     document.getElementById('nColsLabel').textContent = userCols;
-     //Function to edit cols
+     document.getElementById('nColsLabel').textContent = userCols;//Set value in settings of n cols
+     //Function to edit tiles size and margin 
      function setColRow() {
-       //Default number of cols for the ntp based on device width
        var defCol = getNumberOfCols();
-       console.log("Default cols for bookmarks : " + defCol);
-       //Standard 64px for tile + 10px for margin
-       var tWidth = 64;
-       var tMargin = 10;
+       var tWidth = 64,tMargin = 10;//Standard 64px for tile + 10px for margin
        //If default col is different let's calculate new tile width and margin
        if (defCol != userCols) {
          if (userCols > defCol) {
@@ -1473,91 +1501,41 @@ return h(t,[{key:"setLocale",value:function(t){this.defaultLocale=t}},{key:"doRe
      setColRow();
      //**********************************/
 
-     //Show  old changelog
-     function show_old_changelog() {
-       var x = document.getElementById("old-changelog");
-       if (x.style.display === "none") {
-         x.style.display = "block";
-       } else {
-         x.style.display = "none";
-       }
-     }
-     //Load Theme Color
-     var metaThemeColor = document.querySelector("meta[name=theme-color]");
-     metaThemeColor.setAttribute("content", ntp_sett[0].colors[3]);
+     
 
-     function test_log() {
-       test;
-     }
-
-     //Function for settings dialog
-     function func_dlg_st(a) {
-       func_st_page(0);
-       document.getElementById("dlg_st").style.display = (a) ? "inline" : "none";
-       document.getElementById("dlg_st").style.opacity = a;
-
-     }
-
-     /* Get the documentElement (<html>) to display the page in fullscreen */
-
-     //Function to manage Floating Button
-     function fabAction() {
-       var el = document.getElementById('floating-btn');
-       el.classList.toggle('open');
-       if (el.classList.contains('open')) {
-         document.getElementById("fb-btn").innerHTML = '<i class="far fa-times"></i>';
-       } else {
-         document.getElementById("fb-btn").innerHTML = '<i class="fas fa-caret-up"></i>';
-       }
-     }
-     // Uh , what's up
-     var start;
-     var end;
-     var delta;
-     var button = document.getElementById("fb-eg");
-     button.addEventListener("touchstart", function () {
-       start = new Date();
-     });
-     button.addEventListener("touchend", function (e) {
+     // Uh , that's eg stuff
+     var start,end,delta,button = document.getElementById("fb-eg");
+     button.addEventListener("touchstart", function () {start = new Date();});
+     button.addEventListener("touchend", function (e){
        end = new Date();
        delta = end - start;
-       if (delta > 5000) {
+       if (delta > 5000){
          document.getElementById("dlg_eg").style.display = "inline";
          document.getElementById("dlg_eg").style.opacity = 1;
          e.preventDefault();
        }
      });
-
-     function close_eg() {
+     function close_eg() {//Secret function for eg
        document.getElementById("dlg_eg").style.display = "none";
        document.getElementById("dlg_eg").style.opacity = 0;
      }
 
+     //Function to preconnect to an url
      function preconnectTo(url) {
        var hint = document.createElement("link");
        hint.rel = "preconnect";
        hint.href = url;
        document.head.appendChild(hint);
      }
-
-     //Check ntpVersion and show changelog
-     if (localStorage.ntpVersion) {
-       if (localStorage.ntpVersion != "3.0.1") {
-         localStorage.ntpVersion = "3.0.1";
-         func_dlg_st(1);
-         func_st_page(10);
-       }
-     } else {
-       localStorage.ntpVersion = "3.0.1";
-       func_dlg_st(1);
-       func_st_page(10);
-     }
-
+    
+     //Function to clear log 
      function clear_log() {
        localStore("cached-logC", "");
        document.getElementById("logC_section").innerHTML = "";
      }
-
+     //Function to test the log
+     function test_log() {test;}
+     //Function to export log file
      function export_logfile() {
        var dataStr = localGet("cached-logC");
        dataStr.replace("<br>", "\\n");
@@ -1569,5 +1547,14 @@ return h(t,[{key:"setLocale",value:function(t){this.defaultLocale=t}},{key:"doRe
        linkElement.click();
      }
 
-  
+     //Check ntpVersion and show changelog
+     if (localStorage.ntpVersion) {
+       if (localStorage.ntpVersion != ntpVersion) {
+         localStorage.ntpVersion = ntpVersion;
+         func_dlg_st(1);func_st_page(10);
+       }
+     } else {
+       localStorage.ntpVersion = ntpVersion;
+       func_dlg_st(1);func_st_page(10);
+     }
  }
