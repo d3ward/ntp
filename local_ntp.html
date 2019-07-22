@@ -6,50 +6,43 @@
   // This new tab page is different when Incognito is on
   // You can also change window.chrome.embeddedSearch.newTabPage.isIncognito to true or false
   var newsServer = 'https://news.google.com/';
+
+  var userData = {
+    mostVisited : [{}], // List of most visited websites
+    bookmarksList : [{}], //From a specific folder like ntpBookmarks
+    downloadList :[{}], //List of recent downloaded files
+    ctabsList :[{}], //List of recent closed tabs
+    historyList :[{}],//List of history 
+  }
+  //Check mostvisited permission
+  if(0){
+    userData.mostVisited =0;// Get most visited from Kiwi
+  }else{
+    for(var i=0;i<4;i++)
+      userData.mostVisited[i]= {url:"mostvisited"+i+".com"};
+  }
+  //Check bookmarks list
+  if(0){
+    userData.bookmarksList =0; //Get bookmarks folder from Kiwi
+  }else{
+    for(var i=0;i<3;i++)
+      userData.bookmarksList[i]={title:"Bookmark"+i,domain:"example.com"}
+  }
+  //Check download list 
+  if(0){
+    userData.downloadList =0; //Get download list from Kiwi
+  }else{
+    for(var i=0;i<3;i++)
+      userData.downloadList[i]= {url:"website"+i+".com",file:"example"+1+".apk"};
+  }
   if (typeof window.chrome.embeddedSearch == "undefined") {
     console.log("Oh , looks like window.chrome.embeddedSearch is undefined");
     window.chrome = {
       "embeddedSearch": {
-        "searchBox": {
-          "rtl": false,
-          "isFocused": false,
-          "isKeyCaptureEnabled": false
-        },
         "newTabPage": {
-          "isInputInProgress": false,
           "isIncognito": false,
-          "themeBackgroundInfo": {
-            "usingDefaultTheme": true,
-            "colorRgba": "rgba(0,0,0,0)",
-            "backgroundColorRgba": [0, 0, 0, 0],
-            "textColorRgba": [0, 0, 0, 0],
-            "linkColorRgba": [0, 0, 0, 0],
-            "textColorLightRgba": [0, 0, 0, 0],
-            "headerColorRgba": [0, 0, 0, 0],
-            "sectionBorderColorRgba": [0, 0, 0, 0],
-            "alternateLogo": false
-          }
         }
       }
-    }
-    chrome.embeddedSearch.newTabPage.mostVisitedAvailable = true;
-    chrome.embeddedSearch.newTabPage.mostVisited = [{
-      "rid": 0,
-      "faviconUrl": "chrome-search://favicon/size/16@2.625000x/1/25"
-    }, {
-      "rid": 1,
-      "faviconUrl": "chrome-search://favicon/size/16@2.625000x/1/26"
-    }, {
-      "rid": 3,
-      "faviconUrl": "chrome-search://favicon/size/16@2.625000x/1/27"
-    }, {
-      "rid": 4,
-      "faviconUrl": "chrome-search://favicon/size/16@2.625000x/1/28"
-    }];
-    chrome.embeddedSearch.newTabPage.getMostVisitedItemData = function (rid) {
-      return {
-        url: 'http://mostvisited' + rid + '.com'
-      };
     }
     newsServer = 'https://chromecontentsuggestions-pa.kiwibrowser.com/testnews/?';
   }
@@ -92,7 +85,7 @@
 <!-- Copyright 2019 Geometry OU / Kiwi Browser -->
 <!-- Licensed under https://creativecommons.org/licenses/by-nc-sa/4.0/ -->
 <head>
-  <!----> <base href="https://d3ward.github.io/ntp/">
+  <!--<base href="https://d3ward.github.io/ntp/">--> 
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="theme-color" content="#000000">
   <script src="https://kit.fontawesome.com/528a166104.js"></script>
@@ -106,7 +99,6 @@
   if(localStorage.metaTColor)metaTColor.setAttribute("content", localStorage.metaTColor);   
   </script>
 </head>
-
 <body id="bdy">
   <div id="ntp-contents">
     <div class="dlg-vrlay" id="dlg_eg">
@@ -351,19 +343,19 @@
                   <br><hr><br>
 
                   <div class="vrlay-wrap vw2">
-                    <label class="settings-options">Open icon link in new tab </label>
-                    <input id="set-opt4" class="toggle" type="checkbox" value="target=_blank"
+                    <label class="settings-options">Open tile in new tab </label>
+                    <input id="set-opt4" class="toggle" type="checkbox" value="_blank"
                       onchange="set_option_t(this,'',4)" />
                   </div>
                   <div class="vrlay-wrap vw2">
                     <label class="settings-options">Hide icon text </label>
-                    <input id="set-opt5" class="toggle" type="checkbox" value="inline-block"
-                      onchange="set_option_t(this,'none',5)" />
+                    <input id="set-opt5" class="toggle" type="checkbox" value="none"
+                      onchange="set_option_t(this,'inline-block',5)" />
                   </div>
                   <div class="vrlay-wrap vw2">
-                    <label class="settings-options">Hide dots of Swipers </label>
-                    <input id="set-opt6" class="toggle" type="checkbox" value="inline-block"
-                      onchange="set_option_t(this,'none',6)" />
+                    <label class="settings-options">Hide dots of Grid Swiper </label>
+                    <input id="set-opt6" class="toggle" type="checkbox" value="none"
+                      onchange="set_option_t(this,'inline-block',6)" />
                   </div>
                 </div>
               </div>
@@ -559,25 +551,32 @@
             </div>
             <!--Changelog -->
             <div class="swiper-slide">
-              <div
-                style="overflow-x:hidden;overflow-y: scroll;max-height: calc(100vh - 120px);max-width:80vw;margin: auto;text-align: left;">
+              <div style="overflow-x:hidden;overflow-y: scroll;max-height: calc(100vh - 120px);max-width:80vw;margin: auto;text-align: left;">
                 <h2># Changelog</h2>
                 <hr>
-                <h3>## [3.0.2] - 2019-07-18</h3>
+                <h3>## [3.0.3] - 2019-07-22</h3>
                 <h4>### Fixed<br>
-                  - News Item text wrap<br>
-                  - Save edited tile not working <br>
-                  - After moved widget , bookmarks not responding<br>
-                  - Importing tiles<br>
+                  - Some options not working  <br>
                   ### Added<br>
-                  - Options to change widget background<br>
+                  - New tile edit mode ( drag and drop tile to remove/edit/move)
+                  - Auto change text color of news locale select button <br>
                   ### Changed <br>
-                  - Reset button moved into floating button<br>
-                  
+                  - Order of floating button menu<br>
+                  - Text of news are bolder <br>
                 </h4>
-                
                 <hr >
                 <div id="old-changelog" style="color:#757575;">
+                  <h3>## [3.0.2] - 2019-07-18</h3>
+                  <h4>### Fixed<br>
+                    - News Item text wrap<br>
+                    - Save edited tile not working <br>
+                    - After moved widget , bookmarks not responding<br>
+                    - Importing tiles<br>
+                    ### Added<br>
+                    - Options to change widget background<br>
+                    ### Changed <br>
+                    - Reset button moved into floating button<br>
+                  </h4>
                 <h3>## [3.0.1] - 2019-07-15</h3>
                 <h4>### Fixed<br>
                   - Colors not applied when setting transparency<br>
@@ -640,20 +639,25 @@
     <div id="wdg-3" class="wdg-ntp"></div>
     <div id="wdg-4" class="wdg-ntp"></div>
 
+    
+
     <div id="floating-btn" class="buttons">
         <div class="floating-actions">
-          <div class="action" onclick="reset_page()">Reset</div>
-          <div class="action" id="changelog-btn" onclick="func_dlg_st(1);func_st_page(10);"><i
-              class="far fa-list-alt"></i> Changelog</div>
-          <div class="action" id="settings-btn" onclick="func_dlg_st(1)"> <i class="fas fa-cogs fa-lg"></i> Settings</div>
-          <div class="action" id="news-btn" onclick="enable_news()"><i class="far fa-newspaper fa-lg"></i> View News</div>
-          <div class="action" id="resetN-btn" onclick="resetNH_items()"><i class="fas fa-eye-slash fa-lg"></i> Reset read
-            News</div>
           <div class="action" id="add-btn" onclick="func_co_dlg(1,0)"><i class="far fa-plus"></i> Add Item</div>
+          <div class="action" id="changelog-btn" onclick="func_dlg_st(1);func_st_page(3);"><i
+            class="fas fa-rectangle-wide"></i> Widgets</div>
+          <div class="action" onclick="reset_page()"> <i class="far fa-exclamation-triangle"></i> Reset NTP</div>
+          <div class="action" id="settings-btn" onclick="func_dlg_st(1)"> <i class="fas fa-cogs fa-lg"></i> Settings</div>
+
+          <!--<div class="action" id="changelog-btn" onclick="func_dlg_st(1);func_st_page(10);"><i
+              class="far fa-list-alt"></i> Changelog</div><div class="action" id="news-btn" onclick="enable_news()"><i class="far fa-newspaper fa-lg"></i> View News</div>
+          <div class="action" id="resetN-btn" onclick="resetNH_items()"><i class="fas fa-eye-slash fa-lg"></i> Reset read
+            News</div>-->
+          
         </div>
         <div class="trigger" onclick="fabAction()" id="fb-eg"><span id="fb-btn"><i class="fas fa-caret-up"></i></span>
         </div>
-      </div>
+    </div>
   </div>
   <div id="incognito" style="display: none;width: 100%;height: 100%;background:black;">
     <div style="text-align: center;padding-top:50px;"><img style="width: 64px;border-radius: 50%"
@@ -665,5 +669,5 @@
     </div>
   </div>
 </body>
-<script src="./local_ntp.js?%%COMMIT%%" crossorigin="anonymous"></script><!--  -->
+<script src="./local_ntp.js?" ></script><!-- %%COMMIT%%  crossorigin="anonymous"-->
 </html>

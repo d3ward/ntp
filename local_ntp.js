@@ -42,21 +42,18 @@ return h(t,[{key:"setLocale",value:function(t){this.defaultLocale=t}},{key:"doRe
  function localStore(key, obj) {
    return window.localStorage.setItem(key, JSON.stringify(obj));
  }
-
  function localGet(key) {
    return JSON.parse(window.localStorage.getItem(key));
  }
-
  //Show NTP ( should reduce the flash effect )
  //document.getElementById('bdy').classList.add('inited');
-
  if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
    document.body.style.backgroundColor = '#000';
    document.getElementById('incognito').style.display = 'inline';
    document.getElementById('ntp-contents').style.display = 'none';
  } else {
    var root = document.documentElement;
-   var ntpVersion="3.0.2";
+   var ntpVersion="3.0.3";
    //Function for innerHTML
    function customInner(oldDiv, html) {
      var newDiv = oldDiv.cloneNode(false);
@@ -175,11 +172,28 @@ return h(t,[{key:"setLocale",value:function(t){this.defaultLocale=t}},{key:"doRe
        root.style.setProperty("--ntp-bgc", ntp_sett[1].c22);
        root.style.setProperty("--ntp-bgi", ntp_sett[1].c23);
        root.style.setProperty("--ntp-bgs", ntp_sett[1].c24);
+       
      } catch (err) {
        addLogS("Error:" + err.name + " ( " + err.message + " )");
      }
    }
-
+   
+    //Function that invert text color based on background-color
+    function adaptColor(selector,color) {
+      var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(color);
+      r = parseInt(result[1], 16);
+      g = parseInt(result[2], 16);
+      b = parseInt(result[3], 16);
+      var hsp = Math.sqrt(0.299*(r*r)+0.587*(g*g)+0.114*(b*b));
+      if (hsp > 127.5) {
+        document.getElementById(selector).classList.add('dark-color');
+        document.getElementById(selector).classList.remove('light-color');
+      } else {
+        document.getElementById(selector).classList.add('light-color');
+        document.getElementById(selector).classList.remove('dark-color');
+      }
+    };
+    
      function load_widgets() {
        //Load widgets from cache
        try {
@@ -204,6 +218,10 @@ return h(t,[{key:"setLocale",value:function(t){this.defaultLocale=t}},{key:"doRe
            customInner(list[y], '<i class="fal fa-arrows my-handle"></i><label>' + ntp_wdg[z].name + '</label><input ' +
              'class="toggle togg_li" type="checkbox" onchange="toggle_widget(' + y + ')" ' + c + '/>')
          }
+         var paras = document.getElementsByClassName('editMode');
+          while(paras[0])
+              paras[0].parentNode.removeChild(paras[0]);
+          
        } catch (err) {
          addLogS("Error:" + err.name + " ( " + err.message + " )");
        }
@@ -224,6 +242,7 @@ return h(t,[{key:"setLocale",value:function(t){this.defaultLocale=t}},{key:"doRe
      }
      //Bookmark grid configuration
      if (ntp_sett[0].status[2]) {
+      
        var timeoutVariable;
        var currentEditedTile;
        //Function for open and close dialog
@@ -381,10 +400,7 @@ return h(t,[{key:"setLocale",value:function(t){this.defaultLocale=t}},{key:"doRe
          localStorage.setItem('icon-' + rootDomain, item.src);
        }
        //Function to edit a tile from grid
-       function edit_tile_from_grid(e) {
-         console.log("Editing tile : " + e);
-         item = e.target;
-         item = item.parentNode;
+       function edit_tile_from_grid(item) {
          currentEditedTile = item;
          var url = item.querySelector('#tile_target').href;
          var title = item.textContent;
@@ -412,15 +428,16 @@ return h(t,[{key:"setLocale",value:function(t){this.defaultLocale=t}},{key:"doRe
          innerDiv.className = 'grid-item';
          if (typeof item.imgSrc === "undefined")
            item.imgSrc = 'https://logos.kiwibrowser.com/' + rootDomain;
-
          //Create the tile
-         innerDiv.innerHTML = '<img id="closeImg" src="' + closeImg + '" class="close_img toggleEditMode editMode" />' +
-           '<img id="editImg" src="' + editImg + '" class="edit_img toggleEditMode editMode"  style="bottom: 0px;" />' +
+         innerDiv.innerHTML = 
            '<a id="tile_target" class="tile_target" name="' + item.title + '" href="' + item.url + '" ' + targetBlank + '>' +
            '<img border="0" class="grid-image"  title="' + item.title + '" src="' + item.imgSrc +
            '" onError="invalidate_image(this)" /><span id="title_span" style="line-height: 15px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">' +
            item.title + '</span></a>';
          var nGrid = item.ngrid;
+         innerDiv.oncontextmenu = function () {
+          toggle_edit_mode();
+          };
          document.getElementById('bookmarks-grid' + nGrid).appendChild(innerDiv);
          console.log(" Function add_tile_to_grid -> grid :" + item.ngrid + " | url : " + item.url + "   |  title : " + item.title + " | img : " + item.imgSrc);
        }
@@ -451,29 +468,25 @@ return h(t,[{key:"setLocale",value:function(t){this.defaultLocale=t}},{key:"doRe
          localStore("ntp_wdg", ntp_wdg);
        }
 
-       var closeImg = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAIAAAACACAMAAAD04JH5AAAAA3NCSVQICAjb4U/gAAAACXBIWXMAACNvAAAjbwE1/Af7AAAAGXRFWHRTb2Z0d2FyZQB3d3cuaW5rc2NhcGUub3Jnm+48GgAAANVQTFRF////11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK11pK2F9P2WBR2WJT2mVW33pt5ZSJ5peN6J+V6KGY/PHv/PHw/PPy/PTz/fb1////fP+U/wAAADd0Uk5TAAEDBAYLDA4VHB4fNDg8PUJDR0pbc3yCg4SGiImVlqWnq661uLq/wsPFy9DT2d7m6+zt8/n6/uYUS2MAAANwSURBVHjazVvnWiJBEBwjBjwRCSfgkWHJectAUnTf/5FuDeehIhN3euv3fFu1aaa7upsxFUSiiXS+7LS6/fG432055Xw6EY0wKziI52o9bESvlosfBEq+H7tqTLAVk8bv2H5A9GfXQwhheH1mnv001YEEOqlTo/TRkgtJuKWoMfrzCpRQOTdCf1GHMuoX2vTHRWiheKxFv5ccQROj5J46/682DKD9S5F+N+PCCNzMrtLbd2AMjsKXcDmAQQwuJel3si6Mws3uSJ06BRhHQeKMOqwiAFQPRfmPmggEzSMx/pMOAkLnROj+A+P3FQg8g8MmAkST+x3sVxEoqpx/YaeAgFHYvh9kETiyW/dfN3gB7pZd+XgACxj8eDLtOrAC56fTOQNLyPwQ/7i2BLgbY6S9NqyhvSlOTMIikhv+gJFNAaPvf0IRVlH8lv/AMr7mTHXbAupf8k9Yx+fMtWJfQOVT/g8CrPsHJe7q28XsRvzad8v5PXdRac1/4W7C9yvPe5iK8k8fPW91y92Q/7s4Ke4l556PJ0EF06eX1QvuutSHAH4cvPTEFbzxezN+jPzhvwm81EdhBe/8DwKfzD8371r8tvgKhBf6+PMeiQ9hToEMP4ZvMXpM5tPiXFqKH4i9CriCMQWS/Lh6FdCAKQWy/Gi8+u8TGFIgzY/Ji7sfl9i+t1LI8wNxX0AOZhSo8CPnC6jBiAIlftR8AT2YUKDGjx5jEdljfCOVIj8QUYhFNpAp8/tRSQL6CtT5kWBpaCvQ4Eea5aGrQIcfeVaGpgItfpSZoinxQavHD4e1oKXg+VmLHy3WhZ4CPX50WR/6CtT50Wdj9dRm+vb4vWd1fozpBZC/AvKPkPw3JN+IyLdi8sOI/DgmD0jIQzLyoJQ8LKdPTMhTM/LklDw9Jzco6C0acpOK3KYjNypFrNqbB1mr9vGOv/RM3KyeyZvVS+7CjoRdv5C36+fcdSmJgsXtyn+o4gUL/4WtuCWTtYKFQMnmfr68E97gcDNbcAsm6yUb+qIVedmOvnBJXrqlL16Tl+/pGxjIWzjom1jI23joG5noW7nIm9no2/noGxrpWzrJm1rp23rpG5vpW7vpm9vp2/vpBxzoRzzoh1xCMOZDP+hEP+oVgmE3+nG/EAw8hmDkMwRDryEY+w3B4HMYRr9DMPwexPj/X+Yt8H/u7e31AAAAAElFTkSuQmCC';
-       var editImg = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAEAElEQVRYR7WXf0zUdRjHX89x8tumhYiKig4yhxEH+kfN5ubMFbmmm2TLjVbKEBr9MBbmamP90GisEicH5WzV/AO3cnPYmrUlaTZH/AhchpBKYRMitZKAOO5p3zuPuzju7ht33Pbd7vv5PM/7/f48n+/n+TyPYPZXlxuP0/kQyKNABkoSaDKIExhAGADtRPiEmOsNPHl52Ay0hDSqts1hBntQ2YoQF9LeMFCGED3MKLt5pvW3YD6BBVRgZW5OOaovIZJginiikeogInvpa6mkAsdkGJMLqLl7NlgbELlvSsT+Qs6AYwMlHdcnTvkLqM3OQOUESFpEyMdB9DKi69nR1uWL+18BdblJOJ1tIAsiS34LTbWHKMtKipoHPPheAW+nxhGXfBrImRZyL2gLQ/2r2dk7ZAx5BdizK8Hy4jST34J3vkVxW7lXgP2eBRDVDcSGK2DL4nVXf7hxKaHjj59mBsEaxurIoLC91x0Bu+19kO3hkj971xZeXvEUQ45hnvj2Vb7qaw4CqQcpbi0UjmRGMxBzw3SSCQJZtnwr5ZkFLguH00Hh2T00XPlmcg8jWSWNzBJqs/NQy/FwVv/0nZvp/LOHL682YfyvyCp0wVX/WM9r5w4FhlbNE+y2WpCiqQrwhP0f5yiPn36Fxv5Wtqc/wvLbllDWsg8NCqx1Qo3tJCJrpiLAQ+7xHR4bYVNjOd9dO28OTrXRiMAFkAxzHl6rieSemQ8vHqespdocnOoFwZ4zCMSb83BbFaVv4vXsHX4uR385SdHZvSHC7uOmOmhswV+IJJoVEDFyg1D1piGgC5F0MwICkdf3fEFpU5X5lXvIVLuNLfgauD+UgMcWP8D+VWV+ZlMmdyOdMn0MU+OTObamioUJc8dFfHzpM15oDnXUgixNeS9kIipdls+82CR2f29nXtwdLhFpifMxyHc27wsVuODz4nzYnYp/jzEqFb+TMNMaz8WNR10gntXOiZ1NwZI8qs4fDo98PBUbMDW2g4hsm4i4NmUl9avfGB8Oc78nwOshilu3uW/DAysWYpnRDRLta+V7uRjj//ucB47RKFbHUu917IpCzjsIz/n6bF60lnUpqzjV3+bK8b1/94cX9vHjx7uUtDxvvHoroo+yErhpPYOQFRmWgCgdJDjupaDdyMA+AlxbkZmCJboJJHV6ROgVrKO5FJ7r8+D7l+U1WcsQ6wlgUYRF/Iw61lPS3umLO3ljYpTnY/o5Qm5ERCjNRMmDvuV44Ah4Zj5Ii2X4dqNy3RVGsWo0qG8Se60yULMaujndb5tPlFSC5iMSYyoiqiMIR3Cwi9LWX4P5hBbg8T6QmYglegNKPrAUMdpzklHU3Zq7ni6ET4kfO+b5ykMJ/heL12GStB7T3QAAAABJRU5ErkJggg==';
        var grids = [, , ];
 
        //Function to create the most visited tiles 
        function fetch_tiles_from_most_visited() {
-           console.log(" fetch_tiles_from_most_visited...");
-           if (typeof window.chrome.embeddedSearch != "undefined" && chrome.embeddedSearch.newTabPage.mostVisitedAvailable) {
-             var pages = chrome.embeddedSearch.newTabPage.mostVisited;
-             for (var ind = 1; ind < 4; ind++) {
-               var sItems = [, , , ];
-               for (var i = 0; i < Math.min(4, pages.length); ++i) {
-                 sItems[i] = {
-                   url: chrome.embeddedSearch.newTabPage.getMostVisitedItemData(pages[i].rid).url,
-                   ngrid: ind
-                 }
-                 add_tile_to_grid(sItems[i]);
-               }
-               localStore("storedItems" + ind, sItems);
-             }
-             console.log(" Loaded 12 tiles from most visited");
-           }
-         save_grid_snapshot();
+          console.log(" fetch_tiles_from_most_visited...");
+          var pages = userData.mostVisited;
+          for (var ind = 1; ind < 4; ind++) {
+            var sItems = [, , , ];
+            for (var i = 0; i < Math.min(4, pages.length); ++i) {
+              sItems[i] = {
+                url: pages[i].url,
+                ngrid: ind
+              }
+              add_tile_to_grid(sItems[i]);
+            }
+            localStore("storedItems" + ind, sItems);
+          }
+          console.log(" Loaded 12 tiles from most visited");
+          save_grid_snapshot();
        }
        //Function to exit from editemode
        function process_body_click(e) {
@@ -482,6 +495,7 @@ return h(t,[{key:"setLocale",value:function(t){this.defaultLocale=t}},{key:"doRe
            e.preventDefault();
          }
        }
+      
        //Function to toggle edit mode of tiles
        function toggle_edit_mode() {
          var n = ((document.querySelector('.swiper-slide-active .bm-grid')).id)[14];
@@ -490,13 +504,8 @@ return h(t,[{key:"setLocale",value:function(t){this.defaultLocale=t}},{key:"doRe
          bk_swiper.allowTouchMove = (state) ? false : true;
          grids[n - 1].option("disabled", !state);
          var el = document.querySelector('.swiper-slide-active .bm-grid');
-         Array.prototype.forEach.call(el.getElementsByClassName("grid-item"), function (el) {
-           el.style.WebkitAnimation = (!state) ? 'none' : 'shadow-inset-center 0.4s cubic-bezier(0.250, 0.460, 0.450, 0.940) both';
-         });
-         Array.prototype.forEach.call(el.getElementsByClassName('editMode'), function (el) {
-           if (!state) el.classList.add('toggleEditMode');
-           else el.classList.remove('toggleEditMode');
-         });
+
+         document.getElementById("edit_m_area").style.display= (!state)?'none':'flex';
          if (!state) {
            localStore("storedItems" + (n), []);
            Array.prototype.forEach.call(el.getElementsByClassName("grid-item"), function (el) {
@@ -507,14 +516,6 @@ return h(t,[{key:"setLocale",value:function(t){this.defaultLocale=t}},{key:"doRe
        }
        //Function to add listener on grid-items
        function add_ev_listener() {
-         var closeImg = document.getElementsByClassName("close_img");
-         Array.prototype.forEach.call(closeImg, function (el) {
-           el.addEventListener("click", remove_tile_from_grid);
-         });
-         var editImg = document.getElementsByClassName("edit_img");
-         Array.prototype.forEach.call(editImg, function (el) {
-           el.addEventListener("click", edit_tile_from_grid);
-         });
          //Add context listener on tiles used to enable edit_mode
          window.setTimeout(function () {
            Array.from(document.getElementsByClassName("grid-item")).forEach(element => {
@@ -527,7 +528,7 @@ return h(t,[{key:"setLocale",value:function(t){this.defaultLocale=t}},{key:"doRe
        //Function to create grid
        function setup_grid() {
          console.log("setup_grid_ ");
-         if (localGet("storedItems1") == undefined || localGet("storedItems2") == undefined || localGet("storedItems2") == undefined) {
+         if (localGet("storedItems1") == undefined && localGet("storedItems2") == undefined && localGet("storedItems2") == undefined) {
            fetch_tiles_from_most_visited();
          } else if (localGet("userCustomTiles") == 1) {
            console.log("First time,after update get user tiles");
@@ -546,14 +547,109 @@ return h(t,[{key:"setLocale",value:function(t){this.defaultLocale=t}},{key:"doRe
          var bookmarksGrids = [document.getElementById("bookmarks-grid1"), document.getElementById("bookmarks-grid2"), document.getElementById("bookmarks-grid3")];
          for (var i = 0; i < 3; i++) {
            grids[i] = new Sortable(bookmarksGrids[i], {
+            group: {
+              name: 'editM',
+              pull: 'clone' // To clone: set pull to 'clone'
+            },
              animation: 150,
              ghostClass: 'hidden',
              disabled: 1,
              direction: "horizontal",
              draggable: ".grid-item",
+            onChange: function (evt) {
+              document.getElementById("edit_bin").style.background="transparent";
+              document.getElementById("edit_pencil").style.background="transparent";
+            },
            });
+          
            add_ev_listener();
          }
+         //Check if edit_area is created 
+         if(! document.getElementById("edit_m_area")){
+           var div=document.createElement("div");
+           div.innerHTML='<div id="edit_m_area" class="edit_mode"><div id="edit_bin"><i class="far fa-trash-alt"></i></div>'+
+           '<div id="edit_pencil" ><i class="far fa-edit"></i></div><div id="moveP" ><i class="far fa-arrow-from-right"></i>'+
+           '</div><div id="moveN" ><i class="far fa-arrow-from-left"></i></div></div>';
+           document.getElementById("bkg-c").appendChild(div);
+         }
+
+        new Sortable(document.getElementById("edit_bin"), {
+          group: 'editM',
+          animation: 150,
+          // Called when creating a clone of element
+          onAdd: function (/**Event*/evt) {
+            var itemEl = evt.item;  // dragged HTMLElement
+            itemEl.parentNode.removeChild(itemEl);
+            itemEl = evt.clone;  // dragged HTMLElement
+            itemEl.parentNode.removeChild(itemEl);
+            document.getElementById("edit_bin").style.background="transparent";
+          },
+          onChange: function (evt) {
+            document.getElementById("moveP").style.background="transparent";
+            document.getElementById("moveN").style.background="transparent";
+            document.getElementById("edit_pencil").style.background="transparent";
+            document.getElementById("edit_bin").style.background="red";
+          },
+        });
+        new Sortable(document.getElementById("edit_pencil"), {
+            group: 'editM',
+            animation: 150,
+            onAdd: function (/**Event*/evt) {
+              var itemEl = evt.clone;  // element HTMLElement
+              edit_tile_from_grid(itemEl);
+              var itemEl = evt.item;  // dragged HTMLElement
+              itemEl.parentNode.removeChild(itemEl);
+              document.getElementById("edit_pencil").style.background="transparent";
+            },
+            onChange: function (evt) {
+              document.getElementById("moveP").style.background="transparent";
+              document.getElementById("moveN").style.background="transparent";
+              document.getElementById("edit_bin").style.background="transparent";
+              document.getElementById("edit_pencil").style.background="green";
+            },
+        });
+        new Sortable(document.getElementById("moveP"), {
+          group: 'editM',
+          animation: 150,
+          onAdd: function (/**Event*/evt) {
+            var itemEl = evt.clone;  // element HTMLElement
+            itemEl.parentNode.removeChild(itemEl);
+            var itemEl = evt.item;  // dragged HTMLElement
+            var x=parseInt(sessionStorage.getItem("currentSwiperSlide"));
+            
+            if(x==0)x=3;console.log("x : " +x);
+            //Append item to new grid
+            document.getElementById("bookmarks-grid"+x).appendChild(itemEl);
+            document.getElementById("moveP").style.background="transparent";
+            toggle_edit_mode();
+          },
+          onChange: function (evt) {
+            document.getElementById("edit_bin").style.background="transparent";
+            document.getElementById("edit_pencil").style.background="transparent";
+            document.getElementById("moveN").style.background="transparent";
+            document.getElementById("moveP").style.background="#03a9f4";
+          },
+      });
+      new Sortable(document.getElementById("moveN"), {
+        group: 'editM',
+        animation: 150,
+        onAdd: function (/**Event*/evt) {
+          var itemEl = evt.clone;  // element HTMLElement
+          itemEl.parentNode.removeChild(itemEl);
+          var itemEl = evt.item;  // dragged HTMLElement
+          var x=parseInt(sessionStorage.getItem("currentSwiperSlide"))+2;
+          if(x==4)x=1;console.log("x : " +x);
+          //Append item to new grid
+          document.getElementById("bookmarks-grid"+x).appendChild(itemEl);
+          document.getElementById("moveN").style.background="transparent";
+        },
+        onChange: function (evt) {
+          document.getElementById("edit_bin").style.background="transparent";
+          document.getElementById("edit_pencil").style.background="transparent";
+          document.getElementById("moveP").style.background="transparent";
+          document.getElementById("moveN").style.background="#03a9f4";
+        },
+    });
          window.setTimeout(function () {
            save_grid_snapshot();
          }, 900);
@@ -598,9 +694,6 @@ return h(t,[{key:"setLocale",value:function(t){this.defaultLocale=t}},{key:"doRe
        Array.prototype.forEach.call(document.getElementsByClassName("grid-item"), function (el) {
          el.style.WebkitAnimation = 'none';
        });
-       Array.prototype.forEach.call(document.getElementsByClassName('closeImg'), function (el) {
-         el.classList.add('toggleEditMode');
-       });
        //Add body click used to disable edit_mode
        document.body.addEventListener("click", process_body_click);
        add_ev_listener();
@@ -615,6 +708,7 @@ return h(t,[{key:"setLocale",value:function(t){this.defaultLocale=t}},{key:"doRe
 
      //Check News Section widget status
      if (ntp_sett[0].status[3]) {
+      adaptColor("newsLocal",getComputedStyle(document.documentElement).getPropertyValue("--ntp-c" + 16));
        //Function that reset readed news
        function resetNH_items() {
          localStorage.removeItem("itemsNewsH");
@@ -1199,12 +1293,23 @@ return h(t,[{key:"setLocale",value:function(t){this.defaultLocale=t}},{key:"doRe
     
 
      function set_option_t(t, f, i) {
-       var value=(t.checked) ? t.value : f;
+       console.log("status :"+t.checked+ " value : "+ t.value + " if false : "+f+ ", index "+i);
+       var value=(t.checked)?t.value:f;
        ntp_sett[0].options[i] = value;
        root.style.setProperty("--ntp-o"+i,value);
        localStore("ntp_sett", ntp_sett);
+       if(i==4)set_targetBlank();
      }
      
+     function set_targetBlank(){
+      var ar =document.getElementsByClassName("tile_target");
+      for(var i=0;i<ar.length;i++)
+        ar[i].target=ntp_sett[0].options[4];
+    
+      save_grid_snapshot();
+     }
+
+
      function set_bgcolor_w(y, t) {
       var i= ntp_sett[0].order[y];
       root.style.setProperty("--ntp-wdg" + i, t.value);
@@ -1245,6 +1350,7 @@ return h(t,[{key:"setLocale",value:function(t){this.defaultLocale=t}},{key:"doRe
        localStore("ntp_sett", ntp_sett);
        var item2=t.parentElement;
         item2.querySelector("span").style.backgroundColor=t.value;
+        if(y==16)adaptColor("newsLocal",ntp_sett[0].colors[16]);
      }
      //Function to input custom RGB color
      function setCustomRGB(t, y) {

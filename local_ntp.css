@@ -11,46 +11,46 @@
 
   /****************************** COLORS ******************************/
   /* Widgets property */
-  --ntp-wdg0: #00000059;
-  --ntp-wdg1: #00000059;
-  --ntp-wdg2: #00000059;
-  --ntp-wdg3: #00000059;
-  --ntp-wdg4: #00000059;
+  --ntp-wdg0:#00000059;
+  --ntp-wdg1:#00000059;
+  --ntp-wdg2:#00000059;
+  --ntp-wdg3:#00000059;
+  --ntp-wdg4:#00000059;
 
   /********* GENERAL *******************/
-  --ntp-c0: #000000;/*  Floating button background color */
-  --ntp-c1: #ffffff;/*  Floating button icon color       */
+  --ntp-c0:#000000;/*  Floating button background color */
+  --ntp-c1:#ffffff;/*  Floating button icon color       */
 
   /********** QUICK LINKS ***************/
-  --ntp-c2: #004c98;    /*  QuickLink background color       */
-  --ntp-c3: #000000a8; /*  QuickLink icon background color  */
-  --ntp-c4: #ffffff;  /*  QuickLink icon color             */
+  --ntp-c2:#004c98;    /*  QuickLink background color       */
+  --ntp-c3:#000000a8; /*  QuickLink icon background color  */
+  --ntp-c4:#ffffff;  /*  QuickLink icon color             */
   
   /********** Search Bar ***************/
-  --ntp-c5: #0a80fd;   /*  Search Bar border color           */
-  --ntp-c6: #000000a8;/*  Search Bar text color             */
-  --ntp-c7: #ffffff; /*  Search Bar tbackground color      */
+  --ntp-c5:#0a80fd;   /*  Search Bar border color           */
+  --ntp-c6:#000000a8;/*  Search Bar text color             */
+  --ntp-c7:#ffffff; /*  Search Bar tbackground color      */
   
 
   /********** Bookmarks Grid **********/
-  --ntp-c8: #dddddd;      /*  Tile icon background color     */
-  --ntp-c9: #dddddd;     /*  Tile icon border color         */
-  --ntp-c10: #dddddd;   /*  Tile label text color          */
-  --ntp-c11: #00000000;/*  Tile label background color    */
-  --ntp-c12: #4faac2; /*  Swiper bullets color           */
+  --ntp-c8:#dddddd;      /*  Tile icon background color     */
+  --ntp-c9:#dddddd;     /*  Tile icon border color         */
+  --ntp-c10:#dddddd;   /*  Tile label text color          */
+  --ntp-c11:#00000000;/*  Tile label background color    */
+  --ntp-c12:#4faac2; /*  Swiper bullets color           */
   
   /**********  News Section ***********/
-  --ntp-c13: #dddddd;   /* News item background color     */
-  --ntp-c14: #333333;  /* News item text color           */
-  --ntp-c15: #dddddd; /* News item border              */
-  --ntp-c16: #dddddd;/* News toolbar color            */
+  --ntp-c13:#dddddd;   /* News item background color     */
+  --ntp-c14:#333333;  /* News item text color           */
+  --ntp-c15:#dddddd; /* News item border              */
+  --ntp-c16:#dddddd;/* News toolbar color            */
   
   /************* Tabs ***************/
-  --ntp-c17: #1a67a2;     /*  Selected tab                  */
-  --ntp-c18: #333333;    /*  Not selected tab              */
-  --ntp-c19: #dddddd;   /*  Tabs text color               */
-  --ntp-c20: #dddddd;  /*  Tab background color          */
-  --ntp-c21: #000000; /* Tab text color                 */
+  --ntp-c17:#1a67a2;     /*  Selected tab                  */
+  --ntp-c18:#333333;    /*  Not selected tab              */
+  --ntp-c19:#dddddd;   /*  Tabs text color               */
+  --ntp-c20:#dddddd;  /*  Tab background color          */
+  --ntp-c21:#000000; /* Tab text color                 */
   
   --ntp-bgc: radial-gradient(at top left, rgb(0, 60, 125), rgb(0, 255, 241));
   /*  Background color of ntp        */
@@ -77,7 +77,8 @@
 
   height: 100%;
 }
-
+.dark-color { color: black!important }
+.light-color { color: white!important }	
 body {
   background-attachment: fixed !important;
   cursor: default;
@@ -272,6 +273,8 @@ iframe {
   margin-top: 2px;
 }
 
+
+
 /********** Bookmarks Swiper ***************/
 
 #dlg_st .swiper-slide {
@@ -305,6 +308,32 @@ iframe {
   background-image: var(--ntp-bgi);
   background-size: var(--ntp-bgs);
 }
+#bkg-c .swiper-slide{
+  border-radius:8px;
+}
+#edit_m_area{
+ display:none;
+ background: #000000aa;
+ border-radius: 8px;
+ padding: 4px;
+ margin-top: 5px;
+}
+#edit_m_area .grid-item{
+  display: none;
+  opacity: 0;
+}
+#edit_m_area div{
+  width: 50%;
+  margin: 4px;
+  height: 70px;
+  text-align: center;
+  border-radius:4px;
+}
+#edit_m_area i{
+  color: #fff;
+  line-height: 70px;
+  font-size: 20px;
+}
 
 /***************** News Section ***************/
 .newsT_icon {
@@ -323,7 +352,6 @@ iframe {
 }
 
 #newsLocal {
-  color: #333;
   background: var(--ntp-c16);
   box-shadow: 0 1px 4px var(--ntp-o3);
   border-radius: 5px;
@@ -396,7 +424,6 @@ select::-ms-expand {
 .newsTitle a,
 .newsTime {
   color: var(--ntp-c14);
-  font-weight: lighter;
 }
 
 .newsTitle {
