@@ -583,6 +583,7 @@ return h(t,[{key:"setLocale",value:function(t){this.defaultLocale=t}},{key:"doRe
             itemEl = evt.clone;  // dragged HTMLElement
             itemEl.parentNode.removeChild(itemEl);
             document.getElementById("edit_bin").style.background="transparent";
+            add_ev_listener();
           },
           onChange: function (evt) {
             document.getElementById("moveP").style.background="transparent";
@@ -600,6 +601,7 @@ return h(t,[{key:"setLocale",value:function(t){this.defaultLocale=t}},{key:"doRe
               var itemEl = evt.item;  // dragged HTMLElement
               itemEl.parentNode.removeChild(itemEl);
               document.getElementById("edit_pencil").style.background="transparent";
+              add_ev_listener();
             },
             onChange: function (evt) {
               document.getElementById("moveP").style.background="transparent";
@@ -622,6 +624,7 @@ return h(t,[{key:"setLocale",value:function(t){this.defaultLocale=t}},{key:"doRe
             document.getElementById("bookmarks-grid"+x).appendChild(itemEl);
             document.getElementById("moveP").style.background="transparent";
             toggle_edit_mode();
+            add_ev_listener();
           },
           onChange: function (evt) {
             document.getElementById("edit_bin").style.background="transparent";
@@ -642,6 +645,7 @@ return h(t,[{key:"setLocale",value:function(t){this.defaultLocale=t}},{key:"doRe
           //Append item to new grid
           document.getElementById("bookmarks-grid"+x).appendChild(itemEl);
           document.getElementById("moveN").style.background="transparent";
+          add_ev_listener();
         },
         onChange: function (evt) {
           document.getElementById("edit_bin").style.background="transparent";
