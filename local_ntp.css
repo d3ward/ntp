@@ -723,7 +723,7 @@ button[disabled] {
 .scrollable-wrap {
   overflow-x: hidden;
   overflow-y: scroll;
-  max-height: 90vh;
+  max-height: 80vh;
   margin: auto;
 }
 
