@@ -723,7 +723,7 @@ button[disabled] {
 .scrollable-wrap {
   overflow-x: hidden;
   overflow-y: scroll;
-  max-height: 80vh;
+  max-height: 90vh;
   margin: auto;
 }
 
@@ -1186,7 +1186,10 @@ hr {
 
 
 /************* Settings Dialog******************/
+#sc-intro .swiper-wrapper {
+  align-items: center;
 
+}
 
 #swip_settings_list button {
   background: #00000060;
