@@ -1,37 +1,40 @@
 Copyright 2019 Geometry OU / Kiwi Browser
-
 Licensed under https://creativecommons.org/licenses/by-nc-sa/4.0/
 
 
-This is a fork of the New Tab Page from Kiwi Browser, open-source and free to use in non-commercial projects.
+*This is a fork of the New Tab Page from Kiwi Browser, open-source and free to use in non-commercial projects.*
 
-
-The New Tab Page is in two parts:
+# New Tab Page
+The  original ntp  was made up of two part:
  - A list of most visited websites, ordered on a grid of tiles
  - A list of recent news
 
+This fork has removed the two parts and created a "modular" ones that we can call widgets:
+- Search Bar
+- Quick Links
+- Bookmarks Grid
+- News Section
+- Tabs Widgets
+and more can be added in the future..
 
-The main concept behind this New Tab Page is that a tile grid of the most visited websites is displayed on screen.
-The resulting HTML is stored in a local cache (localStorage.cachedGrid).
+The main goal is to provide all the options to customize anything.
+Settings are stored in a local cache (localStorage.ntp_sett).
 
-Once the page is loaded, the pre-rendered version of the tile grid (localStorage.cachedGrid) is instantly displayed on screen (fake-bookmarks-grid) and then swapped with a dynamic / customizable grid rendered in JS (that supports drag and drop).
+Once the page is loaded, the pre-rendered version of all enabled widgets is instantly displayed on screen 
 
+Some widget have limited functionality ( like access the most visited pages,history,downloaded files etc.)
+Fully widgets working/support is gradually implemented into Kiwi Browser.
 
-The list of tiles to be displayed is provided by an internal API: chrome.embeddedSearch.newTabPage.mostVisited (the most visited websites by the user).
-
-If the user has manually added a website (or moved one of the tile), the list is provided by localStorage.storedItems instead of newTabPage.mostVisited.
-
-If you need favicons, you can grab them from:
- - local: chrome-search://favicon or chrome-search://ntpicon/size/24@2x/https://cnn.com (local favicons)
-or
- - from Google's server (https://s2.googleusercontent.com/s2/favicons?domain_url=cnn.com&alt=404&sz=32 - T&C of Google applies)
-or
- - from Kiwi Browser's server (https://logos.kiwibrowser.com/cnn.com - No analytics, no logs, no identifier to send).
+Favicons are retrieved from 
+- Kiwi Browser's server (https://logos.kiwibrowser.com/cnn.com - No analytics, no logs, no identifier to send).
+- or user can add custom links for favicons
 
 For security reasons, the new tab page should only establish connection to HTTPS servers.
 CORS (loading requests from remote servers), XHR and CSP policies can be adapted if you need, feel free to ask on Discord (or open an issue).
 
-You can directly test and develop the new tab page online by going with your favorite browser (Chrome or Kiwi Browser) on https://kiwibrowser.github.io/ntp/local_ntp.html (or on your own copy, by forking the repository or self-hosting the html file).
 
-Have fun,
-Arnaud.
+You can directly try this fork of the new tab page online by going with your favorite browser (Chrome or Kiwi Browser) on https://d3ward.github.io/ntp/local_ntp.html 
+Original one - https://kiwibrowser.github.io/ntp/local_ntp.html 
+
+*__Made with <3 for Kiwi Browser__*
+

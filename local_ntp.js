@@ -45,6 +45,14 @@ return h(t,[{key:"setLocale",value:function(t){this.defaultLocale=t}},{key:"doRe
  function localGet(key) {
    return JSON.parse(window.localStorage.getItem(key));
  }
+ //Function to wait
+ function wait(ms){
+  var start = new Date().getTime();
+  var end = start;
+  while(end < start + ms) {
+    end = new Date().getTime();
+ }
+}
  //Show NTP ( should reduce the flash effect )
  //document.getElementById('bdy').classList.add('inited');
  if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
@@ -193,7 +201,7 @@ return h(t,[{key:"setLocale",value:function(t){this.defaultLocale=t}},{key:"doRe
         document.getElementById(selector).classList.remove('dark-color');
       }
     };
-    
+      var orderListChanged=0;
      function load_widgets() {
        //Load widgets from cache
        try {
@@ -202,10 +210,14 @@ return h(t,[{key:"setLocale",value:function(t){this.defaultLocale=t}},{key:"doRe
            var y = ntp_sett[0].order[z];
            var status = ntp_sett[0].status[z];
            var wdgn = document.getElementById("wdg-" + y);
+
+           console.log("Widget "+z+ " order :"+y+" status:"+status+" on wdg-"+y)
+
            root.style.setProperty("--ntp-wdg" + y, ntp_sett[0].values[z]);
            var j =document.getElementById("set-bgw"+z);
            var item2=j.parentElement;
-          item2.querySelector("span").style.backgroundColor=ntp_sett[0].values[z];
+            item2.querySelector("span").style.backgroundColor=ntp_sett[0].values[z];
+
            var c = "";
            if (status) {
              wdgn.style.display = "block";
@@ -213,14 +225,17 @@ return h(t,[{key:"setLocale",value:function(t){this.defaultLocale=t}},{key:"doRe
              customInner(wdgn, ntp_wdg[z].cached);
            } else {
              wdgn.style.display = "none";
+             customInner(wdgn,"...");
            }
-           list[y].setAttribute("data-order", z);
-           customInner(list[y], '<i class="fal fa-arrows my-handle"></i><label>' + ntp_wdg[z].name + '</label><input ' +
-             'class="toggle togg_li" type="checkbox" onchange="toggle_widget(' + y + ')" ' + c + '/>')
+           if(orderListChanged==0){
+              list[y].setAttribute("data-order", z);
+              customInner(list[y], '<i class="fal fa-arrows my-handle"></i><label>' + ntp_wdg[z].name + '</label><input ' +
+             'class="toggle togg_li" type="checkbox" onchange="toggle_widget(' + y + ')" ' + c + '/>');
+           }
+           
          }
          var paras = document.getElementsByClassName('editMode');
-          while(paras[0])
-              paras[0].parentNode.removeChild(paras[0]);
+         while(paras[0])paras[0].parentNode.removeChild(paras[0]);
           
        } catch (err) {
          addLogS("Error:" + err.name + " ( " + err.message + " )");
@@ -229,8 +244,10 @@ return h(t,[{key:"setLocale",value:function(t){this.defaultLocale=t}},{key:"doRe
      load_widgets();
 
      function toggle_widget(i) {
+       
        var y = ntp_sett[0].order[i];
        var status = (ntp_sett[0].status[i] == 1) ? 0 : 1;
+       console.log(" Widget : "+i +" Order : "+y + " Status :"+ntp_sett[0].status[i]+" - >"+status);
        ntp_sett[0].status[i] = status;
        if (status) {
          document.getElementById("wdg-" + y).style.display = "block";
@@ -256,23 +273,12 @@ return h(t,[{key:"setLocale",value:function(t){this.defaultLocale=t}},{key:"doRe
            document.getElementById('i-url').disabled = true;
            document.getElementById('btn-add').style.display = 'inline';
            document.getElementById('btn-save').style.display = 'none';
-           document.getElementById('btn-del').style.display = 'none';
          }
          document.getElementById("floating-btn").classList.remove("open");
          document.getElementById("fb-btn").innerHTML = '<i class="fas fa-caret-up"></i>';
          document.getElementById("dlg_nt").style.display = (a) ? "inline" : "none";
          document.getElementById("dlg_nt").style.opacity = a;
        }
-       //Function to remove a tile
-       function remove_tile_from_grid(e) {
-         console.log("Removing tile : " + e);
-         item = e.target;
-         item = item.parentNode;
-         //Remove item from grid 
-         item.parentNode.removeChild(item);
-         event.stopPropagation();
-       }
-
        function remove_tile_from_editMode() {
          item = currentEditedTile.parentNode;
          //Remove item from grid 
@@ -352,7 +358,7 @@ return h(t,[{key:"setLocale",value:function(t){this.defaultLocale=t}},{key:"doRe
        }
        //Function to get rootDomain
        function get_root_domain(url) {
-         return url.replace('http://', '').replace('https://', '').replace('www.', '').split(/[/?#]/)[0];
+         return url.replace('http://', '').replace('https://', '').replace('www.', '').replace(':', '').split(/[/?#]/)[0];
        }
        //Function to apply change to edited tile and save
        function save_edited_tile() {
@@ -374,26 +380,24 @@ return h(t,[{key:"setLocale",value:function(t){this.defaultLocale=t}},{key:"doRe
          }
          //Apply changes to the tile on grid
          item.querySelector('#tile_target').href = items[index].url;
-         item.children[2].children[1].innerHTML = items[index].title;
-         item.children[2].children[0].src = items[index].imgSrc;
+         item.children[0].children[1].innerHTML = items[index].title;
+         item.children[0].children[0].src = items[index].imgSrc;
          //Save changes on local storage
          localStore(keyS, items);
          save_grid_snapshot();
          document.getElementById('btn-add').style.display = 'inline';
          document.getElementById('btn-save').style.display = 'none';
-         document.getElementById('btn-del').style.display = 'none';
          func_co_dlg(0, 1);
        }
        //Function to get fallback icon on preview tile src error
        function get_fallback_icon() {
          var url = document.getElementById('i-url').value;
-         if (url[30])
-           document.getElementById('p-tile').src = document.getElementById('i-url').value + "?fallback=1";
+         if (url[30])document.getElementById('p-tile').src = url+ "?fallback=1";
        }
        //Function that return jdenticon if img src of tile is invalid
        function invalidate_image(item) {
          var parser = document.createElement('a');
-         parser.href = item.title;
+         parser.href = document.getElementById('t-url').value;
          var rootDomain = psl.get(parser.hostname);
          //console.log("Invalidating rootDomain: " + rootDomain);
          item.src = "data:image/svg+xml;base64," + btoa(jdenticon.toSvg(parser.hostname, 64));
@@ -410,7 +414,6 @@ return h(t,[{key:"setLocale",value:function(t){this.defaultLocale=t}},{key:"doRe
          document.getElementById('i-url').disabled = false;
          document.getElementById('btn-add').style.display = 'none';
          document.getElementById('btn-save').style.display = 'inline';
-         document.getElementById('btn-del').style.display = 'inline';
          document.getElementById('p-tile').src = img;
          document.getElementById('i-url').value = img;
          document.getElementById('t-url').value = url;
@@ -640,7 +643,7 @@ return h(t,[{key:"setLocale",value:function(t){this.defaultLocale=t}},{key:"doRe
           var itemEl = evt.clone;  // element HTMLElement
           itemEl.parentNode.removeChild(itemEl);
           var itemEl = evt.item;  // dragged HTMLElement
-          var x=parseInt(sessionStorage.getItem("currentSwiperSlide"))+2;
+          var x=(parseInt(currentSwiperSlide) + 1)+1;
           if(x==4)x=1;console.log("x : " +x);
           //Append item to new grid
           document.getElementById("bookmarks-grid"+x).appendChild(itemEl);
@@ -658,17 +661,7 @@ return h(t,[{key:"setLocale",value:function(t){this.defaultLocale=t}},{key:"doRe
            save_grid_snapshot();
          }, 900);
        }
-       //Call setup_grid
-       try {
-         window.setTimeout(function () {
-           setup_grid();
-         }, 2);
-       } catch (err) {
-         console.log("Delayed init failed, retrying later");
-         window.setTimeout(function () {
-           setup_grid();
-         }, 100);
-       }
+       
        var bk_swiper,currentSwiperSlide = sessionStorage.getItem("currentSwiperSlide");
        
        function initSwiper(){
@@ -682,25 +675,21 @@ return h(t,[{key:"setLocale",value:function(t){this.defaultLocale=t}},{key:"doRe
             clickable: true,
           },
           effect: ntp_sett[0].options[1], // effect : "slide", "fade"
-        fadeEffect: {
-            crossFade: true
-          }, //Better fade effect
+          fadeEffect: {crossFade: true}, //Better fade effect
           autoHeight:true,
-          initialSlide: currentSwiperSlide,
+          initialSlide: currentSwiperSlide
         });
-        //Set activeIndex on slide change
-        bk_swiper.on('slideChange', function () {
-          sessionStorage.currentSwiperSlide = bk_swiper.activeIndex;
-        });
+        bk_swiper.on('transitionEnd', function() {sessionStorage.currentSwiperSlide = bk_swiper.realIndex;});
+        //Create Grid with setup_grid
+        setup_grid();
+        //Make sure there is no edit_mode status 
+        Array.prototype.forEach.call(document.getElementsByClassName("grid-item"), function (el) {el.style.WebkitAnimation = 'none';});
+        //Add body click used to disable edit_mode
+        document.body.addEventListener("click", process_body_click);
+        add_ev_listener();
       }
       initSwiper();
-       //Make sure there is no edit_mode status 
-       Array.prototype.forEach.call(document.getElementsByClassName("grid-item"), function (el) {
-         el.style.WebkitAnimation = 'none';
-       });
-       //Add body click used to disable edit_mode
-       document.body.addEventListener("click", process_body_click);
-       add_ev_listener();
+       
      }
      // End of Bookmarks grid section
      function arrayBufferToBase64(buffer) {
@@ -1153,16 +1142,19 @@ return h(t,[{key:"setLocale",value:function(t){this.defaultLocale=t}},{key:"doRe
          '中文 | 香港': '?hl=zh-HK&gl=HK&ceid=HK%3Azh-Hant',
          '한국어 | 대한민국': '?hl=ko&gl=KR&ceid=KR%3Ako',
        };
+       if (!localStorage.newsLocale) localStorage.newsLocale = "?hl=en-US&gl=US&ceid=US:en";
+       document.getElementById('newsLocal').value = localStorage.newsLocale;
        //Add options for news locale
        var sel = document.getElementById("newsLocal");
        for (var el in locales) {
          var opt = document.createElement('option');
          opt.appendChild(document.createTextNode(el));
          opt.value = locales[el];
+         if(locales[el]==localStorage.newsLocale)opt.selected=true;
          sel.appendChild(opt);
        }
-       if (localStorage.newsLocale == undefined) localStorage.newsLocale = "?hl=en-US&gl=US&ceid=US:en";
-       document.getElementById('newsLocal').value = localStorage.newsLocale;
+       
+
        loadGNews();
        //Add swipe to delete on news items
        window.setTimeout(function () {
@@ -1325,6 +1317,7 @@ return h(t,[{key:"setLocale",value:function(t){this.defaultLocale=t}},{key:"doRe
      //Function to set solid color for ntp bg
      function set_color_property2(value) {
        root.style.setProperty("--ntp-bgc", value);
+       localStorage.metaTColor=value;
        ntp_sett[1].solidC = value;
        ntp_sett[1].c22 = value;
        localStore("ntp_sett", ntp_sett);
@@ -1467,26 +1460,23 @@ return h(t,[{key:"setLocale",value:function(t){this.defaultLocale=t}},{key:"doRe
        // Element dragging ended
        onEnd: function (evt) {
          var list = document.getElementById("listWidgetOrder").getElementsByTagName("li");
-         console.log("1->> " + ntp_sett[0].order);
+         console.log("After onEnd Finished :")
+         console.log("Order  ->> " + ntp_sett[0].order);
+         console.log("Status ->> " + ntp_sett[0].status);
          for (var z = 0; z < list.length; z++) {
-           var y = list[z].getAttribute("data-order");
-           ntp_sett[0].order[z] = y;
-           var status = ntp_sett[0].status[z];
-           var wdgn = document.getElementById("wdg-" + y);
-           root.style.setProperty("--ntp-wdg" + y, ntp_sett[0].values[z]);
-           var j =document.getElementById("set-bgw"+z);
-           var item2=j.parentElement;
-          item2.querySelector("span").style.backgroundColor=ntp_sett[0].values[z];
-           if (status) {
-             wdgn.style.display = "block";
-             customInner(wdgn, ntp_wdg[z].cached);
-           } else {
-             wdgn.style.display = "none";
-           }
+           var y = parseInt(list[z].getAttribute("data-order"));
+           ntp_sett[0].order[y] = z;
+           orderListChanged=1;
          }
+         reload_locale();
+         load_widgets();
          localStore("ntp_sett", ntp_sett); //Save Settings
-         bk_swiper.destroy(true, true);initSwiper();save_grid_snapshot();
-         reload_locale()
+         save_grid_snapshot();
+         bk_swiper.destroy(true, true);
+         initSwiper();
+
+         wait(100);
+
        }
      });
      //Create Swiper for settings
@@ -1521,11 +1511,12 @@ return h(t,[{key:"setLocale",value:function(t){this.defaultLocale=t}},{key:"doRe
      }
      //Function to export NTP settings and widgets
      document.getElementById('exportJSON').onclick = function () {
+       //Create a copy of localstorage
        var localStorageCopy = JSON.parse(JSON.stringify(localStorage));
        var keys = Object.keys(localStorageCopy),
          i = keys.length;
        while (i--) {
-         if (keys[i].startsWith('cached') || keys[i].startsWith('icon-'))
+         if (keys[i].startsWith('cached') || keys[i].startsWith('icon-') || keys[i].startsWith('ntp_wdg') )
            delete localStorageCopy[keys[i]];
        }
        var dataStr = JSON.stringify(localStorageCopy);
@@ -1550,17 +1541,18 @@ return h(t,[{key:"setLocale",value:function(t){this.defaultLocale=t}},{key:"doRe
          localStorage.clear();
          localStorage.ntpVersion = ntpVersion;
          //Let's take stuff we need from backup { ntp_sett  , userCols , storedItems(1,2,3) ,newsLocale}
-         if(test2["ntp_sett"])localStore("ntp_sett", test2["ntp_sett"]);
+         if(test2["ntp_sett"])localStorage.setItem('ntp_sett', test2["ntp_sett"]);
          if(test2["userCols"])localStorage.userCols =test2["userCols"];
-         localStorage.storedItems1= (test2["storedItems1"])?test2["storedItems1"]:undefined;
-         localStorage.storedItems2= (test2["storedItems2"])?test2["storedItems2"]:undefined;
-         localStorage.storedItems3=(test2["storedItems3"])?test2["storedItems3"]:undefined;
-         localStore("newsLocale", (test2["newsLocale"])?test2["newsLocale"]:undefined);
-         localStore("metaTColor", (test2["metaTColor"])?test2["metaTColor"]:undefined);
+         localStorage.storedItems1= test2["storedItems1"];
+         localStorage.storedItems2= test2["storedItems2"];
+         localStorage.storedItems3=test2["storedItems3"];
+         localStore("newsLocale", test2["newsLocale"]);
+         localStore("metaTColor", test2["metaTColor"]);
          //User imported tiles,widgets and settings let take the stored stuf after reload
          localStorage.userCustomTiles=1;
        };
        reader.readAsText(file);
+       location.reload();
      };
 
      /******* Make tiles fit the screen ***/

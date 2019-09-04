@@ -105,6 +105,10 @@ button {
   margin: 0;
   padding: 0;
 }
+/* Fix icons not centered*/
+i.fas {
+  line-height: inherit;
+}
 
 /* Dialogs for new_tile, settings*/
 .dlg-vrlay {
@@ -505,6 +509,7 @@ select::-ms-expand {
   position: relative;
   height: 40px;
 }
+#listWidgetOrder .sortable-ghost { opacity: 0; }
 
 #listWidgetOrder li label {
   height: 40px;

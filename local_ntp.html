@@ -85,7 +85,8 @@
 <!-- Copyright 2019 Geometry OU / Kiwi Browser -->
 <!-- Licensed under https://creativecommons.org/licenses/by-nc-sa/4.0/ -->
 <head>
-  <!----> <base href="https://d3ward.github.io/ntp/">
+  <!-- -->
+  <base href="https://d3ward.github.io/ntp/">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="theme-color" content="#000000">
   <script src="https://kit.fontawesome.com/528a166104.js"></script>
@@ -96,7 +97,8 @@
   <script>
   //Load Theme Color
   var metaTColor = document.querySelector("meta[name=theme-color]");
-  if(localStorage.metaTColor)metaTColor.setAttribute("content", localStorage.metaTColor);   
+  if(localStorage.metaTColor){metaTColor.setAttribute("content", localStorage.metaTColor); }
+  else {localStorage.metaTColor="#ffffff";metaTColor.setAttribute("content","#ffffff");}
   </script>
 </head>
 <body id="bdy">
@@ -125,8 +127,6 @@
         <input id="t-lab" type="text" placeholder="Optional" />
         <div class="vrlay-wrap clearcenter">
           <button type="button" id="btn-add" class="btn-add" onclick="create_new_tile()">Add</button>
-          <button type="button" id="btn-del" class="btn-del"
-            onclick="remove_tile_from_editMode();func_co_dlg(0,1)">Delete</button>
           <button type="button" id="btn-save" class="btn-save" onclick="save_edited_tile()">Save</button>
           <button type="button" id="btn-dark" class="btn-dark" onclick="func_co_dlg(0,1)">Close</button>
         </div>
@@ -554,18 +554,31 @@
               <div style="overflow-x:hidden;overflow-y: scroll;max-height: calc(100vh - 120px);max-width:80vw;margin: auto;text-align: left;">
                 <h2># Changelog</h2>
                 <hr>
-                <h3>## [3.0.3] - 2019-07-22</h3>
+                <h3>## [3.0.4] - 2019-09-04</h3>
                 <h4>### Fixed<br>
-                  - Some options not working  <br>
+                  - Save button not working <br>
+                  - Import backup <br>
+                  - Widget order not saved properly<br>
+                  - When ordering ghost item is visible<br>
+                  - Some icons not centered<br>
                   ### Added<br>
-                  - New tile edit mode ( drag and drop tile to remove/edit/move)
-                  - Auto change text color of news locale select button <br>
+                  - Change ntp background color to apply meta Theme color <br>
                   ### Changed <br>
-                  - Order of floating button menu<br>
-                  - Text of news are bolder <br>
+                  - Removed delete button from editing mode of tile<br>
+                  - Minimal improvents on the js <br>
                 </h4>
                 <hr >
                 <div id="old-changelog" style="color:#757575;">
+                  <h3>## [3.0.3] - 2019-07-22</h3>
+                  <h4>### Fixed<br>
+                    - Some options not working  <br>
+                    ### Added<br>
+                    - New tile edit mode ( drag and drop tile to remove/edit/move)
+                    - Auto change text color of news locale select button <br>
+                    ### Changed <br>
+                    - Order of floating button menu<br>
+                    - Text of news are bolder <br>
+                  </h4>
                   <h3>## [3.0.2] - 2019-07-18</h3>
                   <h4>### Fixed<br>
                     - News Item text wrap<br>
@@ -631,15 +644,12 @@
         </div>
       </div>
     </div>
-
     <!--Widgets-->
     <div id="wdg-0" class="wdg-ntp"></div>
     <div id="wdg-1" class="wdg-ntp"></div>
     <div id="wdg-2" class="wdg-ntp"></div>
     <div id="wdg-3" class="wdg-ntp"></div>
     <div id="wdg-4" class="wdg-ntp"></div>
-
-    
 
     <div id="floating-btn" class="buttons">
         <div class="floating-actions">
@@ -648,12 +658,10 @@
             class="fas fa-rectangle-wide"></i> Widgets</div>
           <div class="action" onclick="reset_page()"> <i class="far fa-exclamation-triangle"></i> Reset NTP</div>
           <div class="action" id="settings-btn" onclick="func_dlg_st(1)"> <i class="fas fa-cogs fa-lg"></i> Settings</div>
-
           <!--<div class="action" id="changelog-btn" onclick="func_dlg_st(1);func_st_page(10);"><i
               class="far fa-list-alt"></i> Changelog</div><div class="action" id="news-btn" onclick="enable_news()"><i class="far fa-newspaper fa-lg"></i> View News</div>
           <div class="action" id="resetN-btn" onclick="resetNH_items()"><i class="fas fa-eye-slash fa-lg"></i> Reset read
             News</div>-->
-          
         </div>
         <div class="trigger" onclick="fabAction()" id="fb-eg"><span id="fb-btn"><i class="fas fa-caret-up"></i></span>
         </div>
