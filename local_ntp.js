@@ -1567,8 +1567,9 @@ return h(t,[{key:"setLocale",value:function(t){this.defaultLocale=t}},{key:"doRe
      function editNCols(a) {//Function to add or remove cols
        var el = document.getElementById('nColsLabel');
        var t = parseInt(el.textContent);
-       if (a) if (t < 8) el.textContent = t + 1;
-       else if (t > 3) el.textContent = t - 1;
+       if (a){
+         if (t < 8) el.textContent = t + 1;
+       }else { if (t > 3) el.textContent = t - 1;}
        userCols = el.textContent;
        setColRow();
      }

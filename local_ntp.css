@@ -106,7 +106,7 @@ button {
   padding: 0;
 }
 /* Fix icons not centered*/
-i.fas {
+i.fas,i.far {
   line-height: inherit;
 }
 
