@@ -1,0 +1,631 @@
+<!doctype html>
+<html>
+<script>
+  var newsServer = 'https://news.google.com/';
+  if (typeof window.chrome.embeddedSearch == "undefined") {
+    console.log("Oh , looks like window.chrome.embeddedSearch is undefined");
+    window.chrome = {
+      "embeddedSearch": {
+        "newTabPage": {
+          "isIncognito": false,
+        }
+      }
+    }
+    newsServer = 'https://chromecontentsuggestions-pa.kiwibrowser.com/testnews/?';
+  }
+  function reset_page() {
+    if (confirm("This will reset NTP back to default, are you sure ?")) {
+      localStorage.clear();
+      location.reload();
+    }
+  }
+  function fabAction() {
+    var el = document.getElementById('flt_btn');
+    el.classList.toggle('open');
+    if (el.classList.contains('open')) {
+      document.getElementById("fb-btn").innerHTML = '<i class="far fa-times"></i>';
+    } else {
+      document.getElementById("fb-btn").innerHTML = '<i class="fas fa-caret-up"></i>';
+    }
+  }
+</script>
+<!-- Copyright 2020 Eduard Ursu -->
+<!-- Licensed under https://creativecommons.org/licenses/by-nc-sa/4.0/ -->
+
+<head>
+  <!-- --><base href="https://d3ward.github.io/ntp/">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#000000">
+  <link rel="stylesheet" href="./local_ntp.min.css?%%COMMIT%%">
+  <script src="./fa_awesome.js"></script>
+  <meta charset="utf-8">
+  <meta name="google" value="notranslate">
+  <script>
+    //Load Theme Color
+    var metaTColor = document.querySelector("meta[name=theme-color]");
+    if (localStorage.ntp_mtc) {
+      metaTColor.setAttribute("content", localStorage.ntp_mtc);
+    } else {
+      localStorage.ntp_mtc = "#ffffff";
+      metaTColor.setAttribute("content", "#ffffff");
+    }
+  </script>
+</head>
+<body class="op">
+  <script>
+    var ntp_bdy = document.body;
+  function dismBox() {
+    document.getElementById("lrt").classList.toggle("show-lrt");
+    ntp_bdy.classList.toggle("sl");
+  }
+  function showBox(txt) {
+    document.getElementById("lrt_body").innerHTML = txt;
+    document.getElementById("lrt").classList.toggle("show-lrt");
+    ntp_bdy.classList.toggle("sl");
+  }
+    if (localStorage.ntp_bdy != undefined) ntp_bdy.setAttribute("style", (localStorage.ntp_bdy).replace('"', ''));</script>
+  <div id="lrt" class="lrt">
+    <div class="lrt_cnt">
+      <div class="lrt_body" id="lrt_body">
+      </div>
+      <div class="lrt_ft"><button onclick="dismBox();"> Ok </button></div>
+    </div>
+  </div>
+  <div id="lrt_fl" class="lrt">
+    <div class="lrt_cnt">
+      <div id="lrt_bfl">
+      </div>
+      <div id="fld_editA" class="edit_mode">
+        <div id="edit_bin2"><i class="far fa-trash-alt" aria-hidden="true"></i></div>
+        <div id="edit_out2"><i class="fal fa-arrow-from-top"></i></div>
+        <div id="edit_pencil2"><i class="far fa-edit" aria-hidden="true"></i></div>
+      </div>
+    </div>
+  </div>
+  <div id="cl_vn" class="lrt">
+    <div class="lrt_cnt">
+      <div class="lrt_body" id="cp_v">
+      </div>
+    </div>
+  </div>
+  <div class="lrt" id="dlg">
+    <div class="lrt_cnt">
+      <form id="dlg_frm" action="" autocomplete="off">
+        <div id="dlg_fl">
+          <div class="cl_center">
+            <div class="tlg_item folder np">
+              <div class="tlg_img tlg_fld">
+                <div class="tlg_item"><a id="tile_target" class="tile_target"><img border="0" class="tlg_img"
+                      src="https://logos.kiwibrowser.com/amazon.com">
+                  </a></div>
+                <div class="tlg_item"><a id="tile_target" class="tile_target"><img border="0" class="tlg_img"
+                      src="https://logos.kiwibrowser.com/github.com">
+                  </a></div>
+                <div class="tlg_item"><a id="tile_target" class="tile_target"><img border="0" class="tlg_img"
+                      src="https://logos.kiwibrowser.com/github.com">
+                  </a></div>
+              </div>
+              <span id="tlg_span" class="tlg_title">Folder</span>
+            </div>
+          </div>
+          <br>
+          <label><b>Folder Label</b></label>
+          <input id="ft_lab" type="text" placeholder="Optional" />
+        </div>
+        <div id="dlg_tg">
+          <div class="cl_center">
+            <figure>
+              <img id="p_tile" onerror="f_gfi()"><br>
+              <figcaption><b>Preview Tile</b></figcaption>
+            </figure>
+          </div>
+          <div>
+            <label class="stt_opt"><i class="far fa-sync-alt"></i>&nbsp;Auto detect logo from url</label>
+            <input class="toggle" type="checkbox" value="_blank" id="t_ac" onchange="f_sac(this,1)" checked /></div>
+          <label><b>Icon Url</b></label>
+          <input id="i_url" onpaste="f_spti(this);" onblur="f_sptt(this);" type="text" style="text-align: center;"
+            disabled />
+          <br>
+          <label><b>Website address</b></label>
+          <input id="t_url" onkeyup="f_sptt(this);" type="text" value="https://">
+          <br>
+          <label><b>Tile Label</b></label>
+          <input id="t_lab" type="text" placeholder="Optional" />
+        </div>
+        <div class="vrl_wrp cl_center">
+          <button type="button" id="b_add" class="b_add" onclick="f_cnt()">Add</button>
+          <button type="button" id="b_add2" class="b_add" onclick="f_cnf()">Add</button>
+          <button type="button" id="b_save" class="b_save" onclick="f_sedt()">Save</button>
+          <button type="button" class="b_dark" onclick="f_dlg(1)">Close</button>
+        </div>
+      </form>
+    </div>
+
+  </div>
+  <div id="dlg_st" class="lrt">
+    <div class="lrt_cnt">
+      <div>
+        <button type="button" class="b_dark b_close" onclick="func_dlg_st(0)"><i class="far fa-times"></i></button>
+        <button class="stt_menu" onclick="func_st_page(0);">
+          <i class="far fa-bars"></i>
+        </button>
+      </div>
+      <div class="dlg_cnt">
+        <section>
+          <div id="dlg_home" class="scr_wrp">
+            <button onclick="func_st_page(1);"><i class="fal fa-cogs icon"></i></i>General</button>
+            <button onclick="func_st_page(2);"><i class="fal fa-image icon"></i>NTP Background</button>
+            <button onclick="func_st_page(3);"><i class="fas fa-rectangle-wide icon"></i>Widgets</button>
+            <button onclick="func_st_page(4);"><i class="far fa-search icon"></i>Search Bar</button>
+            <button onclick="func_st_page(5);"><i class="fas fa-grip-horizontal icon"></i>Tiles Grid</button>
+            <button onclick="func_st_page(6);"><i class="fal fa-cloud-sun icon"></i>Weather</button>
+            <button onclick="func_st_page(7);"><i class="far fa-newspaper icon"></i>News Section</button>
+            <button onclick="func_st_page(8);"><i class="far fa-window-alt icon"></i>Tabs </button>
+            <button onclick="func_st_page(9);"><i class="far fa-redo-alt icon"></i>Backup&Restore</button>
+            <button onclick="func_st_page(10);"><i class="fal fa-info-square icon"></i>About</button>
+          </div>
+        </section>
+        <!-- General -->
+        <section>
+          <div class="vrl_wrp">
+            <div class="stt_lbl">Floating Button</div>
+          </div>
+          <div class="vrl_wrp vw2 ">
+            <label class="stt_cllb"> Background Color </label>
+            <div class="stt_clfrt" id="stt_cl0" onclick="f_cp_rgb(0)"></div>
+          </div>
+          <div class="vrl_wrp vw2 ">
+            <label class="stt_cllb">Icon Color</label>
+            <div class="stt_clfrt" id="stt_cl1" onclick="f_cp_rgb(1)"></div>
+          </div>
+          <br>
+          <hr><br>
+          <div class="vrl_wrp vw2 ">
+            <label class="stt_cllb"> Meta Theme Color</label>
+            <div class="stt_clfrt" id="sett_mtc" onclick="f_cp_mtc()"></div>
+          </div>
+          <div class="vrl_wrp vw2">
+            <label class="stt_opt">Material Design Shadow</label>
+            <input id="stt_opt0" class="toggle" type="checkbox" value="rgba(0,0,0,0.6)"
+              onchange="set_option_t(this,'none',0)" />
+          </div>
+          <div class="vrl_wrp vw2">
+            <label class="stt_opt">Widgets background blur effect</label>
+            <input id="stt_opt1" class="toggle" type="checkbox" value="blur(5px)"
+              onchange="set_option_t(this,' ',1)" />
+          </div>
+
+        </section>
+        <!-- NTP Background-->
+        <section>
+          <div class="vrl_wrp  ">
+            <div class="stt_lbl">NTP Background</div>
+          </div>
+          <div id="bg_crop">
+            <div id="bg_pld">
+              <div class="block">
+              </div>
+              <div class="vrl_wrp">
+                <label class="btn"
+                  style="padding: 0;text-align: center;height: 35px;line-height: 35px;display: inline-block;border-radius: 5px;background: #000;">
+                  <input type="file" id="wllp_file" onchange="f_wallp1()"
+                    style="opacity: 0;position: absolute;z-index: -1;" />
+                  <i class="far fa-file-upload"> Upload from file </i> 
+                </label>
+                <button type="button" class="b_dark" onclick="f_wallp2();"><i class="far fa-link"></i> From Link</button></span>
+                <button type="button" class="b_dark" onclick="f_cp_bg();"><i
+                    class="far fa-palette"></i> Color</button></span>
+              </div>
+            </div>
+            <div id="crop">
+              <div class="block">
+                <div class="stage">
+                  <div id="croppie"></div>
+                  <br>
+                  <h5>Move the image to fit the area you want to crop. <br>
+                    Use the slider to zoom
+                  </h5>
+                  <div class="vrl_wrp">
+                    <button type="button" class="b_dark" onclick="cropCancel();">Cancel</button>
+                    <button type="button" class="b_dark" onclick="cropResult();">Next</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div id="result">
+              <div class="block">
+                <div class="stage"><img src="" id="imgRes" /></div>
+              </div>
+              <div class="vrl_wrp">
+                <button type="button" class="b_dark" onclick="cropCancel();">Cancel</button>
+                <button type="button" class="b_dark" onclick="savebg_cropped(this);">Save&Apply</button>
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- Widgets order and status -->
+        <section>
+          <ul id="stt_lwo">
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+          </ul>
+        </section>
+        <!-- Search Bar-->
+        <section>
+          
+          <div class="vrl_wrp  ">
+            <div class="stt_lbl">Search Bar Logo</div>
+          </div>
+            <div class="vrl_wrp"><img id="sb_lgp"></img></div>
+            <div class="vrl_wrp"><input type="range" min="0" max="300" value="64" class="slr_rng" id="tg_r6"></div>
+            
+            <div class="vrl_wrp">
+             <label class="btn"
+                style="padding: 0;text-align: center;height: 35px;line-height: 35px;width: 100%;display: inline-block;border-radius: 5px;background: #000;">
+                <input type="file" id="sb_lgf" onchange="f_sb_lg1()" style="opacity: 0;position: absolute;z-index: -1;"/><i class="far fa-file-upload"> Upload from file </i> 
+              </label>
+            </div>
+            <div class="vrl_wrp">
+              <button type="button" class="b_dark" onclick="f_sb_lg2();" style="width: 100%;"><i class="far fa-link"></i> From Link</button>
+            </div>
+            <div class="vrl_wrp  ">
+              <div class="stt_lbl">Search Bar Logo Rounding</div>
+            </div>
+            <div class="vrl_wrp"><input type="range" min="0" max="300" value="64" class="slr_rng" id="tg_r7"></div>
+            <hr>
+            <div class="vrl_wrp  ">
+              <div class="stt_lbl">Search Bar Rounding</div>
+            </div>
+            <div class="vrl_wrp"><div class="sb_preview"></div></div>
+            <div class="vrl_wrp"><input type="range" min="0" max="25" value="8" class="slr_rng" id="tg_r5"></div>
+            <hr>
+          <div class="vrl_wrp  ">
+            <div class="stt_lbl">Colors</div>
+          </div>
+          <div class="vrl_wrp vw2 ">
+            <label class="stt_cllb"> Widget Background </label>
+            <div class="stt_clfrt" id="stt_cl2" onclick="f_cp_rgb(2)"></div>
+          </div>
+          <div class="vrl_wrp vw2 ">
+            <label class="stt_cllb"> Background color </label>
+            <div class="stt_clfrt" id="stt_cl3" onclick="f_cp_rgb(3)"></div>
+          </div>
+          <div class="vrl_wrp vw2 ">
+            <label class="stt_cllb"> Text color </label>
+            <div class="stt_clfrt" id="stt_cl4" onclick="f_cp_rgb(4)"></div>
+          </div>
+          <div class="vrl_wrp vw2 ">
+            <label class="stt_cllb"> Border color </label>
+            <div class="stt_clfrt" id="stt_cl5" onclick="f_cp_rgb(5)"></div>
+          </div>
+          <hr>
+          <div class="vrl_wrp  ">
+            <div class="stt_lbl">Search Bar Config</div>
+            <textarea id="sb_len"></textarea>
+          </div>
+          <div class="vrl_wrp vw2 "><button class="b_dark" style="width: calc(100% - 10px);" onclick="f_svsbc()"><i class="far fa-save"></i>  Save config</button></div>
+          
+          
+        </section>
+        <!-- Tiles Grid-->
+        <section>
+          <div class="vrl_wrp">
+            <div class="stt_lbl">Colors</div>
+          </div>
+          <div class="vrl_wrp vw2 ">
+            <label class="stt_cllb"> Widget Background </label>
+            <div class="stt_clfrt" id="stt_cl6" onclick="f_cp_rgb(6)"></div>
+          </div>
+          <div class="vrl_wrp vw2">
+            <label class="stt_cllb"> Icon tile background</label>
+            <div class="stt_clfrt" id="stt_cl7" onclick="f_cp_rgb(7)"></div>
+          </div>
+          <div class="vrl_wrp vw2 ">
+            <label class="stt_cllb"> Icon tile border </label>
+            <div class="stt_clfrt" id="stt_cl8" onclick="f_cp_rgb(8)"></div>
+          </div>
+          <div class="vrl_wrp vw2 ">
+            <label class="stt_cllb"> Tile label text color </label>
+            <div class="stt_clfrt" id="stt_cl9" onclick="f_cp_rgb(9)"></div>
+          </div>
+          <div class="vrl_wrp vw2 ">
+            <label class="stt_cllb"> Tile label background color </label>
+            <div class="stt_clfrt" id="stt_cl10" onclick="f_cp_rgb(10)"></div>
+          </div>
+          <div class="vrl_wrp vw2">
+            <label class="stt_cllb"> Folder tile background</label>
+            <div class="stt_clfrt" id="stt_cl11" onclick="f_cp_rgb(11)"></div>
+          </div>
+          <div class="vrl_wrp vw2 ">
+            <label class="stt_cllb"> Folder tile border </label>
+            <div class="stt_clfrt" id="stt_cl12" onclick="f_cp_rgb(12)"></div>
+          </div>
+          <div class="vrl_wrp vw2 ">
+            <label class="stt_cllb"> Folder label text color </label>
+            <div class="stt_clfrt" id="stt_cl13" onclick="f_cp_rgb(13)"></div>
+          </div>
+          <div class="vrl_wrp vw2 ">
+            <label class="stt_cllb"> Folder label background color </label>
+            <div class="stt_clfrt" id="stt_cl14" onclick="f_cp_rgb(14)"></div>
+          </div>
+          <div class="vrl_wrp vw2 ">
+            <label class="stt_cllb"> Folder background on grid view </label>
+            <div class="stt_clfrt" id="stt_cl15" onclick="f_cp_rgb(15)"></div>
+          </div>
+          <br>
+          <hr><br>
+
+          <div class="vrl_wrp vw2">
+            <label class="stt_opt">Open tile in new tab </label>
+            <input id="stt_opt2" class="toggle" type="checkbox" value="_blank" onchange="set_option_t(this,' ',2)" />
+          </div>
+          <div class="vrl_wrp vw2">
+            <label class="stt_opt">Hide icon label </label>
+            <input id="stt_opt3" class="toggle" type="checkbox" value="none"
+              onchange="set_option_t(this,'inline-block',3)" />
+          </div>
+
+        </section>
+        <!-- Weather-->
+        <section>
+          <div class="vrl_wrp vw2 ">
+            <label><b>OpenWeatherMap API Key</b></label>
+            <input id="wt_ik" type="text" /></div>
+          <div class="vrl_wrp vw2 ">
+            <label><b>Latitude</b></label>
+            <input id="wt_ila" type="text" /></div>
+          <div class="vrl_wrp vw2 ">
+            <label><b>Longitude</b></label>
+            <input id="wt_iln" type="text" /></div>
+          <div class="vrl_wrp vw2 "><button class="b_dark" style="width:100%;" onclick="f_save_wth()"><i class="far fa-save"></i>  Save config</button></div>
+          <div class="vrl_wrp vw2 "><button class="b_dark" style="width:100%;" onclick="f_get_ll()"><i
+            class="far fa-location-arrow"></i>  Get longitute and latitude</button></div>
+             <hr><br>
+            <div class="vrl_wrp vw2">
+              <label class="stt_opt">Show City in Weather Widget</label>
+              <input id="stt_opt5" class="toggle" type="checkbox" value="inline-block"
+                onchange="set_option_t(this,'none',5)" />
+            </div>
+            <div class="vrl_wrp">
+              <div class="stt_lbl">Weather</div>
+            </div>
+            <div class="vrl_wrp vw2 ">
+              <label class="stt_cllb"> Widget Background color</label>
+              <div class="stt_clfrt" id="stt_cl16" onclick="f_cp_rgb(16)"></div>
+            </div>
+            <div class="vrl_wrp vw2 ">
+              <label class="stt_cllb"> Background </label>
+              <div class="stt_clfrt" id="stt_cl17" onclick="f_cp_rgb(17)"></div>
+            </div>
+            <div class="vrl_wrp vw2 ">
+              <label class="stt_cllb">Text and Icons </label>
+              <div class="stt_clfrt" id="stt_cl18" onclick="f_cp_rgb(18)"></div>
+            </div>
+            <div class="vrl_wrp vw2 ">
+              <label class="stt_cllb">City Label Background</label>
+              <div class="stt_clfrt" id="stt_cl19" onclick="f_cp_rgb(19)"></div>
+            </div>
+            <div class="vrl_wrp vw2 ">
+              <label class="stt_cllb">City Label Text</label>
+              <div class="stt_clfrt" id="stt_cl20" onclick="f_cp_rgb(20)"></div>
+            </div>
+            <br>
+        </section>
+        <!-- News Section-->
+        <section>
+          <div class="vrl_wrp">
+            <div class="stt_lbl">News Section</div>
+          </div>
+          <div class="vrl_wrp vw2 ">
+            <label class="stt_cllb"> Widget Background </label>
+            <div class="stt_clfrt" id="stt_cl21" onclick="f_cp_rgb(21)"></div>
+          </div>
+          <div class="vrl_wrp vw2 ">
+            <label class="stt_cllb"> News Item Background color </label>
+            <div class="stt_clfrt" id="stt_cl22" onclick="f_cp_rgb(22)"></div>
+          </div>
+          <div class="vrl_wrp vw2 ">
+            <label class="stt_cllb"> Text Color </label>
+            <div class="stt_clfrt" id="stt_cl23" onclick="f_cp_rgb(23)"></div>
+          </div>
+          <div class="vrl_wrp vw2 ">
+            <label class="stt_cllb"> News Item border color </label>
+            <div class="stt_clfrt" id="stt_cl24" onclick="f_cp_rgb(24)"></div>
+          </div>
+          <div class="vrl_wrp vw2 ">
+            <label class="stt_cllb"> Toolbar color</label>
+            <div class="stt_clfrt" id="stt_cl25" onclick="f_cp_rgb(25)"></div>
+          </div>
+          <br>
+          <hr>
+          <div class="vrl_wrp vw2">
+            <label class="stt_opt">Compact view items </label>
+            <input id="stt_opt4" class="toggle" type="checkbox" value="150px"
+              onchange="set_option_t(this,'auto',4)" />
+          </div>
+          <div class="vrl_wrp vw2 "><button class="b_dark" style="width:100%;" onclick="f_nsrl(2)"><i class="fal fa-trash-alt"></i>  Clean Fetched News</button></div>
+          <br>
+        </section>
+        <!-- Tabs Widget-->
+        <section>
+          <div class="vrl_wrp  ">
+            <div class="stt_lbl">Tabs Widget</div>
+          </div>
+          <div class="vrl_wrp vw2 ">
+            <label class="stt_cllb">Widget Background </label>
+            <div class="stt_clfrt" id="stt_cl26" onclick="f_cp_rgb(26)"></div>
+          </div>
+          <div class="vrl_wrp vw2 ">
+            <label class="stt_cllb">Active tab button background </label>
+            <div class="stt_clfrt" id="stt_cl27" onclick="f_cp_rgb(27)"></div>
+          </div>
+          <div class="vrl_wrp vw2 ">
+            <label class="stt_cllb">Active tab icon color </label>
+            <div class="stt_clfrt" id="stt_cl28" onclick="f_cp_rgb(28)"></div>
+          </div>
+          <div class="vrl_wrp vw2 ">
+            <label class="stt_cllb">Not active tab button background </label>
+            <div class="stt_clfrt" id="stt_cl29" onclick="f_cp_rgb(29)"></div>
+          </div>
+          <div class="vrl_wrp vw2 ">
+            <label class="stt_cllb">Not active tab icon color </label>
+            <div class="stt_clfrt" id="stt_cl30" onclick="f_cp_rgb(30)"></div>
+          </div>
+          <div class="vrl_wrp  ">
+            <div class="stt_lbl">Note Area</div>
+          </div>
+          <div class="vrl_wrp vw2 ">
+            <label class="stt_cllb">Background </label>
+            <div class="stt_clfrt" id="stt_cl31" onclick="f_cp_rgb(31)"></div>
+          </div>
+          <div class="vrl_wrp vw2 ">
+            <label class="stt_cllb">Text color </label>
+            <div class="stt_clfrt" id="stt_cl32" onclick="f_cp_rgb(32)"></div>
+          </div>
+          <div class="vrl_wrp  ">
+            <div class="stt_lbl">To-do</div>
+          </div>
+          <div class="vrl_wrp vw2 ">
+            <label class="stt_cllb">Input Background </label>
+            <div class="stt_clfrt" id="stt_cl33" onclick="f_cp_rgb(33)"></div>
+          </div>
+          <div class="vrl_wrp vw2 ">
+            <label class="stt_cllb">Input Text color</label>
+            <div class="stt_clfrt" id="stt_cl34" onclick="f_cp_rgb(34)"></div>
+          </div>
+          <div class="vrl_wrp vw2 hidden2">
+            <label class="stt_cllb">Background </label>
+            <div class="stt_clfrt" id="stt_cl35" onclick="f_cp_rgb(35)"></div>
+          </div>
+          <div class="vrl_wrp vw2 ">
+            <label class="stt_cllb">Item Background </label>
+            <div class="stt_clfrt" id="stt_cl36" onclick="f_cp_rgb(36)"></div>
+          </div>
+          <div class="vrl_wrp vw2 ">
+            <label class="stt_cllb">Item Text color</label>
+            <div class="stt_clfrt" id="stt_cl37" onclick="f_cp_rgb(37)"></div>
+          </div>
+          <div class="vrl_wrp  ">
+            <div class="stt_lbl">Links</div>
+          </div>
+          <div class="vrl_wrp vw2 ">
+            <label class="stt_cllb">Input Background </label>
+            <div class="stt_clfrt" id="stt_cl38" onclick="f_cp_rgb(38)"></div>
+          </div>
+          <div class="vrl_wrp vw2 ">
+            <label class="stt_cllb">Input Text </label>
+            <div class="stt_clfrt" id="stt_cl39" onclick="f_cp_rgb(39)"></div>
+          </div>
+          <div class="vrl_wrp vw2 hidden2">
+            <label class="stt_cllb">Background </label>
+            <div class="stt_clfrt" id="stt_cl40" onclick="f_cp_rgb(40)"></div>
+          </div>
+          <div class="vrl_wrp vw2 ">
+            <label class="stt_cllb">Item Background </label>
+            <div class="stt_clfrt" id="stt_cl41" onclick="f_cp_rgb(41)"></div>
+          </div>
+          <div class="vrl_wrp vw2 ">
+            <label class="stt_cllb">Item Text color </label>
+            <div class="stt_clfrt" id="stt_cl42" onclick="f_cp_rgb(42)"></div>
+          </div>
+
+        </section>
+        <!-- Bakcup&Restore-->
+        <section>
+          <div class="vrl_wrp">
+            <button type="submit" id="btn-res" class="btn-res" onclick="reset_page()"
+              style="background:red;">Reset</button>
+            <button type="button" class="b_dark" onclick="show_changelog()">Changelog</button>
+          </div>
+          <div class="vrl_wrp">
+            <button type="button" class="b_dark" id="exportJSON">Export</button>
+            <input type="file" name="file" id="file" style="opacity: 0;position: absolute;z-index: -1;width: 1px;">
+            <label for="file"
+              style="display: inline-block;color: #fff;border: none;margin: 5px;padding-top: 10px;padding-bottom: 10px;border-radius: 5px;width: 80px;background: #000;">Import</label>
+          </div>
+
+        </section>
+        <!-- About-->
+        <section>
+          <h2>About</h2>
+          <hr>
+          <h4>
+            This NTP ( New Tab Page ) is inspired and based on the NTP from Kiwi Browser <br>
+            <br>
+          </h4>
+          <a href="https://github.com/d3ward/ntp" style="color: #429dc0;">Changelog</a>
+          <br>
+          <a href="https://github.com/d3ward/ntp" style="color: #429dc0;">Source Code</a>
+          <br><br>
+          <a href="https://discordapp.com/invite/XyMppQq" style="color: #429dc0;">Discord Server of Kiwi
+            Browser</a>
+          <br><br>
+          For any question , bug report , feature request ping me (@d3ward) on Discord Server of Kiwi Browser .
+          <br><br>
+          Thanks for using this NTP and contributing on it <br>
+          <br><br>
+          <hr>
+          <br>
+          <div style="width: 100%;text-align: center;">Made with <i class="fas fa-heart" style="color: red"></i>
+            by Eduard Ursu (@d3ward)</div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <div id="ntp_cnt">
+    <!--Widgets-->
+    <div id="wdg_0" class="wdg_ntp"></div>
+    <div id="wdg_1" class="wdg_ntp"></div>
+    <div id="wdg_2" class="wdg_ntp"></div>
+    <div id="wdg_3" class="wdg_ntp"></div>
+    <div id="wdg_4" class="wdg_ntp"></div>
+
+    <div id="flt_btn" class="buttons">
+      <div class="flt_acs">
+        <div class="flt_ac" onclick="f_dlg(2)"><i class="far fa-folder-plus"></i> Add new folder</div>
+        <div class="flt_ac" onclick="f_dlg(0)"><i class="far fa-plus"></i> Add new tile</div>
+        <div class="flt_ac" onclick="func_dlg_st(1);func_st_page(3);"><i class="fas fa-rectangle-wide"></i> Widgets
+        </div>
+        <div class="flt_ac" onclick="reset_page()"> <i class="far fa-exclamation-triangle"></i> Reset NTP</div>
+        <div class="flt_ac" id="settings-btn" onclick="func_dlg_st(1)"> <i class="fas fa-cogs fa-lg"></i> Settings</div>
+      </div>
+      <div class="flt_trg" onclick="fabAction()" id="fb-eg"><span id="fb-btn"><i class="fas fa-caret-up"></i></span>
+      </div>
+    </div>
+  </div>
+  <div id="incognito" style="display: none;width: 100%;height: 100vh;background:black;">
+    <div style="text-align: center;padding-top:50px;">
+      <svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g clip-path="url(#clip0)">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M95.1401 45.971C95.6219 45.8376 95.5659 45.1405 95.0664 45.1135C84.2323 44.5292 73.9953 47.3209 65.3757 52.5725C63.3585 53.8012 60.7588 53.5286 58.8027 52.2054C56.0758 50.3606 52.8477 49.179 49.3316 48.9094C38.5271 48.0815 29.0963 56.1822 28.2673 67.003C27.8345 72.6516 29.8311 77.9248 33.376 81.7929C34.8788 83.4332 35.5292 85.7751 34.8394 87.8901C32.8412 94.0187 32.3176 100.964 33.6483 108.062C37.3437 127.773 53.939 141.203 70.7144 138.058C87.4898 134.912 98.0933 116.384 94.3979 96.6726C91.6353 81.9384 81.6652 70.7141 69.7997 67.299C68.3793 66.8901 67.3087 65.678 66.9893 64.2347C66.7093 62.9704 67.0213 61.6294 67.9893 60.7692C75.7084 53.9099 84.9695 48.7876 95.1401 45.971ZM51.8323 64.3852C53.1378 64.4854 54.277 63.5082 54.3769 62.203C54.477 60.8975 53.4998 59.7582 52.1947 59.6584C50.8892 59.5582 49.7499 60.5354 49.6501 61.8406C49.5499 63.1461 50.5271 64.2854 51.8323 64.3852Z" fill="#FCFCFC"/>
+        <g clip-path="url(#clip1)">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M28.585 128.374C20.8763 127.215 22.6562 112.624 33.9249 84.6006L25.001 74.0594L77.993 63.6002L76.713 77.6802L101.545 128.374C56.3708 128.502 32.0508 128.502 28.585 128.374Z" fill="#282828"/>
+        <path d="M61.2577 54.8984C63.4052 58.3864 62.0174 63.0597 58.167 65.347C54.3054 67.6357 49.4483 66.6702 47.3057 63.1836L43.6911 65.329L37.6668 69.3039L36.3443 70.0942L34.4536 67.0145L59.8463 51.6531L62.6219 53.8723L61.2577 54.8984Z" fill="#282828"/>
+        <path d="M25.5186 53.2518C25.5186 53.2518 23.2696 48.9387 27.8365 46.1888C28.6942 45.1947 36.5809 40.4399 38.0661 40.0177C42.6379 37.2615 45.8734 40.977 45.8734 40.977L50.0083 45.793L28.5036 58.7766L25.5186 53.2518Z" fill="#282828"/>
+        <path d="M66.2943 44.2549L20.4111 72.8977C19.5555 73.4257 18.4751 73.2476 18 72.4949L28.5037 58.7766L48.3736 45.793L66.9405 41.9342C67.4407 42.6848 67.1388 43.7213 66.2943 44.2549Z" fill="#282828"/>
+        <path d="M28.752 58.1227C37.1993 55.1794 44.3979 50.1846 49.232 45.8347" stroke="white" stroke-miterlimit="3" stroke-linecap="square"/>
+        </g>
+        </g>
+        <defs>
+        <clipPath id="clip0">
+        <rect width="128" height="128" fill="white"/>
+        </clipPath>
+        <clipPath id="clip1">
+        <rect width="128" height="128" fill="white"/>
+        </clipPath>
+        </defs>
+        </svg>
+      <br/>
+      <span style="color: #fff;">
+        <h2>Private mode</h2>
+      </span>
+    </div>
+  </div>
+</body>
+<script src="./lib_min.js?%%COMMIT%%" crossorigin="anonymous" ></script>
+<script src="./local_ntp.js?%%COMMIT%%" crossorigin="anonymous" ></script>
+</html>

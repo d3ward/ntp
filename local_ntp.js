@@ -1,1663 +1,1773 @@
-/**
- * @fileoverview The local InstantExtended NTP.
- */
-/*! Sortable 1.10.0-rc3 - MIT | git://github.com/SortableJS/Sortable.git */
-!function(t,e){"object"==typeof exports&&"undefined"!=typeof module?module.exports=e():"function"==typeof define&&define.amd?define(e):(t=t||self).Sortable=e()}(this,function(){"use strict";function o(t){return(o="function"==typeof Symbol&&"symbol"==typeof Symbol.iterator?function(t){return typeof t}:function(t){return t&&"function"==typeof Symbol&&t.constructor===Symbol&&t!==Symbol.prototype?"symbol":typeof t})(t)}function a(){return(a=Object.assign||function(t){for(var e=1;e<arguments.length;e++){var n=arguments[e];for(var o in n)Object.prototype.hasOwnProperty.call(n,o)&&(t[o]=n[o])}return t}).apply(this,arguments)}function I(i){for(var t=1;t<arguments.length;t++){var r=null!=arguments[t]?arguments[t]:{},e=Object.keys(r);"function"==typeof Object.getOwnPropertySymbols&&(e=e.concat(Object.getOwnPropertySymbols(r).filter(function(t){return Object.getOwnPropertyDescriptor(r,t).enumerable}))),e.forEach(function(t){var e,n,o;e=i,o=r[n=t],n in e?Object.defineProperty(e,n,{value:o,enumerable:!0,configurable:!0,writable:!0}):e[n]=o})}return i}function l(t,e){if(null==t)return{};var n,o,i=function(t,e){if(null==t)return{};var n,o,i={},r=Object.keys(t);for(o=0;o<r.length;o++)n=r[o],0<=e.indexOf(n)||(i[n]=t[n]);return i}(t,e);if(Object.getOwnPropertySymbols){var r=Object.getOwnPropertySymbols(t);for(o=0;o<r.length;o++)n=r[o],0<=e.indexOf(n)||Object.prototype.propertyIsEnumerable.call(t,n)&&(i[n]=t[n])}return i}function e(t){return function(t){if(Array.isArray(t)){for(var e=0,n=new Array(t.length);e<t.length;e++)n[e]=t[e];return n}}(t)||function(t){if(Symbol.iterator in Object(t)||"[object Arguments]"===Object.prototype.toString.call(t))return Array.from(t)}(t)||function(){throw new TypeError("Invalid attempt to spread non-iterable instance")}()}function t(t){return!!navigator.userAgent.match(t)}var y=t(/(?:Trident.*rv[ :]?11\.|msie|iemobile|Windows Phone)/i),E=t(/Edge/i),s=t(/firefox/i),c=t(/safari/i)&&!t(/chrome/i)&&!t(/android/i),n=t(/iP(ad|od|hone)/i),r=t(/chrome/i)&&t(/android/i),u={capture:!1,passive:!1};function d(t,e,n){t.addEventListener(e,n,!y&&u)}function h(t,e,n){t.removeEventListener(e,n,!y&&u)}function f(t,e){if(e){if(">"===e[0]&&(e=e.substring(1)),t)try{if(t.matches)return t.matches(e);if(t.msMatchesSelector)return t.msMatchesSelector(e);if(t.webkitMatchesSelector)return t.webkitMatchesSelector(e)}catch(t){return!1}return!1}}function k(t,e,n,o){if(t){n=n||document;do{if(null!=e&&(">"===e[0]?t.parentNode===n&&f(t,e):f(t,e))||o&&t===n)return t;if(t===n)break}while(t=(i=t).host&&i!==document&&i.host.nodeType?i.host:i.parentNode)}var i;return null}var p,g=/\s+/g;function P(t,e,n){if(t&&e)if(t.classList)t.classList[n?"add":"remove"](e);else{var o=(" "+t.className+" ").replace(g," ").replace(" "+e+" "," ");t.className=(o+(n?" "+e:"")).replace(g," ")}}function R(t,e,n){var o=t&&t.style;if(o){if(void 0===n)return document.defaultView&&document.defaultView.getComputedStyle?n=document.defaultView.getComputedStyle(t,""):t.currentStyle&&(n=t.currentStyle),void 0===e?n:n[e];e in o||-1!==e.indexOf("webkit")||(e="-webkit-"+e),o[e]=n+("string"==typeof n?"":"px")}}function v(t,e){var n="";do{var o=R(t,"transform");o&&"none"!==o&&(n=o+" "+n)}while(!e&&(t=t.parentNode));var i=window.DOMMatrix||window.WebKitCSSMatrix||window.CSSMatrix;return i&&new i(n)}function m(t,e,n){if(t){var o=t.getElementsByTagName(e),i=0,r=o.length;if(n)for(;i<r;i++)n(o[i],i);return o}return[]}function M(){return y?document.documentElement:document.scrollingElement}function X(t,e,n,o,i){if(t.getBoundingClientRect||t===window){var r,a,l,s,c,u,d;if(d=t!==window&&t!==M()?(a=(r=t.getBoundingClientRect()).top,l=r.left,s=r.bottom,c=r.right,u=r.height,r.width):(l=a=0,s=window.innerHeight,c=window.innerWidth,u=window.innerHeight,window.innerWidth),(e||n)&&t!==window&&(i=i||t.parentNode,!y))do{if(i&&i.getBoundingClientRect&&("none"!==R(i,"transform")||n&&"static"!==R(i,"position"))){var h=i.getBoundingClientRect();a-=h.top+parseInt(R(i,"border-top-width")),l-=h.left+parseInt(R(i,"border-left-width")),s=a+r.height,c=l+r.width;break}}while(i=i.parentNode);if(o&&t!==window){var f=v(i||t),p=f&&f.a,g=f&&f.d;f&&(s=(a/=g)+(u/=g),c=(l/=p)+(d/=p))}return{top:a,left:l,bottom:s,right:c,width:d,height:u}}}function Y(t,e,n,o){for(var i=A(t,!0),r=(e||X(t))[n];i;){var a=X(i)[o];if(!("top"===o||"left"===o?a<=r:r<=a))return i;if(i===M())break;i=A(i,!1)}return!1}function b(t,e,n){for(var o=0,i=0,r=t.children;i<r.length;){if("none"!==r[i].style.display&&r[i]!==Nt.ghost&&r[i]!==Nt.dragged&&k(r[i],n.draggable,t,!1)){if(o===e)return r[i];o++}i++}return null}function B(t,e){for(var n=t.lastElementChild;n&&(n===Nt.ghost||"none"===R(n,"display")||e&&!f(n,e));)n=n.previousElementSibling;return n||null}function F(t,e){var n=0;if(!t||!t.parentNode)return-1;for(;t=t.previousElementSibling;)"TEMPLATE"===t.nodeName.toUpperCase()||t===Nt.clone||e&&!f(t,e)||n++;return n}function w(t){var e=0,n=0,o=M();if(t)do{var i=v(t),r=i.a,a=i.d;e+=t.scrollLeft*r,n+=t.scrollTop*a}while(t!==o&&(t=t.parentNode));return[e,n]}function A(t,e){if(!t||!t.getBoundingClientRect)return M();var n=t,o=!1;do{if(n.clientWidth<n.scrollWidth||n.clientHeight<n.scrollHeight){var i=R(n);if(n.clientWidth<n.scrollWidth&&("auto"==i.overflowX||"scroll"==i.overflowX)||n.clientHeight<n.scrollHeight&&("auto"==i.overflowY||"scroll"==i.overflowY)){if(!n.getBoundingClientRect||n===document.body)return M();if(o||e)return n;o=!0}}}while(n=n.parentNode);return M()}function D(t,e){return Math.round(t.top)===Math.round(e.top)&&Math.round(t.left)===Math.round(e.left)&&Math.round(t.height)===Math.round(e.height)&&Math.round(t.width)===Math.round(e.width)}function _(e,n){return function(){if(!p){var t=arguments;1===t.length?e.call(this,t[0]):e.apply(this,t),p=setTimeout(function(){p=void 0},n)}}}function H(t,e,n){t.scrollLeft+=e,t.scrollTop+=n}function S(t){var e=window.Polymer,n=window.jQuery||window.Zepto;return e&&e.dom?e.dom(t).cloneNode(!0):n?n(t).clone(!0)[0]:t.cloneNode(!0)}function C(t,e){R(t,"position","absolute"),R(t,"top",e.top),R(t,"left",e.left),R(t,"width",e.width),R(t,"height",e.height)}function T(t){R(t,"position",""),R(t,"top",""),R(t,"left",""),R(t,"width",""),R(t,"height","")}var L="Sortable"+(new Date).getTime();function x(){var e,o=[];return{captureAnimationState:function(){o=[],this.options.animation&&[].slice.call(this.el.children).forEach(function(t){if("none"!==R(t,"display")&&t!==Nt.ghost){o.push({target:t,rect:X(t)});var e=X(t);if(t.thisAnimationDuration){var n=v(t,!0);n&&(e.top-=n.f,e.left-=n.e)}t.fromRect=e}})},addAnimationState:function(t){o.push(t)},removeAnimationState:function(t){o.splice(function(t,e){for(var n in t)if(t.hasOwnProperty(n))for(var o in e)if(e.hasOwnProperty(o)&&e[o]===t[n][o])return Number(n);return-1}(o,{target:t}),1)},animateAll:function(t){var c=this;if(!this.options.animation)return clearTimeout(e),void("function"==typeof t&&t());var u=!1,d=0;o.forEach(function(t){var e=0,n=t.target,o=n.fromRect,i=X(n),r=n.prevFromRect,a=n.prevToRect,l=t.rect,s=v(n,!0);s&&(i.top-=s.f,i.left-=s.e),n.toRect=i,(Y(n,i,"bottom","top")||Y(n,i,"top","bottom")||Y(n,i,"right","left")||Y(n,i,"left","right"))&&(Y(n,l,"bottom","top")||Y(n,l,"top","bottom")||Y(n,l,"right","left")||Y(n,l,"left","right"))&&(Y(n,o,"bottom","top")||Y(n,o,"top","bottom")||Y(n,o,"right","left")||Y(n,o,"left","right"))||(n.thisAnimationDuration&&D(r,i)&&!D(o,i)&&(l.top-i.top)/(l.left-i.left)==(o.top-i.top)/(o.left-i.left)&&(e=function(t,e,n,o){return Math.sqrt(Math.pow(e.top-t.top,2)+Math.pow(e.left-t.left,2))/Math.sqrt(Math.pow(e.top-n.top,2)+Math.pow(e.left-n.left,2))*o.animation}(l,r,a,c.options)),D(i,o)||(n.prevFromRect=o,n.prevToRect=i,e||(e=c.options.animation),c.animate(n,l,e)),e&&(u=!0,d=Math.max(d,e),clearTimeout(n.animationResetTimer),n.animationResetTimer=setTimeout(function(){n.animationTime=0,n.prevFromRect=null,n.fromRect=null,n.prevToRect=null,n.thisAnimationDuration=null},e),n.thisAnimationDuration=e))}),clearTimeout(e),u?e=setTimeout(function(){"function"==typeof t&&t()},d):"function"==typeof t&&t(),o=[]},animate:function(t,e,n){if(n){R(t,"transition",""),R(t,"transform","");var o=X(t),i=v(this.el),r=i&&i.a,a=i&&i.d,l=(e.left-o.left)/(r||1),s=(e.top-o.top)/(a||1);t.animatingX=!!l,t.animatingY=!!s,R(t,"transform","translate3d("+l+"px,"+s+"px,0)"),function(t){t.offsetWidth}(t),R(t,"transition","transform "+n+"ms"+(this.options.easing?" "+this.options.easing:"")),R(t,"transform","translate3d(0,0,0)"),"number"==typeof t.animated&&clearTimeout(t.animated),t.animated=setTimeout(function(){R(t,"transition",""),R(t,"transform",""),t.animated=!1,t.animatingX=!1,t.animatingY=!1},n)}}}}var O=[],N={initializeByDefault:!0},j={mount:function(t){for(var e in N)!N.hasOwnProperty(e)||e in t||(t[e]=N[e]);O.push(t)},pluginEvent:function(e,n,o){var i=this;this.eventCanceled=!1;var r=e+"Global";O.forEach(function(t){n[t.pluginName]&&(n[t.pluginName][r]&&(i.eventCanceled=!!n[t.pluginName][r](I({sortable:n},o))),n.options[t.pluginName]&&n[t.pluginName][e]&&(i.eventCanceled=i.eventCanceled||!!n[t.pluginName][e](I({sortable:n},o))))})},initializePlugins:function(o,i,r){for(var t in O.forEach(function(t){var e=t.pluginName;if(o.options[e]||t.initializeByDefault){var n=new t(o,i);(n.sortable=o)[e]=n,a(r,n.options)}}),o.options)if(o.options.hasOwnProperty(t)){var e=this.modifyOption(o,t,o.options[t]);void 0!==e&&(o.options[t]=e)}},getEventOptions:function(e,n){var o={};return O.forEach(function(t){"function"==typeof t.eventOptions&&a(o,t.eventOptions.call(n,e))}),o},modifyOption:function(e,n,o){var i;return O.forEach(function(t){e[t.pluginName]&&t.optionListeners&&"function"==typeof t.optionListeners[n]&&(i=t.optionListeners[n].call(e[t.pluginName],o))}),i}};function K(t){var e,n=t.sortable,o=t.rootEl,i=t.name,r=t.targetEl,a=t.cloneEl,l=t.toEl,s=t.fromEl,c=t.oldIndex,u=t.newIndex,d=t.oldDraggableIndex,h=t.newDraggableIndex,f=t.originalEvent,p=t.putSortable,g=t.eventOptions,v=(n=n||o[L]).options,m="on"+i.charAt(0).toUpperCase()+i.substr(1);!window.CustomEvent||y||E?(e=document.createEvent("Event")).initEvent(i,!0,!0):e=new CustomEvent(i,{bubbles:!0,cancelable:!0}),e.to=l||o,e.from=s||o,e.item=r||o,e.clone=a,e.oldIndex=c,e.newIndex=u,e.oldDraggableIndex=d,e.newDraggableIndex=h,e.originalEvent=f,e.pullMode=p?p.lastPutMode:void 0;var b=I({},g,j.getEventOptions(i,n));for(var w in b)e[w]=b[w];o&&o.dispatchEvent(e),v[m]&&v[m].call(n,e)}function W(t,e,n){var o=2<arguments.length&&void 0!==n?n:{},i=o.evt,r=l(o,["evt"]);j.pluginEvent.bind(Nt)(t,e,I({dragEl:G,parentEl:U,ghostEl:q,rootEl:V,nextEl:Z,lastDownEl:Q,cloneEl:$,cloneHidden:J,dragStarted:st,putSortable:rt,activeSortable:Nt.active,originalEvent:i,oldIndex:tt,oldDraggableIndex:nt,newIndex:et,newDraggableIndex:ot,hideGhostForTarget:xt,unhideGhostForTarget:Ot,cloneNowHidden:function(){J=!0},cloneNowShown:function(){J=!1},dispatchSortableEvent:function(t){z({sortable:e,name:t,originalEvent:i})}},r))}function z(t){K(I({putSortable:rt,cloneEl:$,targetEl:G,rootEl:V,oldIndex:tt,oldDraggableIndex:nt,newIndex:et,newDraggableIndex:ot},t))}if("undefined"==typeof window||!window.document)throw new Error("Sortable.js requires a window with a document");var G,U,q,V,Z,Q,$,J,tt,et,nt,ot,it,rt,at,lt,st,ct,ut,dt,ht,ft=!1,pt=!1,gt=[],vt=!1,mt=!1,bt=[],wt=!1,yt=[],Et=n,Dt=E||y?"cssFloat":"float",_t=!r&&!n&&"draggable"in document.createElement("div"),St=function(){if(y)return!1;var t=document.createElement("x");return t.style.cssText="pointer-events:auto","auto"===t.style.pointerEvents}(),Ct=function(t,e){var n=R(t),o=parseInt(n.width)-parseInt(n.paddingLeft)-parseInt(n.paddingRight)-parseInt(n.borderLeftWidth)-parseInt(n.borderRightWidth),i=b(t,0,e),r=b(t,1,e),a=i&&R(i),l=r&&R(r),s=a&&parseInt(a.marginLeft)+parseInt(a.marginRight)+X(i).width,c=l&&parseInt(l.marginLeft)+parseInt(l.marginRight)+X(r).width;if("flex"===n.display)return"column"===n.flexDirection||"column-reverse"===n.flexDirection?"vertical":"horizontal";if("grid"===n.display)return n.gridTemplateColumns.split(" ").length<=1?"vertical":"horizontal";if(i&&"none"!==a.float){var u="left"===a.float?"left":"right";return!r||"both"!==l.clear&&l.clear!==u?"horizontal":"vertical"}return i&&("block"===a.display||"flex"===a.display||"table"===a.display||"grid"===a.display||o<=s&&"none"===n[Dt]||r&&"none"===n[Dt]&&o<s+c)?"vertical":"horizontal"},Tt=function(t){function s(a,l){return function(t,e,n,o){var i=t.options.group.name&&e.options.group.name&&t.options.group.name===e.options.group.name;if(null==a&&(l||i))return!0;if(null==a||!1===a)return!1;if(l&&"clone"===a)return a;if("function"==typeof a)return s(a(t,e,n,o),l)(t,e,n,o);var r=(l?t:e).options.group.name;return!0===a||"string"==typeof a&&a===r||a.join&&-1<a.indexOf(r)}}var e={},n=t.group;n&&"object"==o(n)||(n={name:n}),e.name=n.name,e.checkPull=s(n.pull,!0),e.checkPut=s(n.put),e.revertClone=n.revertClone,t.group=e},xt=function(){!St&&q&&R(q,"display","none")},Ot=function(){!St&&q&&R(q,"display","")};document.addEventListener("click",function(t){if(pt)return t.preventDefault(),t.stopPropagation&&t.stopPropagation(),t.stopImmediatePropagation&&t.stopImmediatePropagation(),pt=!1},!0);function Mt(t){if(G){var e=function(r,a){var l;return gt.some(function(t){if(!B(t)){var e=X(t),n=t[L].options.emptyInsertThreshold,o=r>=e.left-n&&r<=e.right+n,i=a>=e.top-n&&a<=e.bottom+n;return n&&o&&i?l=t:void 0}}),l}((t=t.touches?t.touches[0]:t).clientX,t.clientY);if(e){var n={};for(var o in t)t.hasOwnProperty(o)&&(n[o]=t[o]);n.target=n.rootEl=e,n.preventDefault=void 0,n.stopPropagation=void 0,e[L]._onDragOver(n)}}}function At(t){G&&G.parentNode[L]._isOutsideThisEl(t.target)}function Nt(t,e){if(!t||!t.nodeType||1!==t.nodeType)throw"Sortable: `el` must be an HTMLElement, not ".concat({}.toString.call(t));this.el=t,this.options=e=a({},e),t[L]=this;var n={group:null,sort:!0,disabled:!1,store:null,handle:null,draggable:/^[uo]l$/i.test(t.nodeName)?">li":">*",swapThreshold:1,invertSwap:!1,invertedSwapThreshold:null,removeCloneOnHide:!0,direction:function(){return Ct(t,this.options)},ghostClass:"sortable-ghost",chosenClass:"sortable-chosen",dragClass:"sortable-drag",ignore:"a, img",filter:null,preventOnFilter:!0,animation:0,easing:null,setData:function(t,e){t.setData("Text",e.textContent)},dropBubble:!1,dragoverBubble:!1,dataIdAttr:"data-id",delay:0,delayOnTouchOnly:!1,touchStartThreshold:(Number.parseInt?Number:window).parseInt(window.devicePixelRatio,10)||1,forceFallback:!1,fallbackClass:"sortable-fallback",fallbackOnBody:!1,fallbackTolerance:0,fallbackOffset:{x:0,y:0},supportPointer:!1!==Nt.supportPointer&&"PointerEvent"in window,emptyInsertThreshold:5};for(var o in j.initializePlugins(this,t,n),n)o in e||(e[o]=n[o]);for(var i in Tt(e),this)"_"===i.charAt(0)&&"function"==typeof this[i]&&(this[i]=this[i].bind(this));this.nativeDraggable=!e.forceFallback&&_t,this.nativeDraggable&&(this.options.touchStartThreshold=1),e.supportPointer?d(t,"pointerdown",this._onTapStart):(d(t,"mousedown",this._onTapStart),d(t,"touchstart",this._onTapStart)),this.nativeDraggable&&(d(t,"dragover",this),d(t,"dragenter",this)),gt.push(this.el),e.store&&e.store.get&&this.sort(e.store.get(this)||[]),a(this,x())}function It(t,e,n,o,i,r,a,l){var s,c,u=t[L],d=u.options.onMove;return!window.CustomEvent||y||E?(s=document.createEvent("Event")).initEvent("move",!0,!0):s=new CustomEvent("move",{bubbles:!0,cancelable:!0}),s.to=e,s.from=t,s.dragged=n,s.draggedRect=o,s.related=i||e,s.relatedRect=r||X(e),s.willInsertAfter=l,s.originalEvent=a,t.dispatchEvent(s),d&&(c=d.call(u,s,a)),c}function kt(t){t.draggable=!1}function Pt(){wt=!1}function Rt(t){for(var e=t.tagName+t.className+t.src+t.href+t.textContent,n=e.length,o=0;n--;)o+=e.charCodeAt(n);return o.toString(36)}function Xt(t){return setTimeout(t,0)}function Yt(t){return clearTimeout(t)}Nt.prototype={constructor:Nt,_isOutsideThisEl:function(t){this.el.contains(t)||t===this.el||(ct=null)},_getDirection:function(t,e){return"function"==typeof this.options.direction?this.options.direction.call(this,t,e,G):this.options.direction},_onTapStart:function(e){if(e.cancelable){var n=this,o=this.el,t=this.options,i=t.preventOnFilter,r=e.type,a=e.touches&&e.touches[0],l=(a||e).target,s=e.target.shadowRoot&&(e.path&&e.path[0]||e.composedPath&&e.composedPath()[0])||l,c=t.filter;if(function(t){yt.length=0;var e=t.getElementsByTagName("input"),n=e.length;for(;n--;){var o=e[n];o.checked&&yt.push(o)}}(o),!G&&!(/mousedown|pointerdown/.test(r)&&0!==e.button||t.disabled||s.isContentEditable||(l=k(l,t.draggable,o,!1))&&l.animated||Q===l)){if(tt=F(l),nt=F(l,t.draggable),"function"==typeof c){if(c.call(this,e,l,this))return z({sortable:n,rootEl:s,name:"filter",targetEl:l,toEl:o,fromEl:o}),W("filter",n,{evt:e}),void(i&&e.cancelable&&e.preventDefault())}else if(c&&(c=c.split(",").some(function(t){if(t=k(s,t.trim(),o,!1))return z({sortable:n,rootEl:t,name:"filter",targetEl:l,fromEl:o,toEl:o}),W("filter",n,{evt:e}),!0})))return void(i&&e.cancelable&&e.preventDefault());t.handle&&!k(s,t.handle,o,!1)||this._prepareDragStart(e,a,l)}}},_prepareDragStart:function(t,e,n){var o,i=this,r=i.el,a=i.options,l=r.ownerDocument;if(n&&!G&&n.parentNode===r)if(V=r,U=(G=n).parentNode,Z=G.nextSibling,Q=n,it=a.group,at={target:Nt.dragged=G,clientX:(e||t).clientX,clientY:(e||t).clientY},this._lastX=(e||t).clientX,this._lastY=(e||t).clientY,G.style["will-change"]="all",o=function(){W("delayEnded",i,{evt:t}),Nt.eventCanceled?i._onDrop():(i._disableDelayedDragEvents(),!s&&i.nativeDraggable&&(G.draggable=!0),i._triggerDragStart(t,e),z({sortable:i,name:"choose",originalEvent:t}),P(G,a.chosenClass,!0))},a.ignore.split(",").forEach(function(t){m(G,t.trim(),kt)}),d(l,"dragover",Mt),d(l,"mousemove",Mt),d(l,"touchmove",Mt),d(l,"mouseup",i._onDrop),d(l,"touchend",i._onDrop),d(l,"touchcancel",i._onDrop),s&&this.nativeDraggable&&(this.options.touchStartThreshold=4,G.draggable=!0),W("delayStart",this,{evt:t}),!a.delay||a.delayOnTouchOnly&&!e||this.nativeDraggable&&(E||y))o();else{if(Nt.eventCanceled)return void this._onDrop();d(l,"mouseup",i._disableDelayedDrag),d(l,"touchend",i._disableDelayedDrag),d(l,"touchcancel",i._disableDelayedDrag),d(l,"mousemove",i._delayedDragTouchMoveHandler),d(l,"touchmove",i._delayedDragTouchMoveHandler),a.supportPointer&&d(l,"pointermove",i._delayedDragTouchMoveHandler),i._dragStartTimer=setTimeout(o,a.delay)}},_delayedDragTouchMoveHandler:function(t){var e=t.touches?t.touches[0]:t;Math.max(Math.abs(e.clientX-this._lastX),Math.abs(e.clientY-this._lastY))>=Math.floor(this.options.touchStartThreshold/(this.nativeDraggable&&window.devicePixelRatio||1))&&this._disableDelayedDrag()},_disableDelayedDrag:function(){G&&kt(G),clearTimeout(this._dragStartTimer),this._disableDelayedDragEvents()},_disableDelayedDragEvents:function(){var t=this.el.ownerDocument;h(t,"mouseup",this._disableDelayedDrag),h(t,"touchend",this._disableDelayedDrag),h(t,"touchcancel",this._disableDelayedDrag),h(t,"mousemove",this._delayedDragTouchMoveHandler),h(t,"touchmove",this._delayedDragTouchMoveHandler),h(t,"pointermove",this._delayedDragTouchMoveHandler)},_triggerDragStart:function(t,e){e=e||"touch"==t.pointerType&&t,!this.nativeDraggable||e?this.options.supportPointer?d(document,"pointermove",this._onTouchMove):d(document,e?"touchmove":"mousemove",this._onTouchMove):(d(G,"dragend",this),d(V,"dragstart",this._onDragStart));try{document.selection?Xt(function(){document.selection.empty()}):window.getSelection().removeAllRanges()}catch(t){}},_dragStarted:function(t,e){if(ft=!1,V&&G){W("dragStarted",this,{evt:e}),this.nativeDraggable&&d(document,"dragover",At);var n=this.options;t||P(G,n.dragClass,!1),P(G,n.ghostClass,!0),Nt.active=this,t&&this._appendGhost(),z({sortable:this,name:"start",originalEvent:e})}else this._nulling()},_emulateDragOver:function(){if(lt){this._lastX=lt.clientX,this._lastY=lt.clientY,xt();for(var t=document.elementFromPoint(lt.clientX,lt.clientY),e=t;t&&t.shadowRoot&&(t=t.shadowRoot.elementFromPoint(lt.clientX,lt.clientY))!==e;)e=t;if(G.parentNode[L]._isOutsideThisEl(t),e)do{if(e[L]){if(e[L]._onDragOver({clientX:lt.clientX,clientY:lt.clientY,target:t,rootEl:e})&&!this.options.dragoverBubble)break}t=e}while(e=e.parentNode);Ot()}},_onTouchMove:function(t){if(at){var e=this.options,n=e.fallbackTolerance,o=e.fallbackOffset,i=t.touches?t.touches[0]:t,r=q&&v(q),a=q&&r&&r.a,l=q&&r&&r.d,s=Et&&ht&&w(ht),c=(i.clientX-at.clientX+o.x)/(a||1)+(s?s[0]-bt[0]:0)/(a||1),u=(i.clientY-at.clientY+o.y)/(l||1)+(s?s[1]-bt[1]:0)/(l||1),d=t.touches?"translate3d("+c+"px,"+u+"px,0)":"translate("+c+"px,"+u+"px)";if(!Nt.active&&!ft){if(n&&Math.max(Math.abs(i.clientX-this._lastX),Math.abs(i.clientY-this._lastY))<n)return;this._onDragStart(t,!0)}lt=i,R(q,"webkitTransform",d),R(q,"mozTransform",d),R(q,"msTransform",d),R(q,"transform",d),t.cancelable&&t.preventDefault()}},_appendGhost:function(){if(!q){var t=this.options.fallbackOnBody?document.body:V,e=X(G,!0,Et,!0,t),n=this.options;if(Et){for(ht=t;"static"===R(ht,"position")&&"none"===R(ht,"transform")&&ht!==document;)ht=ht.parentNode;ht!==document.body&&ht!==document.documentElement?(ht===document&&(ht=M()),e.top+=ht.scrollTop,e.left+=ht.scrollLeft):ht=M(),bt=w(ht)}P(q=G.cloneNode(!0),n.ghostClass,!1),P(q,n.fallbackClass,!0),P(q,n.dragClass,!0),R(q,"transition",""),R(q,"transform",""),R(q,"box-sizing","border-box"),R(q,"margin",0),R(q,"top",e.top),R(q,"left",e.left),R(q,"width",e.width),R(q,"height",e.height),R(q,"opacity","0.8"),R(q,"position",Et?"absolute":"fixed"),R(q,"zIndex","100000"),R(q,"pointerEvents","none"),Nt.ghost=q,t.appendChild(q)}},_onDragStart:function(t,e){var n=this,o=t.dataTransfer,i=n.options;W("dragStart",this,{evt:t}),Nt.eventCanceled?this._onDrop():(W("setupClone",this),Nt.eventCanceled||(($=S(G)).draggable=!1,$.style["will-change"]="",this._hideClone(),P($,this.options.chosenClass,!1),Nt.clone=$),n.cloneId=Xt(function(){W("clone",n),Nt.eventCanceled||(n.options.removeCloneOnHide||V.insertBefore($,G),n._hideClone(),z({sortable:n,name:"clone"}))}),e||P(G,i.dragClass,!0),e?(pt=!0,n._loopId=setInterval(n._emulateDragOver,50)):(h(document,"mouseup",n._onDrop),h(document,"touchend",n._onDrop),h(document,"touchcancel",n._onDrop),o&&(o.effectAllowed="move",i.setData&&i.setData.call(n,o,G)),d(document,"drop",n),R(G,"transform","translateZ(0)")),ft=!0,n._dragStartId=Xt(n._dragStarted.bind(n,e,t)),d(document,"selectstart",n),st=!0,c&&R(document.body,"user-select","none"))},_onDragOver:function(n){var o,i,r,a,l=this.el,s=n.target,e=this.options,t=e.group,c=Nt.active,u=it===t,d=e.sort,h=rt||c,f=this,p=!1;if(!wt){if(void 0!==n.preventDefault&&n.cancelable&&n.preventDefault(),s=k(s,e.draggable,l,!0),O("dragOver"),Nt.eventCanceled)return p;if(G.contains(n.target)||s.animated&&s.animatingX&&s.animatingY||f._ignoreWhileAnimating===s)return A(!1);if(pt=!1,c&&!e.disabled&&(u?d||(r=!V.contains(G)):rt===this||(this.lastPutMode=it.checkPull(this,c,G,n))&&t.checkPut(this,c,G,n))){if(a="vertical"===this._getDirection(n,s),o=X(G),O("dragOverValid"),Nt.eventCanceled)return p;if(r)return U=V,M(),this._hideClone(),O("revert"),Nt.eventCanceled||(Z?V.insertBefore(G,Z):V.appendChild(G)),A(!0);var g=B(l,e.draggable);if(!g||function(t,e,n){var o=X(B(n.el,n.options.draggable));return e?t.clientX>o.right+10||t.clientX<=o.right&&t.clientY>o.bottom&&t.clientX>=o.left:t.clientX>o.right&&t.clientY>o.top||t.clientX<=o.right&&t.clientY>o.bottom+10}(n,a,this)&&!g.animated){if(g===G)return A(!1);if(g&&l===n.target&&(s=g),s&&(i=X(s)),!1!==It(V,l,G,o,s,i,n,!!s))return M(),l.appendChild(G),U=l,N(),A(!0)}else if(s.parentNode===l){i=X(s);var v,m,b,w=G.parentNode!==l,y=!function(t,e,n){var o=n?t.left:t.top,i=n?t.right:t.bottom,r=n?t.width:t.height,a=n?e.left:e.top,l=n?e.right:e.bottom,s=n?e.width:e.height;return o===a||i===l||o+r/2===a+s/2}(G.animated&&G.toRect||o,s.animated&&s.toRect||i,a),E=a?"top":"left",D=Y(s,null,"top","top")||Y(G,null,"top","top"),_=D?D.scrollTop:void 0;if(ct!==s&&(m=i[E],vt=!1,mt=!y&&e.invertSwap||w),0!==(v=function(t,e,n,o,i,r,a,l){var s=o?t.clientY:t.clientX,c=o?n.height:n.width,u=o?n.top:n.left,d=o?n.bottom:n.right,h=!1;if(!a)if(l&&dt<c*i){if(!vt&&(1===ut?u+c*r/2<s:s<d-c*r/2)&&(vt=!0),vt)h=!0;else if(1===ut?s<u+dt:d-dt<s)return-ut}else if(u+c*(1-i)/2<s&&s<d-c*(1-i)/2)return function(t){return F(G)<F(t)?1:-1}(e);if((h=h||a)&&(s<u+c*r/2||d-c*r/2<s))return u+c/2<s?1:-1;return 0}(n,s,i,a,y?1:e.swapThreshold,null==e.invertedSwapThreshold?e.swapThreshold:e.invertedSwapThreshold,mt,ct===s)))for(var S=F(G);S-=v,(b=U.children[S])&&("none"===R(b,"display")||b===q););if(0===v||b===s)return A(!1);ut=v;var C=(ct=s).nextElementSibling,T=!1,x=It(V,l,G,o,s,i,n,T=1===v);if(!1!==x)return 1!==x&&-1!==x||(T=1===x),wt=!0,setTimeout(Pt,30),M(),T&&!C?l.appendChild(G):s.parentNode.insertBefore(G,T?C:s),D&&H(D,0,_-D.scrollTop),U=G.parentNode,void 0===m||mt||(dt=Math.abs(m-X(s)[E])),N(),A(!0)}if(l.contains(G))return A(!1)}return!1}function O(t,e){W(t,f,I({evt:n,isOwner:u,axis:a?"vertical":"horizontal",revert:r,dragRect:o,targetRect:i,canSort:d,fromSortable:h,target:s,completed:A,onMove:function(t,e){return It(V,l,G,o,t,X(t),n,e)},changed:N},e))}function M(){O("dragOverAnimationCapture"),f.captureAnimationState(),f!==h&&h.captureAnimationState()}function A(t){return O("dragOverCompleted",{insertion:t}),t&&(u?c._hideClone():c._showClone(f),f!==h&&(P(G,rt?rt.options.ghostClass:c.options.ghostClass,!1),P(G,e.ghostClass,!0)),rt!==f&&f!==Nt.active?rt=f:f===Nt.active&&rt&&(rt=null),h===f&&(f._ignoreWhileAnimating=s),f.animateAll(function(){O("dragOverAnimationComplete"),f._ignoreWhileAnimating=null}),f!==h&&(h.animateAll(),h._ignoreWhileAnimating=null)),(s===G&&!G.animated||s===l&&!s.animated)&&(ct=null),e.dragoverBubble||n.rootEl||s===document||(G.parentNode[L]._isOutsideThisEl(n.target),t||Mt(n)),!e.dragoverBubble&&n.stopPropagation&&n.stopPropagation(),p=!0}function N(){et=F(G),ot=F(G,e.draggable),z({sortable:f,name:"change",toEl:l,newIndex:et,newDraggableIndex:ot,originalEvent:n})}},_ignoreWhileAnimating:null,_offMoveEvents:function(){h(document,"mousemove",this._onTouchMove),h(document,"touchmove",this._onTouchMove),h(document,"pointermove",this._onTouchMove),h(document,"dragover",Mt),h(document,"mousemove",Mt),h(document,"touchmove",Mt)},_offUpEvents:function(){var t=this.el.ownerDocument;h(t,"mouseup",this._onDrop),h(t,"touchend",this._onDrop),h(t,"pointerup",this._onDrop),h(t,"touchcancel",this._onDrop),h(document,"selectstart",this)},_onDrop:function(t){var e=this.el,n=this.options;et=F(G),ot=F(G,n.draggable),W("drop",this,{evt:t}),et=F(G),ot=F(G,n.draggable),Nt.eventCanceled||(vt=mt=ft=!1,clearInterval(this._loopId),clearTimeout(this._dragStartTimer),Yt(this.cloneId),Yt(this._dragStartId),this.nativeDraggable&&(h(document,"drop",this),h(e,"dragstart",this._onDragStart)),this._offMoveEvents(),this._offUpEvents(),c&&R(document.body,"user-select",""),t&&(st&&(t.cancelable&&t.preventDefault(),n.dropBubble||t.stopPropagation()),q&&q.parentNode&&q.parentNode.removeChild(q),(V===U||rt&&"clone"!==rt.lastPutMode)&&$&&$.parentNode&&$.parentNode.removeChild($),G&&(this.nativeDraggable&&h(G,"dragend",this),kt(G),G.style["will-change"]="",st&&!ft&&P(G,rt?rt.options.ghostClass:this.options.ghostClass,!1),P(G,this.options.chosenClass,!1),z({sortable:this,name:"unchoose",toEl:U,newIndex:null,newDraggableIndex:null,originalEvent:t}),V!==U?(0<=et&&(z({rootEl:U,name:"add",toEl:U,fromEl:V,originalEvent:t}),z({sortable:this,name:"remove",toEl:U,originalEvent:t}),z({rootEl:U,name:"sort",toEl:U,fromEl:V,originalEvent:t}),z({sortable:this,name:"sort",toEl:U,originalEvent:t})),rt&&rt.save()):et!==tt&&0<=et&&(z({sortable:this,name:"update",toEl:U,originalEvent:t}),z({sortable:this,name:"sort",toEl:U,originalEvent:t})),Nt.active&&(null!=et&&-1!==et||(et=tt,ot=nt),z({sortable:this,name:"end",toEl:U,originalEvent:t}),this.save())))),this._nulling()},_nulling:function(){W("nulling",this),V=G=U=q=Z=$=Q=J=at=lt=st=et=ot=tt=nt=ct=ut=rt=it=Nt.dragged=Nt.ghost=Nt.clone=Nt.active=null,yt.forEach(function(t){t.checked=!0}),yt.length=0},handleEvent:function(t){switch(t.type){case"drop":case"dragend":this._onDrop(t);break;case"dragenter":case"dragover":G&&(this._onDragOver(t),function(t){t.dataTransfer&&(t.dataTransfer.dropEffect="move");t.cancelable&&t.preventDefault()}(t));break;case"selectstart":t.preventDefault()}},toArray:function(){for(var t,e=[],n=this.el.children,o=0,i=n.length,r=this.options;o<i;o++)k(t=n[o],r.draggable,this.el,!1)&&e.push(t.getAttribute(r.dataIdAttr)||Rt(t));return e},sort:function(t){var o={},i=this.el;this.toArray().forEach(function(t,e){var n=i.children[e];k(n,this.options.draggable,i,!1)&&(o[t]=n)},this),t.forEach(function(t){o[t]&&(i.removeChild(o[t]),i.appendChild(o[t]))})},save:function(){var t=this.options.store;t&&t.set&&t.set(this)},closest:function(t,e){return k(t,e||this.options.draggable,this.el,!1)},option:function(t,e){var n=this.options;if(void 0===e)return n[t];var o=j.modifyOption(this,t,e);n[t]=void 0!==o?o:e,"group"===t&&Tt(n)},destroy:function(){W("destroy",this);var t=this.el;t[L]=null,h(t,"mousedown",this._onTapStart),h(t,"touchstart",this._onTapStart),h(t,"pointerdown",this._onTapStart),this.nativeDraggable&&(h(t,"dragover",this),h(t,"dragenter",this)),Array.prototype.forEach.call(t.querySelectorAll("[draggable]"),function(t){t.removeAttribute("draggable")}),this._onDrop(),gt.splice(gt.indexOf(this.el),1),this.el=t=null},_hideClone:function(){if(!J){if(W("hideClone",this),Nt.eventCanceled)return;R($,"display","none"),this.options.removeCloneOnHide&&$.parentNode&&$.parentNode.removeChild($),J=!0}},_showClone:function(t){if("clone"===t.lastPutMode){if(J){if(W("showClone",this),Nt.eventCanceled)return;V.contains(G)&&!this.options.group.revertClone?V.insertBefore($,G):Z?V.insertBefore($,Z):V.appendChild($),this.options.group.revertClone&&this._animate(G,$),R($,"display",""),J=!1}}else this._hideClone()}},d(document,"touchmove",function(t){(Nt.active||ft)&&t.cancelable&&t.preventDefault()}),Nt.utils={on:d,off:h,css:R,find:m,is:function(t,e){return!!k(t,e,t,!1)},extend:function(t,e){if(t&&e)for(var n in e)e.hasOwnProperty(n)&&(t[n]=e[n]);return t},throttle:_,closest:k,toggleClass:P,clone:S,index:F,nextTick:Xt,cancelNextTick:Yt,detectDirection:Ct,getChild:b},Nt.mount=function(){for(var t=arguments.length,e=new Array(t),n=0;n<t;n++)e[n]=arguments[n];e[0].constructor===Array&&(e=e[0]),e.forEach(function(t){if(!t.prototype||!t.prototype.constructor)throw"Sortable: Mounted plugin must be a constructor function, not ".concat({}.toString.call(el));t.utils&&(Nt.utils=I({},Nt.utils,t.utils)),j.mount(t)})},Nt.create=function(t,e){return new Nt(t,e)};var Bt,Ft,Ht,Lt,jt,Kt,Wt=[],zt=!(Nt.version="1.10.0-rc3");function Gt(){Wt.forEach(function(t){clearInterval(t.pid)}),Wt=[]}function Ut(){clearInterval(Kt)}function qt(t){var e=t.originalEvent,n=t.putSortable,o=t.dragEl,i=t.activeSortable,r=t.dispatchSortableEvent,a=t.hideGhostForTarget,l=t.unhideGhostForTarget,s=n||i;a();var c=document.elementFromPoint(e.clientX,e.clientY);l(),s&&!s.el.contains(c)&&(r("spill"),this.onSpill(o))}var Vt,Zt=_(function(n,t,e,o){if(t.scroll){var i,r=t.scrollSensitivity,a=t.scrollSpeed,l=M(),s=!1;Ft!==e&&(Ft=e,Gt(),Bt=t.scroll,i=t.scrollFn,!0===Bt&&(Bt=A(e,!0)));var c=0,u=Bt;do{var d=u,h=X(d),f=h.top,p=h.bottom,g=h.left,v=h.right,m=h.width,b=h.height,w=void 0,y=void 0,E=d.scrollWidth,D=d.scrollHeight,_=R(d),S=d.scrollLeft,C=d.scrollTop;y=d===l?(w=m<E&&("auto"===_.overflowX||"scroll"===_.overflowX||"visible"===_.overflowX),b<D&&("auto"===_.overflowY||"scroll"===_.overflowY||"visible"===_.overflowY)):(w=m<E&&("auto"===_.overflowX||"scroll"===_.overflowX),b<D&&("auto"===_.overflowY||"scroll"===_.overflowY));var T=w&&(Math.abs(v-n.clientX)<=r&&S+m<E)-(Math.abs(g-n.clientX)<=r&&!!S),x=y&&(Math.abs(p-n.clientY)<=r&&C+b<D)-(Math.abs(f-n.clientY)<=r&&!!C);if(!Wt[c])for(var O=0;O<=c;O++)Wt[O]||(Wt[O]={});Wt[c].vx==T&&Wt[c].vy==x&&Wt[c].el===d||(Wt[c].el=d,Wt[c].vx=T,Wt[c].vy=x,clearInterval(Wt[c].pid),0==T&&0==x||(s=!0,Wt[c].pid=setInterval(function(){o&&0===this.layer&&Nt.active._onTouchMove(jt);var t=Wt[this.layer].vy?Wt[this.layer].vy*a:0,e=Wt[this.layer].vx?Wt[this.layer].vx*a:0;"function"==typeof i&&"continue"!==i.call(Nt.dragged.parentNode[L],e,t,n,jt,Wt[this.layer].el)||H(Wt[this.layer].el,e,t)}.bind({layer:c}),24))),c++}while(t.bubbleScroll&&u!==l&&(u=A(u,!1)));zt=s}},30);function Qt(){}function $t(){}Qt.prototype={startIndex:null,dragStart:function(t){var e=t.oldDraggableIndex;this.startIndex=e},onSpill:function(t){this.sortable.captureAnimationState();var e=b(this.sortable.el,this.startIndex,this.sortable.options);e?this.sortable.el.insertBefore(t,e):this.sortable.el.appendChild(t),this.sortable.animateAll()},drop:qt},a(Qt,{pluginName:"revertOnSpill"}),$t.prototype={onSpill:function(t){this.sortable.captureAnimationState(),t.parentNode&&t.parentNode.removeChild(t),this.sortable.animateAll()},drop:qt},a($t,{pluginName:"removeOnSpill"});var Jt,te,ee,ne,oe,ie=[],re=[],ae=!1,le=!1,se=!1;function ce(n,o){re.forEach(function(t){var e=o.children[t.sortableIndex+(n?Number(i):0)];e?o.insertBefore(t,e):o.appendChild(t)})}function ue(){ie.forEach(function(t){t!==ee&&t.parentNode&&t.parentNode.removeChild(t)})}return Nt.mount(new function(){function t(){for(var t in this.options={scroll:!0,scrollSensitivity:30,scrollSpeed:10,bubbleScroll:!0},this)"_"===t.charAt(0)&&"function"==typeof this[t]&&(this[t]=this[t].bind(this))}return t.prototype={dragStarted:function(t){var e=t.originalEvent;this.sortable.nativeDraggable?d(document,"dragover",this._handleAutoScroll):this.sortable.options.supportPointer?d(document,"pointermove",this._handleFallbackAutoScroll):e.touches?d(document,"touchmove",this._handleFallbackAutoScroll):d(document,"mousemove",this._handleFallbackAutoScroll)},dragOverCompleted:function(t){var e=t.originalEvent;this.sortable.options.dragOverBubble||e.rootEl||this._handleAutoScroll(e)},drop:function(){this.sortable.nativeDraggable?h(document,"dragover",this._handleAutoScroll):(h(document,"pointermove",this._handleFallbackAutoScroll),h(document,"touchmove",this._handleFallbackAutoScroll),h(document,"mousemove",this._handleFallbackAutoScroll)),Ut(),Gt(),clearTimeout(p),p=void 0},nulling:function(){jt=Ft=Bt=zt=Kt=Ht=Lt=null,Wt.length=0},_handleFallbackAutoScroll:function(t){this._handleAutoScroll(t,!0)},_handleAutoScroll:function(e,n){var o=this,i=e.clientX,r=e.clientY,t=document.elementFromPoint(i,r);if(jt=e,n||E||y||c){Zt(e,this.options,t,n);var a=A(t,!0);!zt||Kt&&i===Ht&&r===Lt||(Kt&&Ut(),Kt=setInterval(function(){var t=A(document.elementFromPoint(i,r),!0);t!==a&&(a=t,Gt()),Zt(e,o.options,t,n)},10),Ht=i,Lt=r)}else{if(!this.sortable.options.bubbleScroll||A(t,!0)===M())return void Gt();Zt(e,this.options,A(t,!1),!1)}}},a(t,{pluginName:"scroll",initializeByDefault:!0})}),Nt.mount($t,Qt),Nt.mount(new function(){function t(){this.options={swapClass:"sortable-swap-highlight"}}return t.prototype={dragStart:function(t){var e=t.dragEl;Vt=e},dragOverValid:function(t){var e=t.completed,n=t.target,o=t.onMove,i=t.activeSortable,r=t.changed;if(i.options.swap){var a=this.sortable.el,l=this.sortable.options;if(n&&n!==a){var s=Vt;Vt=!1!==o(n)?(P(n,l.swapClass,!0),n):null,s&&s!==Vt&&P(s,l.swapClass,!1)}return r(),e(!0)}},drop:function(t){var e=t.activeSortable,n=t.putSortable,o=t.dragEl,i=n||this.sortable,r=this.sortable.options;Vt&&P(Vt,r.swapClass,!1),Vt&&(r.swap||n&&n.options.swap)&&o!==Vt&&(i.captureAnimationState(),i!==e&&e.captureAnimationState(),function(t,e){var n,o,i=t.parentNode,r=e.parentNode;if(!i||!r||i.isEqualNode(e)||r.isEqualNode(t))return;n=F(t),o=F(e),i.isEqualNode(r)&&n<o&&o++;i.insertBefore(e,i.children[n]),r.insertBefore(t,r.children[o])}(o,Vt),i.animateAll(),i!==e&&e.animateAll())},nulling:function(){Vt=null}},a(t,{pluginName:"swap",eventOptions:function(){return{swapItem:Vt}}})}),Nt.mount(new function(){function t(o){for(var t in this)"_"===t.charAt(0)&&"function"==typeof this[t]&&(this[t]=this[t].bind(this));o.options.supportPointer?d(document,"pointerup",this._deselectMultiDrag):(d(document,"mouseup",this._deselectMultiDrag),d(document,"touchend",this._deselectMultiDrag)),d(document,"keydown",this._checkKeyDown),d(document,"keyup",this._checkKeyUp),this.options={selectedClass:"sortable-selected",multiDragKey:null,setData:function(t,e){var n="";ie.length&&te===o?ie.forEach(function(t,e){n+=(e?", ":"")+t.textContent}):n=e.textContent,t.setData("Text",n)}}}return t.prototype={multiDragKeyDown:!1,isMultiDrag:!1,delayStartGlobal:function(t){var e=t.dragEl;ee=e},delayEnded:function(){this.isMultiDrag=~ie.indexOf(ee)},setupClone:function(t){var e=t.sortable;if(this.isMultiDrag){for(var n=0;n<ie.length;n++)re.push(S(ie[n])),re[n].sortableIndex=ie[n].sortableIndex,re[n].draggable=!1,re[n].style["will-change"]="",P(re[n],e.options.selectedClass,!1),ie[n]===ee&&P(re[n],e.options.chosenClass,!1);return e._hideClone(),!0}},clone:function(t){var e=t.sortable,n=t.rootEl,o=t.dispatchSortableEvent;if(this.isMultiDrag)return!e.options.removeCloneOnHide&&ie.length&&te===e?(ce(!0,n),o("clone"),!0):void 0},showClone:function(t){var e=t.cloneNowShown,n=t.rootEl;if(this.isMultiDrag)return ce(!1,n),re.forEach(function(t){R(t,"display","")}),e(),!(oe=!1)},hideClone:function(t){var e=t.sortable,n=t.cloneNowHidden;if(this.isMultiDrag)return re.forEach(function(t){R(t,"display","none"),e.options.removeCloneOnHide&&t.parentNode&&t.parentNode.removeChild(t)}),n(),oe=!0},dragStartGlobal:function(t){t.sortable;!this.isMultiDrag&&te&&te.multiDrag._deselectMultiDrag(),ie.forEach(function(t){t.sortableIndex=F(t)}),ie=ie.sort(function(t,e){return t.sortableIndex-e.sortableIndex}),se=!0},dragStarted:function(t){var e=t.sortable;if(this.isMultiDrag){if(e.options.sort&&(e.captureAnimationState(),e.options.animation)){ie.forEach(function(t){t!==ee&&R(t,"position","absolute")});var n=X(ee,!1,!0,!0);ie.forEach(function(t){t!==ee&&C(t,n)}),ae=le=!0}e.animateAll(function(){ae=le=!1,e.options.animation&&ie.forEach(function(t){T(t)}),e.options.sort&&ue()})}},dragOver:function(t){var e=t.target,n=t.completed;if(le&&~ie.indexOf(e))return n(!1)},revert:function(t){var e=t.fromSortable,n=t.rootEl,o=t.sortable,r=t.dragRect;1<ie.length&&(ie.forEach(function(t){o.addAnimationState({target:t,rect:le?X(t):r}),T(t),t.fromRect=r,e.removeAnimationState(t)}),le=!1,function(n,o){ie.forEach(function(t){var e=o.children[t.sortableIndex+(n?Number(i):0)];e?o.insertBefore(t,e):o.appendChild(t)})}(!o.options.removeCloneOnHide,n))},dragOverCompleted:function(t){var e=t.sortable,n=t.isOwner,o=t.insertion,i=t.activeSortable,r=t.parentEl,a=t.putSortable,l=e.options;if(o){if(n&&i._hideClone(),ae=!1,l.animation&&1<ie.length&&(le||!n&&!i.options.sort&&!a)){var s=X(ee,!1,!0,!0);ie.forEach(function(t){t!==ee&&(C(t,s),r.appendChild(t))}),le=!0}if(!n)if(le||ue(),1<ie.length){var c=oe;i._showClone(e),i.options.animation&&!oe&&c&&re.forEach(function(t){i.addAnimationState({target:t,rect:ne}),t.fromRect=ne,t.thisAnimationDuration=null})}else i._showClone(e)}},dragOverAnimationCapture:function(t){var e=t.dragRect,n=t.isOwner,o=t.activeSortable;if(ie.forEach(function(t){t.thisAnimationDuration=null}),o.options.animation&&!n&&o.multiDrag.isMultiDrag){ne=a({},e);var i=v(ee,!0);ne.top-=i.f,ne.left-=i.e}},dragOverAnimationComplete:function(){le&&(le=!1,ue())},drop:function(t){var e=t.originalEvent,n=t.rootEl,o=t.parentEl,i=t.sortable,r=t.dispatchSortableEvent,a=t.oldIndex,l=t.putSortable,s=l||this.sortable;if(e){var c=i.options,u=o.children;if(!se)if(c.multiDragKey&&!this.multiDragKeyDown&&this._deselectMultiDrag(),P(ee,c.selectedClass,!~ie.indexOf(ee)),~ie.indexOf(ee))ie.splice(ie.indexOf(ee),1),Jt=null,K({sortable:i,rootEl:n,name:"deselect",targetEl:ee,originalEvt:e});else{if(ie.push(ee),K({sortable:i,rootEl:n,name:"select",targetEl:ee,originalEvt:e}),(!c.multiDragKey||this.multiDragKeyDown)&&e.shiftKey&&Jt&&i.el.contains(Jt)){var d,h,f=F(Jt),p=F(ee);if(~f&&~p&&f!==p)for(d=f<p?(h=f,p):(h=p,f+1);h<d;h++)~ie.indexOf(u[h])||(P(u[h],c.selectedClass,!0),ie.push(u[h]),K({sortable:i,rootEl:n,name:"select",targetEl:u[h],originalEvt:e}))}else Jt=ee;te=s}if(se&&this.isMultiDrag){if((o[L].options.sort||o!==n)&&1<ie.length){var g=X(ee),v=F(ee,":not(."+this.options.selectedClass+")");if(!ae&&c.animation&&(ee.thisAnimationDuration=null),s.captureAnimationState(),!ae&&(c.animation&&(ee.fromRect=g,ie.forEach(function(t){if(t.thisAnimationDuration=null,t!==ee){var e=le?X(t):g;t.fromRect=e,s.addAnimationState({target:t,rect:e})}})),ue(),ie.forEach(function(t){u[v]?o.insertBefore(t,u[v]):o.appendChild(t),v++}),a===F(ee))){var m=!1;ie.forEach(function(t){t.sortableIndex===F(t)||(m=!0)}),m&&r("update")}ie.forEach(function(t){T(t)}),s.animateAll()}te=s}(n===o||l&&"clone"!==l.lastPutMode)&&re.forEach(function(t){t.parentNode&&t.parentNode.removeChild(t)})}},nullingGlobal:function(){this.isMultiDrag=se=!1,re.length=0},destroy:function(){this._deselectMultiDrag(),h(document,"pointerup",this._deselectMultiDrag),h(document,"mouseup",this._deselectMultiDrag),h(document,"touchend",this._deselectMultiDrag),h(document,"keydown",this._checkKeyDown),h(document,"keyup",this._checkKeyUp)},_deselectMultiDrag:function(t){if(!se&&te===this.sortable&&!(t&&k(t.target,this.sortable.options.draggable,this.sortable.el,!1)||t&&0!==t.button))for(;ie.length;){var e=ie[0];P(e,this.sortable.options.selectedClass,!1),ie.shift(),K({sortable:this.sortable,rootEl:this.sortable.el,name:"deselect",targetEl:e,originalEvt:t})}},_checkKeyDown:function(t){t.key===this.sortable.options.multiDragKey&&(this.multiDragKeyDown=!0)},_checkKeyUp:function(t){t.key===this.sortable.options.multiDragKey&&(this.multiDragKeyDown=!1)}},a(t,{pluginName:"multiDrag",utils:{select:function(t){var e=t.parentNode[L];e&&e.options.multiDrag&&!~ie.indexOf(t)&&(te&&te!==e&&(te.multiDrag._deselectMultiDrag(),te=e),P(t,e.options.selectedClass,!0),ie.push(t))},deselect:function(t){var e=t.parentNode[L],n=ie.indexOf(t);e&&e.options.multiDrag&&~n&&(P(t,e.options.selectedClass,!1),ie.splice(n,1))}},eventOptions:function(){var n=this,o=[],i=[];return ie.forEach(function(t){var e;o.push({multiDragElement:t,index:t.sortableIndex}),e=le&&t!==ee?-1:le?F(t,":not(."+n.options.selectedClass+")"):F(t),i.push({multiDragElement:t,index:e})}),{items:e(ie),clones:[].concat(re),oldIndicies:o,newIndicies:i}},optionListeners:{multiDragKey:function(t){return"ctrl"===(t=t.toLowerCase())?t="Control":1<t.length&&(t=t.charAt(0).toUpperCase()+t.substr(1)),t}}})}),Nt});
-// Jdenticon 2.1.0 | jdenticon.com | MIT licensed | (c) 2014-2018 Daniel Mester Pirttijärvi
-(function(q,y,z){var t=z(q,q.jQuery);"undefined"!==typeof module&&"exports"in module?module.exports=t:"function"===typeof define&&define.amd?define([],function(){return t}):q[y]=t})(this,"jdenticon",function(q,y){function z(a,b,c){for(var d=document.createElementNS("http://www.w3.org/2000/svg",b),f=2;f+1<arguments.length;f+=2)d.setAttribute(arguments[f],arguments[f+1]);a.appendChild(d)}function t(a){this.b=Math.min(Number(a.getAttribute("width"))||100,Number(a.getAttribute("height"))||100);for(this.a=
-a;a.firstChild;)a.removeChild(a.firstChild);a.setAttribute("viewBox","0 0 "+this.b+" "+this.b);a.setAttribute("preserveAspectRatio","xMidYMid meet")}function K(a){this.b=a;this.a='\x3csvg xmlns\x3d"http://www.w3.org/2000/svg" width\x3d"'+a+'" height\x3d"'+a+'" viewBox\x3d"0 0 '+a+" "+a+'" preserveAspectRatio\x3d"xMidYMid meet"\x3e'}function N(a){return function(a){for(var b=[],d=0;d<a.length;d++)for(var f=a[d],e=28;0<=e;e-=4)b.push((f>>>e&15).toString(16));return b.join("")}(function(a){for(var b=
-1732584193,d=4023233417,f=2562383102,e=271733878,h=3285377520,k=[b,d,f,e,h],g=0;g<a.length;g++){for(var u=a[g],l=16;80>l;l++){var A=u[l-3]^u[l-8]^u[l-14]^u[l-16];u[l]=A<<1|A>>>31}for(l=0;80>l;l++)A=(b<<5|b>>>27)+(20>l?(d&f^~d&e)+1518500249:40>l?(d^f^e)+1859775393:60>l?(d&f^d&e^f&e)+2400959708:(d^f^e)+3395469782)+h+u[l],h=e,e=f,f=d<<30|d>>>2,d=b,b=A|0;k[0]=b=k[0]+b|0;k[1]=d=k[1]+d|0;k[2]=f=k[2]+f|0;k[3]=e=k[3]+e|0;k[4]=h=k[4]+h|0}return k}(function(a){function b(a,b){for(var c=[],d=-1,e=0;e<b;e++)d=
-e/4|0,c[d]=(c[d]||0)+(f[a+e]<<8*(3-(e&3)));for(;16>++d;)c[d]=0;return c}var d=encodeURI(a),f=[];a=0;var e,h=[];for(e=0;e<d.length;e++){if("%"==d[e]){var k=r(d,e+1,2);e+=2}else k=d.charCodeAt(e);f[a++]=k}f[a++]=128;for(e=0;e+64<=a;e+=64)h.push(b(e,64));d=a-e;e=b(e,d);64<d+8&&(h.push(e),e=b(0,0));e[15]=8*a-8;h.push(e);return h}(a)))}function E(a,b){var c=a.canvas.width,d=a.canvas.height;a.save();this.b=a;b?this.a=b:(this.a=Math.min(c,d),a.translate((c-this.a)/2|0,(d-this.a)/2|0));a.clearRect(0,0,this.a,
-this.a)}function v(a){a|=0;return 0>a?"00":16>a?"0"+a.toString(16):256>a?a.toString(16):"ff"}function F(a,b,c){c=0>c?c+6:6<c?c-6:c;return v(255*(1>c?a+(b-a)*c:3>c?b:4>c?a+(b-a)*(4-c):a))}function O(a){"undefined"!=typeof MutationObserver&&(new MutationObserver(function(b){for(var c=0;c<b.length;c++){for(var d=b[c],f=d.addedNodes,e=0;f&&e<f.length;e++){var h=f[e];if(1==h.nodeType)if(g.w(h))a(h);else{h=h.querySelectorAll(g.A);for(var k=0;k<h.length;k++)a(h[k])}}"attributes"==d.type&&g.w(d.target)&&
-a(d.target)}})).observe(document.body,{childList:!0,attributes:!0,attributeFilter:[g.o,g.s,"width","height"],subtree:!0})}function r(a,b,c){return parseInt(a.substr(b,c),16)}function p(a){return(10*a+.5|0)/10}function L(){this.j=""}function G(a){this.b={};this.h=a;this.a=a.b}function M(a){this.h=a;this.c=w.a}function P(a,b){a=b.O(a);return[m.i(a,b.H,b.G(0)),m.i(a,b.v,b.u(.5)),m.i(a,b.H,b.G(1)),m.i(a,b.v,b.u(1)),m.i(a,b.v,b.u(0))]}function B(a,b){this.x=a;this.y=b}function w(a,b,c,d){this.b=a;this.c=
-b;this.h=c;this.a=d}function H(a,b,c,d,f,e,h){function k(e,f,k,h,g){h=h?r(b,h,1):0;f=f[r(b,k,1)%f.length];a.D(p[n[e]]);for(e=0;e<g.length;e++)m.c=new w(c+g[e][0]*l,d+g[e][1]*l,l,h++%4),f(m,l,e);a.F()}function g(a){if(0<=a.indexOf(q))for(var b=0;b<a.length;b++)if(0<=n.indexOf(a[b]))return!0}h.C&&a.m(h.C);e=.5+f*(void 0===e?.08:e)|0;f-=2*e;var m=new M(a),l=0|f/4;c+=0|e+f/2-2*l;d+=0|e+f/2-2*l;var p=P(r(b,-7)/268435455,h),n=[];for(f=0;3>f;f++){var q=r(b,8+f,1)%p.length;if(g([0,4])||g([2,3]))q=1;n.push(q)}k(0,
-I.I,2,3,[[1,0],[2,0],[2,3],[1,3],[0,1],[3,1],[3,2],[0,2]]);k(1,I.I,4,5,[[0,0],[3,0],[3,3],[0,3]]);k(2,I.M,1,null,[[1,1],[2,1],[2,2],[1,2]]);a.finish()}function J(){function a(a,b){var d=c[a];d&&1<d.length||(d=b);return function(a){a=d[0]+a*(d[1]-d[0]);return 0>a?0:1<a?1:a}}var b=n.config||q.jdenticon_config||{},c=b.lightness||{},d=b.saturation||{},f="color"in d?d.color:d;d=d.grayscale;return{O:function(a){var c=b.hues,d;c&&0<c.length&&(d=c[0|.999*a*c.length]);return"number"==typeof d?(d/360%1+1)%
-1:a},v:"number"==typeof f?f:.5,H:"number"==typeof d?d:0,u:a("color",[.4,.8]),G:a("grayscale",[.3,.9]),C:m.parse(b.backColor)}}function C(a){return/^[0-9a-f]{11,}$/i.test(a)&&a}function D(a){return N(null==a?"":""+a)}function x(a,b,c){if("string"===typeof a){if(g.J){a=document.querySelectorAll(a);for(var d=0;d<a.length;d++)x(a[d],b,c)}}else if(d=g.w(a))if(b=C(b)||null!=b&&D(b)||C(a.getAttribute(g.s))||a.hasAttribute(g.o)&&D(a.getAttribute(g.o)))a=d==g.B?new G(new t(a)):new E(a.getContext("2d")),H(a,
-b,0,0,a.a,c,J())}function n(){g.J&&x(g.A)}function Q(){var a=(n.config||q.jdenticon_config||{}).replaceMode;"never"!=a&&(n(),"observe"==a&&O(x))}t.prototype={m:function(a,b){b&&z(this.a,"rect","width","100%","height","100%","fill",a,"opacity",b)},c:function(a,b){z(this.a,"path","fill",a,"d",b)}};K.prototype={m:function(a,b){b&&(this.a+='\x3crect width\x3d"100%" height\x3d"100%" fill\x3d"'+a+'" opacity\x3d"'+b.toFixed(2)+'"/\x3e')},c:function(a,b){this.a+='\x3cpath fill\x3d"'+a+'" d\x3d"'+b+'"/\x3e'},
-toString:function(){return this.a+"\x3c/svg\x3e"}};var g={B:1,L:2,s:"data-jdenticon-hash",o:"data-jdenticon-value",J:"undefined"!==typeof document&&"querySelectorAll"in document,w:function(a){if(a){var b=a.tagName;if(/svg/i.test(b))return g.B;if(/canvas/i.test(b)&&"getContext"in a)return g.L}}};g.A="["+g.s+"],["+g.o+"]";E.prototype={m:function(a){var b=this.b,c=this.a;b.fillStyle=m.K(a);b.fillRect(0,0,c,c)},D:function(a){this.b.fillStyle=m.K(a);this.b.beginPath()},F:function(){this.b.fill()},f:function(a){var b=
-this.b,c;b.moveTo(a[0].x,a[0].y);for(c=1;c<a.length;c++)b.lineTo(a[c].x,a[c].y);b.closePath()},g:function(a,b,c){var d=this.b;b/=2;d.moveTo(a.x+b,a.y+b);d.arc(a.x+b,a.y+b,b,0,2*Math.PI,c);d.closePath()},finish:function(){this.b.restore()}};var m={P:function(a,b,c){return"#"+v(a)+v(b)+v(c)},parse:function(a){if(/^#[0-9a-f]{3,8}$/i.test(a)){if(6>a.length){var b=a[1],c=a[2],d=a[3];a=a[4]||"";return"#"+b+b+c+c+d+d+a+a}if(7==a.length||8<a.length)return a}},K:function(a){var b=r(a,7,2);return isNaN(b)?
-a:"rgba("+r(a,1,2)+","+r(a,3,2)+","+r(a,5,2)+","+(b/255).toFixed(2)+")"},N:function(a,b,c){if(0==b)return a=v(255*c),"#"+a+a+a;b=.5>=c?c*(b+1):c+b-c*b;c=2*c-b;return"#"+F(c,b,6*a+2)+F(c,b,6*a)+F(c,b,6*a-2)},i:function(a,b,c){var d=[.55,.5,.5,.46,.6,.55,.55][6*a+.5|0];return m.N(a,b,.5>c?c*d*2:d+(c-.5)*(1-d)*2)}},I={M:[function(a,b){var c=.42*b;a.f([0,0,b,0,b,b-2*c,b-c,b,0,b])},function(a,b){var c=0|.5*b;a.b(b-c,0,c,0|.8*b,2)},function(a,b){var c=0|b/3;a.a(c,c,b-c,b-c)},function(a,b){var c=.1*b,d=
-6>b?1:8>b?2:0|.25*b;c=1<c?0|c:.5<c?1:c;a.a(d,d,b-c-d,b-c-d)},function(a,b){var c=0|.15*b,d=0|.5*b;a.g(b-d-c,b-d-c,d)},function(a,b){var c=.1*b,d=4*c;3<d&&(d|=0);a.a(0,0,b,b);a.f([d,d,b-c,d,d+(b-d-c)/2,b-c],!0)},function(a,b){a.f([0,0,b,0,b,.7*b,.4*b,.4*b,.7*b,b,0,b])},function(a,b){a.b(b/2,b/2,b/2,b/2,3)},function(a,b){a.a(0,0,b,b/2);a.a(0,b/2,b/2,b/2);a.b(b/2,b/2,b/2,b/2,1)},function(a,b){var c=.14*b,d=4>b?1:6>b?2:0|.35*b;c=8>b?c:0|c;a.a(0,0,b,b);a.a(d,d,b-d-c,b-d-c,!0)},function(a,b){var c=.12*
-b,d=3*c;a.a(0,0,b,b);a.g(d,d,b-c-d,!0)},function(a,b){a.b(b/2,b/2,b/2,b/2,3)},function(a,b){var c=.25*b;a.a(0,0,b,b);a.l(c,c,b-c,b-c,!0)},function(a,b,c){var d=.4*b;c||a.g(d,d,1.2*b)}],I:[function(a,b){a.b(0,0,b,b,0)},function(a,b){a.b(0,b/2,b,b/2,0)},function(a,b){a.l(0,0,b,b)},function(a,b){var c=b/6;a.g(c,c,b-2*c)}]};L.prototype={f:function(a){for(var b="M"+p(a[0].x)+" "+p(a[0].y),c=1;c<a.length;c++)b+="L"+p(a[c].x)+" "+p(a[c].y);this.j+=b+"Z"},g:function(a,b,c){c=c?0:1;var d=p(b/2),f=p(b);this.j+=
-"M"+p(a.x)+" "+p(a.y+b/2)+"a"+d+","+d+" 0 1,"+c+" "+f+",0a"+d+","+d+" 0 1,"+c+" "+-f+",0"}};G.prototype={m:function(a){a=/^(#......)(..)?/.exec(a);this.h.m(a[1],a[2]?r(a[2],0)/255:1)},D:function(a){this.c=this.b[a]||(this.b[a]=new L)},F:function(){},f:function(a){this.c.f(a)},g:function(a,b,c){this.c.g(a,b,c)},finish:function(){for(var a in this.b)this.h.c(a,this.b[a].j)}};M.prototype={f:function(a,b){var c=b?-2:2,d=this.c,f=[];for(b=b?a.length-2:0;b<a.length&&0<=b;b+=c)f.push(d.l(a[b],a[b+1]));this.h.f(f)},
-g:function(a,b,c,d){this.h.g(this.c.l(a,b,c,c),c,d)},a:function(a,b,c,d,f){this.f([a,b,a+c,b,a+c,b+d,a,b+d],f)},b:function(a,b,c,d,f,e){a=[a+c,b,a+c,b+d,a,b+d,a,b];a.splice((f||0)%4*2,2);this.f(a,e)},l:function(a,b,c,d,f){this.f([a+c/2,b,a+c,b+d/2,a+c/2,b+d,a,b+d/2],f)}};w.prototype={l:function(a,b,c,d){var f=this.b+this.h,e=this.c+this.h;return 1===this.a?new B(f-b-(d||0),this.c+a):2===this.a?new B(f-a-(c||0),e-b-(d||0)):3===this.a?new B(this.b+b,e-a-(c||0)):new B(this.b+a,this.c+b)}};w.a=new w(0,
-0,0,0);n.drawIcon=function(a,b,c,d){if(!a)throw Error("No canvas specified.");a=new E(a,c);H(a,C(b)||D(b),0,0,c,d||0,J())};n.toSvg=function(a,b,c){var d=new K(b);H(new G(d),C(a)||D(a),0,0,b,c,J());return d.toString()};n.update=x;n.version="2.1.0";y&&(y.fn.jdenticon=function(a,b){this.each(function(c,d){x(d,a,b)});return this});"function"===typeof setTimeout&&setTimeout(Q,0);return n});
-// psl.min.js
-!function(a){if("object"==typeof exports&&"undefined"!=typeof module)module.exports=a();else if("function"==typeof define&&define.amd)define([],a);else{("undefined"!=typeof window?window:"undefined"!=typeof global?global:"undefined"!=typeof self?self:this).psl=a()}}(function(){return function s(m,t,u){function r(o,a){if(!t[o]){if(!m[o]){var i="function"==typeof require&&require;if(!a&&i)return i(o,!0);if(p)return p(o,!0);var e=new Error("Cannot find module '"+o+"'");throw e.code="MODULE_NOT_FOUND",e}var n=t[o]={exports:{}};m[o][0].call(n.exports,function(a){return r(m[o][1][a]||a)},n,n.exports,s,m,t,u)}return t[o].exports}for(var p="function"==typeof require&&require,a=0;a<u.length;a++)r(u[a]);return r}({1:[function(a,o,i){o.exports=["ac","com.ac","edu.ac","gov.ac","net.ac","mil.ac","org.ac","ad","nom.ad","ae","co.ae","net.ae","org.ae","sch.ae","ac.ae","gov.ae","mil.ae","aero","accident-investigation.aero","accident-prevention.aero","aerobatic.aero","aeroclub.aero","aerodrome.aero","agents.aero","aircraft.aero","airline.aero","airport.aero","air-surveillance.aero","airtraffic.aero","air-traffic-control.aero","ambulance.aero","amusement.aero","association.aero","author.aero","ballooning.aero","broker.aero","caa.aero","cargo.aero","catering.aero","certification.aero","championship.aero","charter.aero","civilaviation.aero","club.aero","conference.aero","consultant.aero","consulting.aero","control.aero","council.aero","crew.aero","design.aero","dgca.aero","educator.aero","emergency.aero","engine.aero","engineer.aero","entertainment.aero","equipment.aero","exchange.aero","express.aero","federation.aero","flight.aero","freight.aero","fuel.aero","gliding.aero","government.aero","groundhandling.aero","group.aero","hanggliding.aero","homebuilt.aero","insurance.aero","journal.aero","journalist.aero","leasing.aero","logistics.aero","magazine.aero","maintenance.aero","media.aero","microlight.aero","modelling.aero","navigation.aero","parachuting.aero","paragliding.aero","passenger-association.aero","pilot.aero","press.aero","production.aero","recreation.aero","repbody.aero","res.aero","research.aero","rotorcraft.aero","safety.aero","scientist.aero","services.aero","show.aero","skydiving.aero","software.aero","student.aero","trader.aero","trading.aero","trainer.aero","union.aero","workinggroup.aero","works.aero","af","gov.af","com.af","org.af","net.af","edu.af","ag","com.ag","org.ag","net.ag","co.ag","nom.ag","ai","off.ai","com.ai","net.ai","org.ai","al","com.al","edu.al","gov.al","mil.al","net.al","org.al","am","ao","ed.ao","gv.ao","og.ao","co.ao","pb.ao","it.ao","aq","ar","com.ar","edu.ar","gob.ar","gov.ar","int.ar","mil.ar","musica.ar","net.ar","org.ar","tur.ar","arpa","e164.arpa","in-addr.arpa","ip6.arpa","iris.arpa","uri.arpa","urn.arpa","as","gov.as","asia","at","ac.at","co.at","gv.at","or.at","au","com.au","net.au","org.au","edu.au","gov.au","asn.au","id.au","info.au","conf.au","oz.au","act.au","nsw.au","nt.au","qld.au","sa.au","tas.au","vic.au","wa.au","act.edu.au","nsw.edu.au","nt.edu.au","qld.edu.au","sa.edu.au","tas.edu.au","vic.edu.au","wa.edu.au","qld.gov.au","sa.gov.au","tas.gov.au","vic.gov.au","wa.gov.au","aw","com.aw","ax","az","com.az","net.az","int.az","gov.az","org.az","edu.az","info.az","pp.az","mil.az","name.az","pro.az","biz.az","ba","com.ba","edu.ba","gov.ba","mil.ba","net.ba","org.ba","bb","biz.bb","co.bb","com.bb","edu.bb","gov.bb","info.bb","net.bb","org.bb","store.bb","tv.bb","*.bd","be","ac.be","bf","gov.bf","bg","a.bg","b.bg","c.bg","d.bg","e.bg","f.bg","g.bg","h.bg","i.bg","j.bg","k.bg","l.bg","m.bg","n.bg","o.bg","p.bg","q.bg","r.bg","s.bg","t.bg","u.bg","v.bg","w.bg","x.bg","y.bg","z.bg","0.bg","1.bg","2.bg","3.bg","4.bg","5.bg","6.bg","7.bg","8.bg","9.bg","bh","com.bh","edu.bh","net.bh","org.bh","gov.bh","bi","co.bi","com.bi","edu.bi","or.bi","org.bi","biz","bj","asso.bj","barreau.bj","gouv.bj","bm","com.bm","edu.bm","gov.bm","net.bm","org.bm","*.bn","bo","com.bo","edu.bo","gob.bo","int.bo","org.bo","net.bo","mil.bo","tv.bo","web.bo","academia.bo","agro.bo","arte.bo","blog.bo","bolivia.bo","ciencia.bo","cooperativa.bo","democracia.bo","deporte.bo","ecologia.bo","economia.bo","empresa.bo","indigena.bo","industria.bo","info.bo","medicina.bo","movimiento.bo","musica.bo","natural.bo","nombre.bo","noticias.bo","patria.bo","politica.bo","profesional.bo","plurinacional.bo","pueblo.bo","revista.bo","salud.bo","tecnologia.bo","tksat.bo","transporte.bo","wiki.bo","br","9guacu.br","abc.br","adm.br","adv.br","agr.br","aju.br","am.br","anani.br","aparecida.br","arq.br","art.br","ato.br","b.br","barueri.br","belem.br","bhz.br","bio.br","blog.br","bmd.br","boavista.br","bsb.br","campinagrande.br","campinas.br","caxias.br","cim.br","cng.br","cnt.br","com.br","contagem.br","coop.br","cri.br","cuiaba.br","curitiba.br","def.br","ecn.br","eco.br","edu.br","emp.br","eng.br","esp.br","etc.br","eti.br","far.br","feira.br","flog.br","floripa.br","fm.br","fnd.br","fortal.br","fot.br","foz.br","fst.br","g12.br","ggf.br","goiania.br","gov.br","ac.gov.br","al.gov.br","am.gov.br","ap.gov.br","ba.gov.br","ce.gov.br","df.gov.br","es.gov.br","go.gov.br","ma.gov.br","mg.gov.br","ms.gov.br","mt.gov.br","pa.gov.br","pb.gov.br","pe.gov.br","pi.gov.br","pr.gov.br","rj.gov.br","rn.gov.br","ro.gov.br","rr.gov.br","rs.gov.br","sc.gov.br","se.gov.br","sp.gov.br","to.gov.br","gru.br","imb.br","ind.br","inf.br","jab.br","jampa.br","jdf.br","joinville.br","jor.br","jus.br","leg.br","lel.br","londrina.br","macapa.br","maceio.br","manaus.br","maringa.br","mat.br","med.br","mil.br","morena.br","mp.br","mus.br","natal.br","net.br","niteroi.br","*.nom.br","not.br","ntr.br","odo.br","org.br","osasco.br","palmas.br","poa.br","ppg.br","pro.br","psc.br","psi.br","pvh.br","qsl.br","radio.br","rec.br","recife.br","ribeirao.br","rio.br","riobranco.br","riopreto.br","salvador.br","sampa.br","santamaria.br","santoandre.br","saobernardo.br","saogonca.br","sjc.br","slg.br","slz.br","sorocaba.br","srv.br","taxi.br","teo.br","the.br","tmp.br","trd.br","tur.br","tv.br","udi.br","vet.br","vix.br","vlog.br","wiki.br","zlg.br","bs","com.bs","net.bs","org.bs","edu.bs","gov.bs","bt","com.bt","edu.bt","gov.bt","net.bt","org.bt","bv","bw","co.bw","org.bw","by","gov.by","mil.by","com.by","of.by","bz","com.bz","net.bz","org.bz","edu.bz","gov.bz","ca","ab.ca","bc.ca","mb.ca","nb.ca","nf.ca","nl.ca","ns.ca","nt.ca","nu.ca","on.ca","pe.ca","qc.ca","sk.ca","yk.ca","gc.ca","cat","cc","cd","gov.cd","cf","cg","ch","ci","org.ci","or.ci","com.ci","co.ci","edu.ci","ed.ci","ac.ci","net.ci","go.ci","asso.ci","aéroport.ci","int.ci","presse.ci","md.ci","gouv.ci","*.ck","!www.ck","cl","gov.cl","gob.cl","co.cl","mil.cl","cm","co.cm","com.cm","gov.cm","net.cm","cn","ac.cn","com.cn","edu.cn","gov.cn","net.cn","org.cn","mil.cn","公司.cn","网络.cn","網絡.cn","ah.cn","bj.cn","cq.cn","fj.cn","gd.cn","gs.cn","gz.cn","gx.cn","ha.cn","hb.cn","he.cn","hi.cn","hl.cn","hn.cn","jl.cn","js.cn","jx.cn","ln.cn","nm.cn","nx.cn","qh.cn","sc.cn","sd.cn","sh.cn","sn.cn","sx.cn","tj.cn","xj.cn","xz.cn","yn.cn","zj.cn","hk.cn","mo.cn","tw.cn","co","arts.co","com.co","edu.co","firm.co","gov.co","info.co","int.co","mil.co","net.co","nom.co","org.co","rec.co","web.co","com","coop","cr","ac.cr","co.cr","ed.cr","fi.cr","go.cr","or.cr","sa.cr","cu","com.cu","edu.cu","org.cu","net.cu","gov.cu","inf.cu","cv","cw","com.cw","edu.cw","net.cw","org.cw","cx","gov.cx","cy","ac.cy","biz.cy","com.cy","ekloges.cy","gov.cy","ltd.cy","name.cy","net.cy","org.cy","parliament.cy","press.cy","pro.cy","tm.cy","cz","de","dj","dk","dm","com.dm","net.dm","org.dm","edu.dm","gov.dm","do","art.do","com.do","edu.do","gob.do","gov.do","mil.do","net.do","org.do","sld.do","web.do","dz","com.dz","org.dz","net.dz","gov.dz","edu.dz","asso.dz","pol.dz","art.dz","ec","com.ec","info.ec","net.ec","fin.ec","k12.ec","med.ec","pro.ec","org.ec","edu.ec","gov.ec","gob.ec","mil.ec","edu","ee","edu.ee","gov.ee","riik.ee","lib.ee","med.ee","com.ee","pri.ee","aip.ee","org.ee","fie.ee","eg","com.eg","edu.eg","eun.eg","gov.eg","mil.eg","name.eg","net.eg","org.eg","sci.eg","*.er","es","com.es","nom.es","org.es","gob.es","edu.es","et","com.et","gov.et","org.et","edu.et","biz.et","name.et","info.et","net.et","eu","fi","aland.fi","*.fj","*.fk","fm","fo","fr","com.fr","asso.fr","nom.fr","prd.fr","presse.fr","tm.fr","aeroport.fr","assedic.fr","avocat.fr","avoues.fr","cci.fr","chambagri.fr","chirurgiens-dentistes.fr","experts-comptables.fr","geometre-expert.fr","gouv.fr","greta.fr","huissier-justice.fr","medecin.fr","notaires.fr","pharmacien.fr","port.fr","veterinaire.fr","ga","gb","gd","ge","com.ge","edu.ge","gov.ge","org.ge","mil.ge","net.ge","pvt.ge","gf","gg","co.gg","net.gg","org.gg","gh","com.gh","edu.gh","gov.gh","org.gh","mil.gh","gi","com.gi","ltd.gi","gov.gi","mod.gi","edu.gi","org.gi","gl","co.gl","com.gl","edu.gl","net.gl","org.gl","gm","gn","ac.gn","com.gn","edu.gn","gov.gn","org.gn","net.gn","gov","gp","com.gp","net.gp","mobi.gp","edu.gp","org.gp","asso.gp","gq","gr","com.gr","edu.gr","net.gr","org.gr","gov.gr","gs","gt","com.gt","edu.gt","gob.gt","ind.gt","mil.gt","net.gt","org.gt","gu","com.gu","edu.gu","gov.gu","guam.gu","info.gu","net.gu","org.gu","web.gu","gw","gy","co.gy","com.gy","edu.gy","gov.gy","net.gy","org.gy","hk","com.hk","edu.hk","gov.hk","idv.hk","net.hk","org.hk","公司.hk","教育.hk","敎育.hk","政府.hk","個人.hk","个人.hk","箇人.hk","網络.hk","网络.hk","组織.hk","網絡.hk","网絡.hk","组织.hk","組織.hk","組织.hk","hm","hn","com.hn","edu.hn","org.hn","net.hn","mil.hn","gob.hn","hr","iz.hr","from.hr","name.hr","com.hr","ht","com.ht","shop.ht","firm.ht","info.ht","adult.ht","net.ht","pro.ht","org.ht","med.ht","art.ht","coop.ht","pol.ht","asso.ht","edu.ht","rel.ht","gouv.ht","perso.ht","hu","co.hu","info.hu","org.hu","priv.hu","sport.hu","tm.hu","2000.hu","agrar.hu","bolt.hu","casino.hu","city.hu","erotica.hu","erotika.hu","film.hu","forum.hu","games.hu","hotel.hu","ingatlan.hu","jogasz.hu","konyvelo.hu","lakas.hu","media.hu","news.hu","reklam.hu","sex.hu","shop.hu","suli.hu","szex.hu","tozsde.hu","utazas.hu","video.hu","id","ac.id","biz.id","co.id","desa.id","go.id","mil.id","my.id","net.id","or.id","sch.id","web.id","ie","gov.ie","il","ac.il","co.il","gov.il","idf.il","k12.il","muni.il","net.il","org.il","im","ac.im","co.im","com.im","ltd.co.im","net.im","org.im","plc.co.im","tt.im","tv.im","in","co.in","firm.in","net.in","org.in","gen.in","ind.in","nic.in","ac.in","edu.in","res.in","gov.in","mil.in","info","int","eu.int","io","com.io","iq","gov.iq","edu.iq","mil.iq","com.iq","org.iq","net.iq","ir","ac.ir","co.ir","gov.ir","id.ir","net.ir","org.ir","sch.ir","ایران.ir","ايران.ir","is","net.is","com.is","edu.is","gov.is","org.is","int.is","it","gov.it","edu.it","abr.it","abruzzo.it","aosta-valley.it","aostavalley.it","bas.it","basilicata.it","cal.it","calabria.it","cam.it","campania.it","emilia-romagna.it","emiliaromagna.it","emr.it","friuli-v-giulia.it","friuli-ve-giulia.it","friuli-vegiulia.it","friuli-venezia-giulia.it","friuli-veneziagiulia.it","friuli-vgiulia.it","friuliv-giulia.it","friulive-giulia.it","friulivegiulia.it","friulivenezia-giulia.it","friuliveneziagiulia.it","friulivgiulia.it","fvg.it","laz.it","lazio.it","lig.it","liguria.it","lom.it","lombardia.it","lombardy.it","lucania.it","mar.it","marche.it","mol.it","molise.it","piedmont.it","piemonte.it","pmn.it","pug.it","puglia.it","sar.it","sardegna.it","sardinia.it","sic.it","sicilia.it","sicily.it","taa.it","tos.it","toscana.it","trentin-sud-tirol.it","trentin-süd-tirol.it","trentin-sudtirol.it","trentin-südtirol.it","trentin-sued-tirol.it","trentin-suedtirol.it","trentino-a-adige.it","trentino-aadige.it","trentino-alto-adige.it","trentino-altoadige.it","trentino-s-tirol.it","trentino-stirol.it","trentino-sud-tirol.it","trentino-süd-tirol.it","trentino-sudtirol.it","trentino-südtirol.it","trentino-sued-tirol.it","trentino-suedtirol.it","trentino.it","trentinoa-adige.it","trentinoaadige.it","trentinoalto-adige.it","trentinoaltoadige.it","trentinos-tirol.it","trentinostirol.it","trentinosud-tirol.it","trentinosüd-tirol.it","trentinosudtirol.it","trentinosüdtirol.it","trentinosued-tirol.it","trentinosuedtirol.it","trentinsud-tirol.it","trentinsüd-tirol.it","trentinsudtirol.it","trentinsüdtirol.it","trentinsued-tirol.it","trentinsuedtirol.it","tuscany.it","umb.it","umbria.it","val-d-aosta.it","val-daosta.it","vald-aosta.it","valdaosta.it","valle-aosta.it","valle-d-aosta.it","valle-daosta.it","valleaosta.it","valled-aosta.it","valledaosta.it","vallee-aoste.it","vallée-aoste.it","vallee-d-aoste.it","vallée-d-aoste.it","valleeaoste.it","valléeaoste.it","valleedaoste.it","valléedaoste.it","vao.it","vda.it","ven.it","veneto.it","ag.it","agrigento.it","al.it","alessandria.it","alto-adige.it","altoadige.it","an.it","ancona.it","andria-barletta-trani.it","andria-trani-barletta.it","andriabarlettatrani.it","andriatranibarletta.it","ao.it","aosta.it","aoste.it","ap.it","aq.it","aquila.it","ar.it","arezzo.it","ascoli-piceno.it","ascolipiceno.it","asti.it","at.it","av.it","avellino.it","ba.it","balsan-sudtirol.it","balsan-südtirol.it","balsan-suedtirol.it","balsan.it","bari.it","barletta-trani-andria.it","barlettatraniandria.it","belluno.it","benevento.it","bergamo.it","bg.it","bi.it","biella.it","bl.it","bn.it","bo.it","bologna.it","bolzano-altoadige.it","bolzano.it","bozen-sudtirol.it","bozen-südtirol.it","bozen-suedtirol.it","bozen.it","br.it","brescia.it","brindisi.it","bs.it","bt.it","bulsan-sudtirol.it","bulsan-südtirol.it","bulsan-suedtirol.it","bulsan.it","bz.it","ca.it","cagliari.it","caltanissetta.it","campidano-medio.it","campidanomedio.it","campobasso.it","carbonia-iglesias.it","carboniaiglesias.it","carrara-massa.it","carraramassa.it","caserta.it","catania.it","catanzaro.it","cb.it","ce.it","cesena-forli.it","cesena-forlì.it","cesenaforli.it","cesenaforlì.it","ch.it","chieti.it","ci.it","cl.it","cn.it","co.it","como.it","cosenza.it","cr.it","cremona.it","crotone.it","cs.it","ct.it","cuneo.it","cz.it","dell-ogliastra.it","dellogliastra.it","en.it","enna.it","fc.it","fe.it","fermo.it","ferrara.it","fg.it","fi.it","firenze.it","florence.it","fm.it","foggia.it","forli-cesena.it","forlì-cesena.it","forlicesena.it","forlìcesena.it","fr.it","frosinone.it","ge.it","genoa.it","genova.it","go.it","gorizia.it","gr.it","grosseto.it","iglesias-carbonia.it","iglesiascarbonia.it","im.it","imperia.it","is.it","isernia.it","kr.it","la-spezia.it","laquila.it","laspezia.it","latina.it","lc.it","le.it","lecce.it","lecco.it","li.it","livorno.it","lo.it","lodi.it","lt.it","lu.it","lucca.it","macerata.it","mantova.it","massa-carrara.it","massacarrara.it","matera.it","mb.it","mc.it","me.it","medio-campidano.it","mediocampidano.it","messina.it","mi.it","milan.it","milano.it","mn.it","mo.it","modena.it","monza-brianza.it","monza-e-della-brianza.it","monza.it","monzabrianza.it","monzaebrianza.it","monzaedellabrianza.it","ms.it","mt.it","na.it","naples.it","napoli.it","no.it","novara.it","nu.it","nuoro.it","og.it","ogliastra.it","olbia-tempio.it","olbiatempio.it","or.it","oristano.it","ot.it","pa.it","padova.it","padua.it","palermo.it","parma.it","pavia.it","pc.it","pd.it","pe.it","perugia.it","pesaro-urbino.it","pesarourbino.it","pescara.it","pg.it","pi.it","piacenza.it","pisa.it","pistoia.it","pn.it","po.it","pordenone.it","potenza.it","pr.it","prato.it","pt.it","pu.it","pv.it","pz.it","ra.it","ragusa.it","ravenna.it","rc.it","re.it","reggio-calabria.it","reggio-emilia.it","reggiocalabria.it","reggioemilia.it","rg.it","ri.it","rieti.it","rimini.it","rm.it","rn.it","ro.it","roma.it","rome.it","rovigo.it","sa.it","salerno.it","sassari.it","savona.it","si.it","siena.it","siracusa.it","so.it","sondrio.it","sp.it","sr.it","ss.it","suedtirol.it","südtirol.it","sv.it","ta.it","taranto.it","te.it","tempio-olbia.it","tempioolbia.it","teramo.it","terni.it","tn.it","to.it","torino.it","tp.it","tr.it","trani-andria-barletta.it","trani-barletta-andria.it","traniandriabarletta.it","tranibarlettaandria.it","trapani.it","trento.it","treviso.it","trieste.it","ts.it","turin.it","tv.it","ud.it","udine.it","urbino-pesaro.it","urbinopesaro.it","va.it","varese.it","vb.it","vc.it","ve.it","venezia.it","venice.it","verbania.it","vercelli.it","verona.it","vi.it","vibo-valentia.it","vibovalentia.it","vicenza.it","viterbo.it","vr.it","vs.it","vt.it","vv.it","je","co.je","net.je","org.je","*.jm","jo","com.jo","org.jo","net.jo","edu.jo","sch.jo","gov.jo","mil.jo","name.jo","jobs","jp","ac.jp","ad.jp","co.jp","ed.jp","go.jp","gr.jp","lg.jp","ne.jp","or.jp","aichi.jp","akita.jp","aomori.jp","chiba.jp","ehime.jp","fukui.jp","fukuoka.jp","fukushima.jp","gifu.jp","gunma.jp","hiroshima.jp","hokkaido.jp","hyogo.jp","ibaraki.jp","ishikawa.jp","iwate.jp","kagawa.jp","kagoshima.jp","kanagawa.jp","kochi.jp","kumamoto.jp","kyoto.jp","mie.jp","miyagi.jp","miyazaki.jp","nagano.jp","nagasaki.jp","nara.jp","niigata.jp","oita.jp","okayama.jp","okinawa.jp","osaka.jp","saga.jp","saitama.jp","shiga.jp","shimane.jp","shizuoka.jp","tochigi.jp","tokushima.jp","tokyo.jp","tottori.jp","toyama.jp","wakayama.jp","yamagata.jp","yamaguchi.jp","yamanashi.jp","栃木.jp","愛知.jp","愛媛.jp","兵庫.jp","熊本.jp","茨城.jp","北海道.jp","千葉.jp","和歌山.jp","長崎.jp","長野.jp","新潟.jp","青森.jp","静岡.jp","東京.jp","石川.jp","埼玉.jp","三重.jp","京都.jp","佐賀.jp","大分.jp","大阪.jp","奈良.jp","宮城.jp","宮崎.jp","富山.jp","山口.jp","山形.jp","山梨.jp","岩手.jp","岐阜.jp","岡山.jp","島根.jp","広島.jp","徳島.jp","沖縄.jp","滋賀.jp","神奈川.jp","福井.jp","福岡.jp","福島.jp","秋田.jp","群馬.jp","香川.jp","高知.jp","鳥取.jp","鹿児島.jp","*.kawasaki.jp","*.kitakyushu.jp","*.kobe.jp","*.nagoya.jp","*.sapporo.jp","*.sendai.jp","*.yokohama.jp","!city.kawasaki.jp","!city.kitakyushu.jp","!city.kobe.jp","!city.nagoya.jp","!city.sapporo.jp","!city.sendai.jp","!city.yokohama.jp","aisai.aichi.jp","ama.aichi.jp","anjo.aichi.jp","asuke.aichi.jp","chiryu.aichi.jp","chita.aichi.jp","fuso.aichi.jp","gamagori.aichi.jp","handa.aichi.jp","hazu.aichi.jp","hekinan.aichi.jp","higashiura.aichi.jp","ichinomiya.aichi.jp","inazawa.aichi.jp","inuyama.aichi.jp","isshiki.aichi.jp","iwakura.aichi.jp","kanie.aichi.jp","kariya.aichi.jp","kasugai.aichi.jp","kira.aichi.jp","kiyosu.aichi.jp","komaki.aichi.jp","konan.aichi.jp","kota.aichi.jp","mihama.aichi.jp","miyoshi.aichi.jp","nishio.aichi.jp","nisshin.aichi.jp","obu.aichi.jp","oguchi.aichi.jp","oharu.aichi.jp","okazaki.aichi.jp","owariasahi.aichi.jp","seto.aichi.jp","shikatsu.aichi.jp","shinshiro.aichi.jp","shitara.aichi.jp","tahara.aichi.jp","takahama.aichi.jp","tobishima.aichi.jp","toei.aichi.jp","togo.aichi.jp","tokai.aichi.jp","tokoname.aichi.jp","toyoake.aichi.jp","toyohashi.aichi.jp","toyokawa.aichi.jp","toyone.aichi.jp","toyota.aichi.jp","tsushima.aichi.jp","yatomi.aichi.jp","akita.akita.jp","daisen.akita.jp","fujisato.akita.jp","gojome.akita.jp","hachirogata.akita.jp","happou.akita.jp","higashinaruse.akita.jp","honjo.akita.jp","honjyo.akita.jp","ikawa.akita.jp","kamikoani.akita.jp","kamioka.akita.jp","katagami.akita.jp","kazuno.akita.jp","kitaakita.akita.jp","kosaka.akita.jp","kyowa.akita.jp","misato.akita.jp","mitane.akita.jp","moriyoshi.akita.jp","nikaho.akita.jp","noshiro.akita.jp","odate.akita.jp","oga.akita.jp","ogata.akita.jp","semboku.akita.jp","yokote.akita.jp","yurihonjo.akita.jp","aomori.aomori.jp","gonohe.aomori.jp","hachinohe.aomori.jp","hashikami.aomori.jp","hiranai.aomori.jp","hirosaki.aomori.jp","itayanagi.aomori.jp","kuroishi.aomori.jp","misawa.aomori.jp","mutsu.aomori.jp","nakadomari.aomori.jp","noheji.aomori.jp","oirase.aomori.jp","owani.aomori.jp","rokunohe.aomori.jp","sannohe.aomori.jp","shichinohe.aomori.jp","shingo.aomori.jp","takko.aomori.jp","towada.aomori.jp","tsugaru.aomori.jp","tsuruta.aomori.jp","abiko.chiba.jp","asahi.chiba.jp","chonan.chiba.jp","chosei.chiba.jp","choshi.chiba.jp","chuo.chiba.jp","funabashi.chiba.jp","futtsu.chiba.jp","hanamigawa.chiba.jp","ichihara.chiba.jp","ichikawa.chiba.jp","ichinomiya.chiba.jp","inzai.chiba.jp","isumi.chiba.jp","kamagaya.chiba.jp","kamogawa.chiba.jp","kashiwa.chiba.jp","katori.chiba.jp","katsuura.chiba.jp","kimitsu.chiba.jp","kisarazu.chiba.jp","kozaki.chiba.jp","kujukuri.chiba.jp","kyonan.chiba.jp","matsudo.chiba.jp","midori.chiba.jp","mihama.chiba.jp","minamiboso.chiba.jp","mobara.chiba.jp","mutsuzawa.chiba.jp","nagara.chiba.jp","nagareyama.chiba.jp","narashino.chiba.jp","narita.chiba.jp","noda.chiba.jp","oamishirasato.chiba.jp","omigawa.chiba.jp","onjuku.chiba.jp","otaki.chiba.jp","sakae.chiba.jp","sakura.chiba.jp","shimofusa.chiba.jp","shirako.chiba.jp","shiroi.chiba.jp","shisui.chiba.jp","sodegaura.chiba.jp","sosa.chiba.jp","tako.chiba.jp","tateyama.chiba.jp","togane.chiba.jp","tohnosho.chiba.jp","tomisato.chiba.jp","urayasu.chiba.jp","yachimata.chiba.jp","yachiyo.chiba.jp","yokaichiba.chiba.jp","yokoshibahikari.chiba.jp","yotsukaido.chiba.jp","ainan.ehime.jp","honai.ehime.jp","ikata.ehime.jp","imabari.ehime.jp","iyo.ehime.jp","kamijima.ehime.jp","kihoku.ehime.jp","kumakogen.ehime.jp","masaki.ehime.jp","matsuno.ehime.jp","matsuyama.ehime.jp","namikata.ehime.jp","niihama.ehime.jp","ozu.ehime.jp","saijo.ehime.jp","seiyo.ehime.jp","shikokuchuo.ehime.jp","tobe.ehime.jp","toon.ehime.jp","uchiko.ehime.jp","uwajima.ehime.jp","yawatahama.ehime.jp","echizen.fukui.jp","eiheiji.fukui.jp","fukui.fukui.jp","ikeda.fukui.jp","katsuyama.fukui.jp","mihama.fukui.jp","minamiechizen.fukui.jp","obama.fukui.jp","ohi.fukui.jp","ono.fukui.jp","sabae.fukui.jp","sakai.fukui.jp","takahama.fukui.jp","tsuruga.fukui.jp","wakasa.fukui.jp","ashiya.fukuoka.jp","buzen.fukuoka.jp","chikugo.fukuoka.jp","chikuho.fukuoka.jp","chikujo.fukuoka.jp","chikushino.fukuoka.jp","chikuzen.fukuoka.jp","chuo.fukuoka.jp","dazaifu.fukuoka.jp","fukuchi.fukuoka.jp","hakata.fukuoka.jp","higashi.fukuoka.jp","hirokawa.fukuoka.jp","hisayama.fukuoka.jp","iizuka.fukuoka.jp","inatsuki.fukuoka.jp","kaho.fukuoka.jp","kasuga.fukuoka.jp","kasuya.fukuoka.jp","kawara.fukuoka.jp","keisen.fukuoka.jp","koga.fukuoka.jp","kurate.fukuoka.jp","kurogi.fukuoka.jp","kurume.fukuoka.jp","minami.fukuoka.jp","miyako.fukuoka.jp","miyama.fukuoka.jp","miyawaka.fukuoka.jp","mizumaki.fukuoka.jp","munakata.fukuoka.jp","nakagawa.fukuoka.jp","nakama.fukuoka.jp","nishi.fukuoka.jp","nogata.fukuoka.jp","ogori.fukuoka.jp","okagaki.fukuoka.jp","okawa.fukuoka.jp","oki.fukuoka.jp","omuta.fukuoka.jp","onga.fukuoka.jp","onojo.fukuoka.jp","oto.fukuoka.jp","saigawa.fukuoka.jp","sasaguri.fukuoka.jp","shingu.fukuoka.jp","shinyoshitomi.fukuoka.jp","shonai.fukuoka.jp","soeda.fukuoka.jp","sue.fukuoka.jp","tachiarai.fukuoka.jp","tagawa.fukuoka.jp","takata.fukuoka.jp","toho.fukuoka.jp","toyotsu.fukuoka.jp","tsuiki.fukuoka.jp","ukiha.fukuoka.jp","umi.fukuoka.jp","usui.fukuoka.jp","yamada.fukuoka.jp","yame.fukuoka.jp","yanagawa.fukuoka.jp","yukuhashi.fukuoka.jp","aizubange.fukushima.jp","aizumisato.fukushima.jp","aizuwakamatsu.fukushima.jp","asakawa.fukushima.jp","bandai.fukushima.jp","date.fukushima.jp","fukushima.fukushima.jp","furudono.fukushima.jp","futaba.fukushima.jp","hanawa.fukushima.jp","higashi.fukushima.jp","hirata.fukushima.jp","hirono.fukushima.jp","iitate.fukushima.jp","inawashiro.fukushima.jp","ishikawa.fukushima.jp","iwaki.fukushima.jp","izumizaki.fukushima.jp","kagamiishi.fukushima.jp","kaneyama.fukushima.jp","kawamata.fukushima.jp","kitakata.fukushima.jp","kitashiobara.fukushima.jp","koori.fukushima.jp","koriyama.fukushima.jp","kunimi.fukushima.jp","miharu.fukushima.jp","mishima.fukushima.jp","namie.fukushima.jp","nango.fukushima.jp","nishiaizu.fukushima.jp","nishigo.fukushima.jp","okuma.fukushima.jp","omotego.fukushima.jp","ono.fukushima.jp","otama.fukushima.jp","samegawa.fukushima.jp","shimogo.fukushima.jp","shirakawa.fukushima.jp","showa.fukushima.jp","soma.fukushima.jp","sukagawa.fukushima.jp","taishin.fukushima.jp","tamakawa.fukushima.jp","tanagura.fukushima.jp","tenei.fukushima.jp","yabuki.fukushima.jp","yamato.fukushima.jp","yamatsuri.fukushima.jp","yanaizu.fukushima.jp","yugawa.fukushima.jp","anpachi.gifu.jp","ena.gifu.jp","gifu.gifu.jp","ginan.gifu.jp","godo.gifu.jp","gujo.gifu.jp","hashima.gifu.jp","hichiso.gifu.jp","hida.gifu.jp","higashishirakawa.gifu.jp","ibigawa.gifu.jp","ikeda.gifu.jp","kakamigahara.gifu.jp","kani.gifu.jp","kasahara.gifu.jp","kasamatsu.gifu.jp","kawaue.gifu.jp","kitagata.gifu.jp","mino.gifu.jp","minokamo.gifu.jp","mitake.gifu.jp","mizunami.gifu.jp","motosu.gifu.jp","nakatsugawa.gifu.jp","ogaki.gifu.jp","sakahogi.gifu.jp","seki.gifu.jp","sekigahara.gifu.jp","shirakawa.gifu.jp","tajimi.gifu.jp","takayama.gifu.jp","tarui.gifu.jp","toki.gifu.jp","tomika.gifu.jp","wanouchi.gifu.jp","yamagata.gifu.jp","yaotsu.gifu.jp","yoro.gifu.jp","annaka.gunma.jp","chiyoda.gunma.jp","fujioka.gunma.jp","higashiagatsuma.gunma.jp","isesaki.gunma.jp","itakura.gunma.jp","kanna.gunma.jp","kanra.gunma.jp","katashina.gunma.jp","kawaba.gunma.jp","kiryu.gunma.jp","kusatsu.gunma.jp","maebashi.gunma.jp","meiwa.gunma.jp","midori.gunma.jp","minakami.gunma.jp","naganohara.gunma.jp","nakanojo.gunma.jp","nanmoku.gunma.jp","numata.gunma.jp","oizumi.gunma.jp","ora.gunma.jp","ota.gunma.jp","shibukawa.gunma.jp","shimonita.gunma.jp","shinto.gunma.jp","showa.gunma.jp","takasaki.gunma.jp","takayama.gunma.jp","tamamura.gunma.jp","tatebayashi.gunma.jp","tomioka.gunma.jp","tsukiyono.gunma.jp","tsumagoi.gunma.jp","ueno.gunma.jp","yoshioka.gunma.jp","asaminami.hiroshima.jp","daiwa.hiroshima.jp","etajima.hiroshima.jp","fuchu.hiroshima.jp","fukuyama.hiroshima.jp","hatsukaichi.hiroshima.jp","higashihiroshima.hiroshima.jp","hongo.hiroshima.jp","jinsekikogen.hiroshima.jp","kaita.hiroshima.jp","kui.hiroshima.jp","kumano.hiroshima.jp","kure.hiroshima.jp","mihara.hiroshima.jp","miyoshi.hiroshima.jp","naka.hiroshima.jp","onomichi.hiroshima.jp","osakikamijima.hiroshima.jp","otake.hiroshima.jp","saka.hiroshima.jp","sera.hiroshima.jp","seranishi.hiroshima.jp","shinichi.hiroshima.jp","shobara.hiroshima.jp","takehara.hiroshima.jp","abashiri.hokkaido.jp","abira.hokkaido.jp","aibetsu.hokkaido.jp","akabira.hokkaido.jp","akkeshi.hokkaido.jp","asahikawa.hokkaido.jp","ashibetsu.hokkaido.jp","ashoro.hokkaido.jp","assabu.hokkaido.jp","atsuma.hokkaido.jp","bibai.hokkaido.jp","biei.hokkaido.jp","bifuka.hokkaido.jp","bihoro.hokkaido.jp","biratori.hokkaido.jp","chippubetsu.hokkaido.jp","chitose.hokkaido.jp","date.hokkaido.jp","ebetsu.hokkaido.jp","embetsu.hokkaido.jp","eniwa.hokkaido.jp","erimo.hokkaido.jp","esan.hokkaido.jp","esashi.hokkaido.jp","fukagawa.hokkaido.jp","fukushima.hokkaido.jp","furano.hokkaido.jp","furubira.hokkaido.jp","haboro.hokkaido.jp","hakodate.hokkaido.jp","hamatonbetsu.hokkaido.jp","hidaka.hokkaido.jp","higashikagura.hokkaido.jp","higashikawa.hokkaido.jp","hiroo.hokkaido.jp","hokuryu.hokkaido.jp","hokuto.hokkaido.jp","honbetsu.hokkaido.jp","horokanai.hokkaido.jp","horonobe.hokkaido.jp","ikeda.hokkaido.jp","imakane.hokkaido.jp","ishikari.hokkaido.jp","iwamizawa.hokkaido.jp","iwanai.hokkaido.jp","kamifurano.hokkaido.jp","kamikawa.hokkaido.jp","kamishihoro.hokkaido.jp","kamisunagawa.hokkaido.jp","kamoenai.hokkaido.jp","kayabe.hokkaido.jp","kembuchi.hokkaido.jp","kikonai.hokkaido.jp","kimobetsu.hokkaido.jp","kitahiroshima.hokkaido.jp","kitami.hokkaido.jp","kiyosato.hokkaido.jp","koshimizu.hokkaido.jp","kunneppu.hokkaido.jp","kuriyama.hokkaido.jp","kuromatsunai.hokkaido.jp","kushiro.hokkaido.jp","kutchan.hokkaido.jp","kyowa.hokkaido.jp","mashike.hokkaido.jp","matsumae.hokkaido.jp","mikasa.hokkaido.jp","minamifurano.hokkaido.jp","mombetsu.hokkaido.jp","moseushi.hokkaido.jp","mukawa.hokkaido.jp","muroran.hokkaido.jp","naie.hokkaido.jp","nakagawa.hokkaido.jp","nakasatsunai.hokkaido.jp","nakatombetsu.hokkaido.jp","nanae.hokkaido.jp","nanporo.hokkaido.jp","nayoro.hokkaido.jp","nemuro.hokkaido.jp","niikappu.hokkaido.jp","niki.hokkaido.jp","nishiokoppe.hokkaido.jp","noboribetsu.hokkaido.jp","numata.hokkaido.jp","obihiro.hokkaido.jp","obira.hokkaido.jp","oketo.hokkaido.jp","okoppe.hokkaido.jp","otaru.hokkaido.jp","otobe.hokkaido.jp","otofuke.hokkaido.jp","otoineppu.hokkaido.jp","oumu.hokkaido.jp","ozora.hokkaido.jp","pippu.hokkaido.jp","rankoshi.hokkaido.jp","rebun.hokkaido.jp","rikubetsu.hokkaido.jp","rishiri.hokkaido.jp","rishirifuji.hokkaido.jp","saroma.hokkaido.jp","sarufutsu.hokkaido.jp","shakotan.hokkaido.jp","shari.hokkaido.jp","shibecha.hokkaido.jp","shibetsu.hokkaido.jp","shikabe.hokkaido.jp","shikaoi.hokkaido.jp","shimamaki.hokkaido.jp","shimizu.hokkaido.jp","shimokawa.hokkaido.jp","shinshinotsu.hokkaido.jp","shintoku.hokkaido.jp","shiranuka.hokkaido.jp","shiraoi.hokkaido.jp","shiriuchi.hokkaido.jp","sobetsu.hokkaido.jp","sunagawa.hokkaido.jp","taiki.hokkaido.jp","takasu.hokkaido.jp","takikawa.hokkaido.jp","takinoue.hokkaido.jp","teshikaga.hokkaido.jp","tobetsu.hokkaido.jp","tohma.hokkaido.jp","tomakomai.hokkaido.jp","tomari.hokkaido.jp","toya.hokkaido.jp","toyako.hokkaido.jp","toyotomi.hokkaido.jp","toyoura.hokkaido.jp","tsubetsu.hokkaido.jp","tsukigata.hokkaido.jp","urakawa.hokkaido.jp","urausu.hokkaido.jp","uryu.hokkaido.jp","utashinai.hokkaido.jp","wakkanai.hokkaido.jp","wassamu.hokkaido.jp","yakumo.hokkaido.jp","yoichi.hokkaido.jp","aioi.hyogo.jp","akashi.hyogo.jp","ako.hyogo.jp","amagasaki.hyogo.jp","aogaki.hyogo.jp","asago.hyogo.jp","ashiya.hyogo.jp","awaji.hyogo.jp","fukusaki.hyogo.jp","goshiki.hyogo.jp","harima.hyogo.jp","himeji.hyogo.jp","ichikawa.hyogo.jp","inagawa.hyogo.jp","itami.hyogo.jp","kakogawa.hyogo.jp","kamigori.hyogo.jp","kamikawa.hyogo.jp","kasai.hyogo.jp","kasuga.hyogo.jp","kawanishi.hyogo.jp","miki.hyogo.jp","minamiawaji.hyogo.jp","nishinomiya.hyogo.jp","nishiwaki.hyogo.jp","ono.hyogo.jp","sanda.hyogo.jp","sannan.hyogo.jp","sasayama.hyogo.jp","sayo.hyogo.jp","shingu.hyogo.jp","shinonsen.hyogo.jp","shiso.hyogo.jp","sumoto.hyogo.jp","taishi.hyogo.jp","taka.hyogo.jp","takarazuka.hyogo.jp","takasago.hyogo.jp","takino.hyogo.jp","tamba.hyogo.jp","tatsuno.hyogo.jp","toyooka.hyogo.jp","yabu.hyogo.jp","yashiro.hyogo.jp","yoka.hyogo.jp","yokawa.hyogo.jp","ami.ibaraki.jp","asahi.ibaraki.jp","bando.ibaraki.jp","chikusei.ibaraki.jp","daigo.ibaraki.jp","fujishiro.ibaraki.jp","hitachi.ibaraki.jp","hitachinaka.ibaraki.jp","hitachiomiya.ibaraki.jp","hitachiota.ibaraki.jp","ibaraki.ibaraki.jp","ina.ibaraki.jp","inashiki.ibaraki.jp","itako.ibaraki.jp","iwama.ibaraki.jp","joso.ibaraki.jp","kamisu.ibaraki.jp","kasama.ibaraki.jp","kashima.ibaraki.jp","kasumigaura.ibaraki.jp","koga.ibaraki.jp","miho.ibaraki.jp","mito.ibaraki.jp","moriya.ibaraki.jp","naka.ibaraki.jp","namegata.ibaraki.jp","oarai.ibaraki.jp","ogawa.ibaraki.jp","omitama.ibaraki.jp","ryugasaki.ibaraki.jp","sakai.ibaraki.jp","sakuragawa.ibaraki.jp","shimodate.ibaraki.jp","shimotsuma.ibaraki.jp","shirosato.ibaraki.jp","sowa.ibaraki.jp","suifu.ibaraki.jp","takahagi.ibaraki.jp","tamatsukuri.ibaraki.jp","tokai.ibaraki.jp","tomobe.ibaraki.jp","tone.ibaraki.jp","toride.ibaraki.jp","tsuchiura.ibaraki.jp","tsukuba.ibaraki.jp","uchihara.ibaraki.jp","ushiku.ibaraki.jp","yachiyo.ibaraki.jp","yamagata.ibaraki.jp","yawara.ibaraki.jp","yuki.ibaraki.jp","anamizu.ishikawa.jp","hakui.ishikawa.jp","hakusan.ishikawa.jp","kaga.ishikawa.jp","kahoku.ishikawa.jp","kanazawa.ishikawa.jp","kawakita.ishikawa.jp","komatsu.ishikawa.jp","nakanoto.ishikawa.jp","nanao.ishikawa.jp","nomi.ishikawa.jp","nonoichi.ishikawa.jp","noto.ishikawa.jp","shika.ishikawa.jp","suzu.ishikawa.jp","tsubata.ishikawa.jp","tsurugi.ishikawa.jp","uchinada.ishikawa.jp","wajima.ishikawa.jp","fudai.iwate.jp","fujisawa.iwate.jp","hanamaki.iwate.jp","hiraizumi.iwate.jp","hirono.iwate.jp","ichinohe.iwate.jp","ichinoseki.iwate.jp","iwaizumi.iwate.jp","iwate.iwate.jp","joboji.iwate.jp","kamaishi.iwate.jp","kanegasaki.iwate.jp","karumai.iwate.jp","kawai.iwate.jp","kitakami.iwate.jp","kuji.iwate.jp","kunohe.iwate.jp","kuzumaki.iwate.jp","miyako.iwate.jp","mizusawa.iwate.jp","morioka.iwate.jp","ninohe.iwate.jp","noda.iwate.jp","ofunato.iwate.jp","oshu.iwate.jp","otsuchi.iwate.jp","rikuzentakata.iwate.jp","shiwa.iwate.jp","shizukuishi.iwate.jp","sumita.iwate.jp","tanohata.iwate.jp","tono.iwate.jp","yahaba.iwate.jp","yamada.iwate.jp","ayagawa.kagawa.jp","higashikagawa.kagawa.jp","kanonji.kagawa.jp","kotohira.kagawa.jp","manno.kagawa.jp","marugame.kagawa.jp","mitoyo.kagawa.jp","naoshima.kagawa.jp","sanuki.kagawa.jp","tadotsu.kagawa.jp","takamatsu.kagawa.jp","tonosho.kagawa.jp","uchinomi.kagawa.jp","utazu.kagawa.jp","zentsuji.kagawa.jp","akune.kagoshima.jp","amami.kagoshima.jp","hioki.kagoshima.jp","isa.kagoshima.jp","isen.kagoshima.jp","izumi.kagoshima.jp","kagoshima.kagoshima.jp","kanoya.kagoshima.jp","kawanabe.kagoshima.jp","kinko.kagoshima.jp","kouyama.kagoshima.jp","makurazaki.kagoshima.jp","matsumoto.kagoshima.jp","minamitane.kagoshima.jp","nakatane.kagoshima.jp","nishinoomote.kagoshima.jp","satsumasendai.kagoshima.jp","soo.kagoshima.jp","tarumizu.kagoshima.jp","yusui.kagoshima.jp","aikawa.kanagawa.jp","atsugi.kanagawa.jp","ayase.kanagawa.jp","chigasaki.kanagawa.jp","ebina.kanagawa.jp","fujisawa.kanagawa.jp","hadano.kanagawa.jp","hakone.kanagawa.jp","hiratsuka.kanagawa.jp","isehara.kanagawa.jp","kaisei.kanagawa.jp","kamakura.kanagawa.jp","kiyokawa.kanagawa.jp","matsuda.kanagawa.jp","minamiashigara.kanagawa.jp","miura.kanagawa.jp","nakai.kanagawa.jp","ninomiya.kanagawa.jp","odawara.kanagawa.jp","oi.kanagawa.jp","oiso.kanagawa.jp","sagamihara.kanagawa.jp","samukawa.kanagawa.jp","tsukui.kanagawa.jp","yamakita.kanagawa.jp","yamato.kanagawa.jp","yokosuka.kanagawa.jp","yugawara.kanagawa.jp","zama.kanagawa.jp","zushi.kanagawa.jp","aki.kochi.jp","geisei.kochi.jp","hidaka.kochi.jp","higashitsuno.kochi.jp","ino.kochi.jp","kagami.kochi.jp","kami.kochi.jp","kitagawa.kochi.jp","kochi.kochi.jp","mihara.kochi.jp","motoyama.kochi.jp","muroto.kochi.jp","nahari.kochi.jp","nakamura.kochi.jp","nankoku.kochi.jp","nishitosa.kochi.jp","niyodogawa.kochi.jp","ochi.kochi.jp","okawa.kochi.jp","otoyo.kochi.jp","otsuki.kochi.jp","sakawa.kochi.jp","sukumo.kochi.jp","susaki.kochi.jp","tosa.kochi.jp","tosashimizu.kochi.jp","toyo.kochi.jp","tsuno.kochi.jp","umaji.kochi.jp","yasuda.kochi.jp","yusuhara.kochi.jp","amakusa.kumamoto.jp","arao.kumamoto.jp","aso.kumamoto.jp","choyo.kumamoto.jp","gyokuto.kumamoto.jp","kamiamakusa.kumamoto.jp","kikuchi.kumamoto.jp","kumamoto.kumamoto.jp","mashiki.kumamoto.jp","mifune.kumamoto.jp","minamata.kumamoto.jp","minamioguni.kumamoto.jp","nagasu.kumamoto.jp","nishihara.kumamoto.jp","oguni.kumamoto.jp","ozu.kumamoto.jp","sumoto.kumamoto.jp","takamori.kumamoto.jp","uki.kumamoto.jp","uto.kumamoto.jp","yamaga.kumamoto.jp","yamato.kumamoto.jp","yatsushiro.kumamoto.jp","ayabe.kyoto.jp","fukuchiyama.kyoto.jp","higashiyama.kyoto.jp","ide.kyoto.jp","ine.kyoto.jp","joyo.kyoto.jp","kameoka.kyoto.jp","kamo.kyoto.jp","kita.kyoto.jp","kizu.kyoto.jp","kumiyama.kyoto.jp","kyotamba.kyoto.jp","kyotanabe.kyoto.jp","kyotango.kyoto.jp","maizuru.kyoto.jp","minami.kyoto.jp","minamiyamashiro.kyoto.jp","miyazu.kyoto.jp","muko.kyoto.jp","nagaokakyo.kyoto.jp","nakagyo.kyoto.jp","nantan.kyoto.jp","oyamazaki.kyoto.jp","sakyo.kyoto.jp","seika.kyoto.jp","tanabe.kyoto.jp","uji.kyoto.jp","ujitawara.kyoto.jp","wazuka.kyoto.jp","yamashina.kyoto.jp","yawata.kyoto.jp","asahi.mie.jp","inabe.mie.jp","ise.mie.jp","kameyama.mie.jp","kawagoe.mie.jp","kiho.mie.jp","kisosaki.mie.jp","kiwa.mie.jp","komono.mie.jp","kumano.mie.jp","kuwana.mie.jp","matsusaka.mie.jp","meiwa.mie.jp","mihama.mie.jp","minamiise.mie.jp","misugi.mie.jp","miyama.mie.jp","nabari.mie.jp","shima.mie.jp","suzuka.mie.jp","tado.mie.jp","taiki.mie.jp","taki.mie.jp","tamaki.mie.jp","toba.mie.jp","tsu.mie.jp","udono.mie.jp","ureshino.mie.jp","watarai.mie.jp","yokkaichi.mie.jp","furukawa.miyagi.jp","higashimatsushima.miyagi.jp","ishinomaki.miyagi.jp","iwanuma.miyagi.jp","kakuda.miyagi.jp","kami.miyagi.jp","kawasaki.miyagi.jp","marumori.miyagi.jp","matsushima.miyagi.jp","minamisanriku.miyagi.jp","misato.miyagi.jp","murata.miyagi.jp","natori.miyagi.jp","ogawara.miyagi.jp","ohira.miyagi.jp","onagawa.miyagi.jp","osaki.miyagi.jp","rifu.miyagi.jp","semine.miyagi.jp","shibata.miyagi.jp","shichikashuku.miyagi.jp","shikama.miyagi.jp","shiogama.miyagi.jp","shiroishi.miyagi.jp","tagajo.miyagi.jp","taiwa.miyagi.jp","tome.miyagi.jp","tomiya.miyagi.jp","wakuya.miyagi.jp","watari.miyagi.jp","yamamoto.miyagi.jp","zao.miyagi.jp","aya.miyazaki.jp","ebino.miyazaki.jp","gokase.miyazaki.jp","hyuga.miyazaki.jp","kadogawa.miyazaki.jp","kawaminami.miyazaki.jp","kijo.miyazaki.jp","kitagawa.miyazaki.jp","kitakata.miyazaki.jp","kitaura.miyazaki.jp","kobayashi.miyazaki.jp","kunitomi.miyazaki.jp","kushima.miyazaki.jp","mimata.miyazaki.jp","miyakonojo.miyazaki.jp","miyazaki.miyazaki.jp","morotsuka.miyazaki.jp","nichinan.miyazaki.jp","nishimera.miyazaki.jp","nobeoka.miyazaki.jp","saito.miyazaki.jp","shiiba.miyazaki.jp","shintomi.miyazaki.jp","takaharu.miyazaki.jp","takanabe.miyazaki.jp","takazaki.miyazaki.jp","tsuno.miyazaki.jp","achi.nagano.jp","agematsu.nagano.jp","anan.nagano.jp","aoki.nagano.jp","asahi.nagano.jp","azumino.nagano.jp","chikuhoku.nagano.jp","chikuma.nagano.jp","chino.nagano.jp","fujimi.nagano.jp","hakuba.nagano.jp","hara.nagano.jp","hiraya.nagano.jp","iida.nagano.jp","iijima.nagano.jp","iiyama.nagano.jp","iizuna.nagano.jp","ikeda.nagano.jp","ikusaka.nagano.jp","ina.nagano.jp","karuizawa.nagano.jp","kawakami.nagano.jp","kiso.nagano.jp","kisofukushima.nagano.jp","kitaaiki.nagano.jp","komagane.nagano.jp","komoro.nagano.jp","matsukawa.nagano.jp","matsumoto.nagano.jp","miasa.nagano.jp","minamiaiki.nagano.jp","minamimaki.nagano.jp","minamiminowa.nagano.jp","minowa.nagano.jp","miyada.nagano.jp","miyota.nagano.jp","mochizuki.nagano.jp","nagano.nagano.jp","nagawa.nagano.jp","nagiso.nagano.jp","nakagawa.nagano.jp","nakano.nagano.jp","nozawaonsen.nagano.jp","obuse.nagano.jp","ogawa.nagano.jp","okaya.nagano.jp","omachi.nagano.jp","omi.nagano.jp","ookuwa.nagano.jp","ooshika.nagano.jp","otaki.nagano.jp","otari.nagano.jp","sakae.nagano.jp","sakaki.nagano.jp","saku.nagano.jp","sakuho.nagano.jp","shimosuwa.nagano.jp","shinanomachi.nagano.jp","shiojiri.nagano.jp","suwa.nagano.jp","suzaka.nagano.jp","takagi.nagano.jp","takamori.nagano.jp","takayama.nagano.jp","tateshina.nagano.jp","tatsuno.nagano.jp","togakushi.nagano.jp","togura.nagano.jp","tomi.nagano.jp","ueda.nagano.jp","wada.nagano.jp","yamagata.nagano.jp","yamanouchi.nagano.jp","yasaka.nagano.jp","yasuoka.nagano.jp","chijiwa.nagasaki.jp","futsu.nagasaki.jp","goto.nagasaki.jp","hasami.nagasaki.jp","hirado.nagasaki.jp","iki.nagasaki.jp","isahaya.nagasaki.jp","kawatana.nagasaki.jp","kuchinotsu.nagasaki.jp","matsuura.nagasaki.jp","nagasaki.nagasaki.jp","obama.nagasaki.jp","omura.nagasaki.jp","oseto.nagasaki.jp","saikai.nagasaki.jp","sasebo.nagasaki.jp","seihi.nagasaki.jp","shimabara.nagasaki.jp","shinkamigoto.nagasaki.jp","togitsu.nagasaki.jp","tsushima.nagasaki.jp","unzen.nagasaki.jp","ando.nara.jp","gose.nara.jp","heguri.nara.jp","higashiyoshino.nara.jp","ikaruga.nara.jp","ikoma.nara.jp","kamikitayama.nara.jp","kanmaki.nara.jp","kashiba.nara.jp","kashihara.nara.jp","katsuragi.nara.jp","kawai.nara.jp","kawakami.nara.jp","kawanishi.nara.jp","koryo.nara.jp","kurotaki.nara.jp","mitsue.nara.jp","miyake.nara.jp","nara.nara.jp","nosegawa.nara.jp","oji.nara.jp","ouda.nara.jp","oyodo.nara.jp","sakurai.nara.jp","sango.nara.jp","shimoichi.nara.jp","shimokitayama.nara.jp","shinjo.nara.jp","soni.nara.jp","takatori.nara.jp","tawaramoto.nara.jp","tenkawa.nara.jp","tenri.nara.jp","uda.nara.jp","yamatokoriyama.nara.jp","yamatotakada.nara.jp","yamazoe.nara.jp","yoshino.nara.jp","aga.niigata.jp","agano.niigata.jp","gosen.niigata.jp","itoigawa.niigata.jp","izumozaki.niigata.jp","joetsu.niigata.jp","kamo.niigata.jp","kariwa.niigata.jp","kashiwazaki.niigata.jp","minamiuonuma.niigata.jp","mitsuke.niigata.jp","muika.niigata.jp","murakami.niigata.jp","myoko.niigata.jp","nagaoka.niigata.jp","niigata.niigata.jp","ojiya.niigata.jp","omi.niigata.jp","sado.niigata.jp","sanjo.niigata.jp","seiro.niigata.jp","seirou.niigata.jp","sekikawa.niigata.jp","shibata.niigata.jp","tagami.niigata.jp","tainai.niigata.jp","tochio.niigata.jp","tokamachi.niigata.jp","tsubame.niigata.jp","tsunan.niigata.jp","uonuma.niigata.jp","yahiko.niigata.jp","yoita.niigata.jp","yuzawa.niigata.jp","beppu.oita.jp","bungoono.oita.jp","bungotakada.oita.jp","hasama.oita.jp","hiji.oita.jp","himeshima.oita.jp","hita.oita.jp","kamitsue.oita.jp","kokonoe.oita.jp","kuju.oita.jp","kunisaki.oita.jp","kusu.oita.jp","oita.oita.jp","saiki.oita.jp","taketa.oita.jp","tsukumi.oita.jp","usa.oita.jp","usuki.oita.jp","yufu.oita.jp","akaiwa.okayama.jp","asakuchi.okayama.jp","bizen.okayama.jp","hayashima.okayama.jp","ibara.okayama.jp","kagamino.okayama.jp","kasaoka.okayama.jp","kibichuo.okayama.jp","kumenan.okayama.jp","kurashiki.okayama.jp","maniwa.okayama.jp","misaki.okayama.jp","nagi.okayama.jp","niimi.okayama.jp","nishiawakura.okayama.jp","okayama.okayama.jp","satosho.okayama.jp","setouchi.okayama.jp","shinjo.okayama.jp","shoo.okayama.jp","soja.okayama.jp","takahashi.okayama.jp","tamano.okayama.jp","tsuyama.okayama.jp","wake.okayama.jp","yakage.okayama.jp","aguni.okinawa.jp","ginowan.okinawa.jp","ginoza.okinawa.jp","gushikami.okinawa.jp","haebaru.okinawa.jp","higashi.okinawa.jp","hirara.okinawa.jp","iheya.okinawa.jp","ishigaki.okinawa.jp","ishikawa.okinawa.jp","itoman.okinawa.jp","izena.okinawa.jp","kadena.okinawa.jp","kin.okinawa.jp","kitadaito.okinawa.jp","kitanakagusuku.okinawa.jp","kumejima.okinawa.jp","kunigami.okinawa.jp","minamidaito.okinawa.jp","motobu.okinawa.jp","nago.okinawa.jp","naha.okinawa.jp","nakagusuku.okinawa.jp","nakijin.okinawa.jp","nanjo.okinawa.jp","nishihara.okinawa.jp","ogimi.okinawa.jp","okinawa.okinawa.jp","onna.okinawa.jp","shimoji.okinawa.jp","taketomi.okinawa.jp","tarama.okinawa.jp","tokashiki.okinawa.jp","tomigusuku.okinawa.jp","tonaki.okinawa.jp","urasoe.okinawa.jp","uruma.okinawa.jp","yaese.okinawa.jp","yomitan.okinawa.jp","yonabaru.okinawa.jp","yonaguni.okinawa.jp","zamami.okinawa.jp","abeno.osaka.jp","chihayaakasaka.osaka.jp","chuo.osaka.jp","daito.osaka.jp","fujiidera.osaka.jp","habikino.osaka.jp","hannan.osaka.jp","higashiosaka.osaka.jp","higashisumiyoshi.osaka.jp","higashiyodogawa.osaka.jp","hirakata.osaka.jp","ibaraki.osaka.jp","ikeda.osaka.jp","izumi.osaka.jp","izumiotsu.osaka.jp","izumisano.osaka.jp","kadoma.osaka.jp","kaizuka.osaka.jp","kanan.osaka.jp","kashiwara.osaka.jp","katano.osaka.jp","kawachinagano.osaka.jp","kishiwada.osaka.jp","kita.osaka.jp","kumatori.osaka.jp","matsubara.osaka.jp","minato.osaka.jp","minoh.osaka.jp","misaki.osaka.jp","moriguchi.osaka.jp","neyagawa.osaka.jp","nishi.osaka.jp","nose.osaka.jp","osakasayama.osaka.jp","sakai.osaka.jp","sayama.osaka.jp","sennan.osaka.jp","settsu.osaka.jp","shijonawate.osaka.jp","shimamoto.osaka.jp","suita.osaka.jp","tadaoka.osaka.jp","taishi.osaka.jp","tajiri.osaka.jp","takaishi.osaka.jp","takatsuki.osaka.jp","tondabayashi.osaka.jp","toyonaka.osaka.jp","toyono.osaka.jp","yao.osaka.jp","ariake.saga.jp","arita.saga.jp","fukudomi.saga.jp","genkai.saga.jp","hamatama.saga.jp","hizen.saga.jp","imari.saga.jp","kamimine.saga.jp","kanzaki.saga.jp","karatsu.saga.jp","kashima.saga.jp","kitagata.saga.jp","kitahata.saga.jp","kiyama.saga.jp","kouhoku.saga.jp","kyuragi.saga.jp","nishiarita.saga.jp","ogi.saga.jp","omachi.saga.jp","ouchi.saga.jp","saga.saga.jp","shiroishi.saga.jp","taku.saga.jp","tara.saga.jp","tosu.saga.jp","yoshinogari.saga.jp","arakawa.saitama.jp","asaka.saitama.jp","chichibu.saitama.jp","fujimi.saitama.jp","fujimino.saitama.jp","fukaya.saitama.jp","hanno.saitama.jp","hanyu.saitama.jp","hasuda.saitama.jp","hatogaya.saitama.jp","hatoyama.saitama.jp","hidaka.saitama.jp","higashichichibu.saitama.jp","higashimatsuyama.saitama.jp","honjo.saitama.jp","ina.saitama.jp","iruma.saitama.jp","iwatsuki.saitama.jp","kamiizumi.saitama.jp","kamikawa.saitama.jp","kamisato.saitama.jp","kasukabe.saitama.jp","kawagoe.saitama.jp","kawaguchi.saitama.jp","kawajima.saitama.jp","kazo.saitama.jp","kitamoto.saitama.jp","koshigaya.saitama.jp","kounosu.saitama.jp","kuki.saitama.jp","kumagaya.saitama.jp","matsubushi.saitama.jp","minano.saitama.jp","misato.saitama.jp","miyashiro.saitama.jp","miyoshi.saitama.jp","moroyama.saitama.jp","nagatoro.saitama.jp","namegawa.saitama.jp","niiza.saitama.jp","ogano.saitama.jp","ogawa.saitama.jp","ogose.saitama.jp","okegawa.saitama.jp","omiya.saitama.jp","otaki.saitama.jp","ranzan.saitama.jp","ryokami.saitama.jp","saitama.saitama.jp","sakado.saitama.jp","satte.saitama.jp","sayama.saitama.jp","shiki.saitama.jp","shiraoka.saitama.jp","soka.saitama.jp","sugito.saitama.jp","toda.saitama.jp","tokigawa.saitama.jp","tokorozawa.saitama.jp","tsurugashima.saitama.jp","urawa.saitama.jp","warabi.saitama.jp","yashio.saitama.jp","yokoze.saitama.jp","yono.saitama.jp","yorii.saitama.jp","yoshida.saitama.jp","yoshikawa.saitama.jp","yoshimi.saitama.jp","aisho.shiga.jp","gamo.shiga.jp","higashiomi.shiga.jp","hikone.shiga.jp","koka.shiga.jp","konan.shiga.jp","kosei.shiga.jp","koto.shiga.jp","kusatsu.shiga.jp","maibara.shiga.jp","moriyama.shiga.jp","nagahama.shiga.jp","nishiazai.shiga.jp","notogawa.shiga.jp","omihachiman.shiga.jp","otsu.shiga.jp","ritto.shiga.jp","ryuoh.shiga.jp","takashima.shiga.jp","takatsuki.shiga.jp","torahime.shiga.jp","toyosato.shiga.jp","yasu.shiga.jp","akagi.shimane.jp","ama.shimane.jp","gotsu.shimane.jp","hamada.shimane.jp","higashiizumo.shimane.jp","hikawa.shimane.jp","hikimi.shimane.jp","izumo.shimane.jp","kakinoki.shimane.jp","masuda.shimane.jp","matsue.shimane.jp","misato.shimane.jp","nishinoshima.shimane.jp","ohda.shimane.jp","okinoshima.shimane.jp","okuizumo.shimane.jp","shimane.shimane.jp","tamayu.shimane.jp","tsuwano.shimane.jp","unnan.shimane.jp","yakumo.shimane.jp","yasugi.shimane.jp","yatsuka.shimane.jp","arai.shizuoka.jp","atami.shizuoka.jp","fuji.shizuoka.jp","fujieda.shizuoka.jp","fujikawa.shizuoka.jp","fujinomiya.shizuoka.jp","fukuroi.shizuoka.jp","gotemba.shizuoka.jp","haibara.shizuoka.jp","hamamatsu.shizuoka.jp","higashiizu.shizuoka.jp","ito.shizuoka.jp","iwata.shizuoka.jp","izu.shizuoka.jp","izunokuni.shizuoka.jp","kakegawa.shizuoka.jp","kannami.shizuoka.jp","kawanehon.shizuoka.jp","kawazu.shizuoka.jp","kikugawa.shizuoka.jp","kosai.shizuoka.jp","makinohara.shizuoka.jp","matsuzaki.shizuoka.jp","minamiizu.shizuoka.jp","mishima.shizuoka.jp","morimachi.shizuoka.jp","nishiizu.shizuoka.jp","numazu.shizuoka.jp","omaezaki.shizuoka.jp","shimada.shizuoka.jp","shimizu.shizuoka.jp","shimoda.shizuoka.jp","shizuoka.shizuoka.jp","susono.shizuoka.jp","yaizu.shizuoka.jp","yoshida.shizuoka.jp","ashikaga.tochigi.jp","bato.tochigi.jp","haga.tochigi.jp","ichikai.tochigi.jp","iwafune.tochigi.jp","kaminokawa.tochigi.jp","kanuma.tochigi.jp","karasuyama.tochigi.jp","kuroiso.tochigi.jp","mashiko.tochigi.jp","mibu.tochigi.jp","moka.tochigi.jp","motegi.tochigi.jp","nasu.tochigi.jp","nasushiobara.tochigi.jp","nikko.tochigi.jp","nishikata.tochigi.jp","nogi.tochigi.jp","ohira.tochigi.jp","ohtawara.tochigi.jp","oyama.tochigi.jp","sakura.tochigi.jp","sano.tochigi.jp","shimotsuke.tochigi.jp","shioya.tochigi.jp","takanezawa.tochigi.jp","tochigi.tochigi.jp","tsuga.tochigi.jp","ujiie.tochigi.jp","utsunomiya.tochigi.jp","yaita.tochigi.jp","aizumi.tokushima.jp","anan.tokushima.jp","ichiba.tokushima.jp","itano.tokushima.jp","kainan.tokushima.jp","komatsushima.tokushima.jp","matsushige.tokushima.jp","mima.tokushima.jp","minami.tokushima.jp","miyoshi.tokushima.jp","mugi.tokushima.jp","nakagawa.tokushima.jp","naruto.tokushima.jp","sanagochi.tokushima.jp","shishikui.tokushima.jp","tokushima.tokushima.jp","wajiki.tokushima.jp","adachi.tokyo.jp","akiruno.tokyo.jp","akishima.tokyo.jp","aogashima.tokyo.jp","arakawa.tokyo.jp","bunkyo.tokyo.jp","chiyoda.tokyo.jp","chofu.tokyo.jp","chuo.tokyo.jp","edogawa.tokyo.jp","fuchu.tokyo.jp","fussa.tokyo.jp","hachijo.tokyo.jp","hachioji.tokyo.jp","hamura.tokyo.jp","higashikurume.tokyo.jp","higashimurayama.tokyo.jp","higashiyamato.tokyo.jp","hino.tokyo.jp","hinode.tokyo.jp","hinohara.tokyo.jp","inagi.tokyo.jp","itabashi.tokyo.jp","katsushika.tokyo.jp","kita.tokyo.jp","kiyose.tokyo.jp","kodaira.tokyo.jp","koganei.tokyo.jp","kokubunji.tokyo.jp","komae.tokyo.jp","koto.tokyo.jp","kouzushima.tokyo.jp","kunitachi.tokyo.jp","machida.tokyo.jp","meguro.tokyo.jp","minato.tokyo.jp","mitaka.tokyo.jp","mizuho.tokyo.jp","musashimurayama.tokyo.jp","musashino.tokyo.jp","nakano.tokyo.jp","nerima.tokyo.jp","ogasawara.tokyo.jp","okutama.tokyo.jp","ome.tokyo.jp","oshima.tokyo.jp","ota.tokyo.jp","setagaya.tokyo.jp","shibuya.tokyo.jp","shinagawa.tokyo.jp","shinjuku.tokyo.jp","suginami.tokyo.jp","sumida.tokyo.jp","tachikawa.tokyo.jp","taito.tokyo.jp","tama.tokyo.jp","toshima.tokyo.jp","chizu.tottori.jp","hino.tottori.jp","kawahara.tottori.jp","koge.tottori.jp","kotoura.tottori.jp","misasa.tottori.jp","nanbu.tottori.jp","nichinan.tottori.jp","sakaiminato.tottori.jp","tottori.tottori.jp","wakasa.tottori.jp","yazu.tottori.jp","yonago.tottori.jp","asahi.toyama.jp","fuchu.toyama.jp","fukumitsu.toyama.jp","funahashi.toyama.jp","himi.toyama.jp","imizu.toyama.jp","inami.toyama.jp","johana.toyama.jp","kamiichi.toyama.jp","kurobe.toyama.jp","nakaniikawa.toyama.jp","namerikawa.toyama.jp","nanto.toyama.jp","nyuzen.toyama.jp","oyabe.toyama.jp","taira.toyama.jp","takaoka.toyama.jp","tateyama.toyama.jp","toga.toyama.jp","tonami.toyama.jp","toyama.toyama.jp","unazuki.toyama.jp","uozu.toyama.jp","yamada.toyama.jp","arida.wakayama.jp","aridagawa.wakayama.jp","gobo.wakayama.jp","hashimoto.wakayama.jp","hidaka.wakayama.jp","hirogawa.wakayama.jp","inami.wakayama.jp","iwade.wakayama.jp","kainan.wakayama.jp","kamitonda.wakayama.jp","katsuragi.wakayama.jp","kimino.wakayama.jp","kinokawa.wakayama.jp","kitayama.wakayama.jp","koya.wakayama.jp","koza.wakayama.jp","kozagawa.wakayama.jp","kudoyama.wakayama.jp","kushimoto.wakayama.jp","mihama.wakayama.jp","misato.wakayama.jp","nachikatsuura.wakayama.jp","shingu.wakayama.jp","shirahama.wakayama.jp","taiji.wakayama.jp","tanabe.wakayama.jp","wakayama.wakayama.jp","yuasa.wakayama.jp","yura.wakayama.jp","asahi.yamagata.jp","funagata.yamagata.jp","higashine.yamagata.jp","iide.yamagata.jp","kahoku.yamagata.jp","kaminoyama.yamagata.jp","kaneyama.yamagata.jp","kawanishi.yamagata.jp","mamurogawa.yamagata.jp","mikawa.yamagata.jp","murayama.yamagata.jp","nagai.yamagata.jp","nakayama.yamagata.jp","nanyo.yamagata.jp","nishikawa.yamagata.jp","obanazawa.yamagata.jp","oe.yamagata.jp","oguni.yamagata.jp","ohkura.yamagata.jp","oishida.yamagata.jp","sagae.yamagata.jp","sakata.yamagata.jp","sakegawa.yamagata.jp","shinjo.yamagata.jp","shirataka.yamagata.jp","shonai.yamagata.jp","takahata.yamagata.jp","tendo.yamagata.jp","tozawa.yamagata.jp","tsuruoka.yamagata.jp","yamagata.yamagata.jp","yamanobe.yamagata.jp","yonezawa.yamagata.jp","yuza.yamagata.jp","abu.yamaguchi.jp","hagi.yamaguchi.jp","hikari.yamaguchi.jp","hofu.yamaguchi.jp","iwakuni.yamaguchi.jp","kudamatsu.yamaguchi.jp","mitou.yamaguchi.jp","nagato.yamaguchi.jp","oshima.yamaguchi.jp","shimonoseki.yamaguchi.jp","shunan.yamaguchi.jp","tabuse.yamaguchi.jp","tokuyama.yamaguchi.jp","toyota.yamaguchi.jp","ube.yamaguchi.jp","yuu.yamaguchi.jp","chuo.yamanashi.jp","doshi.yamanashi.jp","fuefuki.yamanashi.jp","fujikawa.yamanashi.jp","fujikawaguchiko.yamanashi.jp","fujiyoshida.yamanashi.jp","hayakawa.yamanashi.jp","hokuto.yamanashi.jp","ichikawamisato.yamanashi.jp","kai.yamanashi.jp","kofu.yamanashi.jp","koshu.yamanashi.jp","kosuge.yamanashi.jp","minami-alps.yamanashi.jp","minobu.yamanashi.jp","nakamichi.yamanashi.jp","nanbu.yamanashi.jp","narusawa.yamanashi.jp","nirasaki.yamanashi.jp","nishikatsura.yamanashi.jp","oshino.yamanashi.jp","otsuki.yamanashi.jp","showa.yamanashi.jp","tabayama.yamanashi.jp","tsuru.yamanashi.jp","uenohara.yamanashi.jp","yamanakako.yamanashi.jp","yamanashi.yamanashi.jp","ke","ac.ke","co.ke","go.ke","info.ke","me.ke","mobi.ke","ne.ke","or.ke","sc.ke","kg","org.kg","net.kg","com.kg","edu.kg","gov.kg","mil.kg","*.kh","ki","edu.ki","biz.ki","net.ki","org.ki","gov.ki","info.ki","com.ki","km","org.km","nom.km","gov.km","prd.km","tm.km","edu.km","mil.km","ass.km","com.km","coop.km","asso.km","presse.km","medecin.km","notaires.km","pharmaciens.km","veterinaire.km","gouv.km","kn","net.kn","org.kn","edu.kn","gov.kn","kp","com.kp","edu.kp","gov.kp","org.kp","rep.kp","tra.kp","kr","ac.kr","co.kr","es.kr","go.kr","hs.kr","kg.kr","mil.kr","ms.kr","ne.kr","or.kr","pe.kr","re.kr","sc.kr","busan.kr","chungbuk.kr","chungnam.kr","daegu.kr","daejeon.kr","gangwon.kr","gwangju.kr","gyeongbuk.kr","gyeonggi.kr","gyeongnam.kr","incheon.kr","jeju.kr","jeonbuk.kr","jeonnam.kr","seoul.kr","ulsan.kr","kw","com.kw","edu.kw","emb.kw","gov.kw","ind.kw","net.kw","org.kw","ky","edu.ky","gov.ky","com.ky","org.ky","net.ky","kz","org.kz","edu.kz","net.kz","gov.kz","mil.kz","com.kz","la","int.la","net.la","info.la","edu.la","gov.la","per.la","com.la","org.la","lb","com.lb","edu.lb","gov.lb","net.lb","org.lb","lc","com.lc","net.lc","co.lc","org.lc","edu.lc","gov.lc","li","lk","gov.lk","sch.lk","net.lk","int.lk","com.lk","org.lk","edu.lk","ngo.lk","soc.lk","web.lk","ltd.lk","assn.lk","grp.lk","hotel.lk","ac.lk","lr","com.lr","edu.lr","gov.lr","org.lr","net.lr","ls","co.ls","org.ls","lt","gov.lt","lu","lv","com.lv","edu.lv","gov.lv","org.lv","mil.lv","id.lv","net.lv","asn.lv","conf.lv","ly","com.ly","net.ly","gov.ly","plc.ly","edu.ly","sch.ly","med.ly","org.ly","id.ly","ma","co.ma","net.ma","gov.ma","org.ma","ac.ma","press.ma","mc","tm.mc","asso.mc","md","me","co.me","net.me","org.me","edu.me","ac.me","gov.me","its.me","priv.me","mg","org.mg","nom.mg","gov.mg","prd.mg","tm.mg","edu.mg","mil.mg","com.mg","co.mg","mh","mil","mk","com.mk","org.mk","net.mk","edu.mk","gov.mk","inf.mk","name.mk","ml","com.ml","edu.ml","gouv.ml","gov.ml","net.ml","org.ml","presse.ml","*.mm","mn","gov.mn","edu.mn","org.mn","mo","com.mo","net.mo","org.mo","edu.mo","gov.mo","mobi","mp","mq","mr","gov.mr","ms","com.ms","edu.ms","gov.ms","net.ms","org.ms","mt","com.mt","edu.mt","net.mt","org.mt","mu","com.mu","net.mu","org.mu","gov.mu","ac.mu","co.mu","or.mu","museum","academy.museum","agriculture.museum","air.museum","airguard.museum","alabama.museum","alaska.museum","amber.museum","ambulance.museum","american.museum","americana.museum","americanantiques.museum","americanart.museum","amsterdam.museum","and.museum","annefrank.museum","anthro.museum","anthropology.museum","antiques.museum","aquarium.museum","arboretum.museum","archaeological.museum","archaeology.museum","architecture.museum","art.museum","artanddesign.museum","artcenter.museum","artdeco.museum","arteducation.museum","artgallery.museum","arts.museum","artsandcrafts.museum","asmatart.museum","assassination.museum","assisi.museum","association.museum","astronomy.museum","atlanta.museum","austin.museum","australia.museum","automotive.museum","aviation.museum","axis.museum","badajoz.museum","baghdad.museum","bahn.museum","bale.museum","baltimore.museum","barcelona.museum","baseball.museum","basel.museum","baths.museum","bauern.museum","beauxarts.museum","beeldengeluid.museum","bellevue.museum","bergbau.museum","berkeley.museum","berlin.museum","bern.museum","bible.museum","bilbao.museum","bill.museum","birdart.museum","birthplace.museum","bonn.museum","boston.museum","botanical.museum","botanicalgarden.museum","botanicgarden.museum","botany.museum","brandywinevalley.museum","brasil.museum","bristol.museum","british.museum","britishcolumbia.museum","broadcast.museum","brunel.museum","brussel.museum","brussels.museum","bruxelles.museum","building.museum","burghof.museum","bus.museum","bushey.museum","cadaques.museum","california.museum","cambridge.museum","can.museum","canada.museum","capebreton.museum","carrier.museum","cartoonart.museum","casadelamoneda.museum","castle.museum","castres.museum","celtic.museum","center.museum","chattanooga.museum","cheltenham.museum","chesapeakebay.museum","chicago.museum","children.museum","childrens.museum","childrensgarden.museum","chiropractic.museum","chocolate.museum","christiansburg.museum","cincinnati.museum","cinema.museum","circus.museum","civilisation.museum","civilization.museum","civilwar.museum","clinton.museum","clock.museum","coal.museum","coastaldefence.museum","cody.museum","coldwar.museum","collection.museum","colonialwilliamsburg.museum","coloradoplateau.museum","columbia.museum","columbus.museum","communication.museum","communications.museum","community.museum","computer.museum","computerhistory.museum","comunicações.museum","contemporary.museum","contemporaryart.museum","convent.museum","copenhagen.museum","corporation.museum","correios-e-telecomunicações.museum","corvette.museum","costume.museum","countryestate.museum","county.museum","crafts.museum","cranbrook.museum","creation.museum","cultural.museum","culturalcenter.museum","culture.museum","cyber.museum","cymru.museum","dali.museum","dallas.museum","database.museum","ddr.museum","decorativearts.museum","delaware.museum","delmenhorst.museum","denmark.museum","depot.museum","design.museum","detroit.museum","dinosaur.museum","discovery.museum","dolls.museum","donostia.museum","durham.museum","eastafrica.museum","eastcoast.museum","education.museum","educational.museum","egyptian.museum","eisenbahn.museum","elburg.museum","elvendrell.museum","embroidery.museum","encyclopedic.museum","england.museum","entomology.museum","environment.museum","environmentalconservation.museum","epilepsy.museum","essex.museum","estate.museum","ethnology.museum","exeter.museum","exhibition.museum","family.museum","farm.museum","farmequipment.museum","farmers.museum","farmstead.museum","field.museum","figueres.museum","filatelia.museum","film.museum","fineart.museum","finearts.museum","finland.museum","flanders.museum","florida.museum","force.museum","fortmissoula.museum","fortworth.museum","foundation.museum","francaise.museum","frankfurt.museum","franziskaner.museum","freemasonry.museum","freiburg.museum","fribourg.museum","frog.museum","fundacio.museum","furniture.museum","gallery.museum","garden.museum","gateway.museum","geelvinck.museum","gemological.museum","geology.museum","georgia.museum","giessen.museum","glas.museum","glass.museum","gorge.museum","grandrapids.museum","graz.museum","guernsey.museum","halloffame.museum","hamburg.museum","handson.museum","harvestcelebration.museum","hawaii.museum","health.museum","heimatunduhren.museum","hellas.museum","helsinki.museum","hembygdsforbund.museum","heritage.museum","histoire.museum","historical.museum","historicalsociety.museum","historichouses.museum","historisch.museum","historisches.museum","history.museum","historyofscience.museum","horology.museum","house.museum","humanities.museum","illustration.museum","imageandsound.museum","indian.museum","indiana.museum","indianapolis.museum","indianmarket.museum","intelligence.museum","interactive.museum","iraq.museum","iron.museum","isleofman.museum","jamison.museum","jefferson.museum","jerusalem.museum","jewelry.museum","jewish.museum","jewishart.museum","jfk.museum","journalism.museum","judaica.museum","judygarland.museum","juedisches.museum","juif.museum","karate.museum","karikatur.museum","kids.museum","koebenhavn.museum","koeln.museum","kunst.museum","kunstsammlung.museum","kunstunddesign.museum","labor.museum","labour.museum","lajolla.museum","lancashire.museum","landes.museum","lans.museum","läns.museum","larsson.museum","lewismiller.museum","lincoln.museum","linz.museum","living.museum","livinghistory.museum","localhistory.museum","london.museum","losangeles.museum","louvre.museum","loyalist.museum","lucerne.museum","luxembourg.museum","luzern.museum","mad.museum","madrid.museum","mallorca.museum","manchester.museum","mansion.museum","mansions.museum","manx.museum","marburg.museum","maritime.museum","maritimo.museum","maryland.museum","marylhurst.museum","media.museum","medical.museum","medizinhistorisches.museum","meeres.museum","memorial.museum","mesaverde.museum","michigan.museum","midatlantic.museum","military.museum","mill.museum","miners.museum","mining.museum","minnesota.museum","missile.museum","missoula.museum","modern.museum","moma.museum","money.museum","monmouth.museum","monticello.museum","montreal.museum","moscow.museum","motorcycle.museum","muenchen.museum","muenster.museum","mulhouse.museum","muncie.museum","museet.museum","museumcenter.museum","museumvereniging.museum","music.museum","national.museum","nationalfirearms.museum","nationalheritage.museum","nativeamerican.museum","naturalhistory.museum","naturalhistorymuseum.museum","naturalsciences.museum","nature.museum","naturhistorisches.museum","natuurwetenschappen.museum","naumburg.museum","naval.museum","nebraska.museum","neues.museum","newhampshire.museum","newjersey.museum","newmexico.museum","newport.museum","newspaper.museum","newyork.museum","niepce.museum","norfolk.museum","north.museum","nrw.museum","nuernberg.museum","nuremberg.museum","nyc.museum","nyny.museum","oceanographic.museum","oceanographique.museum","omaha.museum","online.museum","ontario.museum","openair.museum","oregon.museum","oregontrail.museum","otago.museum","oxford.museum","pacific.museum","paderborn.museum","palace.museum","paleo.museum","palmsprings.museum","panama.museum","paris.museum","pasadena.museum","pharmacy.museum","philadelphia.museum","philadelphiaarea.museum","philately.museum","phoenix.museum","photography.museum","pilots.museum","pittsburgh.museum","planetarium.museum","plantation.museum","plants.museum","plaza.museum","portal.museum","portland.museum","portlligat.museum","posts-and-telecommunications.museum","preservation.museum","presidio.museum","press.museum","project.museum","public.museum","pubol.museum","quebec.museum","railroad.museum","railway.museum","research.museum","resistance.museum","riodejaneiro.museum","rochester.museum","rockart.museum","roma.museum","russia.museum","saintlouis.museum","salem.museum","salvadordali.museum","salzburg.museum","sandiego.museum","sanfrancisco.museum","santabarbara.museum","santacruz.museum","santafe.museum","saskatchewan.museum","satx.museum","savannahga.museum","schlesisches.museum","schoenbrunn.museum","schokoladen.museum","school.museum","schweiz.museum","science.museum","scienceandhistory.museum","scienceandindustry.museum","sciencecenter.museum","sciencecenters.museum","science-fiction.museum","sciencehistory.museum","sciences.museum","sciencesnaturelles.museum","scotland.museum","seaport.museum","settlement.museum","settlers.museum","shell.museum","sherbrooke.museum","sibenik.museum","silk.museum","ski.museum","skole.museum","society.museum","sologne.museum","soundandvision.museum","southcarolina.museum","southwest.museum","space.museum","spy.museum","square.museum","stadt.museum","stalbans.museum","starnberg.museum","state.museum","stateofdelaware.museum","station.museum","steam.museum","steiermark.museum","stjohn.museum","stockholm.museum","stpetersburg.museum","stuttgart.museum","suisse.museum","surgeonshall.museum","surrey.museum","svizzera.museum","sweden.museum","sydney.museum","tank.museum","tcm.museum","technology.museum","telekommunikation.museum","television.museum","texas.museum","textile.museum","theater.museum","time.museum","timekeeping.museum","topology.museum","torino.museum","touch.museum","town.museum","transport.museum","tree.museum","trolley.museum","trust.museum","trustee.museum","uhren.museum","ulm.museum","undersea.museum","university.museum","usa.museum","usantiques.museum","usarts.museum","uscountryestate.museum","usculture.museum","usdecorativearts.museum","usgarden.museum","ushistory.museum","ushuaia.museum","uslivinghistory.museum","utah.museum","uvic.museum","valley.museum","vantaa.museum","versailles.museum","viking.museum","village.museum","virginia.museum","virtual.museum","virtuel.museum","vlaanderen.museum","volkenkunde.museum","wales.museum","wallonie.museum","war.museum","washingtondc.museum","watchandclock.museum","watch-and-clock.museum","western.museum","westfalen.museum","whaling.museum","wildlife.museum","williamsburg.museum","windmill.museum","workshop.museum","york.museum","yorkshire.museum","yosemite.museum","youth.museum","zoological.museum","zoology.museum","ירושלים.museum","иком.museum","mv","aero.mv","biz.mv","com.mv","coop.mv","edu.mv","gov.mv","info.mv","int.mv","mil.mv","museum.mv","name.mv","net.mv","org.mv","pro.mv","mw","ac.mw","biz.mw","co.mw","com.mw","coop.mw","edu.mw","gov.mw","int.mw","museum.mw","net.mw","org.mw","mx","com.mx","org.mx","gob.mx","edu.mx","net.mx","my","com.my","net.my","org.my","gov.my","edu.my","mil.my","name.my","mz","ac.mz","adv.mz","co.mz","edu.mz","gov.mz","mil.mz","net.mz","org.mz","na","info.na","pro.na","name.na","school.na","or.na","dr.na","us.na","mx.na","ca.na","in.na","cc.na","tv.na","ws.na","mobi.na","co.na","com.na","org.na","name","nc","asso.nc","nom.nc","ne","net","nf","com.nf","net.nf","per.nf","rec.nf","web.nf","arts.nf","firm.nf","info.nf","other.nf","store.nf","ng","com.ng","edu.ng","gov.ng","i.ng","mil.ng","mobi.ng","name.ng","net.ng","org.ng","sch.ng","ni","ac.ni","biz.ni","co.ni","com.ni","edu.ni","gob.ni","in.ni","info.ni","int.ni","mil.ni","net.ni","nom.ni","org.ni","web.ni","nl","bv.nl","no","fhs.no","vgs.no","fylkesbibl.no","folkebibl.no","museum.no","idrett.no","priv.no","mil.no","stat.no","dep.no","kommune.no","herad.no","aa.no","ah.no","bu.no","fm.no","hl.no","hm.no","jan-mayen.no","mr.no","nl.no","nt.no","of.no","ol.no","oslo.no","rl.no","sf.no","st.no","svalbard.no","tm.no","tr.no","va.no","vf.no","gs.aa.no","gs.ah.no","gs.bu.no","gs.fm.no","gs.hl.no","gs.hm.no","gs.jan-mayen.no","gs.mr.no","gs.nl.no","gs.nt.no","gs.of.no","gs.ol.no","gs.oslo.no","gs.rl.no","gs.sf.no","gs.st.no","gs.svalbard.no","gs.tm.no","gs.tr.no","gs.va.no","gs.vf.no","akrehamn.no","åkrehamn.no","algard.no","ålgård.no","arna.no","brumunddal.no","bryne.no","bronnoysund.no","brønnøysund.no","drobak.no","drøbak.no","egersund.no","fetsund.no","floro.no","florø.no","fredrikstad.no","hokksund.no","honefoss.no","hønefoss.no","jessheim.no","jorpeland.no","jørpeland.no","kirkenes.no","kopervik.no","krokstadelva.no","langevag.no","langevåg.no","leirvik.no","mjondalen.no","mjøndalen.no","mo-i-rana.no","mosjoen.no","mosjøen.no","nesoddtangen.no","orkanger.no","osoyro.no","osøyro.no","raholt.no","råholt.no","sandnessjoen.no","sandnessjøen.no","skedsmokorset.no","slattum.no","spjelkavik.no","stathelle.no","stavern.no","stjordalshalsen.no","stjørdalshalsen.no","tananger.no","tranby.no","vossevangen.no","afjord.no","åfjord.no","agdenes.no","al.no","ål.no","alesund.no","ålesund.no","alstahaug.no","alta.no","áltá.no","alaheadju.no","álaheadju.no","alvdal.no","amli.no","åmli.no","amot.no","åmot.no","andebu.no","andoy.no","andøy.no","andasuolo.no","ardal.no","årdal.no","aremark.no","arendal.no","ås.no","aseral.no","åseral.no","asker.no","askim.no","askvoll.no","askoy.no","askøy.no","asnes.no","åsnes.no","audnedaln.no","aukra.no","aure.no","aurland.no","aurskog-holand.no","aurskog-høland.no","austevoll.no","austrheim.no","averoy.no","averøy.no","balestrand.no","ballangen.no","balat.no","bálát.no","balsfjord.no","bahccavuotna.no","báhccavuotna.no","bamble.no","bardu.no","beardu.no","beiarn.no","bajddar.no","bájddar.no","baidar.no","báidár.no","berg.no","bergen.no","berlevag.no","berlevåg.no","bearalvahki.no","bearalváhki.no","bindal.no","birkenes.no","bjarkoy.no","bjarkøy.no","bjerkreim.no","bjugn.no","bodo.no","bodø.no","badaddja.no","bådåddjå.no","budejju.no","bokn.no","bremanger.no","bronnoy.no","brønnøy.no","bygland.no","bykle.no","barum.no","bærum.no","bo.telemark.no","bø.telemark.no","bo.nordland.no","bø.nordland.no","bievat.no","bievát.no","bomlo.no","bømlo.no","batsfjord.no","båtsfjord.no","bahcavuotna.no","báhcavuotna.no","dovre.no","drammen.no","drangedal.no","dyroy.no","dyrøy.no","donna.no","dønna.no","eid.no","eidfjord.no","eidsberg.no","eidskog.no","eidsvoll.no","eigersund.no","elverum.no","enebakk.no","engerdal.no","etne.no","etnedal.no","evenes.no","evenassi.no","evenášši.no","evje-og-hornnes.no","farsund.no","fauske.no","fuossko.no","fuoisku.no","fedje.no","fet.no","finnoy.no","finnøy.no","fitjar.no","fjaler.no","fjell.no","flakstad.no","flatanger.no","flekkefjord.no","flesberg.no","flora.no","fla.no","flå.no","folldal.no","forsand.no","fosnes.no","frei.no","frogn.no","froland.no","frosta.no","frana.no","fræna.no","froya.no","frøya.no","fusa.no","fyresdal.no","forde.no","førde.no","gamvik.no","gangaviika.no","gáŋgaviika.no","gaular.no","gausdal.no","gildeskal.no","gildeskål.no","giske.no","gjemnes.no","gjerdrum.no","gjerstad.no","gjesdal.no","gjovik.no","gjøvik.no","gloppen.no","gol.no","gran.no","grane.no","granvin.no","gratangen.no","grimstad.no","grong.no","kraanghke.no","kråanghke.no","grue.no","gulen.no","hadsel.no","halden.no","halsa.no","hamar.no","hamaroy.no","habmer.no","hábmer.no","hapmir.no","hápmir.no","hammerfest.no","hammarfeasta.no","hámmárfeasta.no","haram.no","hareid.no","harstad.no","hasvik.no","aknoluokta.no","ákŋoluokta.no","hattfjelldal.no","aarborte.no","haugesund.no","hemne.no","hemnes.no","hemsedal.no","heroy.more-og-romsdal.no","herøy.møre-og-romsdal.no","heroy.nordland.no","herøy.nordland.no","hitra.no","hjartdal.no","hjelmeland.no","hobol.no","hobøl.no","hof.no","hol.no","hole.no","holmestrand.no","holtalen.no","holtålen.no","hornindal.no","horten.no","hurdal.no","hurum.no","hvaler.no","hyllestad.no","hagebostad.no","hægebostad.no","hoyanger.no","høyanger.no","hoylandet.no","høylandet.no","ha.no","hå.no","ibestad.no","inderoy.no","inderøy.no","iveland.no","jevnaker.no","jondal.no","jolster.no","jølster.no","karasjok.no","karasjohka.no","kárášjohka.no","karlsoy.no","galsa.no","gálsá.no","karmoy.no","karmøy.no","kautokeino.no","guovdageaidnu.no","klepp.no","klabu.no","klæbu.no","kongsberg.no","kongsvinger.no","kragero.no","kragerø.no","kristiansand.no","kristiansund.no","krodsherad.no","krødsherad.no","kvalsund.no","rahkkeravju.no","ráhkkerávju.no","kvam.no","kvinesdal.no","kvinnherad.no","kviteseid.no","kvitsoy.no","kvitsøy.no","kvafjord.no","kvæfjord.no","giehtavuoatna.no","kvanangen.no","kvænangen.no","navuotna.no","návuotna.no","kafjord.no","kåfjord.no","gaivuotna.no","gáivuotna.no","larvik.no","lavangen.no","lavagis.no","loabat.no","loabát.no","lebesby.no","davvesiida.no","leikanger.no","leirfjord.no","leka.no","leksvik.no","lenvik.no","leangaviika.no","leaŋgaviika.no","lesja.no","levanger.no","lier.no","lierne.no","lillehammer.no","lillesand.no","lindesnes.no","lindas.no","lindås.no","lom.no","loppa.no","lahppi.no","láhppi.no","lund.no","lunner.no","luroy.no","lurøy.no","luster.no","lyngdal.no","lyngen.no","ivgu.no","lardal.no","lerdal.no","lærdal.no","lodingen.no","lødingen.no","lorenskog.no","lørenskog.no","loten.no","løten.no","malvik.no","masoy.no","måsøy.no","muosat.no","muosát.no","mandal.no","marker.no","marnardal.no","masfjorden.no","meland.no","meldal.no","melhus.no","meloy.no","meløy.no","meraker.no","meråker.no","moareke.no","moåreke.no","midsund.no","midtre-gauldal.no","modalen.no","modum.no","molde.no","moskenes.no","moss.no","mosvik.no","malselv.no","målselv.no","malatvuopmi.no","málatvuopmi.no","namdalseid.no","aejrie.no","namsos.no","namsskogan.no","naamesjevuemie.no","nååmesjevuemie.no","laakesvuemie.no","nannestad.no","narvik.no","narviika.no","naustdal.no","nedre-eiker.no","nes.akershus.no","nes.buskerud.no","nesna.no","nesodden.no","nesseby.no","unjarga.no","unjárga.no","nesset.no","nissedal.no","nittedal.no","nord-aurdal.no","nord-fron.no","nord-odal.no","norddal.no","nordkapp.no","davvenjarga.no","davvenjárga.no","nordre-land.no","nordreisa.no","raisa.no","ráisa.no","nore-og-uvdal.no","notodden.no","naroy.no","nærøy.no","notteroy.no","nøtterøy.no","odda.no","oksnes.no","øksnes.no","oppdal.no","oppegard.no","oppegård.no","orkdal.no","orland.no","ørland.no","orskog.no","ørskog.no","orsta.no","ørsta.no","os.hedmark.no","os.hordaland.no","osen.no","osteroy.no","osterøy.no","ostre-toten.no","østre-toten.no","overhalla.no","ovre-eiker.no","øvre-eiker.no","oyer.no","øyer.no","oygarden.no","øygarden.no","oystre-slidre.no","øystre-slidre.no","porsanger.no","porsangu.no","porsáŋgu.no","porsgrunn.no","radoy.no","radøy.no","rakkestad.no","rana.no","ruovat.no","randaberg.no","rauma.no","rendalen.no","rennebu.no","rennesoy.no","rennesøy.no","rindal.no","ringebu.no","ringerike.no","ringsaker.no","rissa.no","risor.no","risør.no","roan.no","rollag.no","rygge.no","ralingen.no","rælingen.no","rodoy.no","rødøy.no","romskog.no","rømskog.no","roros.no","røros.no","rost.no","røst.no","royken.no","røyken.no","royrvik.no","røyrvik.no","rade.no","råde.no","salangen.no","siellak.no","saltdal.no","salat.no","sálát.no","sálat.no","samnanger.no","sande.more-og-romsdal.no","sande.møre-og-romsdal.no","sande.vestfold.no","sandefjord.no","sandnes.no","sandoy.no","sandøy.no","sarpsborg.no","sauda.no","sauherad.no","sel.no","selbu.no","selje.no","seljord.no","sigdal.no","siljan.no","sirdal.no","skaun.no","skedsmo.no","ski.no","skien.no","skiptvet.no","skjervoy.no","skjervøy.no","skierva.no","skiervá.no","skjak.no","skjåk.no","skodje.no","skanland.no","skånland.no","skanit.no","skánit.no","smola.no","smøla.no","snillfjord.no","snasa.no","snåsa.no","snoasa.no","snaase.no","snåase.no","sogndal.no","sokndal.no","sola.no","solund.no","songdalen.no","sortland.no","spydeberg.no","stange.no","stavanger.no","steigen.no","steinkjer.no","stjordal.no","stjørdal.no","stokke.no","stor-elvdal.no","stord.no","stordal.no","storfjord.no","omasvuotna.no","strand.no","stranda.no","stryn.no","sula.no","suldal.no","sund.no","sunndal.no","surnadal.no","sveio.no","svelvik.no","sykkylven.no","sogne.no","søgne.no","somna.no","sømna.no","sondre-land.no","søndre-land.no","sor-aurdal.no","sør-aurdal.no","sor-fron.no","sør-fron.no","sor-odal.no","sør-odal.no","sor-varanger.no","sør-varanger.no","matta-varjjat.no","mátta-várjjat.no","sorfold.no","sørfold.no","sorreisa.no","sørreisa.no","sorum.no","sørum.no","tana.no","deatnu.no","time.no","tingvoll.no","tinn.no","tjeldsund.no","dielddanuorri.no","tjome.no","tjøme.no","tokke.no","tolga.no","torsken.no","tranoy.no","tranøy.no","tromso.no","tromsø.no","tromsa.no","romsa.no","trondheim.no","troandin.no","trysil.no","trana.no","træna.no","trogstad.no","trøgstad.no","tvedestrand.no","tydal.no","tynset.no","tysfjord.no","divtasvuodna.no","divttasvuotna.no","tysnes.no","tysvar.no","tysvær.no","tonsberg.no","tønsberg.no","ullensaker.no","ullensvang.no","ulvik.no","utsira.no","vadso.no","vadsø.no","cahcesuolo.no","čáhcesuolo.no","vaksdal.no","valle.no","vang.no","vanylven.no","vardo.no","vardø.no","varggat.no","várggát.no","vefsn.no","vaapste.no","vega.no","vegarshei.no","vegårshei.no","vennesla.no","verdal.no","verran.no","vestby.no","vestnes.no","vestre-slidre.no","vestre-toten.no","vestvagoy.no","vestvågøy.no","vevelstad.no","vik.no","vikna.no","vindafjord.no","volda.no","voss.no","varoy.no","værøy.no","vagan.no","vågan.no","voagat.no","vagsoy.no","vågsøy.no","vaga.no","vågå.no","valer.ostfold.no","våler.østfold.no","valer.hedmark.no","våler.hedmark.no","*.np","nr","biz.nr","info.nr","gov.nr","edu.nr","org.nr","net.nr","com.nr","nu","nz","ac.nz","co.nz","cri.nz","geek.nz","gen.nz","govt.nz","health.nz","iwi.nz","kiwi.nz","maori.nz","mil.nz","māori.nz","net.nz","org.nz","parliament.nz","school.nz","om","co.om","com.om","edu.om","gov.om","med.om","museum.om","net.om","org.om","pro.om","onion","org","pa","ac.pa","gob.pa","com.pa","org.pa","sld.pa","edu.pa","net.pa","ing.pa","abo.pa","med.pa","nom.pa","pe","edu.pe","gob.pe","nom.pe","mil.pe","org.pe","com.pe","net.pe","pf","com.pf","org.pf","edu.pf","*.pg","ph","com.ph","net.ph","org.ph","gov.ph","edu.ph","ngo.ph","mil.ph","i.ph","pk","com.pk","net.pk","edu.pk","org.pk","fam.pk","biz.pk","web.pk","gov.pk","gob.pk","gok.pk","gon.pk","gop.pk","gos.pk","info.pk","pl","com.pl","net.pl","org.pl","aid.pl","agro.pl","atm.pl","auto.pl","biz.pl","edu.pl","gmina.pl","gsm.pl","info.pl","mail.pl","miasta.pl","media.pl","mil.pl","nieruchomosci.pl","nom.pl","pc.pl","powiat.pl","priv.pl","realestate.pl","rel.pl","sex.pl","shop.pl","sklep.pl","sos.pl","szkola.pl","targi.pl","tm.pl","tourism.pl","travel.pl","turystyka.pl","gov.pl","ap.gov.pl","ic.gov.pl","is.gov.pl","us.gov.pl","kmpsp.gov.pl","kppsp.gov.pl","kwpsp.gov.pl","psp.gov.pl","wskr.gov.pl","kwp.gov.pl","mw.gov.pl","ug.gov.pl","um.gov.pl","umig.gov.pl","ugim.gov.pl","upow.gov.pl","uw.gov.pl","starostwo.gov.pl","pa.gov.pl","po.gov.pl","psse.gov.pl","pup.gov.pl","rzgw.gov.pl","sa.gov.pl","so.gov.pl","sr.gov.pl","wsa.gov.pl","sko.gov.pl","uzs.gov.pl","wiih.gov.pl","winb.gov.pl","pinb.gov.pl","wios.gov.pl","witd.gov.pl","wzmiuw.gov.pl","piw.gov.pl","wiw.gov.pl","griw.gov.pl","wif.gov.pl","oum.gov.pl","sdn.gov.pl","zp.gov.pl","uppo.gov.pl","mup.gov.pl","wuoz.gov.pl","konsulat.gov.pl","oirm.gov.pl","augustow.pl","babia-gora.pl","bedzin.pl","beskidy.pl","bialowieza.pl","bialystok.pl","bielawa.pl","bieszczady.pl","boleslawiec.pl","bydgoszcz.pl","bytom.pl","cieszyn.pl","czeladz.pl","czest.pl","dlugoleka.pl","elblag.pl","elk.pl","glogow.pl","gniezno.pl","gorlice.pl","grajewo.pl","ilawa.pl","jaworzno.pl","jelenia-gora.pl","jgora.pl","kalisz.pl","kazimierz-dolny.pl","karpacz.pl","kartuzy.pl","kaszuby.pl","katowice.pl","kepno.pl","ketrzyn.pl","klodzko.pl","kobierzyce.pl","kolobrzeg.pl","konin.pl","konskowola.pl","kutno.pl","lapy.pl","lebork.pl","legnica.pl","lezajsk.pl","limanowa.pl","lomza.pl","lowicz.pl","lubin.pl","lukow.pl","malbork.pl","malopolska.pl","mazowsze.pl","mazury.pl","mielec.pl","mielno.pl","mragowo.pl","naklo.pl","nowaruda.pl","nysa.pl","olawa.pl","olecko.pl","olkusz.pl","olsztyn.pl","opoczno.pl","opole.pl","ostroda.pl","ostroleka.pl","ostrowiec.pl","ostrowwlkp.pl","pila.pl","pisz.pl","podhale.pl","podlasie.pl","polkowice.pl","pomorze.pl","pomorskie.pl","prochowice.pl","pruszkow.pl","przeworsk.pl","pulawy.pl","radom.pl","rawa-maz.pl","rybnik.pl","rzeszow.pl","sanok.pl","sejny.pl","slask.pl","slupsk.pl","sosnowiec.pl","stalowa-wola.pl","skoczow.pl","starachowice.pl","stargard.pl","suwalki.pl","swidnica.pl","swiebodzin.pl","swinoujscie.pl","szczecin.pl","szczytno.pl","tarnobrzeg.pl","tgory.pl","turek.pl","tychy.pl","ustka.pl","walbrzych.pl","warmia.pl","warszawa.pl","waw.pl","wegrow.pl","wielun.pl","wlocl.pl","wloclawek.pl","wodzislaw.pl","wolomin.pl","wroclaw.pl","zachpomor.pl","zagan.pl","zarow.pl","zgora.pl","zgorzelec.pl","pm","pn","gov.pn","co.pn","org.pn","edu.pn","net.pn","post","pr","com.pr","net.pr","org.pr","gov.pr","edu.pr","isla.pr","pro.pr","biz.pr","info.pr","name.pr","est.pr","prof.pr","ac.pr","pro","aaa.pro","aca.pro","acct.pro","avocat.pro","bar.pro","cpa.pro","eng.pro","jur.pro","law.pro","med.pro","recht.pro","ps","edu.ps","gov.ps","sec.ps","plo.ps","com.ps","org.ps","net.ps","pt","net.pt","gov.pt","org.pt","edu.pt","int.pt","publ.pt","com.pt","nome.pt","pw","co.pw","ne.pw","or.pw","ed.pw","go.pw","belau.pw","py","com.py","coop.py","edu.py","gov.py","mil.py","net.py","org.py","qa","com.qa","edu.qa","gov.qa","mil.qa","name.qa","net.qa","org.qa","sch.qa","re","asso.re","com.re","nom.re","ro","arts.ro","com.ro","firm.ro","info.ro","nom.ro","nt.ro","org.ro","rec.ro","store.ro","tm.ro","www.ro","rs","ac.rs","co.rs","edu.rs","gov.rs","in.rs","org.rs","ru","ac.ru","edu.ru","gov.ru","int.ru","mil.ru","test.ru","rw","gov.rw","net.rw","edu.rw","ac.rw","com.rw","co.rw","int.rw","mil.rw","gouv.rw","sa","com.sa","net.sa","org.sa","gov.sa","med.sa","pub.sa","edu.sa","sch.sa","sb","com.sb","edu.sb","gov.sb","net.sb","org.sb","sc","com.sc","gov.sc","net.sc","org.sc","edu.sc","sd","com.sd","net.sd","org.sd","edu.sd","med.sd","tv.sd","gov.sd","info.sd","se","a.se","ac.se","b.se","bd.se","brand.se","c.se","d.se","e.se","f.se","fh.se","fhsk.se","fhv.se","g.se","h.se","i.se","k.se","komforb.se","kommunalforbund.se","komvux.se","l.se","lanbib.se","m.se","n.se","naturbruksgymn.se","o.se","org.se","p.se","parti.se","pp.se","press.se","r.se","s.se","t.se","tm.se","u.se","w.se","x.se","y.se","z.se","sg","com.sg","net.sg","org.sg","gov.sg","edu.sg","per.sg","sh","com.sh","net.sh","gov.sh","org.sh","mil.sh","si","sj","sk","sl","com.sl","net.sl","edu.sl","gov.sl","org.sl","sm","sn","art.sn","com.sn","edu.sn","gouv.sn","org.sn","perso.sn","univ.sn","so","com.so","net.so","org.so","sr","st","co.st","com.st","consulado.st","edu.st","embaixada.st","gov.st","mil.st","net.st","org.st","principe.st","saotome.st","store.st","su","sv","com.sv","edu.sv","gob.sv","org.sv","red.sv","sx","gov.sx","sy","edu.sy","gov.sy","net.sy","mil.sy","com.sy","org.sy","sz","co.sz","ac.sz","org.sz","tc","td","tel","tf","tg","th","ac.th","co.th","go.th","in.th","mi.th","net.th","or.th","tj","ac.tj","biz.tj","co.tj","com.tj","edu.tj","go.tj","gov.tj","int.tj","mil.tj","name.tj","net.tj","nic.tj","org.tj","test.tj","web.tj","tk","tl","gov.tl","tm","com.tm","co.tm","org.tm","net.tm","nom.tm","gov.tm","mil.tm","edu.tm","tn","com.tn","ens.tn","fin.tn","gov.tn","ind.tn","intl.tn","nat.tn","net.tn","org.tn","info.tn","perso.tn","tourism.tn","edunet.tn","rnrt.tn","rns.tn","rnu.tn","mincom.tn","agrinet.tn","defense.tn","turen.tn","to","com.to","gov.to","net.to","org.to","edu.to","mil.to","tr","com.tr","info.tr","biz.tr","net.tr","org.tr","web.tr","gen.tr","tv.tr","av.tr","dr.tr","bbs.tr","name.tr","tel.tr","gov.tr","bel.tr","pol.tr","mil.tr","k12.tr","edu.tr","kep.tr","nc.tr","gov.nc.tr","tt","co.tt","com.tt","org.tt","net.tt","biz.tt","info.tt","pro.tt","int.tt","coop.tt","jobs.tt","mobi.tt","travel.tt","museum.tt","aero.tt","name.tt","gov.tt","edu.tt","tv","tw","edu.tw","gov.tw","mil.tw","com.tw","net.tw","org.tw","idv.tw","game.tw","ebiz.tw","club.tw","網路.tw","組織.tw","商業.tw","tz","ac.tz","co.tz","go.tz","hotel.tz","info.tz","me.tz","mil.tz","mobi.tz","ne.tz","or.tz","sc.tz","tv.tz","ua","com.ua","edu.ua","gov.ua","in.ua","net.ua","org.ua","cherkassy.ua","cherkasy.ua","chernigov.ua","chernihiv.ua","chernivtsi.ua","chernovtsy.ua","ck.ua","cn.ua","cr.ua","crimea.ua","cv.ua","dn.ua","dnepropetrovsk.ua","dnipropetrovsk.ua","dominic.ua","donetsk.ua","dp.ua","if.ua","ivano-frankivsk.ua","kh.ua","kharkiv.ua","kharkov.ua","kherson.ua","khmelnitskiy.ua","khmelnytskyi.ua","kiev.ua","kirovograd.ua","km.ua","kr.ua","krym.ua","ks.ua","kv.ua","kyiv.ua","lg.ua","lt.ua","lugansk.ua","lutsk.ua","lv.ua","lviv.ua","mk.ua","mykolaiv.ua","nikolaev.ua","od.ua","odesa.ua","odessa.ua","pl.ua","poltava.ua","rivne.ua","rovno.ua","rv.ua","sb.ua","sebastopol.ua","sevastopol.ua","sm.ua","sumy.ua","te.ua","ternopil.ua","uz.ua","uzhgorod.ua","vinnica.ua","vinnytsia.ua","vn.ua","volyn.ua","yalta.ua","zaporizhzhe.ua","zaporizhzhia.ua","zhitomir.ua","zhytomyr.ua","zp.ua","zt.ua","ug","co.ug","or.ug","ac.ug","sc.ug","go.ug","ne.ug","com.ug","org.ug","uk","ac.uk","co.uk","gov.uk","ltd.uk","me.uk","net.uk","nhs.uk","org.uk","plc.uk","police.uk","*.sch.uk","us","dni.us","fed.us","isa.us","kids.us","nsn.us","ak.us","al.us","ar.us","as.us","az.us","ca.us","co.us","ct.us","dc.us","de.us","fl.us","ga.us","gu.us","hi.us","ia.us","id.us","il.us","in.us","ks.us","ky.us","la.us","ma.us","md.us","me.us","mi.us","mn.us","mo.us","ms.us","mt.us","nc.us","nd.us","ne.us","nh.us","nj.us","nm.us","nv.us","ny.us","oh.us","ok.us","or.us","pa.us","pr.us","ri.us","sc.us","sd.us","tn.us","tx.us","ut.us","vi.us","vt.us","va.us","wa.us","wi.us","wv.us","wy.us","k12.ak.us","k12.al.us","k12.ar.us","k12.as.us","k12.az.us","k12.ca.us","k12.co.us","k12.ct.us","k12.dc.us","k12.de.us","k12.fl.us","k12.ga.us","k12.gu.us","k12.ia.us","k12.id.us","k12.il.us","k12.in.us","k12.ks.us","k12.ky.us","k12.la.us","k12.ma.us","k12.md.us","k12.me.us","k12.mi.us","k12.mn.us","k12.mo.us","k12.ms.us","k12.mt.us","k12.nc.us","k12.ne.us","k12.nh.us","k12.nj.us","k12.nm.us","k12.nv.us","k12.ny.us","k12.oh.us","k12.ok.us","k12.or.us","k12.pa.us","k12.pr.us","k12.ri.us","k12.sc.us","k12.tn.us","k12.tx.us","k12.ut.us","k12.vi.us","k12.vt.us","k12.va.us","k12.wa.us","k12.wi.us","k12.wy.us","cc.ak.us","cc.al.us","cc.ar.us","cc.as.us","cc.az.us","cc.ca.us","cc.co.us","cc.ct.us","cc.dc.us","cc.de.us","cc.fl.us","cc.ga.us","cc.gu.us","cc.hi.us","cc.ia.us","cc.id.us","cc.il.us","cc.in.us","cc.ks.us","cc.ky.us","cc.la.us","cc.ma.us","cc.md.us","cc.me.us","cc.mi.us","cc.mn.us","cc.mo.us","cc.ms.us","cc.mt.us","cc.nc.us","cc.nd.us","cc.ne.us","cc.nh.us","cc.nj.us","cc.nm.us","cc.nv.us","cc.ny.us","cc.oh.us","cc.ok.us","cc.or.us","cc.pa.us","cc.pr.us","cc.ri.us","cc.sc.us","cc.sd.us","cc.tn.us","cc.tx.us","cc.ut.us","cc.vi.us","cc.vt.us","cc.va.us","cc.wa.us","cc.wi.us","cc.wv.us","cc.wy.us","lib.ak.us","lib.al.us","lib.ar.us","lib.as.us","lib.az.us","lib.ca.us","lib.co.us","lib.ct.us","lib.dc.us","lib.fl.us","lib.ga.us","lib.gu.us","lib.hi.us","lib.ia.us","lib.id.us","lib.il.us","lib.in.us","lib.ks.us","lib.ky.us","lib.la.us","lib.ma.us","lib.md.us","lib.me.us","lib.mi.us","lib.mn.us","lib.mo.us","lib.ms.us","lib.mt.us","lib.nc.us","lib.nd.us","lib.ne.us","lib.nh.us","lib.nj.us","lib.nm.us","lib.nv.us","lib.ny.us","lib.oh.us","lib.ok.us","lib.or.us","lib.pa.us","lib.pr.us","lib.ri.us","lib.sc.us","lib.sd.us","lib.tn.us","lib.tx.us","lib.ut.us","lib.vi.us","lib.vt.us","lib.va.us","lib.wa.us","lib.wi.us","lib.wy.us","pvt.k12.ma.us","chtr.k12.ma.us","paroch.k12.ma.us","ann-arbor.mi.us","cog.mi.us","dst.mi.us","eaton.mi.us","gen.mi.us","mus.mi.us","tec.mi.us","washtenaw.mi.us","uy","com.uy","edu.uy","gub.uy","mil.uy","net.uy","org.uy","uz","co.uz","com.uz","net.uz","org.uz","va","vc","com.vc","net.vc","org.vc","gov.vc","mil.vc","edu.vc","ve","arts.ve","co.ve","com.ve","e12.ve","edu.ve","firm.ve","gob.ve","gov.ve","info.ve","int.ve","mil.ve","net.ve","org.ve","rec.ve","store.ve","tec.ve","web.ve","vg","vi","co.vi","com.vi","k12.vi","net.vi","org.vi","vn","com.vn","net.vn","org.vn","edu.vn","gov.vn","int.vn","ac.vn","biz.vn","info.vn","name.vn","pro.vn","health.vn","vu","com.vu","edu.vu","net.vu","org.vu","wf","ws","com.ws","net.ws","org.ws","gov.ws","edu.ws","yt","امارات","հայ","বাংলা","бг","бел","中国","中國","الجزائر","مصر","ею","გე","ελ","香港","公司.香港","教育.香港","政府.香港","個人.香港","網絡.香港","組織.香港","ಭಾರತ","ଭାରତ","ভাৰত","भारतम्","भारोत","ڀارت","ഭാരതം","भारत","بارت","بھارت","భారత్","ભારત","ਭਾਰਤ","ভারত","இந்தியா","ایران","ايران","عراق","الاردن","한국","қаз","ලංකා","இலங்கை","المغرب","мкд","мон","澳門","澳门","مليسيا","عمان","پاکستان","پاكستان","فلسطين","срб","пр.срб","орг.срб","обр.срб","од.срб","упр.срб","ак.срб","рф","قطر","السعودية","السعودیة","السعودیۃ","السعوديه","سودان","新加坡","சிங்கப்பூர்","سورية","سوريا","ไทย","ศึกษา.ไทย","ธุรกิจ.ไทย","รัฐบาล.ไทย","ทหาร.ไทย","เน็ต.ไทย","องค์กร.ไทย","تونس","台灣","台湾","臺灣","укр","اليمن","xxx","*.ye","ac.za","agric.za","alt.za","co.za","edu.za","gov.za","grondar.za","law.za","mil.za","net.za","ngo.za","nis.za","nom.za","org.za","school.za","tm.za","web.za","zm","ac.zm","biz.zm","co.zm","com.zm","edu.zm","gov.zm","info.zm","mil.zm","net.zm","org.zm","sch.zm","zw","ac.zw","co.zw","gov.zw","mil.zw","org.zw","aaa","aarp","abarth","abb","abbott","abbvie","abc","able","abogado","abudhabi","academy","accenture","accountant","accountants","aco","active","actor","adac","ads","adult","aeg","aetna","afamilycompany","afl","africa","agakhan","agency","aig","aigo","airbus","airforce","airtel","akdn","alfaromeo","alibaba","alipay","allfinanz","allstate","ally","alsace","alstom","americanexpress","americanfamily","amex","amfam","amica","amsterdam","analytics","android","anquan","anz","aol","apartments","app","apple","aquarelle","arab","aramco","archi","army","art","arte","asda","associates","athleta","attorney","auction","audi","audible","audio","auspost","author","auto","autos","avianca","aws","axa","azure","baby","baidu","banamex","bananarepublic","band","bank","bar","barcelona","barclaycard","barclays","barefoot","bargains","baseball","basketball","bauhaus","bayern","bbc","bbt","bbva","bcg","bcn","beats","beauty","beer","bentley","berlin","best","bestbuy","bet","bharti","bible","bid","bike","bing","bingo","bio","black","blackfriday","blanco","blockbuster","blog","bloomberg","blue","bms","bmw","bnl","bnpparibas","boats","boehringer","bofa","bom","bond","boo","book","booking","bosch","bostik","boston","bot","boutique","box","bradesco","bridgestone","broadway","broker","brother","brussels","budapest","bugatti","build","builders","business","buy","buzz","bzh","cab","cafe","cal","call","calvinklein","cam","camera","camp","cancerresearch","canon","capetown","capital","capitalone","car","caravan","cards","care","career","careers","cars","cartier","casa","case","caseih","cash","casino","catering","catholic","cba","cbn","cbre","cbs","ceb","center","ceo","cern","cfa","cfd","chanel","channel","charity","chase","chat","cheap","chintai","christmas","chrome","chrysler","church","cipriani","circle","cisco","citadel","citi","citic","city","cityeats","claims","cleaning","click","clinic","clinique","clothing","cloud","club","clubmed","coach","codes","coffee","college","cologne","comcast","commbank","community","company","compare","computer","comsec","condos","construction","consulting","contact","contractors","cooking","cookingchannel","cool","corsica","country","coupon","coupons","courses","credit","creditcard","creditunion","cricket","crown","crs","cruise","cruises","csc","cuisinella","cymru","cyou","dabur","dad","dance","data","date","dating","datsun","day","dclk","dds","deal","dealer","deals","degree","delivery","dell","deloitte","delta","democrat","dental","dentist","desi","design","dev","dhl","diamonds","diet","digital","direct","directory","discount","discover","dish","diy","dnp","docs","doctor","dodge","dog","doha","domains","dot","download","drive","dtv","dubai","duck","dunlop","duns","dupont","durban","dvag","dvr","earth","eat","eco","edeka","education","email","emerck","energy","engineer","engineering","enterprises","epost","epson","equipment","ericsson","erni","esq","estate","esurance","etisalat","eurovision","eus","events","everbank","exchange","expert","exposed","express","extraspace","fage","fail","fairwinds","faith","family","fan","fans","farm","farmers","fashion","fast","fedex","feedback","ferrari","ferrero","fiat","fidelity","fido","film","final","finance","financial","fire","firestone","firmdale","fish","fishing","fit","fitness","flickr","flights","flir","florist","flowers","fly","foo","food","foodnetwork","football","ford","forex","forsale","forum","foundation","fox","free","fresenius","frl","frogans","frontdoor","frontier","ftr","fujitsu","fujixerox","fun","fund","furniture","futbol","fyi","gal","gallery","gallo","gallup","game","games","gap","garden","gbiz","gdn","gea","gent","genting","george","ggee","gift","gifts","gives","giving","glade","glass","gle","global","globo","gmail","gmbh","gmo","gmx","godaddy","gold","goldpoint","golf","goo","goodhands","goodyear","goog","google","gop","got","grainger","graphics","gratis","green","gripe","grocery","group","guardian","gucci","guge","guide","guitars","guru","hair","hamburg","hangout","haus","hbo","hdfc","hdfcbank","health","healthcare","help","helsinki","here","hermes","hgtv","hiphop","hisamitsu","hitachi","hiv","hkt","hockey","holdings","holiday","homedepot","homegoods","homes","homesense","honda","honeywell","horse","hospital","host","hosting","hot","hoteles","hotels","hotmail","house","how","hsbc","hughes","hyatt","hyundai","ibm","icbc","ice","icu","ieee","ifm","ikano","imamat","imdb","immo","immobilien","inc","industries","infiniti","ing","ink","institute","insurance","insure","intel","international","intuit","investments","ipiranga","irish","iselect","ismaili","ist","istanbul","itau","itv","iveco","jaguar","java","jcb","jcp","jeep","jetzt","jewelry","jio","jlc","jll","jmp","jnj","joburg","jot","joy","jpmorgan","jprs","juegos","juniper","kaufen","kddi","kerryhotels","kerrylogistics","kerryproperties","kfh","kia","kim","kinder","kindle","kitchen","kiwi","koeln","komatsu","kosher","kpmg","kpn","krd","kred","kuokgroup","kyoto","lacaixa","ladbrokes","lamborghini","lamer","lancaster","lancia","lancome","land","landrover","lanxess","lasalle","lat","latino","latrobe","law","lawyer","lds","lease","leclerc","lefrak","legal","lego","lexus","lgbt","liaison","lidl","life","lifeinsurance","lifestyle","lighting","like","lilly","limited","limo","lincoln","linde","link","lipsy","live","living","lixil","llc","loan","loans","locker","locus","loft","lol","london","lotte","lotto","love","lpl","lplfinancial","ltd","ltda","lundbeck","lupin","luxe","luxury","macys","madrid","maif","maison","makeup","man","management","mango","map","market","marketing","markets","marriott","marshalls","maserati","mattel","mba","mckinsey","med","media","meet","melbourne","meme","memorial","men","menu","merckmsd","metlife","miami","microsoft","mini","mint","mit","mitsubishi","mlb","mls","mma","mobile","mobily","moda","moe","moi","mom","monash","money","monster","mopar","mormon","mortgage","moscow","moto","motorcycles","mov","movie","movistar","msd","mtn","mtr","mutual","nab","nadex","nagoya","nationwide","natura","navy","nba","nec","netbank","netflix","network","neustar","new","newholland","news","next","nextdirect","nexus","nfl","ngo","nhk","nico","nike","nikon","ninja","nissan","nissay","nokia","northwesternmutual","norton","now","nowruz","nowtv","nra","nrw","ntt","nyc","obi","observer","off","office","okinawa","olayan","olayangroup","oldnavy","ollo","omega","one","ong","onl","online","onyourside","ooo","open","oracle","orange","organic","origins","osaka","otsuka","ott","ovh","page","panasonic","panerai","paris","pars","partners","parts","party","passagens","pay","pccw","pet","pfizer","pharmacy","phd","philips","phone","photo","photography","photos","physio","piaget","pics","pictet","pictures","pid","pin","ping","pink","pioneer","pizza","place","play","playstation","plumbing","plus","pnc","pohl","poker","politie","porn","pramerica","praxi","press","prime","prod","productions","prof","progressive","promo","properties","property","protection","pru","prudential","pub","pwc","qpon","quebec","quest","qvc","racing","radio","raid","read","realestate","realtor","realty","recipes","red","redstone","redumbrella","rehab","reise","reisen","reit","reliance","ren","rent","rentals","repair","report","republican","rest","restaurant","review","reviews","rexroth","rich","richardli","ricoh","rightathome","ril","rio","rip","rmit","rocher","rocks","rodeo","rogers","room","rsvp","rugby","ruhr","run","rwe","ryukyu","saarland","safe","safety","sakura","sale","salon","samsclub","samsung","sandvik","sandvikcoromant","sanofi","sap","sarl","sas","save","saxo","sbi","sbs","sca","scb","schaeffler","schmidt","scholarships","school","schule","schwarz","science","scjohnson","scor","scot","search","seat","secure","security","seek","select","sener","services","ses","seven","sew","sex","sexy","sfr","shangrila","sharp","shaw","shell","shia","shiksha","shoes","shop","shopping","shouji","show","showtime","shriram","silk","sina","singles","site","ski","skin","sky","skype","sling","smart","smile","sncf","soccer","social","softbank","software","sohu","solar","solutions","song","sony","soy","space","spiegel","sport","spot","spreadbetting","srl","srt","stada","staples","star","starhub","statebank","statefarm","statoil","stc","stcgroup","stockholm","storage","store","stream","studio","study","style","sucks","supplies","supply","support","surf","surgery","suzuki","swatch","swiftcover","swiss","sydney","symantec","systems","tab","taipei","talk","taobao","target","tatamotors","tatar","tattoo","tax","taxi","tci","tdk","team","tech","technology","telecity","telefonica","temasek","tennis","teva","thd","theater","theatre","tiaa","tickets","tienda","tiffany","tips","tires","tirol","tjmaxx","tjx","tkmaxx","tmall","today","tokyo","tools","top","toray","toshiba","total","tours","town","toyota","toys","trade","trading","training","travel","travelchannel","travelers","travelersinsurance","trust","trv","tube","tui","tunes","tushu","tvs","ubank","ubs","uconnect","unicom","university","uno","uol","ups","vacations","vana","vanguard","vegas","ventures","verisign","versicherung","vet","viajes","video","vig","viking","villas","vin","vip","virgin","visa","vision","vista","vistaprint","viva","vivo","vlaanderen","vodka","volkswagen","volvo","vote","voting","voto","voyage","vuelos","wales","walmart","walter","wang","wanggou","warman","watch","watches","weather","weatherchannel","webcam","weber","website","wed","wedding","weibo","weir","whoswho","wien","wiki","williamhill","win","windows","wine","winners","wme","wolterskluwer","woodside","work","works","world","wow","wtc","wtf","xbox","xerox","xfinity","xihuan","xin","कॉम","セール","佛山","慈善","集团","在线","大众汽车","点看","คอม","八卦","موقع","公益","公司","香格里拉","网站","移动","我爱你","москва","католик","онлайн","сайт","联通","קום","时尚","微博","淡马锡","ファッション","орг","नेट","ストア","삼성","商标","商店","商城","дети","ポイント","新闻","工行","家電","كوم","中文网","中信","娱乐","谷歌","電訊盈科","购物","クラウド","通販","网店","संगठन","餐厅","网络","ком","诺基亚","食品","飞利浦","手表","手机","ارامكو","العليان","اتصالات","بازار","موبايلي","ابوظبي","كاثوليك","همراه","닷컴","政府","شبكة","بيتك","عرب","机构","组织机构","健康","招聘","рус","珠宝","大拿","みんな","グーグル","世界","書籍","网址","닷넷","コム","天主教","游戏","vermögensberater","vermögensberatung","企业","信息","嘉里大酒店","嘉里","广东","政务","xyz","yachts","yahoo","yamaxun","yandex","yodobashi","yoga","yokohama","you","youtube","yun","zappos","zara","zero","zip","zippo","zone","zuerich","cc.ua","inf.ua","ltd.ua","beep.pl","*.compute.estate","*.alces.network","alwaysdata.net","cloudfront.net","*.compute.amazonaws.com","*.compute-1.amazonaws.com","*.compute.amazonaws.com.cn","us-east-1.amazonaws.com","cn-north-1.eb.amazonaws.com.cn","elasticbeanstalk.com","ap-northeast-1.elasticbeanstalk.com","ap-northeast-2.elasticbeanstalk.com","ap-northeast-3.elasticbeanstalk.com","ap-south-1.elasticbeanstalk.com","ap-southeast-1.elasticbeanstalk.com","ap-southeast-2.elasticbeanstalk.com","ca-central-1.elasticbeanstalk.com","eu-central-1.elasticbeanstalk.com","eu-west-1.elasticbeanstalk.com","eu-west-2.elasticbeanstalk.com","eu-west-3.elasticbeanstalk.com","sa-east-1.elasticbeanstalk.com","us-east-1.elasticbeanstalk.com","us-east-2.elasticbeanstalk.com","us-gov-west-1.elasticbeanstalk.com","us-west-1.elasticbeanstalk.com","us-west-2.elasticbeanstalk.com","*.elb.amazonaws.com","*.elb.amazonaws.com.cn","s3.amazonaws.com","s3-ap-northeast-1.amazonaws.com","s3-ap-northeast-2.amazonaws.com","s3-ap-south-1.amazonaws.com","s3-ap-southeast-1.amazonaws.com","s3-ap-southeast-2.amazonaws.com","s3-ca-central-1.amazonaws.com","s3-eu-central-1.amazonaws.com","s3-eu-west-1.amazonaws.com","s3-eu-west-2.amazonaws.com","s3-eu-west-3.amazonaws.com","s3-external-1.amazonaws.com","s3-fips-us-gov-west-1.amazonaws.com","s3-sa-east-1.amazonaws.com","s3-us-gov-west-1.amazonaws.com","s3-us-east-2.amazonaws.com","s3-us-west-1.amazonaws.com","s3-us-west-2.amazonaws.com","s3.ap-northeast-2.amazonaws.com","s3.ap-south-1.amazonaws.com","s3.cn-north-1.amazonaws.com.cn","s3.ca-central-1.amazonaws.com","s3.eu-central-1.amazonaws.com","s3.eu-west-2.amazonaws.com","s3.eu-west-3.amazonaws.com","s3.us-east-2.amazonaws.com","s3.dualstack.ap-northeast-1.amazonaws.com","s3.dualstack.ap-northeast-2.amazonaws.com","s3.dualstack.ap-south-1.amazonaws.com","s3.dualstack.ap-southeast-1.amazonaws.com","s3.dualstack.ap-southeast-2.amazonaws.com","s3.dualstack.ca-central-1.amazonaws.com","s3.dualstack.eu-central-1.amazonaws.com","s3.dualstack.eu-west-1.amazonaws.com","s3.dualstack.eu-west-2.amazonaws.com","s3.dualstack.eu-west-3.amazonaws.com","s3.dualstack.sa-east-1.amazonaws.com","s3.dualstack.us-east-1.amazonaws.com","s3.dualstack.us-east-2.amazonaws.com","s3-website-us-east-1.amazonaws.com","s3-website-us-west-1.amazonaws.com","s3-website-us-west-2.amazonaws.com","s3-website-ap-northeast-1.amazonaws.com","s3-website-ap-southeast-1.amazonaws.com","s3-website-ap-southeast-2.amazonaws.com","s3-website-eu-west-1.amazonaws.com","s3-website-sa-east-1.amazonaws.com","s3-website.ap-northeast-2.amazonaws.com","s3-website.ap-south-1.amazonaws.com","s3-website.ca-central-1.amazonaws.com","s3-website.eu-central-1.amazonaws.com","s3-website.eu-west-2.amazonaws.com","s3-website.eu-west-3.amazonaws.com","s3-website.us-east-2.amazonaws.com","t3l3p0rt.net","tele.amune.org","on-aptible.com","user.party.eus","pimienta.org","poivron.org","potager.org","sweetpepper.org","myasustor.com","myfritz.net","*.awdev.ca","*.advisor.ws","backplaneapp.io","betainabox.com","bnr.la","blackbaudcdn.net","boomla.net","boxfuse.io","square7.ch","bplaced.com","bplaced.de","square7.de","bplaced.net","square7.net","browsersafetymark.io","mycd.eu","ae.org","ar.com","br.com","cn.com","com.de","com.se","de.com","eu.com","gb.com","gb.net","hu.com","hu.net","jp.net","jpn.com","kr.com","mex.com","no.com","qc.com","ru.com","sa.com","se.net","uk.com","uk.net","us.com","uy.com","za.bz","za.com","africa.com","gr.com","in.net","us.org","co.com","c.la","certmgr.org","xenapponazure.com","virtueeldomein.nl","cleverapps.io","c66.me","cloud66.ws","jdevcloud.com","wpdevcloud.com","cloudaccess.host","freesite.host","cloudaccess.net","cloudcontrolled.com","cloudcontrolapp.com","co.ca","*.otap.co","co.cz","c.cdn77.org","cdn77-ssl.net","r.cdn77.net","rsc.cdn77.org","ssl.origin.cdn77-secure.org","cloudns.asia","cloudns.biz","cloudns.club","cloudns.cc","cloudns.eu","cloudns.in","cloudns.info","cloudns.org","cloudns.pro","cloudns.pw","cloudns.us","cloudeity.net","cnpy.gdn","co.nl","co.no","webhosting.be","hosting-cluster.nl","dyn.cosidns.de","dynamisches-dns.de","dnsupdater.de","internet-dns.de","l-o-g-i-n.de","dynamic-dns.info","feste-ip.net","knx-server.net","static-access.net","realm.cz","*.cryptonomic.net","cupcake.is","cyon.link","cyon.site","daplie.me","localhost.daplie.me","dattolocal.com","dattorelay.com","dattoweb.com","mydatto.com","dattolocal.net","mydatto.net","biz.dk","co.dk","firm.dk","reg.dk","store.dk","debian.net","dedyn.io","dnshome.de","drayddns.com","dreamhosters.com","mydrobo.com","drud.io","drud.us","duckdns.org","dy.fi","tunk.org","dyndns-at-home.com","dyndns-at-work.com","dyndns-blog.com","dyndns-free.com","dyndns-home.com","dyndns-ip.com","dyndns-mail.com","dyndns-office.com","dyndns-pics.com","dyndns-remote.com","dyndns-server.com","dyndns-web.com","dyndns-wiki.com","dyndns-work.com","dyndns.biz","dyndns.info","dyndns.org","dyndns.tv","at-band-camp.net","ath.cx","barrel-of-knowledge.info","barrell-of-knowledge.info","better-than.tv","blogdns.com","blogdns.net","blogdns.org","blogsite.org","boldlygoingnowhere.org","broke-it.net","buyshouses.net","cechire.com","dnsalias.com","dnsalias.net","dnsalias.org","dnsdojo.com","dnsdojo.net","dnsdojo.org","does-it.net","doesntexist.com","doesntexist.org","dontexist.com","dontexist.net","dontexist.org","doomdns.com","doomdns.org","dvrdns.org","dyn-o-saur.com","dynalias.com","dynalias.net","dynalias.org","dynathome.net","dyndns.ws","endofinternet.net","endofinternet.org","endoftheinternet.org","est-a-la-maison.com","est-a-la-masion.com","est-le-patron.com","est-mon-blogueur.com","for-better.biz","for-more.biz","for-our.info","for-some.biz","for-the.biz","forgot.her.name","forgot.his.name","from-ak.com","from-al.com","from-ar.com","from-az.net","from-ca.com","from-co.net","from-ct.com","from-dc.com","from-de.com","from-fl.com","from-ga.com","from-hi.com","from-ia.com","from-id.com","from-il.com","from-in.com","from-ks.com","from-ky.com","from-la.net","from-ma.com","from-md.com","from-me.org","from-mi.com","from-mn.com","from-mo.com","from-ms.com","from-mt.com","from-nc.com","from-nd.com","from-ne.com","from-nh.com","from-nj.com","from-nm.com","from-nv.com","from-ny.net","from-oh.com","from-ok.com","from-or.com","from-pa.com","from-pr.com","from-ri.com","from-sc.com","from-sd.com","from-tn.com","from-tx.com","from-ut.com","from-va.com","from-vt.com","from-wa.com","from-wi.com","from-wv.com","from-wy.com","ftpaccess.cc","fuettertdasnetz.de","game-host.org","game-server.cc","getmyip.com","gets-it.net","go.dyndns.org","gotdns.com","gotdns.org","groks-the.info","groks-this.info","ham-radio-op.net","here-for-more.info","hobby-site.com","hobby-site.org","home.dyndns.org","homedns.org","homeftp.net","homeftp.org","homeip.net","homelinux.com","homelinux.net","homelinux.org","homeunix.com","homeunix.net","homeunix.org","iamallama.com","in-the-band.net","is-a-anarchist.com","is-a-blogger.com","is-a-bookkeeper.com","is-a-bruinsfan.org","is-a-bulls-fan.com","is-a-candidate.org","is-a-caterer.com","is-a-celticsfan.org","is-a-chef.com","is-a-chef.net","is-a-chef.org","is-a-conservative.com","is-a-cpa.com","is-a-cubicle-slave.com","is-a-democrat.com","is-a-designer.com","is-a-doctor.com","is-a-financialadvisor.com","is-a-geek.com","is-a-geek.net","is-a-geek.org","is-a-green.com","is-a-guru.com","is-a-hard-worker.com","is-a-hunter.com","is-a-knight.org","is-a-landscaper.com","is-a-lawyer.com","is-a-liberal.com","is-a-libertarian.com","is-a-linux-user.org","is-a-llama.com","is-a-musician.com","is-a-nascarfan.com","is-a-nurse.com","is-a-painter.com","is-a-patsfan.org","is-a-personaltrainer.com","is-a-photographer.com","is-a-player.com","is-a-republican.com","is-a-rockstar.com","is-a-socialist.com","is-a-soxfan.org","is-a-student.com","is-a-teacher.com","is-a-techie.com","is-a-therapist.com","is-an-accountant.com","is-an-actor.com","is-an-actress.com","is-an-anarchist.com","is-an-artist.com","is-an-engineer.com","is-an-entertainer.com","is-by.us","is-certified.com","is-found.org","is-gone.com","is-into-anime.com","is-into-cars.com","is-into-cartoons.com","is-into-games.com","is-leet.com","is-lost.org","is-not-certified.com","is-saved.org","is-slick.com","is-uberleet.com","is-very-bad.org","is-very-evil.org","is-very-good.org","is-very-nice.org","is-very-sweet.org","is-with-theband.com","isa-geek.com","isa-geek.net","isa-geek.org","isa-hockeynut.com","issmarterthanyou.com","isteingeek.de","istmein.de","kicks-ass.net","kicks-ass.org","knowsitall.info","land-4-sale.us","lebtimnetz.de","leitungsen.de","likes-pie.com","likescandy.com","merseine.nu","mine.nu","misconfused.org","mypets.ws","myphotos.cc","neat-url.com","office-on-the.net","on-the-web.tv","podzone.net","podzone.org","readmyblog.org","saves-the-whales.com","scrapper-site.net","scrapping.cc","selfip.biz","selfip.com","selfip.info","selfip.net","selfip.org","sells-for-less.com","sells-for-u.com","sells-it.net","sellsyourhome.org","servebbs.com","servebbs.net","servebbs.org","serveftp.net","serveftp.org","servegame.org","shacknet.nu","simple-url.com","space-to-rent.com","stuff-4-sale.org","stuff-4-sale.us","teaches-yoga.com","thruhere.net","traeumtgerade.de","webhop.biz","webhop.info","webhop.net","webhop.org","worse-than.tv","writesthisblog.com","ddnss.de","dyn.ddnss.de","dyndns.ddnss.de","dyndns1.de","dyn-ip24.de","home-webserver.de","dyn.home-webserver.de","myhome-server.de","ddnss.org","definima.net","definima.io","bci.dnstrace.pro","ddnsfree.com","ddnsgeek.com","giize.com","gleeze.com","kozow.com","loseyourip.com","ooguy.com","theworkpc.com","casacam.net","dynu.net","accesscam.org","camdvr.org","freeddns.org","mywire.org","webredirect.org","myddns.rocks","blogsite.xyz","dynv6.net","e4.cz","mytuleap.com","enonic.io","customer.enonic.io","eu.org","al.eu.org","asso.eu.org","at.eu.org","au.eu.org","be.eu.org","bg.eu.org","ca.eu.org","cd.eu.org","ch.eu.org","cn.eu.org","cy.eu.org","cz.eu.org","de.eu.org","dk.eu.org","edu.eu.org","ee.eu.org","es.eu.org","fi.eu.org","fr.eu.org","gr.eu.org","hr.eu.org","hu.eu.org","ie.eu.org","il.eu.org","in.eu.org","int.eu.org","is.eu.org","it.eu.org","jp.eu.org","kr.eu.org","lt.eu.org","lu.eu.org","lv.eu.org","mc.eu.org","me.eu.org","mk.eu.org","mt.eu.org","my.eu.org","net.eu.org","ng.eu.org","nl.eu.org","no.eu.org","nz.eu.org","paris.eu.org","pl.eu.org","pt.eu.org","q-a.eu.org","ro.eu.org","ru.eu.org","se.eu.org","si.eu.org","sk.eu.org","tr.eu.org","uk.eu.org","us.eu.org","eu-1.evennode.com","eu-2.evennode.com","eu-3.evennode.com","eu-4.evennode.com","us-1.evennode.com","us-2.evennode.com","us-3.evennode.com","us-4.evennode.com","twmail.cc","twmail.net","twmail.org","mymailer.com.tw","url.tw","apps.fbsbx.com","ru.net","adygeya.ru","bashkiria.ru","bir.ru","cbg.ru","com.ru","dagestan.ru","grozny.ru","kalmykia.ru","kustanai.ru","marine.ru","mordovia.ru","msk.ru","mytis.ru","nalchik.ru","nov.ru","pyatigorsk.ru","spb.ru","vladikavkaz.ru","vladimir.ru","abkhazia.su","adygeya.su","aktyubinsk.su","arkhangelsk.su","armenia.su","ashgabad.su","azerbaijan.su","balashov.su","bashkiria.su","bryansk.su","bukhara.su","chimkent.su","dagestan.su","east-kazakhstan.su","exnet.su","georgia.su","grozny.su","ivanovo.su","jambyl.su","kalmykia.su","kaluga.su","karacol.su","karaganda.su","karelia.su","khakassia.su","krasnodar.su","kurgan.su","kustanai.su","lenug.su","mangyshlak.su","mordovia.su","msk.su","murmansk.su","nalchik.su","navoi.su","north-kazakhstan.su","nov.su","obninsk.su","penza.su","pokrovsk.su","sochi.su","spb.su","tashkent.su","termez.su","togliatti.su","troitsk.su","tselinograd.su","tula.su","tuva.su","vladikavkaz.su","vladimir.su","vologda.su","channelsdvr.net","fastlylb.net","map.fastlylb.net","freetls.fastly.net","map.fastly.net","a.prod.fastly.net","global.prod.fastly.net","a.ssl.fastly.net","b.ssl.fastly.net","global.ssl.fastly.net","fastpanel.direct","fastvps-server.com","fhapp.xyz","fedorainfracloud.org","fedorapeople.org","cloud.fedoraproject.org","app.os.fedoraproject.org","app.os.stg.fedoraproject.org","filegear.me","firebaseapp.com","flynnhub.com","flynnhosting.net","freebox-os.com","freeboxos.com","fbx-os.fr","fbxos.fr","freebox-os.fr","freeboxos.fr","freedesktop.org","*.futurecms.at","*.ex.futurecms.at","*.in.futurecms.at","futurehosting.at","futuremailing.at","*.ex.ortsinfo.at","*.kunden.ortsinfo.at","*.statics.cloud","service.gov.uk","github.io","githubusercontent.com","gitlab.io","homeoffice.gov.uk","ro.im","shop.ro","goip.de","*.0emm.com","appspot.com","blogspot.ae","blogspot.al","blogspot.am","blogspot.ba","blogspot.be","blogspot.bg","blogspot.bj","blogspot.ca","blogspot.cf","blogspot.ch","blogspot.cl","blogspot.co.at","blogspot.co.id","blogspot.co.il","blogspot.co.ke","blogspot.co.nz","blogspot.co.uk","blogspot.co.za","blogspot.com","blogspot.com.ar","blogspot.com.au","blogspot.com.br","blogspot.com.by","blogspot.com.co","blogspot.com.cy","blogspot.com.ee","blogspot.com.eg","blogspot.com.es","blogspot.com.mt","blogspot.com.ng","blogspot.com.tr","blogspot.com.uy","blogspot.cv","blogspot.cz","blogspot.de","blogspot.dk","blogspot.fi","blogspot.fr","blogspot.gr","blogspot.hk","blogspot.hr","blogspot.hu","blogspot.ie","blogspot.in","blogspot.is","blogspot.it","blogspot.jp","blogspot.kr","blogspot.li","blogspot.lt","blogspot.lu","blogspot.md","blogspot.mk","blogspot.mr","blogspot.mx","blogspot.my","blogspot.nl","blogspot.no","blogspot.pe","blogspot.pt","blogspot.qa","blogspot.re","blogspot.ro","blogspot.rs","blogspot.ru","blogspot.se","blogspot.sg","blogspot.si","blogspot.sk","blogspot.sn","blogspot.td","blogspot.tw","blogspot.ug","blogspot.vn","cloudfunctions.net","cloud.goog","codespot.com","googleapis.com","googlecode.com","pagespeedmobilizer.com","publishproxy.com","withgoogle.com","withyoutube.com","hashbang.sh","hasura.app","hasura-app.io","hepforge.org","herokuapp.com","herokussl.com","myravendb.com","ravendb.community","ravendb.me","development.run","ravendb.run","moonscale.net","iki.fi","biz.at","info.at","info.cx","ac.leg.br","al.leg.br","am.leg.br","ap.leg.br","ba.leg.br","ce.leg.br","df.leg.br","es.leg.br","go.leg.br","ma.leg.br","mg.leg.br","ms.leg.br","mt.leg.br","pa.leg.br","pb.leg.br","pe.leg.br","pi.leg.br","pr.leg.br","rj.leg.br","rn.leg.br","ro.leg.br","rr.leg.br","rs.leg.br","sc.leg.br","se.leg.br","sp.leg.br","to.leg.br","pixolino.com","ipifony.net","mein-iserv.de","test-iserv.de","myjino.ru","*.hosting.myjino.ru","*.landing.myjino.ru","*.spectrum.myjino.ru","*.vps.myjino.ru","*.triton.zone","*.cns.joyent.com","js.org","keymachine.de","knightpoint.systems","co.krd","edu.krd","git-repos.de","lcube-server.de","svn-repos.de","app.lmpm.com","linkitools.space","linkyard.cloud","linkyard-cloud.ch","we.bs","uklugs.org","glug.org.uk","lug.org.uk","lugs.org.uk","barsy.bg","barsy.co.uk","barsyonline.co.uk","barsycenter.com","barsyonline.com","barsy.club","barsy.de","barsy.eu","barsy.in","barsy.info","barsy.io","barsy.me","barsy.menu","barsy.mobi","barsy.net","barsy.online","barsy.org","barsy.pro","barsy.pub","barsy.shop","barsy.site","barsy.support","barsy.uk","*.magentosite.cloud","mayfirst.info","mayfirst.org","hb.cldmail.ru","miniserver.com","memset.net","cloud.metacentrum.cz","custom.metacentrum.cz","flt.cloud.muni.cz","usr.cloud.muni.cz","meteorapp.com","eu.meteorapp.com","co.pl","azurecontainer.io","azurewebsites.net","azure-mobile.net","cloudapp.net","mozilla-iot.org","bmoattachments.org","net.ru","org.ru","pp.ru","bitballoon.com","netlify.com","4u.com","ngrok.io","nh-serv.co.uk","nfshost.com","dnsking.ch","mypi.co","n4t.co","001www.com","ddnslive.com","myiphost.com","forumz.info","16-b.it","32-b.it","64-b.it","soundcast.me","tcp4.me","dnsup.net","hicam.net","now-dns.net","ownip.net","vpndns.net","dynserv.org","now-dns.org","x443.pw","now-dns.top","ntdll.top","freeddns.us","crafting.xyz","zapto.xyz","nsupdate.info","nerdpol.ovh","blogsyte.com","brasilia.me","cable-modem.org","ciscofreak.com","collegefan.org","couchpotatofries.org","damnserver.com","ddns.me","ditchyourip.com","dnsfor.me","dnsiskinky.com","dvrcam.info","dynns.com","eating-organic.net","fantasyleague.cc","geekgalaxy.com","golffan.us","health-carereform.com","homesecuritymac.com","homesecuritypc.com","hopto.me","ilovecollege.info","loginto.me","mlbfan.org","mmafan.biz","myactivedirectory.com","mydissent.net","myeffect.net","mymediapc.net","mypsx.net","mysecuritycamera.com","mysecuritycamera.net","mysecuritycamera.org","net-freaks.com","nflfan.org","nhlfan.net","no-ip.ca","no-ip.co.uk","no-ip.net","noip.us","onthewifi.com","pgafan.net","point2this.com","pointto.us","privatizehealthinsurance.net","quicksytes.com","read-books.org","securitytactics.com","serveexchange.com","servehumour.com","servep2p.com","servesarcasm.com","stufftoread.com","ufcfan.org","unusualperson.com","workisboring.com","3utilities.com","bounceme.net","ddns.net","ddnsking.com","gotdns.ch","hopto.org","myftp.biz","myftp.org","myvnc.com","no-ip.biz","no-ip.info","no-ip.org","noip.me","redirectme.net","servebeer.com","serveblog.net","servecounterstrike.com","serveftp.com","servegame.com","servehalflife.com","servehttp.com","serveirc.com","serveminecraft.net","servemp3.com","servepics.com","servequake.com","sytes.net","webhop.me","zapto.org","stage.nodeart.io","nodum.co","nodum.io","pcloud.host","nyc.mn","nom.ae","nom.af","nom.ai","nom.al","nym.by","nym.bz","nom.cl","nom.gd","nom.ge","nom.gl","nym.gr","nom.gt","nym.gy","nom.hn","nym.ie","nom.im","nom.ke","nym.kz","nym.la","nym.lc","nom.li","nym.li","nym.lt","nym.lu","nym.me","nom.mk","nym.mn","nym.mx","nom.nu","nym.nz","nym.pe","nym.pt","nom.pw","nom.qa","nym.ro","nom.rs","nom.si","nym.sk","nom.st","nym.su","nym.sx","nom.tj","nym.tw","nom.ug","nom.uy","nom.vc","nom.vg","cya.gg","cloudycluster.net","nid.io","opencraft.hosting","operaunite.com","outsystemscloud.com","ownprovider.com","own.pm","ox.rs","oy.lc","pgfog.com","pagefrontapp.com","art.pl","gliwice.pl","krakow.pl","poznan.pl","wroc.pl","zakopane.pl","pantheonsite.io","gotpantheon.com","mypep.link","on-web.fr","*.platform.sh","*.platformsh.site","xen.prgmr.com","priv.at","protonet.io","chirurgiens-dentistes-en-france.fr","byen.site","ras.ru","qa2.com","dev-myqnapcloud.com","alpha-myqnapcloud.com","myqnapcloud.com","*.quipelements.com","vapor.cloud","vaporcloud.io","rackmaze.com","rackmaze.net","rhcloud.com","resindevice.io","devices.resinstaging.io","hzc.io","wellbeingzone.eu","ptplus.fit","wellbeingzone.co.uk","sandcats.io","logoip.de","logoip.com","schokokeks.net","scrysec.com","firewall-gateway.com","firewall-gateway.de","my-gateway.de","my-router.de","spdns.de","spdns.eu","firewall-gateway.net","my-firewall.org","myfirewall.org","spdns.org","*.s5y.io","*.sensiosite.cloud","biz.ua","co.ua","pp.ua","shiftedit.io","myshopblocks.com","1kapp.com","appchizi.com","applinzi.com","sinaapp.com","vipsinaapp.com","bounty-full.com","alpha.bounty-full.com","beta.bounty-full.com","static.land","dev.static.land","sites.static.land","apps.lair.io","*.stolos.io","spacekit.io","customer.speedpartner.de","storj.farm","utwente.io","temp-dns.com","diskstation.me","dscloud.biz","dscloud.me","dscloud.mobi","dsmynas.com","dsmynas.net","dsmynas.org","familyds.com","familyds.net","familyds.org","i234.me","myds.me","synology.me","vpnplus.to","taifun-dns.de","gda.pl","gdansk.pl","gdynia.pl","med.pl","sopot.pl","gwiddle.co.uk","cust.dev.thingdust.io","cust.disrec.thingdust.io","cust.prod.thingdust.io","cust.testing.thingdust.io","bloxcms.com","townnews-staging.com","12hp.at","2ix.at","4lima.at","lima-city.at","12hp.ch","2ix.ch","4lima.ch","lima-city.ch","trafficplex.cloud","de.cool","12hp.de","2ix.de","4lima.de","lima-city.de","1337.pictures","clan.rip","lima-city.rocks","webspace.rocks","lima.zone","*.transurl.be","*.transurl.eu","*.transurl.nl","tuxfamily.org","dd-dns.de","diskstation.eu","diskstation.org","dray-dns.de","draydns.de","dyn-vpn.de","dynvpn.de","mein-vigor.de","my-vigor.de","my-wan.de","syno-ds.de","synology-diskstation.de","synology-ds.de","uber.space","*.uberspace.de","hk.com","hk.org","ltd.hk","inc.hk","virtualuser.de","virtual-user.de","lib.de.us","2038.io","router.management","v-info.info","wedeploy.io","wedeploy.me","wedeploy.sh","remotewd.com","wmflabs.org","half.host","xnbay.com","u2.xnbay.com","u2-local.xnbay.com","cistron.nl","demon.nl","xs4all.space","official.academy","yolasite.com","ybo.faith","yombo.me","homelink.one","ybo.party","ybo.review","ybo.science","ybo.trade","nohost.me","noho.st","za.net","za.org","now.sh","zone.id"]},{}],2:[function(a,o,r){"use strict";var p=a("punycode"),k={};k.rules=a("./data/rules.json").map(function(a){return{rule:a,suffix:a.replace(/^(\*\.|\!)/,""),punySuffix:-1,wildcard:"*"===a.charAt(0),exception:"!"===a.charAt(0)}}),k.endsWith=function(a,o){return-1!==a.indexOf(o,a.length-o.length)},k.findRule=function(a){var i=p.toASCII(a);return k.rules.reduce(function(a,o){return-1===o.punySuffix&&(o.punySuffix=p.toASCII(o.suffix)),k.endsWith(i,"."+o.punySuffix)||i===o.punySuffix?o:a},null)},r.errorCodes={DOMAIN_TOO_SHORT:"Domain name too short.",DOMAIN_TOO_LONG:"Domain name too long. It should be no more than 255 chars.",LABEL_STARTS_WITH_DASH:"Domain name label can not start with a dash.",LABEL_ENDS_WITH_DASH:"Domain name label can not end with a dash.",LABEL_TOO_LONG:"Domain name label should be at most 63 chars long.",LABEL_TOO_SHORT:"Domain name label should be at least 1 character long.",LABEL_INVALID_CHARS:"Domain name label can only contain alphanumeric characters or dashes."},k.validate=function(a){var o=p.toASCII(a);if(o.length<1)return"DOMAIN_TOO_SHORT";if(255<o.length)return"DOMAIN_TOO_LONG";for(var i,e=o.split("."),n=0;n<e.length;++n){if(!(i=e[n]).length)return"LABEL_TOO_SHORT";if(63<i.length)return"LABEL_TOO_LONG";if("-"===i.charAt(0))return"LABEL_STARTS_WITH_DASH";if("-"===i.charAt(i.length-1))return"LABEL_ENDS_WITH_DASH";if(!/^[a-z0-9\-]+$/.test(i))return"LABEL_INVALID_CHARS"}},r.parse=function(a){if("string"!=typeof a)throw new TypeError("Domain name must be a string.");var o=a.slice(0).toLowerCase();"."===o.charAt(o.length-1)&&(o=o.slice(0,o.length-1));var i=k.validate(o);if(i)return{input:a,error:{message:r.errorCodes[i],code:i}};var e={input:a,tld:null,sld:null,domain:null,subdomain:null,listed:!1},n=o.split(".");if("local"===n[n.length-1])return e;var s=function(){return/xn--/.test(o)&&(e.domain&&(e.domain=p.toASCII(e.domain)),e.subdomain&&(e.subdomain=p.toASCII(e.subdomain))),e},m=k.findRule(o);if(!m)return n.length<2?e:(e.tld=n.pop(),e.sld=n.pop(),e.domain=[e.sld,e.tld].join("."),n.length&&(e.subdomain=n.pop()),s());e.listed=!0;var t=m.suffix.split("."),u=n.slice(0,n.length-t.length);return m.exception&&u.push(t.shift()),e.tld=t.join("."),u.length?(m.wildcard&&(t.unshift(u.pop()),e.tld=t.join(".")),u.length&&(e.sld=u.pop(),e.domain=[e.sld,e.tld].join("."),u.length&&(e.subdomain=u.join("."))),s()):s()},r.get=function(a){return a&&r.parse(a).domain||null},r.isValid=function(a){var o=r.parse(a);return Boolean(o.domain&&o.listed)}},{"./data/rules.json":1,punycode:3}],3:[function(a,T,D){(function(S){!function(a){var o="object"==typeof D&&D&&!D.nodeType&&D,i="object"==typeof T&&T&&!T.nodeType&&T,e="object"==typeof S&&S;e.global!==e&&e.window!==e&&e.self!==e||(a=e);var n,s,d=2147483647,b=36,y=1,f=26,m=38,t=700,v=72,w=128,z="-",u=/^xn--/,r=/[^\x20-\x7E]/,p=/[\x2E\u3002\uFF0E\uFF61]/g,k={overflow:"Overflow: input needs wider integers to process","not-basic":"Illegal input >= 0x80 (not a basic code point)","invalid-input":"Invalid input"},c=b-y,x=Math.floor,q=String.fromCharCode;function A(a){throw new RangeError(k[a])}function g(a,o){for(var i=a.length,e=[];i--;)e[i]=o(a[i]);return e}function l(a,o){var i=a.split("@"),e="";return 1<i.length&&(e=i[0]+"@",a=i[1]),e+g((a=a.replace(p,".")).split("."),o).join(".")}function O(a){for(var o,i,e=[],n=0,s=a.length;n<s;)55296<=(o=a.charCodeAt(n++))&&o<=56319&&n<s?56320==(64512&(i=a.charCodeAt(n++)))?e.push(((1023&o)<<10)+(1023&i)+65536):(e.push(o),n--):e.push(o);return e}function _(a){return g(a,function(a){var o="";return 65535<a&&(o+=q((a-=65536)>>>10&1023|55296),a=56320|1023&a),o+=q(a)}).join("")}function L(a,o){return a+22+75*(a<26)-((0!=o)<<5)}function I(a,o,i){var e=0;for(a=i?x(a/t):a>>1,a+=x(a/o);c*f>>1<a;e+=b)a=x(a/c);return x(e+(c+1)*a/(a+m))}function h(a){var o,i,e,n,s,m,t,u,r,p,k,c=[],g=a.length,l=0,h=w,j=v;for((i=a.lastIndexOf(z))<0&&(i=0),e=0;e<i;++e)128<=a.charCodeAt(e)&&A("not-basic"),c.push(a.charCodeAt(e));for(n=0<i?i+1:0;n<g;){for(s=l,m=1,t=b;g<=n&&A("invalid-input"),k=a.charCodeAt(n++),(b<=(u=k-48<10?k-22:k-65<26?k-65:k-97<26?k-97:b)||u>x((d-l)/m))&&A("overflow"),l+=u*m,!(u<(r=t<=j?y:j+f<=t?f:t-j));t+=b)m>x(d/(p=b-r))&&A("overflow"),m*=p;j=I(l-s,o=c.length+1,0==s),x(l/o)>d-h&&A("overflow"),h+=x(l/o),l%=o,c.splice(l++,0,h)}return _(c)}function j(a){var o,i,e,n,s,m,t,u,r,p,k,c,g,l,h,j=[];for(c=(a=O(a)).length,o=w,s=v,m=i=0;m<c;++m)(k=a[m])<128&&j.push(q(k));for(e=n=j.length,n&&j.push(z);e<c;){for(t=d,m=0;m<c;++m)o<=(k=a[m])&&k<t&&(t=k);for(t-o>x((d-i)/(g=e+1))&&A("overflow"),i+=(t-o)*g,o=t,m=0;m<c;++m)if((k=a[m])<o&&++i>d&&A("overflow"),k==o){for(u=i,r=b;!(u<(p=r<=s?y:s+f<=r?f:r-s));r+=b)h=u-p,l=b-p,j.push(q(L(p+h%l,0))),u=x(h/l);j.push(q(L(u,0))),s=I(i,g,e==n),i=0,++e}++i,++o}return j.join("")}if(n={version:"1.4.1",ucs2:{decode:O,encode:_},decode:h,encode:j,toASCII:function(a){return l(a,function(a){return r.test(a)?"xn--"+j(a):a})},toUnicode:function(a){return l(a,function(a){return u.test(a)?h(a.slice(4).toLowerCase()):a})}},o&&i)if(T.exports==o)i.exports=n;else for(s in n)n.hasOwnProperty(s)&&(o[s]=n[s]);else a.punycode=n}(this)}).call(this,"undefined"!=typeof global?global:"undefined"!=typeof self?self:"undefined"!=typeof window?window:{})},{}]},{},[2])(2)});
-/**
- * Swiper 4.5.0
- * http://www.idangero.us/swiper/
- * Copyright 2014-2019 Vladimir Kharlampidi
- * Released under the MIT License
- * Released on: April 6, 2019
- */
-!function(e,t){"object"==typeof exports&&"undefined"!=typeof module?module.exports=t():"function"==typeof define&&define.amd?define(t):(e=e||self).Swiper=t()}(this,function(){"use strict";var f="undefined"==typeof document?{body:{},addEventListener:function(){},removeEventListener:function(){},activeElement:{blur:function(){},nodeName:""},querySelector:function(){return null},querySelectorAll:function(){return[]},getElementById:function(){return null},createEvent:function(){return{initEvent:function(){}}},createElement:function(){return{children:[],childNodes:[],style:{},setAttribute:function(){},getElementsByTagName:function(){return[]}}},location:{hash:""}}:document,J="undefined"==typeof window?{document:f,navigator:{userAgent:""},location:{},history:{},CustomEvent:function(){return this},addEventListener:function(){},removeEventListener:function(){},getComputedStyle:function(){return{getPropertyValue:function(){return""}}},Image:function(){},Date:function(){},screen:{},setTimeout:function(){},clearTimeout:function(){}}:window,l=function(e){for(var t=0;t<e.length;t+=1)this[t]=e[t];return this.length=e.length,this};function y(e,t){var i=[],a=0;if(e&&!t&&e instanceof l)return e;if(e)if("string"==typeof e){var s,n,r=e.trim();if(0<=r.indexOf("<")&&0<=r.indexOf(">")){var o="div";for(0===r.indexOf("<li")&&(o="ul"),0===r.indexOf("<tr")&&(o="tbody"),0!==r.indexOf("<td")&&0!==r.indexOf("<th")||(o="tr"),0===r.indexOf("<tbody")&&(o="table"),0===r.indexOf("<option")&&(o="select"),(n=f.createElement(o)).innerHTML=r,a=0;a<n.childNodes.length;a+=1)i.push(n.childNodes[a])}else for(s=t||"#"!==e[0]||e.match(/[ .<>:~]/)?(t||f).querySelectorAll(e.trim()):[f.getElementById(e.trim().split("#")[1])],a=0;a<s.length;a+=1)s[a]&&i.push(s[a])}else if(e.nodeType||e===J||e===f)i.push(e);else if(0<e.length&&e[0].nodeType)for(a=0;a<e.length;a+=1)i.push(e[a]);return new l(i)}function n(e){for(var t=[],i=0;i<e.length;i+=1)-1===t.indexOf(e[i])&&t.push(e[i]);return t}y.fn=l.prototype,y.Class=l,y.Dom7=l;var t={addClass:function(e){if(void 0===e)return this;for(var t=e.split(" "),i=0;i<t.length;i+=1)for(var a=0;a<this.length;a+=1)void 0!==this[a]&&void 0!==this[a].classList&&this[a].classList.add(t[i]);return this},removeClass:function(e){for(var t=e.split(" "),i=0;i<t.length;i+=1)for(var a=0;a<this.length;a+=1)void 0!==this[a]&&void 0!==this[a].classList&&this[a].classList.remove(t[i]);return this},hasClass:function(e){return!!this[0]&&this[0].classList.contains(e)},toggleClass:function(e){for(var t=e.split(" "),i=0;i<t.length;i+=1)for(var a=0;a<this.length;a+=1)void 0!==this[a]&&void 0!==this[a].classList&&this[a].classList.toggle(t[i]);return this},attr:function(e,t){var i=arguments;if(1===arguments.length&&"string"==typeof e)return this[0]?this[0].getAttribute(e):void 0;for(var a=0;a<this.length;a+=1)if(2===i.length)this[a].setAttribute(e,t);else for(var s in e)this[a][s]=e[s],this[a].setAttribute(s,e[s]);return this},removeAttr:function(e){for(var t=0;t<this.length;t+=1)this[t].removeAttribute(e);return this},data:function(e,t){var i;if(void 0!==t){for(var a=0;a<this.length;a+=1)(i=this[a]).dom7ElementDataStorage||(i.dom7ElementDataStorage={}),i.dom7ElementDataStorage[e]=t;return this}if(i=this[0]){if(i.dom7ElementDataStorage&&e in i.dom7ElementDataStorage)return i.dom7ElementDataStorage[e];var s=i.getAttribute("data-"+e);return s||void 0}},transform:function(e){for(var t=0;t<this.length;t+=1){var i=this[t].style;i.webkitTransform=e,i.transform=e}return this},transition:function(e){"string"!=typeof e&&(e+="ms");for(var t=0;t<this.length;t+=1){var i=this[t].style;i.webkitTransitionDuration=e,i.transitionDuration=e}return this},on:function(){for(var e,t=[],i=arguments.length;i--;)t[i]=arguments[i];var a=t[0],n=t[1],r=t[2],s=t[3];function o(e){var t=e.target;if(t){var i=e.target.dom7EventData||[];if(i.indexOf(e)<0&&i.unshift(e),y(t).is(n))r.apply(t,i);else for(var a=y(t).parents(),s=0;s<a.length;s+=1)y(a[s]).is(n)&&r.apply(a[s],i)}}function l(e){var t=e&&e.target&&e.target.dom7EventData||[];t.indexOf(e)<0&&t.unshift(e),r.apply(this,t)}"function"==typeof t[1]&&(a=(e=t)[0],r=e[1],s=e[2],n=void 0),s||(s=!1);for(var d,p=a.split(" "),u=0;u<this.length;u+=1){var c=this[u];if(n)for(d=0;d<p.length;d+=1){var h=p[d];c.dom7LiveListeners||(c.dom7LiveListeners={}),c.dom7LiveListeners[h]||(c.dom7LiveListeners[h]=[]),c.dom7LiveListeners[h].push({listener:r,proxyListener:o}),c.addEventListener(h,o,s)}else for(d=0;d<p.length;d+=1){var v=p[d];c.dom7Listeners||(c.dom7Listeners={}),c.dom7Listeners[v]||(c.dom7Listeners[v]=[]),c.dom7Listeners[v].push({listener:r,proxyListener:l}),c.addEventListener(v,l,s)}}return this},off:function(){for(var e,t=[],i=arguments.length;i--;)t[i]=arguments[i];var a=t[0],s=t[1],n=t[2],r=t[3];"function"==typeof t[1]&&(a=(e=t)[0],n=e[1],r=e[2],s=void 0),r||(r=!1);for(var o=a.split(" "),l=0;l<o.length;l+=1)for(var d=o[l],p=0;p<this.length;p+=1){var u=this[p],c=void 0;if(!s&&u.dom7Listeners?c=u.dom7Listeners[d]:s&&u.dom7LiveListeners&&(c=u.dom7LiveListeners[d]),c&&c.length)for(var h=c.length-1;0<=h;h-=1){var v=c[h];n&&v.listener===n?(u.removeEventListener(d,v.proxyListener,r),c.splice(h,1)):n&&v.listener&&v.listener.dom7proxy&&v.listener.dom7proxy===n?(u.removeEventListener(d,v.proxyListener,r),c.splice(h,1)):n||(u.removeEventListener(d,v.proxyListener,r),c.splice(h,1))}}return this},trigger:function(){for(var e=[],t=arguments.length;t--;)e[t]=arguments[t];for(var i=e[0].split(" "),a=e[1],s=0;s<i.length;s+=1)for(var n=i[s],r=0;r<this.length;r+=1){var o=this[r],l=void 0;try{l=new J.CustomEvent(n,{detail:a,bubbles:!0,cancelable:!0})}catch(e){(l=f.createEvent("Event")).initEvent(n,!0,!0),l.detail=a}o.dom7EventData=e.filter(function(e,t){return 0<t}),o.dispatchEvent(l),o.dom7EventData=[],delete o.dom7EventData}return this},transitionEnd:function(t){var i,a=["webkitTransitionEnd","transitionend"],s=this;function n(e){if(e.target===this)for(t.call(this,e),i=0;i<a.length;i+=1)s.off(a[i],n)}if(t)for(i=0;i<a.length;i+=1)s.on(a[i],n);return this},outerWidth:function(e){if(0<this.length){if(e){var t=this.styles();return this[0].offsetWidth+parseFloat(t.getPropertyValue("margin-right"))+parseFloat(t.getPropertyValue("margin-left"))}return this[0].offsetWidth}return null},outerHeight:function(e){if(0<this.length){if(e){var t=this.styles();return this[0].offsetHeight+parseFloat(t.getPropertyValue("margin-top"))+parseFloat(t.getPropertyValue("margin-bottom"))}return this[0].offsetHeight}return null},offset:function(){if(0<this.length){var e=this[0],t=e.getBoundingClientRect(),i=f.body,a=e.clientTop||i.clientTop||0,s=e.clientLeft||i.clientLeft||0,n=e===J?J.scrollY:e.scrollTop,r=e===J?J.scrollX:e.scrollLeft;return{top:t.top+n-a,left:t.left+r-s}}return null},css:function(e,t){var i;if(1===arguments.length){if("string"!=typeof e){for(i=0;i<this.length;i+=1)for(var a in e)this[i].style[a]=e[a];return this}if(this[0])return J.getComputedStyle(this[0],null).getPropertyValue(e)}if(2===arguments.length&&"string"==typeof e){for(i=0;i<this.length;i+=1)this[i].style[e]=t;return this}return this},each:function(e){if(!e)return this;for(var t=0;t<this.length;t+=1)if(!1===e.call(this[t],t,this[t]))return this;return this},html:function(e){if(void 0===e)return this[0]?this[0].innerHTML:void 0;for(var t=0;t<this.length;t+=1)this[t].innerHTML=e;return this},text:function(e){if(void 0===e)return this[0]?this[0].textContent.trim():null;for(var t=0;t<this.length;t+=1)this[t].textContent=e;return this},is:function(e){var t,i,a=this[0];if(!a||void 0===e)return!1;if("string"==typeof e){if(a.matches)return a.matches(e);if(a.webkitMatchesSelector)return a.webkitMatchesSelector(e);if(a.msMatchesSelector)return a.msMatchesSelector(e);for(t=y(e),i=0;i<t.length;i+=1)if(t[i]===a)return!0;return!1}if(e===f)return a===f;if(e===J)return a===J;if(e.nodeType||e instanceof l){for(t=e.nodeType?[e]:e,i=0;i<t.length;i+=1)if(t[i]===a)return!0;return!1}return!1},index:function(){var e,t=this[0];if(t){for(e=0;null!==(t=t.previousSibling);)1===t.nodeType&&(e+=1);return e}},eq:function(e){if(void 0===e)return this;var t,i=this.length;return new l(i-1<e?[]:e<0?(t=i+e)<0?[]:[this[t]]:[this[e]])},append:function(){for(var e,t=[],i=arguments.length;i--;)t[i]=arguments[i];for(var a=0;a<t.length;a+=1){e=t[a];for(var s=0;s<this.length;s+=1)if("string"==typeof e){var n=f.createElement("div");for(n.innerHTML=e;n.firstChild;)this[s].appendChild(n.firstChild)}else if(e instanceof l)for(var r=0;r<e.length;r+=1)this[s].appendChild(e[r]);else this[s].appendChild(e)}return this},prepend:function(e){var t,i;for(t=0;t<this.length;t+=1)if("string"==typeof e){var a=f.createElement("div");for(a.innerHTML=e,i=a.childNodes.length-1;0<=i;i-=1)this[t].insertBefore(a.childNodes[i],this[t].childNodes[0])}else if(e instanceof l)for(i=0;i<e.length;i+=1)this[t].insertBefore(e[i],this[t].childNodes[0]);else this[t].insertBefore(e,this[t].childNodes[0]);return this},next:function(e){return 0<this.length?e?this[0].nextElementSibling&&y(this[0].nextElementSibling).is(e)?new l([this[0].nextElementSibling]):new l([]):this[0].nextElementSibling?new l([this[0].nextElementSibling]):new l([]):new l([])},nextAll:function(e){var t=[],i=this[0];if(!i)return new l([]);for(;i.nextElementSibling;){var a=i.nextElementSibling;e?y(a).is(e)&&t.push(a):t.push(a),i=a}return new l(t)},prev:function(e){if(0<this.length){var t=this[0];return e?t.previousElementSibling&&y(t.previousElementSibling).is(e)?new l([t.previousElementSibling]):new l([]):t.previousElementSibling?new l([t.previousElementSibling]):new l([])}return new l([])},prevAll:function(e){var t=[],i=this[0];if(!i)return new l([]);for(;i.previousElementSibling;){var a=i.previousElementSibling;e?y(a).is(e)&&t.push(a):t.push(a),i=a}return new l(t)},parent:function(e){for(var t=[],i=0;i<this.length;i+=1)null!==this[i].parentNode&&(e?y(this[i].parentNode).is(e)&&t.push(this[i].parentNode):t.push(this[i].parentNode));return y(n(t))},parents:function(e){for(var t=[],i=0;i<this.length;i+=1)for(var a=this[i].parentNode;a;)e?y(a).is(e)&&t.push(a):t.push(a),a=a.parentNode;return y(n(t))},closest:function(e){var t=this;return void 0===e?new l([]):(t.is(e)||(t=t.parents(e).eq(0)),t)},find:function(e){for(var t=[],i=0;i<this.length;i+=1)for(var a=this[i].querySelectorAll(e),s=0;s<a.length;s+=1)t.push(a[s]);return new l(t)},children:function(e){for(var t=[],i=0;i<this.length;i+=1)for(var a=this[i].childNodes,s=0;s<a.length;s+=1)e?1===a[s].nodeType&&y(a[s]).is(e)&&t.push(a[s]):1===a[s].nodeType&&t.push(a[s]);return new l(n(t))},remove:function(){for(var e=0;e<this.length;e+=1)this[e].parentNode&&this[e].parentNode.removeChild(this[e]);return this},add:function(){for(var e=[],t=arguments.length;t--;)e[t]=arguments[t];var i,a;for(i=0;i<e.length;i+=1){var s=y(e[i]);for(a=0;a<s.length;a+=1)this[this.length]=s[a],this.length+=1}return this},styles:function(){return this[0]?J.getComputedStyle(this[0],null):{}}};Object.keys(t).forEach(function(e){y.fn[e]=t[e]});var e,i,a,s,ee={deleteProps:function(e){var t=e;Object.keys(t).forEach(function(e){try{t[e]=null}catch(e){}try{delete t[e]}catch(e){}})},nextTick:function(e,t){return void 0===t&&(t=0),setTimeout(e,t)},now:function(){return Date.now()},getTranslate:function(e,t){var i,a,s;void 0===t&&(t="x");var n=J.getComputedStyle(e,null);return J.WebKitCSSMatrix?(6<(a=n.transform||n.webkitTransform).split(",").length&&(a=a.split(", ").map(function(e){return e.replace(",",".")}).join(", ")),s=new J.WebKitCSSMatrix("none"===a?"":a)):i=(s=n.MozTransform||n.OTransform||n.MsTransform||n.msTransform||n.transform||n.getPropertyValue("transform").replace("translate(","matrix(1, 0, 0, 1,")).toString().split(","),"x"===t&&(a=J.WebKitCSSMatrix?s.m41:16===i.length?parseFloat(i[12]):parseFloat(i[4])),"y"===t&&(a=J.WebKitCSSMatrix?s.m42:16===i.length?parseFloat(i[13]):parseFloat(i[5])),a||0},parseUrlQuery:function(e){var t,i,a,s,n={},r=e||J.location.href;if("string"==typeof r&&r.length)for(s=(i=(r=-1<r.indexOf("?")?r.replace(/\S*\?/,""):"").split("&").filter(function(e){return""!==e})).length,t=0;t<s;t+=1)a=i[t].replace(/#\S+/g,"").split("="),n[decodeURIComponent(a[0])]=void 0===a[1]?void 0:decodeURIComponent(a[1])||"";return n},isObject:function(e){return"object"==typeof e&&null!==e&&e.constructor&&e.constructor===Object},extend:function(){for(var e=[],t=arguments.length;t--;)e[t]=arguments[t];for(var i=Object(e[0]),a=1;a<e.length;a+=1){var s=e[a];if(null!=s)for(var n=Object.keys(Object(s)),r=0,o=n.length;r<o;r+=1){var l=n[r],d=Object.getOwnPropertyDescriptor(s,l);void 0!==d&&d.enumerable&&(ee.isObject(i[l])&&ee.isObject(s[l])?ee.extend(i[l],s[l]):!ee.isObject(i[l])&&ee.isObject(s[l])?(i[l]={},ee.extend(i[l],s[l])):i[l]=s[l])}}return i}},te=(a=f.createElement("div"),{touch:J.Modernizr&&!0===J.Modernizr.touch||!!(0<J.navigator.maxTouchPoints||"ontouchstart"in J||J.DocumentTouch&&f instanceof J.DocumentTouch),pointerEvents:!!(J.navigator.pointerEnabled||J.PointerEvent||"maxTouchPoints"in J.navigator&&0<J.navigator.maxTouchPoints),prefixedPointerEvents:!!J.navigator.msPointerEnabled,transition:(i=a.style,"transition"in i||"webkitTransition"in i||"MozTransition"in i),transforms3d:J.Modernizr&&!0===J.Modernizr.csstransforms3d||(e=a.style,"webkitPerspective"in e||"MozPerspective"in e||"OPerspective"in e||"MsPerspective"in e||"perspective"in e),flexbox:function(){for(var e=a.style,t="alignItems webkitAlignItems webkitBoxAlign msFlexAlign mozBoxAlign webkitFlexDirection msFlexDirection mozBoxDirection mozBoxOrient webkitBoxDirection webkitBoxOrient".split(" "),i=0;i<t.length;i+=1)if(t[i]in e)return!0;return!1}(),observer:"MutationObserver"in J||"WebkitMutationObserver"in J,passiveListener:function(){var e=!1;try{var t=Object.defineProperty({},"passive",{get:function(){e=!0}});J.addEventListener("testPassiveListener",null,t)}catch(e){}return e}(),gestures:"ongesturestart"in J}),r={isIE:!!J.navigator.userAgent.match(/Trident/g)||!!J.navigator.userAgent.match(/MSIE/g),isEdge:!!J.navigator.userAgent.match(/Edge/g),isSafari:(s=J.navigator.userAgent.toLowerCase(),0<=s.indexOf("safari")&&s.indexOf("chrome")<0&&s.indexOf("android")<0),isUiWebView:/(iPhone|iPod|iPad).*AppleWebKit(?!.*Safari)/i.test(J.navigator.userAgent)},o=function(e){void 0===e&&(e={});var t=this;t.params=e,t.eventsListeners={},t.params&&t.params.on&&Object.keys(t.params.on).forEach(function(e){t.on(e,t.params.on[e])})},d={components:{configurable:!0}};o.prototype.on=function(e,t,i){var a=this;if("function"!=typeof t)return a;var s=i?"unshift":"push";return e.split(" ").forEach(function(e){a.eventsListeners[e]||(a.eventsListeners[e]=[]),a.eventsListeners[e][s](t)}),a},o.prototype.once=function(i,a,e){var s=this;if("function"!=typeof a)return s;function n(){for(var e=[],t=arguments.length;t--;)e[t]=arguments[t];a.apply(s,e),s.off(i,n),n.f7proxy&&delete n.f7proxy}return n.f7proxy=a,s.on(i,n,e)},o.prototype.off=function(e,a){var s=this;return s.eventsListeners&&e.split(" ").forEach(function(i){void 0===a?s.eventsListeners[i]=[]:s.eventsListeners[i]&&s.eventsListeners[i].length&&s.eventsListeners[i].forEach(function(e,t){(e===a||e.f7proxy&&e.f7proxy===a)&&s.eventsListeners[i].splice(t,1)})}),s},o.prototype.emit=function(){for(var e=[],t=arguments.length;t--;)e[t]=arguments[t];var i,a,s,n=this;return n.eventsListeners&&("string"==typeof e[0]||Array.isArray(e[0])?(i=e[0],a=e.slice(1,e.length),s=n):(i=e[0].events,a=e[0].data,s=e[0].context||n),(Array.isArray(i)?i:i.split(" ")).forEach(function(e){if(n.eventsListeners&&n.eventsListeners[e]){var t=[];n.eventsListeners[e].forEach(function(e){t.push(e)}),t.forEach(function(e){e.apply(s,a)})}})),n},o.prototype.useModulesParams=function(i){var a=this;a.modules&&Object.keys(a.modules).forEach(function(e){var t=a.modules[e];t.params&&ee.extend(i,t.params)})},o.prototype.useModules=function(a){void 0===a&&(a={});var s=this;s.modules&&Object.keys(s.modules).forEach(function(e){var i=s.modules[e],t=a[e]||{};i.instance&&Object.keys(i.instance).forEach(function(e){var t=i.instance[e];s[e]="function"==typeof t?t.bind(s):t}),i.on&&s.on&&Object.keys(i.on).forEach(function(e){s.on(e,i.on[e])}),i.create&&i.create.bind(s)(t)})},d.components.set=function(e){this.use&&this.use(e)},o.installModule=function(t){for(var e=[],i=arguments.length-1;0<i--;)e[i]=arguments[i+1];var a=this;a.prototype.modules||(a.prototype.modules={});var s=t.name||Object.keys(a.prototype.modules).length+"_"+ee.now();return(a.prototype.modules[s]=t).proto&&Object.keys(t.proto).forEach(function(e){a.prototype[e]=t.proto[e]}),t.static&&Object.keys(t.static).forEach(function(e){a[e]=t.static[e]}),t.install&&t.install.apply(a,e),a},o.use=function(e){for(var t=[],i=arguments.length-1;0<i--;)t[i]=arguments[i+1];var a=this;return Array.isArray(e)?(e.forEach(function(e){return a.installModule(e)}),a):a.installModule.apply(a,[e].concat(t))},Object.defineProperties(o,d);var p={updateSize:function(){var e,t,i=this,a=i.$el;e=void 0!==i.params.width?i.params.width:a[0].clientWidth,t=void 0!==i.params.height?i.params.height:a[0].clientHeight,0===e&&i.isHorizontal()||0===t&&i.isVertical()||(e=e-parseInt(a.css("padding-left"),10)-parseInt(a.css("padding-right"),10),t=t-parseInt(a.css("padding-top"),10)-parseInt(a.css("padding-bottom"),10),ee.extend(i,{width:e,height:t,size:i.isHorizontal()?e:t}))},updateSlides:function(){var e=this,t=e.params,i=e.$wrapperEl,a=e.size,s=e.rtlTranslate,n=e.wrongRTL,r=e.virtual&&t.virtual.enabled,o=r?e.virtual.slides.length:e.slides.length,l=i.children("."+e.params.slideClass),d=r?e.virtual.slides.length:l.length,p=[],u=[],c=[],h=t.slidesOffsetBefore;"function"==typeof h&&(h=t.slidesOffsetBefore.call(e));var v=t.slidesOffsetAfter;"function"==typeof v&&(v=t.slidesOffsetAfter.call(e));var f=e.snapGrid.length,m=e.snapGrid.length,g=t.spaceBetween,w=-h,b=0,T=0;if(void 0!==a){var y,x;"string"==typeof g&&0<=g.indexOf("%")&&(g=parseFloat(g.replace("%",""))/100*a),e.virtualSize=-g,s?l.css({marginLeft:"",marginTop:""}):l.css({marginRight:"",marginBottom:""}),1<t.slidesPerColumn&&(y=Math.floor(d/t.slidesPerColumn)===d/e.params.slidesPerColumn?d:Math.ceil(d/t.slidesPerColumn)*t.slidesPerColumn,"auto"!==t.slidesPerView&&"row"===t.slidesPerColumnFill&&(y=Math.max(y,t.slidesPerView*t.slidesPerColumn)));for(var C,S=t.slidesPerColumn,E=y/S,M=Math.floor(d/t.slidesPerColumn),P=0;P<d;P+=1){x=0;var k=l.eq(P);if(1<t.slidesPerColumn){var L=void 0,I=void 0,z=void 0;"column"===t.slidesPerColumnFill?(z=P-(I=Math.floor(P/S))*S,(M<I||I===M&&z===S-1)&&S<=(z+=1)&&(z=0,I+=1),L=I+z*y/S,k.css({"-webkit-box-ordinal-group":L,"-moz-box-ordinal-group":L,"-ms-flex-order":L,"-webkit-order":L,order:L})):I=P-(z=Math.floor(P/E))*E,k.css("margin-"+(e.isHorizontal()?"top":"left"),0!==z&&t.spaceBetween&&t.spaceBetween+"px").attr("data-swiper-column",I).attr("data-swiper-row",z)}if("none"!==k.css("display")){if("auto"===t.slidesPerView){var O=J.getComputedStyle(k[0],null),D=k[0].style.transform,A=k[0].style.webkitTransform;if(D&&(k[0].style.transform="none"),A&&(k[0].style.webkitTransform="none"),t.roundLengths)x=e.isHorizontal()?k.outerWidth(!0):k.outerHeight(!0);else if(e.isHorizontal()){var B=parseFloat(O.getPropertyValue("width")),N=parseFloat(O.getPropertyValue("padding-left")),V=parseFloat(O.getPropertyValue("padding-right")),H=parseFloat(O.getPropertyValue("margin-left")),G=parseFloat(O.getPropertyValue("margin-right")),$=O.getPropertyValue("box-sizing");x=$&&"border-box"===$?B+H+G:B+N+V+H+G}else{var F=parseFloat(O.getPropertyValue("height")),j=parseFloat(O.getPropertyValue("padding-top")),X=parseFloat(O.getPropertyValue("padding-bottom")),Y=parseFloat(O.getPropertyValue("margin-top")),q=parseFloat(O.getPropertyValue("margin-bottom")),R=O.getPropertyValue("box-sizing");x=R&&"border-box"===R?F+Y+q:F+j+X+Y+q}D&&(k[0].style.transform=D),A&&(k[0].style.webkitTransform=A),t.roundLengths&&(x=Math.floor(x))}else x=(a-(t.slidesPerView-1)*g)/t.slidesPerView,t.roundLengths&&(x=Math.floor(x)),l[P]&&(e.isHorizontal()?l[P].style.width=x+"px":l[P].style.height=x+"px");l[P]&&(l[P].swiperSlideSize=x),c.push(x),t.centeredSlides?(w=w+x/2+b/2+g,0===b&&0!==P&&(w=w-a/2-g),0===P&&(w=w-a/2-g),Math.abs(w)<.001&&(w=0),t.roundLengths&&(w=Math.floor(w)),T%t.slidesPerGroup==0&&p.push(w),u.push(w)):(t.roundLengths&&(w=Math.floor(w)),T%t.slidesPerGroup==0&&p.push(w),u.push(w),w=w+x+g),e.virtualSize+=x+g,b=x,T+=1}}if(e.virtualSize=Math.max(e.virtualSize,a)+v,s&&n&&("slide"===t.effect||"coverflow"===t.effect)&&i.css({width:e.virtualSize+t.spaceBetween+"px"}),te.flexbox&&!t.setWrapperSize||(e.isHorizontal()?i.css({width:e.virtualSize+t.spaceBetween+"px"}):i.css({height:e.virtualSize+t.spaceBetween+"px"})),1<t.slidesPerColumn&&(e.virtualSize=(x+t.spaceBetween)*y,e.virtualSize=Math.ceil(e.virtualSize/t.slidesPerColumn)-t.spaceBetween,e.isHorizontal()?i.css({width:e.virtualSize+t.spaceBetween+"px"}):i.css({height:e.virtualSize+t.spaceBetween+"px"}),t.centeredSlides)){C=[];for(var W=0;W<p.length;W+=1){var U=p[W];t.roundLengths&&(U=Math.floor(U)),p[W]<e.virtualSize+p[0]&&C.push(U)}p=C}if(!t.centeredSlides){C=[];for(var _=0;_<p.length;_+=1){var K=p[_];t.roundLengths&&(K=Math.floor(K)),p[_]<=e.virtualSize-a&&C.push(K)}p=C,1<Math.floor(e.virtualSize-a)-Math.floor(p[p.length-1])&&p.push(e.virtualSize-a)}if(0===p.length&&(p=[0]),0!==t.spaceBetween&&(e.isHorizontal()?s?l.css({marginLeft:g+"px"}):l.css({marginRight:g+"px"}):l.css({marginBottom:g+"px"})),t.centerInsufficientSlides){var Q=0;if(c.forEach(function(e){Q+=e+(t.spaceBetween?t.spaceBetween:0)}),(Q-=t.spaceBetween)<a){var Z=(a-Q)/2;p.forEach(function(e,t){p[t]=e-Z}),u.forEach(function(e,t){u[t]=e+Z})}}ee.extend(e,{slides:l,snapGrid:p,slidesGrid:u,slidesSizesGrid:c}),d!==o&&e.emit("slidesLengthChange"),p.length!==f&&(e.params.watchOverflow&&e.checkOverflow(),e.emit("snapGridLengthChange")),u.length!==m&&e.emit("slidesGridLengthChange"),(t.watchSlidesProgress||t.watchSlidesVisibility)&&e.updateSlidesOffset()}},updateAutoHeight:function(e){var t,i=this,a=[],s=0;if("number"==typeof e?i.setTransition(e):!0===e&&i.setTransition(i.params.speed),"auto"!==i.params.slidesPerView&&1<i.params.slidesPerView)for(t=0;t<Math.ceil(i.params.slidesPerView);t+=1){var n=i.activeIndex+t;if(n>i.slides.length)break;a.push(i.slides.eq(n)[0])}else a.push(i.slides.eq(i.activeIndex)[0]);for(t=0;t<a.length;t+=1)if(void 0!==a[t]){var r=a[t].offsetHeight;s=s<r?r:s}s&&i.$wrapperEl.css("height",s+"px")},updateSlidesOffset:function(){for(var e=this.slides,t=0;t<e.length;t+=1)e[t].swiperSlideOffset=this.isHorizontal()?e[t].offsetLeft:e[t].offsetTop},updateSlidesProgress:function(e){void 0===e&&(e=this&&this.translate||0);var t=this,i=t.params,a=t.slides,s=t.rtlTranslate;if(0!==a.length){void 0===a[0].swiperSlideOffset&&t.updateSlidesOffset();var n=-e;s&&(n=e),a.removeClass(i.slideVisibleClass),t.visibleSlidesIndexes=[],t.visibleSlides=[];for(var r=0;r<a.length;r+=1){var o=a[r],l=(n+(i.centeredSlides?t.minTranslate():0)-o.swiperSlideOffset)/(o.swiperSlideSize+i.spaceBetween);if(i.watchSlidesVisibility){var d=-(n-o.swiperSlideOffset),p=d+t.slidesSizesGrid[r];(0<=d&&d<t.size||0<p&&p<=t.size||d<=0&&p>=t.size)&&(t.visibleSlides.push(o),t.visibleSlidesIndexes.push(r),a.eq(r).addClass(i.slideVisibleClass))}o.progress=s?-l:l}t.visibleSlides=y(t.visibleSlides)}},updateProgress:function(e){void 0===e&&(e=this&&this.translate||0);var t=this,i=t.params,a=t.maxTranslate()-t.minTranslate(),s=t.progress,n=t.isBeginning,r=t.isEnd,o=n,l=r;0===a?r=n=!(s=0):(n=(s=(e-t.minTranslate())/a)<=0,r=1<=s),ee.extend(t,{progress:s,isBeginning:n,isEnd:r}),(i.watchSlidesProgress||i.watchSlidesVisibility)&&t.updateSlidesProgress(e),n&&!o&&t.emit("reachBeginning toEdge"),r&&!l&&t.emit("reachEnd toEdge"),(o&&!n||l&&!r)&&t.emit("fromEdge"),t.emit("progress",s)},updateSlidesClasses:function(){var e,t=this,i=t.slides,a=t.params,s=t.$wrapperEl,n=t.activeIndex,r=t.realIndex,o=t.virtual&&a.virtual.enabled;i.removeClass(a.slideActiveClass+" "+a.slideNextClass+" "+a.slidePrevClass+" "+a.slideDuplicateActiveClass+" "+a.slideDuplicateNextClass+" "+a.slideDuplicatePrevClass),(e=o?t.$wrapperEl.find("."+a.slideClass+'[data-swiper-slide-index="'+n+'"]'):i.eq(n)).addClass(a.slideActiveClass),a.loop&&(e.hasClass(a.slideDuplicateClass)?s.children("."+a.slideClass+":not(."+a.slideDuplicateClass+')[data-swiper-slide-index="'+r+'"]').addClass(a.slideDuplicateActiveClass):s.children("."+a.slideClass+"."+a.slideDuplicateClass+'[data-swiper-slide-index="'+r+'"]').addClass(a.slideDuplicateActiveClass));var l=e.nextAll("."+a.slideClass).eq(0).addClass(a.slideNextClass);a.loop&&0===l.length&&(l=i.eq(0)).addClass(a.slideNextClass);var d=e.prevAll("."+a.slideClass).eq(0).addClass(a.slidePrevClass);a.loop&&0===d.length&&(d=i.eq(-1)).addClass(a.slidePrevClass),a.loop&&(l.hasClass(a.slideDuplicateClass)?s.children("."+a.slideClass+":not(."+a.slideDuplicateClass+')[data-swiper-slide-index="'+l.attr("data-swiper-slide-index")+'"]').addClass(a.slideDuplicateNextClass):s.children("."+a.slideClass+"."+a.slideDuplicateClass+'[data-swiper-slide-index="'+l.attr("data-swiper-slide-index")+'"]').addClass(a.slideDuplicateNextClass),d.hasClass(a.slideDuplicateClass)?s.children("."+a.slideClass+":not(."+a.slideDuplicateClass+')[data-swiper-slide-index="'+d.attr("data-swiper-slide-index")+'"]').addClass(a.slideDuplicatePrevClass):s.children("."+a.slideClass+"."+a.slideDuplicateClass+'[data-swiper-slide-index="'+d.attr("data-swiper-slide-index")+'"]').addClass(a.slideDuplicatePrevClass))},updateActiveIndex:function(e){var t,i=this,a=i.rtlTranslate?i.translate:-i.translate,s=i.slidesGrid,n=i.snapGrid,r=i.params,o=i.activeIndex,l=i.realIndex,d=i.snapIndex,p=e;if(void 0===p){for(var u=0;u<s.length;u+=1)void 0!==s[u+1]?a>=s[u]&&a<s[u+1]-(s[u+1]-s[u])/2?p=u:a>=s[u]&&a<s[u+1]&&(p=u+1):a>=s[u]&&(p=u);r.normalizeSlideIndex&&(p<0||void 0===p)&&(p=0)}if((t=0<=n.indexOf(a)?n.indexOf(a):Math.floor(p/r.slidesPerGroup))>=n.length&&(t=n.length-1),p!==o){var c=parseInt(i.slides.eq(p).attr("data-swiper-slide-index")||p,10);ee.extend(i,{snapIndex:t,realIndex:c,previousIndex:o,activeIndex:p}),i.emit("activeIndexChange"),i.emit("snapIndexChange"),l!==c&&i.emit("realIndexChange"),i.emit("slideChange")}else t!==d&&(i.snapIndex=t,i.emit("snapIndexChange"))},updateClickedSlide:function(e){var t=this,i=t.params,a=y(e.target).closest("."+i.slideClass)[0],s=!1;if(a)for(var n=0;n<t.slides.length;n+=1)t.slides[n]===a&&(s=!0);if(!a||!s)return t.clickedSlide=void 0,void(t.clickedIndex=void 0);t.clickedSlide=a,t.virtual&&t.params.virtual.enabled?t.clickedIndex=parseInt(y(a).attr("data-swiper-slide-index"),10):t.clickedIndex=y(a).index(),i.slideToClickedSlide&&void 0!==t.clickedIndex&&t.clickedIndex!==t.activeIndex&&t.slideToClickedSlide()}};var u={getTranslate:function(e){void 0===e&&(e=this.isHorizontal()?"x":"y");var t=this.params,i=this.rtlTranslate,a=this.translate,s=this.$wrapperEl;if(t.virtualTranslate)return i?-a:a;var n=ee.getTranslate(s[0],e);return i&&(n=-n),n||0},setTranslate:function(e,t){var i=this,a=i.rtlTranslate,s=i.params,n=i.$wrapperEl,r=i.progress,o=0,l=0;i.isHorizontal()?o=a?-e:e:l=e,s.roundLengths&&(o=Math.floor(o),l=Math.floor(l)),s.virtualTranslate||(te.transforms3d?n.transform("translate3d("+o+"px, "+l+"px, 0px)"):n.transform("translate("+o+"px, "+l+"px)")),i.previousTranslate=i.translate,i.translate=i.isHorizontal()?o:l;var d=i.maxTranslate()-i.minTranslate();(0===d?0:(e-i.minTranslate())/d)!==r&&i.updateProgress(e),i.emit("setTranslate",i.translate,t)},minTranslate:function(){return-this.snapGrid[0]},maxTranslate:function(){return-this.snapGrid[this.snapGrid.length-1]}};var c={setTransition:function(e,t){this.$wrapperEl.transition(e),this.emit("setTransition",e,t)},transitionStart:function(e,t){void 0===e&&(e=!0);var i=this,a=i.activeIndex,s=i.params,n=i.previousIndex;s.autoHeight&&i.updateAutoHeight();var r=t;if(r||(r=n<a?"next":a<n?"prev":"reset"),i.emit("transitionStart"),e&&a!==n){if("reset"===r)return void i.emit("slideResetTransitionStart");i.emit("slideChangeTransitionStart"),"next"===r?i.emit("slideNextTransitionStart"):i.emit("slidePrevTransitionStart")}},transitionEnd:function(e,t){void 0===e&&(e=!0);var i=this,a=i.activeIndex,s=i.previousIndex;i.animating=!1,i.setTransition(0);var n=t;if(n||(n=s<a?"next":a<s?"prev":"reset"),i.emit("transitionEnd"),e&&a!==s){if("reset"===n)return void i.emit("slideResetTransitionEnd");i.emit("slideChangeTransitionEnd"),"next"===n?i.emit("slideNextTransitionEnd"):i.emit("slidePrevTransitionEnd")}}};var h={slideTo:function(e,t,i,a){void 0===e&&(e=0),void 0===t&&(t=this.params.speed),void 0===i&&(i=!0);var s=this,n=e;n<0&&(n=0);var r=s.params,o=s.snapGrid,l=s.slidesGrid,d=s.previousIndex,p=s.activeIndex,u=s.rtlTranslate;if(s.animating&&r.preventInteractionOnTransition)return!1;var c=Math.floor(n/r.slidesPerGroup);c>=o.length&&(c=o.length-1),(p||r.initialSlide||0)===(d||0)&&i&&s.emit("beforeSlideChangeStart");var h,v=-o[c];if(s.updateProgress(v),r.normalizeSlideIndex)for(var f=0;f<l.length;f+=1)-Math.floor(100*v)>=Math.floor(100*l[f])&&(n=f);if(s.initialized&&n!==p){if(!s.allowSlideNext&&v<s.translate&&v<s.minTranslate())return!1;if(!s.allowSlidePrev&&v>s.translate&&v>s.maxTranslate()&&(p||0)!==n)return!1}return h=p<n?"next":n<p?"prev":"reset",u&&-v===s.translate||!u&&v===s.translate?(s.updateActiveIndex(n),r.autoHeight&&s.updateAutoHeight(),s.updateSlidesClasses(),"slide"!==r.effect&&s.setTranslate(v),"reset"!==h&&(s.transitionStart(i,h),s.transitionEnd(i,h)),!1):(0!==t&&te.transition?(s.setTransition(t),s.setTranslate(v),s.updateActiveIndex(n),s.updateSlidesClasses(),s.emit("beforeTransitionStart",t,a),s.transitionStart(i,h),s.animating||(s.animating=!0,s.onSlideToWrapperTransitionEnd||(s.onSlideToWrapperTransitionEnd=function(e){s&&!s.destroyed&&e.target===this&&(s.$wrapperEl[0].removeEventListener("transitionend",s.onSlideToWrapperTransitionEnd),s.$wrapperEl[0].removeEventListener("webkitTransitionEnd",s.onSlideToWrapperTransitionEnd),s.onSlideToWrapperTransitionEnd=null,delete s.onSlideToWrapperTransitionEnd,s.transitionEnd(i,h))}),s.$wrapperEl[0].addEventListener("transitionend",s.onSlideToWrapperTransitionEnd),s.$wrapperEl[0].addEventListener("webkitTransitionEnd",s.onSlideToWrapperTransitionEnd))):(s.setTransition(0),s.setTranslate(v),s.updateActiveIndex(n),s.updateSlidesClasses(),s.emit("beforeTransitionStart",t,a),s.transitionStart(i,h),s.transitionEnd(i,h)),!0)},slideToLoop:function(e,t,i,a){void 0===e&&(e=0),void 0===t&&(t=this.params.speed),void 0===i&&(i=!0);var s=e;return this.params.loop&&(s+=this.loopedSlides),this.slideTo(s,t,i,a)},slideNext:function(e,t,i){void 0===e&&(e=this.params.speed),void 0===t&&(t=!0);var a=this,s=a.params,n=a.animating;return s.loop?!n&&(a.loopFix(),a._clientLeft=a.$wrapperEl[0].clientLeft,a.slideTo(a.activeIndex+s.slidesPerGroup,e,t,i)):a.slideTo(a.activeIndex+s.slidesPerGroup,e,t,i)},slidePrev:function(e,t,i){void 0===e&&(e=this.params.speed),void 0===t&&(t=!0);var a=this,s=a.params,n=a.animating,r=a.snapGrid,o=a.slidesGrid,l=a.rtlTranslate;if(s.loop){if(n)return!1;a.loopFix(),a._clientLeft=a.$wrapperEl[0].clientLeft}function d(e){return e<0?-Math.floor(Math.abs(e)):Math.floor(e)}var p,u=d(l?a.translate:-a.translate),c=r.map(function(e){return d(e)}),h=(o.map(function(e){return d(e)}),r[c.indexOf(u)],r[c.indexOf(u)-1]);return void 0!==h&&(p=o.indexOf(h))<0&&(p=a.activeIndex-1),a.slideTo(p,e,t,i)},slideReset:function(e,t,i){return void 0===e&&(e=this.params.speed),void 0===t&&(t=!0),this.slideTo(this.activeIndex,e,t,i)},slideToClosest:function(e,t,i){void 0===e&&(e=this.params.speed),void 0===t&&(t=!0);var a=this,s=a.activeIndex,n=Math.floor(s/a.params.slidesPerGroup);if(n<a.snapGrid.length-1){var r=a.rtlTranslate?a.translate:-a.translate,o=a.snapGrid[n];(a.snapGrid[n+1]-o)/2<r-o&&(s=a.params.slidesPerGroup)}return a.slideTo(s,e,t,i)},slideToClickedSlide:function(){var e,t=this,i=t.params,a=t.$wrapperEl,s="auto"===i.slidesPerView?t.slidesPerViewDynamic():i.slidesPerView,n=t.clickedIndex;if(i.loop){if(t.animating)return;e=parseInt(y(t.clickedSlide).attr("data-swiper-slide-index"),10),i.centeredSlides?n<t.loopedSlides-s/2||n>t.slides.length-t.loopedSlides+s/2?(t.loopFix(),n=a.children("."+i.slideClass+'[data-swiper-slide-index="'+e+'"]:not(.'+i.slideDuplicateClass+")").eq(0).index(),ee.nextTick(function(){t.slideTo(n)})):t.slideTo(n):n>t.slides.length-s?(t.loopFix(),n=a.children("."+i.slideClass+'[data-swiper-slide-index="'+e+'"]:not(.'+i.slideDuplicateClass+")").eq(0).index(),ee.nextTick(function(){t.slideTo(n)})):t.slideTo(n)}else t.slideTo(n)}};var v={loopCreate:function(){var a=this,e=a.params,t=a.$wrapperEl;t.children("."+e.slideClass+"."+e.slideDuplicateClass).remove();var s=t.children("."+e.slideClass);if(e.loopFillGroupWithBlank){var i=e.slidesPerGroup-s.length%e.slidesPerGroup;if(i!==e.slidesPerGroup){for(var n=0;n<i;n+=1){var r=y(f.createElement("div")).addClass(e.slideClass+" "+e.slideBlankClass);t.append(r)}s=t.children("."+e.slideClass)}}"auto"!==e.slidesPerView||e.loopedSlides||(e.loopedSlides=s.length),a.loopedSlides=parseInt(e.loopedSlides||e.slidesPerView,10),a.loopedSlides+=e.loopAdditionalSlides,a.loopedSlides>s.length&&(a.loopedSlides=s.length);var o=[],l=[];s.each(function(e,t){var i=y(t);e<a.loopedSlides&&l.push(t),e<s.length&&e>=s.length-a.loopedSlides&&o.push(t),i.attr("data-swiper-slide-index",e)});for(var d=0;d<l.length;d+=1)t.append(y(l[d].cloneNode(!0)).addClass(e.slideDuplicateClass));for(var p=o.length-1;0<=p;p-=1)t.prepend(y(o[p].cloneNode(!0)).addClass(e.slideDuplicateClass))},loopFix:function(){var e,t=this,i=t.params,a=t.activeIndex,s=t.slides,n=t.loopedSlides,r=t.allowSlidePrev,o=t.allowSlideNext,l=t.snapGrid,d=t.rtlTranslate;t.allowSlidePrev=!0,t.allowSlideNext=!0;var p=-l[a]-t.getTranslate();a<n?(e=s.length-3*n+a,e+=n,t.slideTo(e,0,!1,!0)&&0!==p&&t.setTranslate((d?-t.translate:t.translate)-p)):("auto"===i.slidesPerView&&2*n<=a||a>=s.length-n)&&(e=-s.length+a+n,e+=n,t.slideTo(e,0,!1,!0)&&0!==p&&t.setTranslate((d?-t.translate:t.translate)-p));t.allowSlidePrev=r,t.allowSlideNext=o},loopDestroy:function(){var e=this.$wrapperEl,t=this.params,i=this.slides;e.children("."+t.slideClass+"."+t.slideDuplicateClass+",."+t.slideClass+"."+t.slideBlankClass).remove(),i.removeAttr("data-swiper-slide-index")}};var m={setGrabCursor:function(e){if(!(te.touch||!this.params.simulateTouch||this.params.watchOverflow&&this.isLocked)){var t=this.el;t.style.cursor="move",t.style.cursor=e?"-webkit-grabbing":"-webkit-grab",t.style.cursor=e?"-moz-grabbin":"-moz-grab",t.style.cursor=e?"grabbing":"grab"}},unsetGrabCursor:function(){te.touch||this.params.watchOverflow&&this.isLocked||(this.el.style.cursor="")}};var g={appendSlide:function(e){var t=this,i=t.$wrapperEl,a=t.params;if(a.loop&&t.loopDestroy(),"object"==typeof e&&"length"in e)for(var s=0;s<e.length;s+=1)e[s]&&i.append(e[s]);else i.append(e);a.loop&&t.loopCreate(),a.observer&&te.observer||t.update()},prependSlide:function(e){var t=this,i=t.params,a=t.$wrapperEl,s=t.activeIndex;i.loop&&t.loopDestroy();var n=s+1;if("object"==typeof e&&"length"in e){for(var r=0;r<e.length;r+=1)e[r]&&a.prepend(e[r]);n=s+e.length}else a.prepend(e);i.loop&&t.loopCreate(),i.observer&&te.observer||t.update(),t.slideTo(n,0,!1)},addSlide:function(e,t){var i=this,a=i.$wrapperEl,s=i.params,n=i.activeIndex;s.loop&&(n-=i.loopedSlides,i.loopDestroy(),i.slides=a.children("."+s.slideClass));var r=i.slides.length;if(e<=0)i.prependSlide(t);else if(r<=e)i.appendSlide(t);else{for(var o=e<n?n+1:n,l=[],d=r-1;e<=d;d-=1){var p=i.slides.eq(d);p.remove(),l.unshift(p)}if("object"==typeof t&&"length"in t){for(var u=0;u<t.length;u+=1)t[u]&&a.append(t[u]);o=e<n?n+t.length:n}else a.append(t);for(var c=0;c<l.length;c+=1)a.append(l[c]);s.loop&&i.loopCreate(),s.observer&&te.observer||i.update(),s.loop?i.slideTo(o+i.loopedSlides,0,!1):i.slideTo(o,0,!1)}},removeSlide:function(e){var t=this,i=t.params,a=t.$wrapperEl,s=t.activeIndex;i.loop&&(s-=t.loopedSlides,t.loopDestroy(),t.slides=a.children("."+i.slideClass));var n,r=s;if("object"==typeof e&&"length"in e){for(var o=0;o<e.length;o+=1)n=e[o],t.slides[n]&&t.slides.eq(n).remove(),n<r&&(r-=1);r=Math.max(r,0)}else n=e,t.slides[n]&&t.slides.eq(n).remove(),n<r&&(r-=1),r=Math.max(r,0);i.loop&&t.loopCreate(),i.observer&&te.observer||t.update(),i.loop?t.slideTo(r+t.loopedSlides,0,!1):t.slideTo(r,0,!1)},removeAllSlides:function(){for(var e=[],t=0;t<this.slides.length;t+=1)e.push(t);this.removeSlide(e)}},w=function(){var e=J.navigator.userAgent,t={ios:!1,android:!1,androidChrome:!1,desktop:!1,windows:!1,iphone:!1,ipod:!1,ipad:!1,cordova:J.cordova||J.phonegap,phonegap:J.cordova||J.phonegap},i=e.match(/(Windows Phone);?[\s\/]+([\d.]+)?/),a=e.match(/(Android);?[\s\/]+([\d.]+)?/),s=e.match(/(iPad).*OS\s([\d_]+)/),n=e.match(/(iPod)(.*OS\s([\d_]+))?/),r=!s&&e.match(/(iPhone\sOS|iOS)\s([\d_]+)/);if(i&&(t.os="windows",t.osVersion=i[2],t.windows=!0),a&&!i&&(t.os="android",t.osVersion=a[2],t.android=!0,t.androidChrome=0<=e.toLowerCase().indexOf("chrome")),(s||r||n)&&(t.os="ios",t.ios=!0),r&&!n&&(t.osVersion=r[2].replace(/_/g,"."),t.iphone=!0),s&&(t.osVersion=s[2].replace(/_/g,"."),t.ipad=!0),n&&(t.osVersion=n[3]?n[3].replace(/_/g,"."):null,t.iphone=!0),t.ios&&t.osVersion&&0<=e.indexOf("Version/")&&"10"===t.osVersion.split(".")[0]&&(t.osVersion=e.toLowerCase().split("version/")[1].split(" ")[0]),t.desktop=!(t.os||t.android||t.webView),t.webView=(r||s||n)&&e.match(/.*AppleWebKit(?!.*Safari)/i),t.os&&"ios"===t.os){var o=t.osVersion.split("."),l=f.querySelector('meta[name="viewport"]');t.minimalUi=!t.webView&&(n||r)&&(1*o[0]==7?1<=1*o[1]:7<1*o[0])&&l&&0<=l.getAttribute("content").indexOf("minimal-ui")}return t.pixelRatio=J.devicePixelRatio||1,t}();function b(){var e=this,t=e.params,i=e.el;if(!i||0!==i.offsetWidth){t.breakpoints&&e.setBreakpoint();var a=e.allowSlideNext,s=e.allowSlidePrev,n=e.snapGrid;if(e.allowSlideNext=!0,e.allowSlidePrev=!0,e.updateSize(),e.updateSlides(),t.freeMode){var r=Math.min(Math.max(e.translate,e.maxTranslate()),e.minTranslate());e.setTranslate(r),e.updateActiveIndex(),e.updateSlidesClasses(),t.autoHeight&&e.updateAutoHeight()}else e.updateSlidesClasses(),("auto"===t.slidesPerView||1<t.slidesPerView)&&e.isEnd&&!e.params.centeredSlides?e.slideTo(e.slides.length-1,0,!1,!0):e.slideTo(e.activeIndex,0,!1,!0);e.allowSlidePrev=s,e.allowSlideNext=a,e.params.watchOverflow&&n!==e.snapGrid&&e.checkOverflow()}}var T={init:!0,direction:"horizontal",touchEventsTarget:"container",initialSlide:0,speed:300,preventInteractionOnTransition:!1,edgeSwipeDetection:!1,edgeSwipeThreshold:20,freeMode:!1,freeModeMomentum:!0,freeModeMomentumRatio:1,freeModeMomentumBounce:!0,freeModeMomentumBounceRatio:1,freeModeMomentumVelocityRatio:1,freeModeSticky:!1,freeModeMinimumVelocity:.02,autoHeight:!1,setWrapperSize:!1,virtualTranslate:!1,effect:"slide",breakpoints:void 0,breakpointsInverse:!1,spaceBetween:0,slidesPerView:1,slidesPerColumn:1,slidesPerColumnFill:"column",slidesPerGroup:1,centeredSlides:!1,slidesOffsetBefore:0,slidesOffsetAfter:0,normalizeSlideIndex:!0,centerInsufficientSlides:!1,watchOverflow:!1,roundLengths:!1,touchRatio:1,touchAngle:45,simulateTouch:!0,shortSwipes:!0,longSwipes:!0,longSwipesRatio:.5,longSwipesMs:300,followFinger:!0,allowTouchMove:!0,threshold:0,touchMoveStopPropagation:!0,touchStartPreventDefault:!0,touchStartForcePreventDefault:!1,touchReleaseOnEdges:!1,uniqueNavElements:!0,resistance:!0,resistanceRatio:.85,watchSlidesProgress:!1,watchSlidesVisibility:!1,grabCursor:!1,preventClicks:!0,preventClicksPropagation:!0,slideToClickedSlide:!1,preloadImages:!0,updateOnImagesReady:!0,loop:!1,loopAdditionalSlides:0,loopedSlides:null,loopFillGroupWithBlank:!1,allowSlidePrev:!0,allowSlideNext:!0,swipeHandler:null,noSwiping:!0,noSwipingClass:"swiper-no-swiping",noSwipingSelector:null,passiveListeners:!0,containerModifierClass:"swiper-container-",slideClass:"swiper-slide",slideBlankClass:"swiper-slide-invisible-blank",slideActiveClass:"swiper-slide-active",slideDuplicateActiveClass:"swiper-slide-duplicate-active",slideVisibleClass:"swiper-slide-visible",slideDuplicateClass:"swiper-slide-duplicate",slideNextClass:"swiper-slide-next",slideDuplicateNextClass:"swiper-slide-duplicate-next",slidePrevClass:"swiper-slide-prev",slideDuplicatePrevClass:"swiper-slide-duplicate-prev",wrapperClass:"swiper-wrapper",runCallbacksOnInit:!0},x={update:p,translate:u,transition:c,slide:h,loop:v,grabCursor:m,manipulation:g,events:{attachEvents:function(){var e=this,t=e.params,i=e.touchEvents,a=e.el,s=e.wrapperEl;e.onTouchStart=function(e){var t=this,i=t.touchEventsData,a=t.params,s=t.touches;if(!t.animating||!a.preventInteractionOnTransition){var n=e;if(n.originalEvent&&(n=n.originalEvent),i.isTouchEvent="touchstart"===n.type,(i.isTouchEvent||!("which"in n)||3!==n.which)&&!(!i.isTouchEvent&&"button"in n&&0<n.button||i.isTouched&&i.isMoved))if(a.noSwiping&&y(n.target).closest(a.noSwipingSelector?a.noSwipingSelector:"."+a.noSwipingClass)[0])t.allowClick=!0;else if(!a.swipeHandler||y(n).closest(a.swipeHandler)[0]){s.currentX="touchstart"===n.type?n.targetTouches[0].pageX:n.pageX,s.currentY="touchstart"===n.type?n.targetTouches[0].pageY:n.pageY;var r=s.currentX,o=s.currentY,l=a.edgeSwipeDetection||a.iOSEdgeSwipeDetection,d=a.edgeSwipeThreshold||a.iOSEdgeSwipeThreshold;if(!l||!(r<=d||r>=J.screen.width-d)){if(ee.extend(i,{isTouched:!0,isMoved:!1,allowTouchCallbacks:!0,isScrolling:void 0,startMoving:void 0}),s.startX=r,s.startY=o,i.touchStartTime=ee.now(),t.allowClick=!0,t.updateSize(),t.swipeDirection=void 0,0<a.threshold&&(i.allowThresholdMove=!1),"touchstart"!==n.type){var p=!0;y(n.target).is(i.formElements)&&(p=!1),f.activeElement&&y(f.activeElement).is(i.formElements)&&f.activeElement!==n.target&&f.activeElement.blur();var u=p&&t.allowTouchMove&&a.touchStartPreventDefault;(a.touchStartForcePreventDefault||u)&&n.preventDefault()}t.emit("touchStart",n)}}}}.bind(e),e.onTouchMove=function(e){var t=this,i=t.touchEventsData,a=t.params,s=t.touches,n=t.rtlTranslate,r=e;if(r.originalEvent&&(r=r.originalEvent),i.isTouched){if(!i.isTouchEvent||"mousemove"!==r.type){var o="touchmove"===r.type?r.targetTouches[0].pageX:r.pageX,l="touchmove"===r.type?r.targetTouches[0].pageY:r.pageY;if(r.preventedByNestedSwiper)return s.startX=o,void(s.startY=l);if(!t.allowTouchMove)return t.allowClick=!1,void(i.isTouched&&(ee.extend(s,{startX:o,startY:l,currentX:o,currentY:l}),i.touchStartTime=ee.now()));if(i.isTouchEvent&&a.touchReleaseOnEdges&&!a.loop)if(t.isVertical()){if(l<s.startY&&t.translate<=t.maxTranslate()||l>s.startY&&t.translate>=t.minTranslate())return i.isTouched=!1,void(i.isMoved=!1)}else if(o<s.startX&&t.translate<=t.maxTranslate()||o>s.startX&&t.translate>=t.minTranslate())return;if(i.isTouchEvent&&f.activeElement&&r.target===f.activeElement&&y(r.target).is(i.formElements))return i.isMoved=!0,void(t.allowClick=!1);if(i.allowTouchCallbacks&&t.emit("touchMove",r),!(r.targetTouches&&1<r.targetTouches.length)){s.currentX=o,s.currentY=l;var d,p=s.currentX-s.startX,u=s.currentY-s.startY;if(!(t.params.threshold&&Math.sqrt(Math.pow(p,2)+Math.pow(u,2))<t.params.threshold))if(void 0===i.isScrolling&&(t.isHorizontal()&&s.currentY===s.startY||t.isVertical()&&s.currentX===s.startX?i.isScrolling=!1:25<=p*p+u*u&&(d=180*Math.atan2(Math.abs(u),Math.abs(p))/Math.PI,i.isScrolling=t.isHorizontal()?d>a.touchAngle:90-d>a.touchAngle)),i.isScrolling&&t.emit("touchMoveOpposite",r),void 0===i.startMoving&&(s.currentX===s.startX&&s.currentY===s.startY||(i.startMoving=!0)),i.isScrolling)i.isTouched=!1;else if(i.startMoving){t.allowClick=!1,r.preventDefault(),a.touchMoveStopPropagation&&!a.nested&&r.stopPropagation(),i.isMoved||(a.loop&&t.loopFix(),i.startTranslate=t.getTranslate(),t.setTransition(0),t.animating&&t.$wrapperEl.trigger("webkitTransitionEnd transitionend"),i.allowMomentumBounce=!1,!a.grabCursor||!0!==t.allowSlideNext&&!0!==t.allowSlidePrev||t.setGrabCursor(!0),t.emit("sliderFirstMove",r)),t.emit("sliderMove",r),i.isMoved=!0;var c=t.isHorizontal()?p:u;s.diff=c,c*=a.touchRatio,n&&(c=-c),t.swipeDirection=0<c?"prev":"next",i.currentTranslate=c+i.startTranslate;var h=!0,v=a.resistanceRatio;if(a.touchReleaseOnEdges&&(v=0),0<c&&i.currentTranslate>t.minTranslate()?(h=!1,a.resistance&&(i.currentTranslate=t.minTranslate()-1+Math.pow(-t.minTranslate()+i.startTranslate+c,v))):c<0&&i.currentTranslate<t.maxTranslate()&&(h=!1,a.resistance&&(i.currentTranslate=t.maxTranslate()+1-Math.pow(t.maxTranslate()-i.startTranslate-c,v))),h&&(r.preventedByNestedSwiper=!0),!t.allowSlideNext&&"next"===t.swipeDirection&&i.currentTranslate<i.startTranslate&&(i.currentTranslate=i.startTranslate),!t.allowSlidePrev&&"prev"===t.swipeDirection&&i.currentTranslate>i.startTranslate&&(i.currentTranslate=i.startTranslate),0<a.threshold){if(!(Math.abs(c)>a.threshold||i.allowThresholdMove))return void(i.currentTranslate=i.startTranslate);if(!i.allowThresholdMove)return i.allowThresholdMove=!0,s.startX=s.currentX,s.startY=s.currentY,i.currentTranslate=i.startTranslate,void(s.diff=t.isHorizontal()?s.currentX-s.startX:s.currentY-s.startY)}a.followFinger&&((a.freeMode||a.watchSlidesProgress||a.watchSlidesVisibility)&&(t.updateActiveIndex(),t.updateSlidesClasses()),a.freeMode&&(0===i.velocities.length&&i.velocities.push({position:s[t.isHorizontal()?"startX":"startY"],time:i.touchStartTime}),i.velocities.push({position:s[t.isHorizontal()?"currentX":"currentY"],time:ee.now()})),t.updateProgress(i.currentTranslate),t.setTranslate(i.currentTranslate))}}}}else i.startMoving&&i.isScrolling&&t.emit("touchMoveOpposite",r)}.bind(e),e.onTouchEnd=function(e){var t=this,i=t.touchEventsData,a=t.params,s=t.touches,n=t.rtlTranslate,r=t.$wrapperEl,o=t.slidesGrid,l=t.snapGrid,d=e;if(d.originalEvent&&(d=d.originalEvent),i.allowTouchCallbacks&&t.emit("touchEnd",d),i.allowTouchCallbacks=!1,!i.isTouched)return i.isMoved&&a.grabCursor&&t.setGrabCursor(!1),i.isMoved=!1,void(i.startMoving=!1);a.grabCursor&&i.isMoved&&i.isTouched&&(!0===t.allowSlideNext||!0===t.allowSlidePrev)&&t.setGrabCursor(!1);var p,u=ee.now(),c=u-i.touchStartTime;if(t.allowClick&&(t.updateClickedSlide(d),t.emit("tap",d),c<300&&300<u-i.lastClickTime&&(i.clickTimeout&&clearTimeout(i.clickTimeout),i.clickTimeout=ee.nextTick(function(){t&&!t.destroyed&&t.emit("click",d)},300)),c<300&&u-i.lastClickTime<300&&(i.clickTimeout&&clearTimeout(i.clickTimeout),t.emit("doubleTap",d))),i.lastClickTime=ee.now(),ee.nextTick(function(){t.destroyed||(t.allowClick=!0)}),!i.isTouched||!i.isMoved||!t.swipeDirection||0===s.diff||i.currentTranslate===i.startTranslate)return i.isTouched=!1,i.isMoved=!1,void(i.startMoving=!1);if(i.isTouched=!1,i.isMoved=!1,i.startMoving=!1,p=a.followFinger?n?t.translate:-t.translate:-i.currentTranslate,a.freeMode){if(p<-t.minTranslate())return void t.slideTo(t.activeIndex);if(p>-t.maxTranslate())return void(t.slides.length<l.length?t.slideTo(l.length-1):t.slideTo(t.slides.length-1));if(a.freeModeMomentum){if(1<i.velocities.length){var h=i.velocities.pop(),v=i.velocities.pop(),f=h.position-v.position,m=h.time-v.time;t.velocity=f/m,t.velocity/=2,Math.abs(t.velocity)<a.freeModeMinimumVelocity&&(t.velocity=0),(150<m||300<ee.now()-h.time)&&(t.velocity=0)}else t.velocity=0;t.velocity*=a.freeModeMomentumVelocityRatio,i.velocities.length=0;var g=1e3*a.freeModeMomentumRatio,w=t.velocity*g,b=t.translate+w;n&&(b=-b);var T,y,x=!1,C=20*Math.abs(t.velocity)*a.freeModeMomentumBounceRatio;if(b<t.maxTranslate())a.freeModeMomentumBounce?(b+t.maxTranslate()<-C&&(b=t.maxTranslate()-C),T=t.maxTranslate(),x=!0,i.allowMomentumBounce=!0):b=t.maxTranslate(),a.loop&&a.centeredSlides&&(y=!0);else if(b>t.minTranslate())a.freeModeMomentumBounce?(b-t.minTranslate()>C&&(b=t.minTranslate()+C),T=t.minTranslate(),x=!0,i.allowMomentumBounce=!0):b=t.minTranslate(),a.loop&&a.centeredSlides&&(y=!0);else if(a.freeModeSticky){for(var S,E=0;E<l.length;E+=1)if(l[E]>-b){S=E;break}b=-(b=Math.abs(l[S]-b)<Math.abs(l[S-1]-b)||"next"===t.swipeDirection?l[S]:l[S-1])}if(y&&t.once("transitionEnd",function(){t.loopFix()}),0!==t.velocity)g=n?Math.abs((-b-t.translate)/t.velocity):Math.abs((b-t.translate)/t.velocity);else if(a.freeModeSticky)return void t.slideToClosest();a.freeModeMomentumBounce&&x?(t.updateProgress(T),t.setTransition(g),t.setTranslate(b),t.transitionStart(!0,t.swipeDirection),t.animating=!0,r.transitionEnd(function(){t&&!t.destroyed&&i.allowMomentumBounce&&(t.emit("momentumBounce"),t.setTransition(a.speed),t.setTranslate(T),r.transitionEnd(function(){t&&!t.destroyed&&t.transitionEnd()}))})):t.velocity?(t.updateProgress(b),t.setTransition(g),t.setTranslate(b),t.transitionStart(!0,t.swipeDirection),t.animating||(t.animating=!0,r.transitionEnd(function(){t&&!t.destroyed&&t.transitionEnd()}))):t.updateProgress(b),t.updateActiveIndex(),t.updateSlidesClasses()}else if(a.freeModeSticky)return void t.slideToClosest();(!a.freeModeMomentum||c>=a.longSwipesMs)&&(t.updateProgress(),t.updateActiveIndex(),t.updateSlidesClasses())}else{for(var M=0,P=t.slidesSizesGrid[0],k=0;k<o.length;k+=a.slidesPerGroup)void 0!==o[k+a.slidesPerGroup]?p>=o[k]&&p<o[k+a.slidesPerGroup]&&(P=o[(M=k)+a.slidesPerGroup]-o[k]):p>=o[k]&&(M=k,P=o[o.length-1]-o[o.length-2]);var L=(p-o[M])/P;if(c>a.longSwipesMs){if(!a.longSwipes)return void t.slideTo(t.activeIndex);"next"===t.swipeDirection&&(L>=a.longSwipesRatio?t.slideTo(M+a.slidesPerGroup):t.slideTo(M)),"prev"===t.swipeDirection&&(L>1-a.longSwipesRatio?t.slideTo(M+a.slidesPerGroup):t.slideTo(M))}else{if(!a.shortSwipes)return void t.slideTo(t.activeIndex);"next"===t.swipeDirection&&t.slideTo(M+a.slidesPerGroup),"prev"===t.swipeDirection&&t.slideTo(M)}}}.bind(e),e.onClick=function(e){this.allowClick||(this.params.preventClicks&&e.preventDefault(),this.params.preventClicksPropagation&&this.animating&&(e.stopPropagation(),e.stopImmediatePropagation()))}.bind(e);var n="container"===t.touchEventsTarget?a:s,r=!!t.nested;if(te.touch||!te.pointerEvents&&!te.prefixedPointerEvents){if(te.touch){var o=!("touchstart"!==i.start||!te.passiveListener||!t.passiveListeners)&&{passive:!0,capture:!1};n.addEventListener(i.start,e.onTouchStart,o),n.addEventListener(i.move,e.onTouchMove,te.passiveListener?{passive:!1,capture:r}:r),n.addEventListener(i.end,e.onTouchEnd,o)}(t.simulateTouch&&!w.ios&&!w.android||t.simulateTouch&&!te.touch&&w.ios)&&(n.addEventListener("mousedown",e.onTouchStart,!1),f.addEventListener("mousemove",e.onTouchMove,r),f.addEventListener("mouseup",e.onTouchEnd,!1))}else n.addEventListener(i.start,e.onTouchStart,!1),f.addEventListener(i.move,e.onTouchMove,r),f.addEventListener(i.end,e.onTouchEnd,!1);(t.preventClicks||t.preventClicksPropagation)&&n.addEventListener("click",e.onClick,!0),e.on(w.ios||w.android?"resize orientationchange observerUpdate":"resize observerUpdate",b,!0)},detachEvents:function(){var e=this,t=e.params,i=e.touchEvents,a=e.el,s=e.wrapperEl,n="container"===t.touchEventsTarget?a:s,r=!!t.nested;if(te.touch||!te.pointerEvents&&!te.prefixedPointerEvents){if(te.touch){var o=!("onTouchStart"!==i.start||!te.passiveListener||!t.passiveListeners)&&{passive:!0,capture:!1};n.removeEventListener(i.start,e.onTouchStart,o),n.removeEventListener(i.move,e.onTouchMove,r),n.removeEventListener(i.end,e.onTouchEnd,o)}(t.simulateTouch&&!w.ios&&!w.android||t.simulateTouch&&!te.touch&&w.ios)&&(n.removeEventListener("mousedown",e.onTouchStart,!1),f.removeEventListener("mousemove",e.onTouchMove,r),f.removeEventListener("mouseup",e.onTouchEnd,!1))}else n.removeEventListener(i.start,e.onTouchStart,!1),f.removeEventListener(i.move,e.onTouchMove,r),f.removeEventListener(i.end,e.onTouchEnd,!1);(t.preventClicks||t.preventClicksPropagation)&&n.removeEventListener("click",e.onClick,!0),e.off(w.ios||w.android?"resize orientationchange observerUpdate":"resize observerUpdate",b)}},breakpoints:{setBreakpoint:function(){var e=this,t=e.activeIndex,i=e.initialized,a=e.loopedSlides;void 0===a&&(a=0);var s=e.params,n=s.breakpoints;if(n&&(!n||0!==Object.keys(n).length)){var r=e.getBreakpoint(n);if(r&&e.currentBreakpoint!==r){var o=r in n?n[r]:void 0;o&&["slidesPerView","spaceBetween","slidesPerGroup"].forEach(function(e){var t=o[e];void 0!==t&&(o[e]="slidesPerView"!==e||"AUTO"!==t&&"auto"!==t?"slidesPerView"===e?parseFloat(t):parseInt(t,10):"auto")});var l=o||e.originalParams,d=l.direction&&l.direction!==s.direction,p=s.loop&&(l.slidesPerView!==s.slidesPerView||d);d&&i&&e.changeDirection(),ee.extend(e.params,l),ee.extend(e,{allowTouchMove:e.params.allowTouchMove,allowSlideNext:e.params.allowSlideNext,allowSlidePrev:e.params.allowSlidePrev}),e.currentBreakpoint=r,p&&i&&(e.loopDestroy(),e.loopCreate(),e.updateSlides(),e.slideTo(t-a+e.loopedSlides,0,!1)),e.emit("breakpoint",l)}}},getBreakpoint:function(e){if(e){var t=!1,i=[];Object.keys(e).forEach(function(e){i.push(e)}),i.sort(function(e,t){return parseInt(e,10)-parseInt(t,10)});for(var a=0;a<i.length;a+=1){var s=i[a];this.params.breakpointsInverse?s<=J.innerWidth&&(t=s):s>=J.innerWidth&&!t&&(t=s)}return t||"max"}}},checkOverflow:{checkOverflow:function(){var e=this,t=e.isLocked;e.isLocked=1===e.snapGrid.length,e.allowSlideNext=!e.isLocked,e.allowSlidePrev=!e.isLocked,t!==e.isLocked&&e.emit(e.isLocked?"lock":"unlock"),t&&t!==e.isLocked&&(e.isEnd=!1,e.navigation.update())}},classes:{addClasses:function(){var t=this.classNames,i=this.params,e=this.rtl,a=this.$el,s=[];s.push("initialized"),s.push(i.direction),i.freeMode&&s.push("free-mode"),te.flexbox||s.push("no-flexbox"),i.autoHeight&&s.push("autoheight"),e&&s.push("rtl"),1<i.slidesPerColumn&&s.push("multirow"),w.android&&s.push("android"),w.ios&&s.push("ios"),(r.isIE||r.isEdge)&&(te.pointerEvents||te.prefixedPointerEvents)&&s.push("wp8-"+i.direction),s.forEach(function(e){t.push(i.containerModifierClass+e)}),a.addClass(t.join(" "))},removeClasses:function(){var e=this.$el,t=this.classNames;e.removeClass(t.join(" "))}},images:{loadImage:function(e,t,i,a,s,n){var r;function o(){n&&n()}e.complete&&s?o():t?((r=new J.Image).onload=o,r.onerror=o,a&&(r.sizes=a),i&&(r.srcset=i),t&&(r.src=t)):o()},preloadImages:function(){var e=this;function t(){null!=e&&e&&!e.destroyed&&(void 0!==e.imagesLoaded&&(e.imagesLoaded+=1),e.imagesLoaded===e.imagesToLoad.length&&(e.params.updateOnImagesReady&&e.update(),e.emit("imagesReady")))}e.imagesToLoad=e.$el.find("img");for(var i=0;i<e.imagesToLoad.length;i+=1){var a=e.imagesToLoad[i];e.loadImage(a,a.currentSrc||a.getAttribute("src"),a.srcset||a.getAttribute("srcset"),a.sizes||a.getAttribute("sizes"),!0,t)}}}},C={},S=function(c){function h(){for(var e,t,s,i=[],a=arguments.length;a--;)i[a]=arguments[a];1===i.length&&i[0].constructor&&i[0].constructor===Object?s=i[0]:(t=(e=i)[0],s=e[1]),s||(s={}),s=ee.extend({},s),t&&!s.el&&(s.el=t),c.call(this,s),Object.keys(x).forEach(function(t){Object.keys(x[t]).forEach(function(e){h.prototype[e]||(h.prototype[e]=x[t][e])})});var n=this;void 0===n.modules&&(n.modules={}),Object.keys(n.modules).forEach(function(e){var t=n.modules[e];if(t.params){var i=Object.keys(t.params)[0],a=t.params[i];if("object"!=typeof a||null===a)return;if(!(i in s&&"enabled"in a))return;!0===s[i]&&(s[i]={enabled:!0}),"object"!=typeof s[i]||"enabled"in s[i]||(s[i].enabled=!0),s[i]||(s[i]={enabled:!1})}});var r=ee.extend({},T);n.useModulesParams(r),n.params=ee.extend({},r,C,s),n.originalParams=ee.extend({},n.params),n.passedParams=ee.extend({},s);var o=(n.$=y)(n.params.el);if(t=o[0]){if(1<o.length){var l=[];return o.each(function(e,t){var i=ee.extend({},s,{el:t});l.push(new h(i))}),l}t.swiper=n,o.data("swiper",n);var d,p,u=o.children("."+n.params.wrapperClass);return ee.extend(n,{$el:o,el:t,$wrapperEl:u,wrapperEl:u[0],classNames:[],slides:y(),slidesGrid:[],snapGrid:[],slidesSizesGrid:[],isHorizontal:function(){return"horizontal"===n.params.direction},isVertical:function(){return"vertical"===n.params.direction},rtl:"rtl"===t.dir.toLowerCase()||"rtl"===o.css("direction"),rtlTranslate:"horizontal"===n.params.direction&&("rtl"===t.dir.toLowerCase()||"rtl"===o.css("direction")),wrongRTL:"-webkit-box"===u.css("display"),activeIndex:0,realIndex:0,isBeginning:!0,isEnd:!1,translate:0,previousTranslate:0,progress:0,velocity:0,animating:!1,allowSlideNext:n.params.allowSlideNext,allowSlidePrev:n.params.allowSlidePrev,touchEvents:(d=["touchstart","touchmove","touchend"],p=["mousedown","mousemove","mouseup"],te.pointerEvents?p=["pointerdown","pointermove","pointerup"]:te.prefixedPointerEvents&&(p=["MSPointerDown","MSPointerMove","MSPointerUp"]),n.touchEventsTouch={start:d[0],move:d[1],end:d[2]},n.touchEventsDesktop={start:p[0],move:p[1],end:p[2]},te.touch||!n.params.simulateTouch?n.touchEventsTouch:n.touchEventsDesktop),touchEventsData:{isTouched:void 0,isMoved:void 0,allowTouchCallbacks:void 0,touchStartTime:void 0,isScrolling:void 0,currentTranslate:void 0,startTranslate:void 0,allowThresholdMove:void 0,formElements:"input, select, option, textarea, button, video",lastClickTime:ee.now(),clickTimeout:void 0,velocities:[],allowMomentumBounce:void 0,isTouchEvent:void 0,startMoving:void 0},allowClick:!0,allowTouchMove:n.params.allowTouchMove,touches:{startX:0,startY:0,currentX:0,currentY:0,diff:0},imagesToLoad:[],imagesLoaded:0}),n.useModules(),n.params.init&&n.init(),n}}c&&(h.__proto__=c);var e={extendedDefaults:{configurable:!0},defaults:{configurable:!0},Class:{configurable:!0},$:{configurable:!0}};return((h.prototype=Object.create(c&&c.prototype)).constructor=h).prototype.slidesPerViewDynamic=function(){var e=this,t=e.params,i=e.slides,a=e.slidesGrid,s=e.size,n=e.activeIndex,r=1;if(t.centeredSlides){for(var o,l=i[n].swiperSlideSize,d=n+1;d<i.length;d+=1)i[d]&&!o&&(r+=1,s<(l+=i[d].swiperSlideSize)&&(o=!0));for(var p=n-1;0<=p;p-=1)i[p]&&!o&&(r+=1,s<(l+=i[p].swiperSlideSize)&&(o=!0))}else for(var u=n+1;u<i.length;u+=1)a[u]-a[n]<s&&(r+=1);return r},h.prototype.update=function(){var i=this;if(i&&!i.destroyed){var e=i.snapGrid,t=i.params;t.breakpoints&&i.setBreakpoint(),i.updateSize(),i.updateSlides(),i.updateProgress(),i.updateSlidesClasses(),i.params.freeMode?(a(),i.params.autoHeight&&i.updateAutoHeight()):(("auto"===i.params.slidesPerView||1<i.params.slidesPerView)&&i.isEnd&&!i.params.centeredSlides?i.slideTo(i.slides.length-1,0,!1,!0):i.slideTo(i.activeIndex,0,!1,!0))||a(),t.watchOverflow&&e!==i.snapGrid&&i.checkOverflow(),i.emit("update")}function a(){var e=i.rtlTranslate?-1*i.translate:i.translate,t=Math.min(Math.max(e,i.maxTranslate()),i.minTranslate());i.setTranslate(t),i.updateActiveIndex(),i.updateSlidesClasses()}},h.prototype.changeDirection=function(i,e){void 0===e&&(e=!0);var t=this,a=t.params.direction;return i||(i="horizontal"===a?"vertical":"horizontal"),i===a||"horizontal"!==i&&"vertical"!==i||("vertical"===a&&(t.$el.removeClass(t.params.containerModifierClass+"vertical wp8-vertical").addClass(""+t.params.containerModifierClass+i),(r.isIE||r.isEdge)&&(te.pointerEvents||te.prefixedPointerEvents)&&t.$el.addClass(t.params.containerModifierClass+"wp8-"+i)),"horizontal"===a&&(t.$el.removeClass(t.params.containerModifierClass+"horizontal wp8-horizontal").addClass(""+t.params.containerModifierClass+i),(r.isIE||r.isEdge)&&(te.pointerEvents||te.prefixedPointerEvents)&&t.$el.addClass(t.params.containerModifierClass+"wp8-"+i)),t.params.direction=i,t.slides.each(function(e,t){"vertical"===i?t.style.width="":t.style.height=""}),t.emit("changeDirection"),e&&t.update()),t},h.prototype.init=function(){var e=this;e.initialized||(e.emit("beforeInit"),e.params.breakpoints&&e.setBreakpoint(),e.addClasses(),e.params.loop&&e.loopCreate(),e.updateSize(),e.updateSlides(),e.params.watchOverflow&&e.checkOverflow(),e.params.grabCursor&&e.setGrabCursor(),e.params.preloadImages&&e.preloadImages(),e.params.loop?e.slideTo(e.params.initialSlide+e.loopedSlides,0,e.params.runCallbacksOnInit):e.slideTo(e.params.initialSlide,0,e.params.runCallbacksOnInit),e.attachEvents(),e.initialized=!0,e.emit("init"))},h.prototype.destroy=function(e,t){void 0===e&&(e=!0),void 0===t&&(t=!0);var i=this,a=i.params,s=i.$el,n=i.$wrapperEl,r=i.slides;return void 0===i.params||i.destroyed||(i.emit("beforeDestroy"),i.initialized=!1,i.detachEvents(),a.loop&&i.loopDestroy(),t&&(i.removeClasses(),s.removeAttr("style"),n.removeAttr("style"),r&&r.length&&r.removeClass([a.slideVisibleClass,a.slideActiveClass,a.slideNextClass,a.slidePrevClass].join(" ")).removeAttr("style").removeAttr("data-swiper-slide-index").removeAttr("data-swiper-column").removeAttr("data-swiper-row")),i.emit("destroy"),Object.keys(i.eventsListeners).forEach(function(e){i.off(e)}),!1!==e&&(i.$el[0].swiper=null,i.$el.data("swiper",null),ee.deleteProps(i)),i.destroyed=!0),null},h.extendDefaults=function(e){ee.extend(C,e)},e.extendedDefaults.get=function(){return C},e.defaults.get=function(){return T},e.Class.get=function(){return c},e.$.get=function(){return y},Object.defineProperties(h,e),h}(o),E={name:"device",proto:{device:w},static:{device:w}},M={name:"support",proto:{support:te},static:{support:te}},P={name:"browser",proto:{browser:r},static:{browser:r}},k={name:"resize",create:function(){var e=this;ee.extend(e,{resize:{resizeHandler:function(){e&&!e.destroyed&&e.initialized&&(e.emit("beforeResize"),e.emit("resize"))},orientationChangeHandler:function(){e&&!e.destroyed&&e.initialized&&e.emit("orientationchange")}}})},on:{init:function(){J.addEventListener("resize",this.resize.resizeHandler),J.addEventListener("orientationchange",this.resize.orientationChangeHandler)},destroy:function(){J.removeEventListener("resize",this.resize.resizeHandler),J.removeEventListener("orientationchange",this.resize.orientationChangeHandler)}}},L={func:J.MutationObserver||J.WebkitMutationObserver,attach:function(e,t){void 0===t&&(t={});var i=this,a=new L.func(function(e){if(1!==e.length){var t=function(){i.emit("observerUpdate",e[0])};J.requestAnimationFrame?J.requestAnimationFrame(t):J.setTimeout(t,0)}else i.emit("observerUpdate",e[0])});a.observe(e,{attributes:void 0===t.attributes||t.attributes,childList:void 0===t.childList||t.childList,characterData:void 0===t.characterData||t.characterData}),i.observer.observers.push(a)},init:function(){var e=this;if(te.observer&&e.params.observer){if(e.params.observeParents)for(var t=e.$el.parents(),i=0;i<t.length;i+=1)e.observer.attach(t[i]);e.observer.attach(e.$el[0],{childList:e.params.observeSlideChildren}),e.observer.attach(e.$wrapperEl[0],{attributes:!1})}},destroy:function(){this.observer.observers.forEach(function(e){e.disconnect()}),this.observer.observers=[]}},I={name:"observer",params:{observer:!1,observeParents:!1,observeSlideChildren:!1},create:function(){ee.extend(this,{observer:{init:L.init.bind(this),attach:L.attach.bind(this),destroy:L.destroy.bind(this),observers:[]}})},on:{init:function(){this.observer.init()},destroy:function(){this.observer.destroy()}}},z={handle:function(e){var t=this,i=t.rtlTranslate,a=e;a.originalEvent&&(a=a.originalEvent);var s=a.keyCode||a.charCode;if(!t.allowSlideNext&&(t.isHorizontal()&&39===s||t.isVertical()&&40===s))return!1;if(!t.allowSlidePrev&&(t.isHorizontal()&&37===s||t.isVertical()&&38===s))return!1;if(!(a.shiftKey||a.altKey||a.ctrlKey||a.metaKey||f.activeElement&&f.activeElement.nodeName&&("input"===f.activeElement.nodeName.toLowerCase()||"textarea"===f.activeElement.nodeName.toLowerCase()))){if(t.params.keyboard.onlyInViewport&&(37===s||39===s||38===s||40===s)){var n=!1;if(0<t.$el.parents("."+t.params.slideClass).length&&0===t.$el.parents("."+t.params.slideActiveClass).length)return;var r=J.innerWidth,o=J.innerHeight,l=t.$el.offset();i&&(l.left-=t.$el[0].scrollLeft);for(var d=[[l.left,l.top],[l.left+t.width,l.top],[l.left,l.top+t.height],[l.left+t.width,l.top+t.height]],p=0;p<d.length;p+=1){var u=d[p];0<=u[0]&&u[0]<=r&&0<=u[1]&&u[1]<=o&&(n=!0)}if(!n)return}t.isHorizontal()?(37!==s&&39!==s||(a.preventDefault?a.preventDefault():a.returnValue=!1),(39===s&&!i||37===s&&i)&&t.slideNext(),(37===s&&!i||39===s&&i)&&t.slidePrev()):(38!==s&&40!==s||(a.preventDefault?a.preventDefault():a.returnValue=!1),40===s&&t.slideNext(),38===s&&t.slidePrev()),t.emit("keyPress",s)}},enable:function(){this.keyboard.enabled||(y(f).on("keydown",this.keyboard.handle),this.keyboard.enabled=!0)},disable:function(){this.keyboard.enabled&&(y(f).off("keydown",this.keyboard.handle),this.keyboard.enabled=!1)}},O={name:"keyboard",params:{keyboard:{enabled:!1,onlyInViewport:!0}},create:function(){ee.extend(this,{keyboard:{enabled:!1,enable:z.enable.bind(this),disable:z.disable.bind(this),handle:z.handle.bind(this)}})},on:{init:function(){this.params.keyboard.enabled&&this.keyboard.enable()},destroy:function(){this.keyboard.enabled&&this.keyboard.disable()}}};var D={lastScrollTime:ee.now(),event:-1<J.navigator.userAgent.indexOf("firefox")?"DOMMouseScroll":function(){var e="onwheel",t=e in f;if(!t){var i=f.createElement("div");i.setAttribute(e,"return;"),t="function"==typeof i[e]}return!t&&f.implementation&&f.implementation.hasFeature&&!0!==f.implementation.hasFeature("","")&&(t=f.implementation.hasFeature("Events.wheel","3.0")),t}()?"wheel":"mousewheel",normalize:function(e){var t=0,i=0,a=0,s=0;return"detail"in e&&(i=e.detail),"wheelDelta"in e&&(i=-e.wheelDelta/120),"wheelDeltaY"in e&&(i=-e.wheelDeltaY/120),"wheelDeltaX"in e&&(t=-e.wheelDeltaX/120),"axis"in e&&e.axis===e.HORIZONTAL_AXIS&&(t=i,i=0),a=10*t,s=10*i,"deltaY"in e&&(s=e.deltaY),"deltaX"in e&&(a=e.deltaX),(a||s)&&e.deltaMode&&(1===e.deltaMode?(a*=40,s*=40):(a*=800,s*=800)),a&&!t&&(t=a<1?-1:1),s&&!i&&(i=s<1?-1:1),{spinX:t,spinY:i,pixelX:a,pixelY:s}},handleMouseEnter:function(){this.mouseEntered=!0},handleMouseLeave:function(){this.mouseEntered=!1},handle:function(e){var t=e,i=this,a=i.params.mousewheel;if(!i.mouseEntered&&!a.releaseOnEdges)return!0;t.originalEvent&&(t=t.originalEvent);var s=0,n=i.rtlTranslate?-1:1,r=D.normalize(t);if(a.forceToAxis)if(i.isHorizontal()){if(!(Math.abs(r.pixelX)>Math.abs(r.pixelY)))return!0;s=r.pixelX*n}else{if(!(Math.abs(r.pixelY)>Math.abs(r.pixelX)))return!0;s=r.pixelY}else s=Math.abs(r.pixelX)>Math.abs(r.pixelY)?-r.pixelX*n:-r.pixelY;if(0===s)return!0;if(a.invert&&(s=-s),i.params.freeMode){i.params.loop&&i.loopFix();var o=i.getTranslate()+s*a.sensitivity,l=i.isBeginning,d=i.isEnd;if(o>=i.minTranslate()&&(o=i.minTranslate()),o<=i.maxTranslate()&&(o=i.maxTranslate()),i.setTransition(0),i.setTranslate(o),i.updateProgress(),i.updateActiveIndex(),i.updateSlidesClasses(),(!l&&i.isBeginning||!d&&i.isEnd)&&i.updateSlidesClasses(),i.params.freeModeSticky&&(clearTimeout(i.mousewheel.timeout),i.mousewheel.timeout=ee.nextTick(function(){i.slideToClosest()},300)),i.emit("scroll",t),i.params.autoplay&&i.params.autoplayDisableOnInteraction&&i.autoplay.stop(),o===i.minTranslate()||o===i.maxTranslate())return!0}else{if(60<ee.now()-i.mousewheel.lastScrollTime)if(s<0)if(i.isEnd&&!i.params.loop||i.animating){if(a.releaseOnEdges)return!0}else i.slideNext(),i.emit("scroll",t);else if(i.isBeginning&&!i.params.loop||i.animating){if(a.releaseOnEdges)return!0}else i.slidePrev(),i.emit("scroll",t);i.mousewheel.lastScrollTime=(new J.Date).getTime()}return t.preventDefault?t.preventDefault():t.returnValue=!1,!1},enable:function(){var e=this;if(!D.event)return!1;if(e.mousewheel.enabled)return!1;var t=e.$el;return"container"!==e.params.mousewheel.eventsTarged&&(t=y(e.params.mousewheel.eventsTarged)),t.on("mouseenter",e.mousewheel.handleMouseEnter),t.on("mouseleave",e.mousewheel.handleMouseLeave),t.on(D.event,e.mousewheel.handle),e.mousewheel.enabled=!0},disable:function(){var e=this;if(!D.event)return!1;if(!e.mousewheel.enabled)return!1;var t=e.$el;return"container"!==e.params.mousewheel.eventsTarged&&(t=y(e.params.mousewheel.eventsTarged)),t.off(D.event,e.mousewheel.handle),!(e.mousewheel.enabled=!1)}},A={update:function(){var e=this,t=e.rtl,s=e.params.pagination;if(s.el&&e.pagination.el&&e.pagination.$el&&0!==e.pagination.$el.length){var n,i=e.virtual&&e.params.virtual.enabled?e.virtual.slides.length:e.slides.length,a=e.pagination.$el,r=e.params.loop?Math.ceil((i-2*e.loopedSlides)/e.params.slidesPerGroup):e.snapGrid.length;if(e.params.loop?((n=Math.ceil((e.activeIndex-e.loopedSlides)/e.params.slidesPerGroup))>i-1-2*e.loopedSlides&&(n-=i-2*e.loopedSlides),r-1<n&&(n-=r),n<0&&"bullets"!==e.params.paginationType&&(n=r+n)):n=void 0!==e.snapIndex?e.snapIndex:e.activeIndex||0,"bullets"===s.type&&e.pagination.bullets&&0<e.pagination.bullets.length){var o,l,d,p=e.pagination.bullets;if(s.dynamicBullets&&(e.pagination.bulletSize=p.eq(0)[e.isHorizontal()?"outerWidth":"outerHeight"](!0),a.css(e.isHorizontal()?"width":"height",e.pagination.bulletSize*(s.dynamicMainBullets+4)+"px"),1<s.dynamicMainBullets&&void 0!==e.previousIndex&&(e.pagination.dynamicBulletIndex+=n-e.previousIndex,e.pagination.dynamicBulletIndex>s.dynamicMainBullets-1?e.pagination.dynamicBulletIndex=s.dynamicMainBullets-1:e.pagination.dynamicBulletIndex<0&&(e.pagination.dynamicBulletIndex=0)),o=n-e.pagination.dynamicBulletIndex,d=((l=o+(Math.min(p.length,s.dynamicMainBullets)-1))+o)/2),p.removeClass(s.bulletActiveClass+" "+s.bulletActiveClass+"-next "+s.bulletActiveClass+"-next-next "+s.bulletActiveClass+"-prev "+s.bulletActiveClass+"-prev-prev "+s.bulletActiveClass+"-main"),1<a.length)p.each(function(e,t){var i=y(t),a=i.index();a===n&&i.addClass(s.bulletActiveClass),s.dynamicBullets&&(o<=a&&a<=l&&i.addClass(s.bulletActiveClass+"-main"),a===o&&i.prev().addClass(s.bulletActiveClass+"-prev").prev().addClass(s.bulletActiveClass+"-prev-prev"),a===l&&i.next().addClass(s.bulletActiveClass+"-next").next().addClass(s.bulletActiveClass+"-next-next"))});else if(p.eq(n).addClass(s.bulletActiveClass),s.dynamicBullets){for(var u=p.eq(o),c=p.eq(l),h=o;h<=l;h+=1)p.eq(h).addClass(s.bulletActiveClass+"-main");u.prev().addClass(s.bulletActiveClass+"-prev").prev().addClass(s.bulletActiveClass+"-prev-prev"),c.next().addClass(s.bulletActiveClass+"-next").next().addClass(s.bulletActiveClass+"-next-next")}if(s.dynamicBullets){var v=Math.min(p.length,s.dynamicMainBullets+4),f=(e.pagination.bulletSize*v-e.pagination.bulletSize)/2-d*e.pagination.bulletSize,m=t?"right":"left";p.css(e.isHorizontal()?m:"top",f+"px")}}if("fraction"===s.type&&(a.find("."+s.currentClass).text(s.formatFractionCurrent(n+1)),a.find("."+s.totalClass).text(s.formatFractionTotal(r))),"progressbar"===s.type){var g;g=s.progressbarOpposite?e.isHorizontal()?"vertical":"horizontal":e.isHorizontal()?"horizontal":"vertical";var w=(n+1)/r,b=1,T=1;"horizontal"===g?b=w:T=w,a.find("."+s.progressbarFillClass).transform("translate3d(0,0,0) scaleX("+b+") scaleY("+T+")").transition(e.params.speed)}"custom"===s.type&&s.renderCustom?(a.html(s.renderCustom(e,n+1,r)),e.emit("paginationRender",e,a[0])):e.emit("paginationUpdate",e,a[0]),a[e.params.watchOverflow&&e.isLocked?"addClass":"removeClass"](s.lockClass)}},render:function(){var e=this,t=e.params.pagination;if(t.el&&e.pagination.el&&e.pagination.$el&&0!==e.pagination.$el.length){var i=e.virtual&&e.params.virtual.enabled?e.virtual.slides.length:e.slides.length,a=e.pagination.$el,s="";if("bullets"===t.type){for(var n=e.params.loop?Math.ceil((i-2*e.loopedSlides)/e.params.slidesPerGroup):e.snapGrid.length,r=0;r<n;r+=1)t.renderBullet?s+=t.renderBullet.call(e,r,t.bulletClass):s+="<"+t.bulletElement+' class="'+t.bulletClass+'"></'+t.bulletElement+">";a.html(s),e.pagination.bullets=a.find("."+t.bulletClass)}"fraction"===t.type&&(s=t.renderFraction?t.renderFraction.call(e,t.currentClass,t.totalClass):'<span class="'+t.currentClass+'"></span> / <span class="'+t.totalClass+'"></span>',a.html(s)),"progressbar"===t.type&&(s=t.renderProgressbar?t.renderProgressbar.call(e,t.progressbarFillClass):'<span class="'+t.progressbarFillClass+'"></span>',a.html(s)),"custom"!==t.type&&e.emit("paginationRender",e.pagination.$el[0])}},init:function(){var i=this,e=i.params.pagination;if(e.el){var t=y(e.el);0!==t.length&&(i.params.uniqueNavElements&&"string"==typeof e.el&&1<t.length&&1===i.$el.find(e.el).length&&(t=i.$el.find(e.el)),"bullets"===e.type&&e.clickable&&t.addClass(e.clickableClass),t.addClass(e.modifierClass+e.type),"bullets"===e.type&&e.dynamicBullets&&(t.addClass(""+e.modifierClass+e.type+"-dynamic"),i.pagination.dynamicBulletIndex=0,e.dynamicMainBullets<1&&(e.dynamicMainBullets=1)),"progressbar"===e.type&&e.progressbarOpposite&&t.addClass(e.progressbarOppositeClass),e.clickable&&t.on("click","."+e.bulletClass,function(e){e.preventDefault();var t=y(this).index()*i.params.slidesPerGroup;i.params.loop&&(t+=i.loopedSlides),i.slideTo(t)}),ee.extend(i.pagination,{$el:t,el:t[0]}))}},destroy:function(){var e=this,t=e.params.pagination;if(t.el&&e.pagination.el&&e.pagination.$el&&0!==e.pagination.$el.length){var i=e.pagination.$el;i.removeClass(t.hiddenClass),i.removeClass(t.modifierClass+t.type),e.pagination.bullets&&e.pagination.bullets.removeClass(t.bulletActiveClass),t.clickable&&i.off("click","."+t.bulletClass)}}},B={LinearSpline:function(e,t){var i,a,s,n,r,o=function(e,t){for(a=-1,i=e.length;1<i-a;)e[s=i+a>>1]<=t?a=s:i=s;return i};return this.x=e,this.y=t,this.lastIndex=e.length-1,this.interpolate=function(e){return e?(r=o(this.x,e),n=r-1,(e-this.x[n])*(this.y[r]-this.y[n])/(this.x[r]-this.x[n])+this.y[n]):0},this},getInterpolateFunction:function(e){var t=this;t.controller.spline||(t.controller.spline=t.params.loop?new B.LinearSpline(t.slidesGrid,e.slidesGrid):new B.LinearSpline(t.snapGrid,e.snapGrid))},setTranslate:function(e,t){var i,a,s=this,n=s.controller.control;function r(e){var t=s.rtlTranslate?-s.translate:s.translate;"slide"===s.params.controller.by&&(s.controller.getInterpolateFunction(e),a=-s.controller.spline.interpolate(-t)),a&&"container"!==s.params.controller.by||(i=(e.maxTranslate()-e.minTranslate())/(s.maxTranslate()-s.minTranslate()),a=(t-s.minTranslate())*i+e.minTranslate()),s.params.controller.inverse&&(a=e.maxTranslate()-a),e.updateProgress(a),e.setTranslate(a,s),e.updateActiveIndex(),e.updateSlidesClasses()}if(Array.isArray(n))for(var o=0;o<n.length;o+=1)n[o]!==t&&n[o]instanceof S&&r(n[o]);else n instanceof S&&t!==n&&r(n)},setTransition:function(t,e){var i,a=this,s=a.controller.control;function n(e){e.setTransition(t,a),0!==t&&(e.transitionStart(),e.params.autoHeight&&ee.nextTick(function(){e.updateAutoHeight()}),e.$wrapperEl.transitionEnd(function(){s&&(e.params.loop&&"slide"===a.params.controller.by&&e.loopFix(),e.transitionEnd())}))}if(Array.isArray(s))for(i=0;i<s.length;i+=1)s[i]!==e&&s[i]instanceof S&&n(s[i]);else s instanceof S&&e!==s&&n(s)}},N={onHashCange:function(){var e=this,t=f.location.hash.replace("#","");if(t!==e.slides.eq(e.activeIndex).attr("data-hash")){var i=e.$wrapperEl.children("."+e.params.slideClass+'[data-hash="'+t+'"]').index();if(void 0===i)return;e.slideTo(i)}},setHash:function(){var e=this;if(e.hashNavigation.initialized&&e.params.hashNavigation.enabled)if(e.params.hashNavigation.replaceState&&J.history&&J.history.replaceState)J.history.replaceState(null,null,"#"+e.slides.eq(e.activeIndex).attr("data-hash")||"");else{var t=e.slides.eq(e.activeIndex),i=t.attr("data-hash")||t.attr("data-history");f.location.hash=i||""}},init:function(){var e=this;if(!(!e.params.hashNavigation.enabled||e.params.history&&e.params.history.enabled)){e.hashNavigation.initialized=!0;var t=f.location.hash.replace("#","");if(t)for(var i=0,a=e.slides.length;i<a;i+=1){var s=e.slides.eq(i);if((s.attr("data-hash")||s.attr("data-history"))===t&&!s.hasClass(e.params.slideDuplicateClass)){var n=s.index();e.slideTo(n,0,e.params.runCallbacksOnInit,!0)}}e.params.hashNavigation.watchState&&y(J).on("hashchange",e.hashNavigation.onHashCange)}},destroy:function(){this.params.hashNavigation.watchState&&y(J).off("hashchange",this.hashNavigation.onHashCange)}},V={run:function(){var e=this,t=e.slides.eq(e.activeIndex),i=e.params.autoplay.delay;t.attr("data-swiper-autoplay")&&(i=t.attr("data-swiper-autoplay")||e.params.autoplay.delay),e.autoplay.timeout=ee.nextTick(function(){e.params.autoplay.reverseDirection?e.params.loop?(e.loopFix(),e.slidePrev(e.params.speed,!0,!0),e.emit("autoplay")):e.isBeginning?e.params.autoplay.stopOnLastSlide?e.autoplay.stop():(e.slideTo(e.slides.length-1,e.params.speed,!0,!0),e.emit("autoplay")):(e.slidePrev(e.params.speed,!0,!0),e.emit("autoplay")):e.params.loop?(e.loopFix(),e.slideNext(e.params.speed,!0,!0),e.emit("autoplay")):e.isEnd?e.params.autoplay.stopOnLastSlide?e.autoplay.stop():(e.slideTo(0,e.params.speed,!0,!0),e.emit("autoplay")):(e.slideNext(e.params.speed,!0,!0),e.emit("autoplay"))},i)},start:function(){var e=this;return void 0===e.autoplay.timeout&&(!e.autoplay.running&&(e.autoplay.running=!0,e.emit("autoplayStart"),e.autoplay.run(),!0))},stop:function(){var e=this;return!!e.autoplay.running&&(void 0!==e.autoplay.timeout&&(e.autoplay.timeout&&(clearTimeout(e.autoplay.timeout),e.autoplay.timeout=void 0),e.autoplay.running=!1,e.emit("autoplayStop"),!0))},pause:function(e){var t=this;t.autoplay.running&&(t.autoplay.paused||(t.autoplay.timeout&&clearTimeout(t.autoplay.timeout),t.autoplay.paused=!0,0!==e&&t.params.autoplay.waitForTransition?(t.$wrapperEl[0].addEventListener("transitionend",t.autoplay.onTransitionEnd),t.$wrapperEl[0].addEventListener("webkitTransitionEnd",t.autoplay.onTransitionEnd)):(t.autoplay.paused=!1,t.autoplay.run())))}},H={setTranslate:function(){for(var e=this,t=e.slides,i=0;i<t.length;i+=1){var a=e.slides.eq(i),s=-a[0].swiperSlideOffset;e.params.virtualTranslate||(s-=e.translate);var n=0;e.isHorizontal()||(n=s,s=0);var r=e.params.fadeEffect.crossFade?Math.max(1-Math.abs(a[0].progress),0):1+Math.min(Math.max(a[0].progress,-1),0);a.css({opacity:r}).transform("translate3d("+s+"px, "+n+"px, 0px)")}},setTransition:function(e){var i=this,t=i.slides,a=i.$wrapperEl;if(t.transition(e),i.params.virtualTranslate&&0!==e){var s=!1;t.transitionEnd(function(){if(!s&&i&&!i.destroyed){s=!0,i.animating=!1;for(var e=["webkitTransitionEnd","transitionend"],t=0;t<e.length;t+=1)a.trigger(e[t])}})}}},G=[E,M,P,k,I,O,{name:"mousewheel",params:{mousewheel:{enabled:!1,releaseOnEdges:!1,invert:!1,forceToAxis:!1,sensitivity:1,eventsTarged:"container"}},create:function(){var e=this;ee.extend(e,{mousewheel:{enabled:!1,enable:D.enable.bind(e),disable:D.disable.bind(e),handle:D.handle.bind(e),handleMouseEnter:D.handleMouseEnter.bind(e),handleMouseLeave:D.handleMouseLeave.bind(e),lastScrollTime:ee.now()}})},on:{init:function(){this.params.mousewheel.enabled&&this.mousewheel.enable()},destroy:function(){this.mousewheel.enabled&&this.mousewheel.disable()}}},{name:"pagination",params:{pagination:{el:null,bulletElement:"span",clickable:!1,hideOnClick:!1,renderBullet:null,renderProgressbar:null,renderFraction:null,renderCustom:null,progressbarOpposite:!1,type:"bullets",dynamicBullets:!1,dynamicMainBullets:1,formatFractionCurrent:function(e){return e},formatFractionTotal:function(e){return e},bulletClass:"swiper-pagination-bullet",bulletActiveClass:"swiper-pagination-bullet-active",modifierClass:"swiper-pagination-",currentClass:"swiper-pagination-current",totalClass:"swiper-pagination-total",hiddenClass:"swiper-pagination-hidden",progressbarFillClass:"swiper-pagination-progressbar-fill",progressbarOppositeClass:"swiper-pagination-progressbar-opposite",clickableClass:"swiper-pagination-clickable",lockClass:"swiper-pagination-lock"}},create:function(){var e=this;ee.extend(e,{pagination:{init:A.init.bind(e),render:A.render.bind(e),update:A.update.bind(e),destroy:A.destroy.bind(e),dynamicBulletIndex:0}})},on:{init:function(){this.pagination.init(),this.pagination.render(),this.pagination.update()},activeIndexChange:function(){this.params.loop?this.pagination.update():void 0===this.snapIndex&&this.pagination.update()},snapIndexChange:function(){this.params.loop||this.pagination.update()},slidesLengthChange:function(){this.params.loop&&(this.pagination.render(),this.pagination.update())},snapGridLengthChange:function(){this.params.loop||(this.pagination.render(),this.pagination.update())},destroy:function(){this.pagination.destroy()},click:function(e){var t=this;t.params.pagination.el&&t.params.pagination.hideOnClick&&0<t.pagination.$el.length&&!y(e.target).hasClass(t.params.pagination.bulletClass)&&(!0===t.pagination.$el.hasClass(t.params.pagination.hiddenClass)?t.emit("paginationShow",t):t.emit("paginationHide",t),t.pagination.$el.toggleClass(t.params.pagination.hiddenClass))}}},{name:"controller",params:{controller:{control:void 0,inverse:!1,by:"slide"}},create:function(){var e=this;ee.extend(e,{controller:{control:e.params.controller.control,getInterpolateFunction:B.getInterpolateFunction.bind(e),setTranslate:B.setTranslate.bind(e),setTransition:B.setTransition.bind(e)}})},on:{update:function(){this.controller.control&&this.controller.spline&&(this.controller.spline=void 0,delete this.controller.spline)},resize:function(){this.controller.control&&this.controller.spline&&(this.controller.spline=void 0,delete this.controller.spline)},observerUpdate:function(){this.controller.control&&this.controller.spline&&(this.controller.spline=void 0,delete this.controller.spline)},setTranslate:function(e,t){this.controller.control&&this.controller.setTranslate(e,t)},setTransition:function(e,t){this.controller.control&&this.controller.setTransition(e,t)}}},{name:"hash-navigation",params:{hashNavigation:{enabled:!1,replaceState:!1,watchState:!1}},create:function(){var e=this;ee.extend(e,{hashNavigation:{initialized:!1,init:N.init.bind(e),destroy:N.destroy.bind(e),setHash:N.setHash.bind(e),onHashCange:N.onHashCange.bind(e)}})},on:{init:function(){this.params.hashNavigation.enabled&&this.hashNavigation.init()},destroy:function(){this.params.hashNavigation.enabled&&this.hashNavigation.destroy()},transitionEnd:function(){this.hashNavigation.initialized&&this.hashNavigation.setHash()}}},{name:"autoplay",params:{autoplay:{enabled:!1,delay:3e3,waitForTransition:!0,disableOnInteraction:!0,stopOnLastSlide:!1,reverseDirection:!1}},create:function(){var t=this;ee.extend(t,{autoplay:{running:!1,paused:!1,run:V.run.bind(t),start:V.start.bind(t),stop:V.stop.bind(t),pause:V.pause.bind(t),onTransitionEnd:function(e){t&&!t.destroyed&&t.$wrapperEl&&e.target===this&&(t.$wrapperEl[0].removeEventListener("transitionend",t.autoplay.onTransitionEnd),t.$wrapperEl[0].removeEventListener("webkitTransitionEnd",t.autoplay.onTransitionEnd),t.autoplay.paused=!1,t.autoplay.running?t.autoplay.run():t.autoplay.stop())}}})},on:{init:function(){this.params.autoplay.enabled&&this.autoplay.start()},beforeTransitionStart:function(e,t){this.autoplay.running&&(t||!this.params.autoplay.disableOnInteraction?this.autoplay.pause(e):this.autoplay.stop())},sliderFirstMove:function(){this.autoplay.running&&(this.params.autoplay.disableOnInteraction?this.autoplay.stop():this.autoplay.pause())},destroy:function(){this.autoplay.running&&this.autoplay.stop()}}},{name:"effect-fade",params:{fadeEffect:{crossFade:!1}},create:function(){ee.extend(this,{fadeEffect:{setTranslate:H.setTranslate.bind(this),setTransition:H.setTransition.bind(this)}})},on:{beforeInit:function(){var e=this;if("fade"===e.params.effect){e.classNames.push(e.params.containerModifierClass+"fade");var t={slidesPerView:1,slidesPerColumn:1,slidesPerGroup:1,watchSlidesProgress:!0,spaceBetween:0,virtualTranslate:!0};ee.extend(e.params,t),ee.extend(e.originalParams,t)}},setTranslate:function(){"fade"===this.params.effect&&this.fadeEffect.setTranslate()},setTransition:function(e){"fade"===this.params.effect&&this.fadeEffect.setTransition(e)}}}];return void 0===S.use&&(S.use=S.Class.use,S.installModule=S.Class.installModule),S.use(G),S});
-
-!function(t,e){"object"==typeof exports&&"undefined"!=typeof module?module.exports=e():"function"==typeof define&&define.amd?define(e):t.timeago=e()}(this,function(){"use strict";var t="second_minute_hour_day_week_month_year".split("_"),e="秒_分钟_小时_天_周_月_年".split("_"),n=[60,60,24,7,365/7/12,12],r={en:function(e,n){if(0===n)return["just now","right now"];var r=t[parseInt(n/2)];return e>1&&(r+="s"),[e+" "+r+" ago","in "+e+" "+r]},zh_CN:function(t,n){if(0===n)return["刚刚","片刻后"];var r=e[parseInt(n/2)];return[t+" "+r+"前",t+" "+r+"后"]}},a=function(t){return parseInt(t)},i=function(t){return t instanceof Date?t:!isNaN(t)||/^\d+$/.test(t)?new Date(a(t)):(t=(t||"").trim().replace(/\.\d+/,"").replace(/-/,"/").replace(/-/,"/").replace(/(\d)T(\d)/,"$1 $2").replace(/Z/," UTC").replace(/([\+\-]\d\d)\:?(\d\d)/," $1$2"),new Date(t))},o=function(t,e,i){e=r[e]?e:r[i]?i:"en";for(var o=0,u=t<0?1:0,c=t=Math.abs(t);t>=n[o]&&o<n.length;o++)t/=n[o];return(t=a(t))>(0===(o*=2)?9:1)&&(o+=1),r[e](t,o,c)[u].replace("%s",t)},u=function(t,e){return((e=e?i(e):new Date)-i(t))/1e3},c=function(t,e){return t.getAttribute?t.getAttribute(e):t.attr?t.attr(e):void 0},f=function(t){return c(t,"data-timeago")||c(t,"datetime")},d=[],l=function(t){t&&(clearTimeout(t),delete d[t])},s=function(t){if(t)l(c(t,"data-tid"));else for(var e in d)l(e)},h=function(){function t(t,e){for(var n=0;n<e.length;n++){var r=e[n];r.enumerable=r.enumerable||!1,r.configurable=!0,"value" in r&&(r.writable=!0),Object.defineProperty(t,r.key,r)}}
-return function(e,n,r){return n&&t(e.prototype,n),r&&t(e,r),e}}();var p=function(){function t(e,n){!function(t,e){if(!(t instanceof e))throw new TypeError("Cannot call a class as a function")}(this,t),this.nowDate=e,this.defaultLocale=n||"en"}
-return h(t,[{key:"setLocale",value:function(t){this.defaultLocale=t}},{key:"doRender",value:function(t,e,r){var a=this,i=u(e,this.nowDate);t.innerHTML=o(i,r,this.defaultLocale);var c=function(t,e){var n=setTimeout(function(){l(n),t()},e);return d[n]=0,n}(function(){a.doRender(t,e,r)},Math.min(1e3*function(t){for(var e=1,r=0,a=Math.abs(t);t>=n[r]&&r<n.length;r++)t/=n[r],e*=n[r];return a=(a%=e)?e-a:e,Math.ceil(a)}(i),2147483647));!function(t,e){t.setAttribute?t.setAttribute("data-tid",e):t.attr&&t.attr("data-tid",e)}(t,c)}},{key:"render",value:function(t,e){void 0===t.length&&(t=[t]);for(var n=void 0,r=0,a=t.length;r<a;r++)n=t[r],s(n),this.doRender(n,f(n),e)}},{key:"format",value:function(t,e){return o(u(t,this.nowDate),e,this.defaultLocale)}}]),t}(),v=function(t,e){return new p(t,e)};return v.register=function(t,e){r[t]=e},v.cancel=s,v})
- var kiwiIcon = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEgAAABICAYAAABV7bNHAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAABdpSURBVHhe3Zt7rOVXVcfXOfeccx9z753pzHQefSotQ6GlNGApNhZIWgxKKw1WI9FoUhMxKH3Qf8QQSTQSDUQUMTFUYxVFjEQjvmqwNfZBpIWxPCxQlD5pmbbMdGbu65x7zrl+P9+19zmnpZ1OMZHe2ffs39577bXX3uv7W2vt/fudcxvvffTrG6HkSyk3dGmoxl/WoOuvURjcogGvCTH0tfbkmGGp09hobMRQvIXilDxDU4YTcqnW+cfzuDC/+xvisDxGlYXVtvqyDr3OYFIdnfy+Jl+24LEEjyE1PYloNcNZFwci4z4NGE62kxe6+0o7aZkbhW5pAy1DbeHkPgBJnlqyDvjho+BSxpMRXfpM1x1JfmQWBpRSe8PCUxZddQ6nQoffNwx++kY82c55NqJZB4yE6DIsE9CuOVdYB1JKuBYpLndRS+bsH43DtODVXbWVOI9BQEYKqAo9U07WzZ9Ds87clCYyhjrjs+1hro9zHVP5M9MxrgNujtNFBtFU1QNzcDJgkJWRLHGZSr+Vwpr402QNj4cZHhaH8AKCeXJhqRDjUz7jLF31vCmFh7p4oKUVFhlqs7psIweam2X+7HNGtoq0+hzvVLpzDuZj/VVWjs81oB8uVifV1YpTK5MhOJlFhM+zIESLp6YLfZWPYXUB8OU4ciqbHVoQIpIlKyI0Gk1n00pJ20NQHDkQvQ5uYVVcDKKhaK5bXF672L22LAGh6sBaK9/QPJILY6F7DDTG/eqDX1cbSqass7Ck1b7KQUk2IBOUBDlprmk8N4TSfSamUsP+MAaDgeMSeahVprLwaEjhjSZZnymVraloUIpmXhQz93h2SmojehE4DszjMUPfvTEvCb6U0FR/ymy854H76rpKwjpyGrOwmNLznWXpKwQK8misUDRtENHv9WO4rh2lrwZi3a9SDKMZVABqHW+LSLIpKNyYkqW1mzE13TZ4dBqwwkca8dcJRrSku216ApQUkm6WrhqFsTkJKl3V8ELxOyqYIivlLtU+9ydv0iHgv9AYl30ZE5giYtAdRu/wenQPr8VgVQANtHl6e5ZmDGeMKo4zzKnW02JKdhe+4layuMHKILqH1qL7VDcGPQEOGzLgQwfWpNJuVWiZS120STe0y5lXY1TgdpTIaSbKmSs42c5qrY/8ngWIbwxgGVd59Rl0pcBTa7G+tC6FWJWIJMthco2HXxPYVSgxB8umXRaNbGY1jTH0I6usRdisH+nFmsAaak7oORsDxvyWWTKjUwdVYEZeKUfA0leyzkEq3eBOslANGNEye1Gjei7Biy40ZxYnMLqHu9FfETCiYS1jgNUuJXcIGu4y1W7F1Gy79OkySmMlmF9SUgZlrXMpbra+1IuegArFt5yTjE7qJ5U6QI/WnuSSAZRMPYFFrqIxXATJBJK2Sb6IpuxJRKiBrfK4pKLdZl2g9I6sqS0CuxKTmCUntvCmAJlpR2frdExvnY323LTbU52paE63irxJBRidJR+DAyGbTsmnHs1JYO3JndeXe4UZRSWDuQtgSSttrIXhbmuIeSjV9hgAmjBzzgE+XdJWpwWp7q3QyI8ndB8yVPaeWpWJ9yV5wk3gU7ygMSXlO4sz0drSkcVoN4JH1jbEK9jBVDZlTZZp2epnXWXBI/dSXyozBnGsTFmfqoO1gd0O/lSa8So0rytVDoVku595yZW38DXHW2DuXhnEcgGe3D11AjXqJHz6eceyidWIjwFs3+JtzQiYhVm7kScHELZ1+LVwq4MCzG0wqYmKEDLzqQHHWBFKwFKp7JvnBTDOq7A85uly43A52YHd0XK4FDmuk8sYNXxYrHQlP2o4Jijn4MyeE0EiWhkvoPRJGFt290hXhKTROYRHltEUIFgMJQtJWVqC5SGrDJMSA8npr/XlFuu5RK3BFmaZmTNmQWPxzKEV6DzUmJJrkjkjtaQKIFcdLA3rVgDXEYO2b1KRM9anlPS5H1pm2hmDaFeiKilkrBiXLCgTnPUlgWON1HZnIt+Zkysp6KYs0VmYSrPCA131wSrbf9fBlaDuOUqfLWFiDR5NnwBoKl5Nb1P8mp+O1lzHcaw9q6yyIxondstR9o2Q2/d0Iwe98kwPzRmmrAPEmK4PZaHpUaMQdEFA+ilNJgJphSmYReeEuSGT7UupmuCzMKXOgqxGdxOzJmiva2EAgCtaSc5AqqFof5XAU8FjHmTl3PmUXRT03IyRywr4loJ6bac7iJesORtNgbc4a3DNY11UMUiyJHhYR5nHY9XveTyf9GM+1etNGp3YbDV0qm2ZnlytOoBCfL2jXdfDwlAwJ2toh2KhveWu4xLnEuLKBtamMWuKBwDb1w6D5bDOND3mzfktmLmpl7lzXuQ3tNtppxMw9cG2AgkvyXUl3DuPGPSniszTY17iIMOR7Xm0brfrzVKS/OqCsqAExkzOaluGWZ0sSMkxx505mHpFHxP2iZkDmx8yWWBxP5J5BiNTHy3I/SxUxWgdXCihKwtozkrmgd/z5xjWDlDmK20ym4MtlpuktkFX6h5ZdZlWlPOQbcHcKMZTZw7VpUkyQ6zMZM9ZmNUrl5GrMFl1E2UuPGhmS5By10o/yYrW5DlYVC7U2iBZLF6UWpLuih833KsSBlknwbgCaB5KpXqDLMdt5tBHa+3My5II5nUQV9F9TqI+mj/LKsul5qJsvPuL9+W6Um4uyjltyHUJ7S3plIobMajwIsVKuzUBDNmNpHgCpKkAljquoRX4TplW+ZJGaevTgNZCR7ENF06e8crKVResqE/WoFoOVHIDV+TerCePNMr67Dx5MWZ0JoNeRCjnCgBmyEWfxvVf+Jpu0jOVxBp0TZLAUdwpi6vvgpOrCGScaPku2F3ZJ5ollzFumU818ZVekeSK45b+VHIHBUprTo8ho/GknINWT8r3eLwZyHVFe9n8ltgn1zpjdiZO0662Z6YTJ7XbAkKx6xnpw3ffG/866EfHsiXPwuvsJNak6/X33Ke5IYqxXCsLuA0VN9bXtA1LkBVISUWhyp2T1DSSoKKSKXN6wMm5amawAVCDdz7NVsvbOfU6n/s1z7p2olWBsrLej1dum4+LdyzGhdsX4/T5OfNl0hjGMVRWX9Onv/pAfEr5lvsfi1md7rfv2hYnnXFqvpsye5nLV0Roxmv/82tqp5/SQc47qVKy1xT5x4aha35qywnzXtei123Ww1BVfQRjnWDVP6VFtqRsy/FAfZNzic727JdiPIZwR/mDRwyMR/6qgDkiUF6xOBdv2bsjLlUerbS4U01QHbOUvvzNJ+Km/V+Lf/z6QzElvhkdE2ZkVX60Uf+WXYsxv3t3DPoDjWPVRao66W9c93lZkFZdFwORDCo+EK4mQKTRIOrKmPeyTqltMbx2z7Y4Z+u87uRsLOrutIXuSr8fB7vr8YB2ji8dPBr7n3gqOnKbeQ5103IdgaI1O02CVi9s58ta+KqAufK0XfH279sd8x0OoRlbytBRmgTmr/d/NX7/zi/GE2u9WNB8s5rPYUJrbnDyJp5q3W3OVnOzMb9rh44lsiSP9hSuN64VQLQyAkAsLqC73VvWlsjOpT56QReOdQk6pJPwRQLlJ846Jc4+ad49mYpkUgE2UzbuPHAoPv7ggTiw2hOQxBcRGaKyDmM9AE+M+dnv3xtvO3N30vV0S/D1bjmRaFVgbrz9C/Gh2++JluLOPCdsrFJgEM94NOkTLqRbExnQZUk8RDdb7ZjfmSBh+zU1rrlbAJU0qij50HeUnSvjRRp+xGHdkdP0OPFrF+2LrQqCjPLB7VlSuslYISsiefju/icPxwf/60Gd2xoxKyVYMK7UlcUc7vbjqjN3xdX7TkWKFv2d1lLTVAHmo7fdE7/77/dEW9a7MDOt50BiGMcDxQnlRkNztDWHzmEDrIg14da6622fmfQY0+7E3PaTPB/Ja7/mrvE7aSoGQuMGWiTvkX2L1UHfgaXV+IXzzozLz9pjmg9oz5EQXstn3nHSVAHqE//zWPzLN78dBwR8R3f0dSdvjWtecVrMKU5MmvwzUx1/670PxA1/e1sM1F6UK0355T4WQ1wTOMVKuDtYEm2eI6Hl7ipZsmReyTAZp/WZxW0ykJy78a7PJkCokDaSDtXVI4MDhIQMZOpPLq/F77zh3HiJdo48HD53qpZDejZwaqLHSrg2kbQ4tu3nSljNsmLjz/zJP8e9Tx6KnQtbosVLN9ENDtnASC6gaA1Nlawael/uzc3NtcHT0KFy1toTqLCk6YV5e1Ge/ER00BOBUyX6D/WAyflkoN3jSSH+4Tee97zgVGCq1RwLHBILwtz7CuZstbV8LnCwGsC56Y4vxfm/+bF4dHkl9mxbiA5vJRVzcCsfEQQQB8tGs6XMOngvqLWwHsnmNUwGPSxIWU9HwMAOiyvyzUv3yLJmFLAVFBp5YNSitXshiL4nZUnvufDsOGPrlue1HFIF54Wkyn+scQDDen7sI38TH7j183HqzsWY04GwJZcAFL/bBhxAwpKkqA3TuikZHHwjz1kGB4YyJ08LDPBhV3bDgzabVNMIkjV5gqI6QVFYrCgOXXLK9rjo1O3Pazm2wO8CnONJgLP/G4/GOe+7KR5f6cbJOk60OMsIlAbgKN6gYH+17/jSU9nn6yBuuKyHNw84smxKa1Rda2Sd7NYFsthYByD1Sf/8hhdPkothWhqVwoyBlJVb0bkqgG646GyBdWxwjuVS1S3Iz9J9zAQ7437v5rviqj/+p9i1fSFmtXM2CzhYCq5EOMDqUcExR2v3GY4XcQCgif21EoDAI5DY8p08CAMxp5rwZR1AJV0M4DORAWhJgezq809PGb4+PR2P1XCCPqw7/iufuDV+++8/o7UfP0jwAcDVH/2H+MPPfDnOOHmbzjS4EDkVJOA2iRmsA5WsLCktAGVG38tZCUp2L3EYCMYk3R4kmtsT75D8+yADNHKxtKCuTPTyfXuf1XomgXkucJzU96YP/FXcct/D8fG7vhLv/NObDdLxJPgue/9fxuceeiJ2KxAbGGIMwVegZPCVG4i3rXNPixM2O+JQWakqbrBcU93rVQM3wtIAxv0iWk21AYfayDVtCSBDp3o0eE2u9UOnbzej5ykJUAyo0jGBUdL6Y12PCAe1HS/oRLtty0x86ZtPlt5jJ9zqk/9xbzx8eCm26tmLcwo7k62mgmNLwAk0kdZOkAYo3gFNyQVZJkoOdJbzGFtH6sgYA+BSxQSdZN2wLtWb3v6c9RFQWMyqrOeSM3kYFK2AMpmfDxwSmOMSbz7/rDhwdCUeObwS77z0NaX3+dM3Di3Foo4VfAlgV/KWLSXJ3Ne6BDaVopDvpjKHvqlOR2uVsrIM3mURpzTYY4Ei4QCYUrqeVMcoSvH69IQy9iSVnAm6uvMX7F4sRNEmgDkecGriTPORn74s/uznfzT+7YafjLdf9HLTjiede9rO6Gk9mCJP+wZGc3vHFbnuQI49VoZUrALXgB9G+sTLG9GeDrsE4wpO7TMFea4DjhIWKvDtYvVXEODBqbklxhn5dF/17waYyQQgr9HD5hk7Fo8bHPje8sqXxA49ZS+v9Q0CKc9pCUC1mlSGS7UMFNMDtd9hJc3jqEthHlYZZZrGWYItBlZf1ZdtdB6fg8BIgod6/Nq1ZdqM/xdgJhOnZYB/IQlXv/W6K+NNLztdO2EvDi7LArR1F0gMkusGCiBU1R+nYN45pzVILwIyfwaRmsYBFu3C41TkWK7xSHCf9usOBqHIrA5e3+vEsxIPjL/xlgvj7uuvjBuvujh+QG732OHlWOWkT/K6UTgV9/p1SERZ31gAcJ8SVf35qyhlxySIFCqbITd2m7Epk7ofNXIiFqRC+VhP6f+fiaXhbuQLTt0RH7ziwvjcuy6PS1+yJx47tBocllN9tNeOtQ4BSnEh6FZPFAFprXTpHlXQFq9BxaJkZQpadsEEeowFzlwaYlKJKR71j5FeXMluKqA62u7f98Ovijve+abYqyfwxw8uSeHVWFfOX5slOBl0aelPumXMKdZWYpMtzKiBj3ZJaEr5DJ99htXbuwgEZImIb018tfxiS7x7BqhFPcH/xdsvjvde+so4cGQt3zQWpbEC68dFrezRH7oWxQGLIuONRky1Sp+yDAXzhb98N59ESkBq68T6yLeP5kupF2kaSAGAetsFZ8Yd1705+opLq7iNrQMkBIisBZ0cTwDK7kdvjVtJ5+NXthqGWyeA+dpHB0UaWFDpkDlOC83PPnRQA5nsxZ0Aabt23Tvf/SOxUyfpJb4Blh54gsFBe9/4Yi30QFfbhiGgmg2+N0u3Mh1QGKCPD4oWIKIPhBLINw83f/UJL2AzJOITt/tT73hj7Nu5EMurAzVRNsEhjQAj1pKoA56GTrX4xoPALETAAx6P9ZNaeRbzIDejpZPrNw6uxeNPLb2o3WwyEZs4Fnzs5y6OPfPTep5UwLaS+khhHqlsOeJNkLLtnYsXaAImrUe5lPDlrztEqOc4ROCyW7VDfOiW/xbhxe9mNdkzBNLfveP10day1/1lICG7gKHSoKGgSruYtnf6R54kGQBFtouNCQxiGlIzZoTq7Q8ejvsPPKWn680FEtp++pdeH4e0Gw94lSrdHJTdh5dIV5W4FE/+GEe1mqwkgOSmzUoV3CyticHg3oi92xfiF/98f7Yhb5IEKJ12K278qVfHt/iROcAAApZCXaGkhpWW4o/7BEwaS4aZBAsLAhjOVwKHMQkQT89TjkXN6em49mN3yRK/948fLySxu73urJ3x1vP2xgqPH9ILL+EZy3rq0upM+9HDoBGLAApgCjiUfh9kqwJBj1SHLwJKoCxumYv9jxyJP/j0V/wiazOloeLRb73tvOgpFmFVefNTV1wO97L1SO/8BS4WlCUXSsPJAGNSiDWg+aFNR/BdO7bGH912f6ys9TbNrkZCF9L7r3h5HOT/RjAAAMEFp2fzx6XWvYQW64+lJY12+VYjrcj7vxFFbIn+IN3qxElb5+OTdz8s8uYJ2CRc7c3n7Yldc+1Y12mb7935yshB1fhQZt0l+k+0fVAcISuUMlhn55CIjxUpz83OxUN6gt6caSN+/YqXxqGj+SPUtmJP6iv1it60TXBWnbby6H2QMxYkYLKuwSplQ+IErEbsXNyi+uZLnLR/8OydcbKsqNmetotlMJauMBic0i5W5LayD4oQGAAwtYNMAWDEpK7M85J9vMhn9GZMG/HLl50VS7zCFUB5EAQo9HN3ySXcAJRyPvMrV3BwN3scrsZpnXYB79xTeK8M4+ZLfJf346/eE6sCyG8VbSXVWhIMB2iUd5vSFlTjjlqUTxukj4TxLvi1p29lnk2bbABKl+3bFms9frSZViQtEwvpbEuCMgEez/hqQFAbHzRYOcC+qgEAdMHp/MzOEjZx2oi3vupkHVd0cMQTip5pNbWdwKWFaZunr5oXhDxtwsFHdVvQIM7Zw89sYd68CTd7w8u2y83yTDQCQzpXvcf6k73Ni1CQHCEKk9spBIBeuls7mNHcvAmdcaHz9m6JXo9wAgjFtSjR323cC6DsYuqs4GAxaqc1iSRACGgDnTi3zLSP+bO4zZQuPmurb/roP38qBtK/updq7mvWHcpuhsWYgW9UcxDvfnfM8UryREkbcf5p87IgtmgpCRiAY6tB9wqSzEV1n6RtKYBSgnQ+cqR78U3rttkTCCCBcs7eOb/kr2EEe8FaAGkck5LXuxg+59eQhQlgnQt4M7yeO0ES+pyyfc6/f7LFoDNAWffMCQ54yIJsNeIyjQGTWUQHMgScIAk9SScpbOTLfjWsp8pSz6yL2g7S1VLSrcoASmW2+RMx7Vro5FOBgSDeiFiNYVTWII0VDbCktKZhiV8VrCX+AfcES8RVjCJ1xJ1QWCUKO9xkyJEFZcyhC9Tsf64nE3+HVxSpT7DU4YtU3XefedC5lhPgGKB6WAJJWw8MrpcfTwnDxw91kXlCJX4rbdVLaKmAJECUtB2kkylzgoPbwUhfngkasbza8w8zT5S01h0qvqhiYNAV3Z8OTgwj/hcdE6bWlRktMwAAAABJRU5ErkJggg==";
-  var patternsURI = ["data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADgAAAA4CAMAAACfWMssAAAAIVBMVEUAAABISFNPT1BKSk8AAABRUVlQUFdfX2BTU1xLS1BISFIW5OYtAAAAC3RSTlMVNUBFACUqGyBAOiq8620AAAESSURBVHjajdPBDoMgFAXRSy1I/f8PbmKtNLN4HVYaCfMSjjlXe2x5nit9jOy936+tZd/n97W9tlzr3Dmxc947x3HkWih8EjxzHdva9YWF9NGyVjE1ChntuJ7rqVnIHGN9KqZm4WdnPTULa/2ZmgWcyanXrbBQnIlbQaE4s7RUnVlbsj5ZiPaJQrRPFJRP/1cJS8Kn/quUJeHT/1XOkvbJgvbJgvbJgvbJgvbJgvfJgvXJQrRPFKJ9ouB9smB9shDtE4VonyhE+0Qh2icK0T5R8D5ZsD5ZiPaJQrRPFLxPFqxPFqJ9ohDtEwXvkwXrk4VYn7yVWJ+8lVifvJVYn7yVWJ+cxfvkLNYnZ4n1yVlifXKWNy8PJIyie6gNAAAAAElFTkSuQmCC", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAATklEQVQ4y2NgAIInz17YMqABYsUo0kx1A4lW+PTZi7j7Dx+lUWzztes30wbYZmyAWJuxGkKqzSj8oWczzoAk2mZshgyczUDNuqTaDOMDADz1vO3QVThgAAAAAElFTkSuQmCC", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAQAAAC1+jfqAAAAGklEQVR4AWNYJYoK92ihwpGiAF0AXcMIUQAAbIfSgRmCFqkAAAAASUVORK5CYII=", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAMAAAC6V+0/AAAAV1BMVEUAAAAAAAAAAAAAAAAuLi47OztQUFBVVVVhYWFqampsbGx8fHx/f3+CgoKCgoKFhYWHh4eLi4uNjY2Ojo6Pj4+SkpKTk5OTk5OTk5OUlJSUlJSUlJSUlJRKk3zDAAAAHXRSTlMAAwUICw0QEhUYGicqLS8yNUJKT1lucXR2eXyBg9SYh8YAAADDSURBVBgZBcHBYRsBDAPBBUi5Av/cf2fpIYpyBDyjn4dpwst/UAHR/fvpkvr9peGcdm6+Pro8SvqPDgvCR8GHjFwfL9m1SimHkqJUtuoYMNWQoMdCJwzB0NF5fcUcYpCkjltLKKZ3OlS1xb47oLTy+TpEAADwvYJj8IrCpHP3nwRXr1U3lhrnPcd8mFhbHWIEGIZjpanPHKUCGDvwnIqNydA57aRzQxFRK2rPSkxas62jtPghgJRTJRdm16Eo9hUH3PMviNSOOPYHUiwAAAAASUVORK5CYII=", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAICAQAAAB0OpaOAAAAHElEQVR4AWNgYDAONQZiBhABhEAGXCQUxiCsBgC8qgzSEgW+UwAAAABJRU5ErkJggg==", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAQAAAC1+jfqAAAA9UlEQVR4AV2Qoc+DMBDFn6vDfQ4307sykg5BEEvmCAaHq8MtqZib41//7qVbwppLLtD3a+/egzwFsmtSsJbGCizdqGiCYmz7W29dkz9KaRouA6KO7QgjKYeZgjx1401+hzUYohv4eFhNfJH/VEvIYBDAcKEsyM6GvP1bE/cgEjUCEbL74/6XnYkEX/7g/9KUa3aPswXEukeHDv2NJ3RAEHdcJz5VDq8TIT7vbfR1ys6cZ5eRv743Lv3NJbulASfKXnyzD1UuqHwnTb+5MOCT77Cyn3NB7TtWuaD2LVUukB/fY0vwnAvCHD6+o4bVLLswc82CdY9/r1ttojHJ9EoAAAAASUVORK5CYII=", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAQAAAAngNWGAAAAbUlEQVR4AaWSUQqAMAxDc7NC/fJQXsEz+yF7rRDYcIT+pOsjEXUGktPYiQeBiV7vuHiYd6rMPnvE9Yzxm+gyctBnm+jEkYzNup+X9Q1B5yISHZMKvaISzYiBDHE5o2utCbF+KJ9x7NeJ7uO6jA/gvK6tT/aV8gAAAABJRU5ErkJggg==", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC4AAAAXBAMAAACG4mBhAAAALVBMVEW/v7/GxsbBwcHAwMDHx8fDw8PGxsbHx8fExMTExMS8vLzGxsbIyMi6urq3t7fYOU9pAAAAD3RSTlMwWjo1YEBVZUpFKlBqJSCof7U2AAACD0lEQVR4Xh2RTWsaURiFX2a4kNFNYx3HoS7GxlprKdw6JUwUF5JJVOzi3ipJoCun2pHQzQQZEsxiUhOErhSHLFwZs7ETAn4VS5ddSKGbQlelm/yU3mb/vJznPQccv8yd1VHEEILHaqfo2z/yTENYB1jo2fEKUxuft7Vc9/Fa+GBXcY/BX3r7yV/kUd7g1LMZ9x73dEPQ29B5cB1adDXi2ulx07s5nYxtxS2kobc97JzwSwNJM5Tz6GUJvxF0ZwhbpbLWzoR2FWpvuF/D3nIOboHvAz4vAJ46FQNFAsLpO2852dIdrQVzQZ8jKXtjkT1buSSJ0AbDOzkoYbelLmfXpjikRoqlMBmt8AzMuRCcZ0LluOW7OhnS/zK+/e3fEG3hRCG1kPllP1ZHkiE0Hby54wMU/PYrTzIWyTy6d+o11Au+NgNCd1SL8EtZlQyGf7Zg3BxsriCAQuci6rNqNIYn137eVqYyFwGrTHOEFryXRcxwnqtdNNQaiYIkoi/IrL74+wMoe6D7PP/QkyYjiK82gIqJOhXvZWR+OkDrSho4SUx3DkdBW2F4r1HtPuGmBlcHErf7NOC5IgoaQg6eisP4KhmzQEyxhGpbIHtF7BZvX4mcGRitTyGYjFsKbWH0gfzRHVTtRq1k7GgErwcjk0XOR1L6ihUpc7UZlz+8g7CqsIMKG+XjwtGa3fj3bMxWDv4B8aOpHqtLHxYAAAAASUVORK5CYII=", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAC4AAAAXBAMAAACG4mBhAAAALVBMVEVAQEA5OTk+Pj4/Pz84ODg8PDw5OTk4ODg7Ozs7OztDQ0M5OTk3NzdFRUVISEi5S1dSAAAAD3RSTlMwWjo1YEBVZUpFKlBqJSCof7U2AAACDklEQVR4Xh2RwWvaYBiHXxI+aPSyOmMa5iGuznWOwTczSqp4kKVVcYfvm9IWdjLTpZRdUiS02EM6W4SdFIOHnqy9uJSCGkfGjjvIYJfBTmOX/Sn71vvz8jz8XnDCMnfWRHFDiB6r3XJo78gzDWEVYKHnJ0tMbXze0Qq9hytr+zuKewzhypuP4TKPiganns25d7ivG4Lege6969iipxHXzk5a3s3pdGIrbikL/Zej7gkfGEiao4JHhxX8WtCdEWxVqlonF9tRqL3uflnzAh/cEj8AfF4CPHNqBopHhNO3XjDd0h2tDb6g+0jK31hk11aGZCO2zvBuASrYbavB/NoUR9TIMAuL0UpPwPSFqJ+LVVNW6OpkRP/HhPZe/oJEG2+UMguZDwbJJpIMoeXgze0QoOjXn0WSs0juwV1T/0C94BtzIHRbtQgfyKpkMPyTBZPW5eYSIih2LqIBm0ZjeHrlx21tJnNxsKq0QGjJe17GDOe5xsWB2iAJkET0GZn1Z3++A4sZ9p4W73vSdAyp5TpQcaNJxbsYmZ9dolUlC5wkZruH46itMLx/UO894mYG1wSSsgc04rkiihpCAR6Lo9QynbRAzDBDvSOQ3TJ2y7cvRM6MjFdnEE2nLIW2MXpPfusOqvcSVjp5NIZXl2OTKf2xlL1iQ8pcY84VD//Cmqqwgxp7yoeFo7V6qW/5pK3s/wPxo6keqhNsswAAAABJRU5ErkJggg==", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAX0lEQVQY02PIiAgXIIQdbG0SGMAEHgCSd7a382Kws7Gux6UYJO7m5moFwmCF2BSD+B5OjgYwzBAYGyOKrhhEB3i4KyBjBmwOx+YhrA7H60Fkh+P0ILrDsXoQm8OxeRAA3tdK4XWWWjsAAAAASUVORK5CYII=", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACsAAAAyCAMAAADyWtKhAAAAOVBMVEXExMT////+/v7ExMTBwcHDw8P9/f28vLz8/Py3t7efn5+zs7O6urrGxsbAwMCLi4u/v7+qqqozMzMczw67AAAAE3RSTlM7AAA3LjMAIgAaDRYeQCoJJhEEbIlemwAAAbFJREFUeF7tls2O5CAMhL/CNj8hIUm//8OuLPVoWqvRzvRtD8MBIWxTJSiXwO1WdZsqOUnlHMvD1ziLpIkXTfOq2xxW1QM2deNWmc7H8Fl0Y10bPFQXbEVqRNUJvS8g2pijBbB6h1M1aFLZSCCOXdrxM8CzWBlyiNPJ0EHSo54XeFU1PGBkZik5lwHhWFV1uM6KG3iXGhjckrbm4W2TdIOR+N3BHMP2mtsGDKlfcBwHXF0agHFLdbdcnDVPMMJYRT3A97k7RFdZWGCJVs8bSeoNYhibygUJo7rDVbRhI6B1SaL0rQV4H0TGGJKKEj9rg9EdrG294EYuq66jSQ0vqi1aVXFy47hUmwHmmJnvD6nEMTK+q1wHx1W0Z904okiP3c2MWCP5Ze58FgSWfObxMSX/seKdcz/5Lr7ky/rkm/dgP7uHd+73+W7zn+82n+/21MPEDph/6WHCYcynHl51xhc640Vnr/pdX+h3vej3nb54q9/spY83lRl8jJhF20sfG8GdhVMpiMR+jBWpkkeRnppI2Jt4zeW7XPuxl9h/6iW/XvLrJb9ewo+9hNe/Bt/8Nf4AS3cmb0JgjvwAAAAASUVORK5CYII=", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAANCAMAAACTkM4rAAAAM1BMVEXDw8O/v7+6urq8vLzAwMC3t7fBwcGqqqrExMSfn5/ExMSzs7PGxsYzMzOLi4vGxsbGxsZAp0WNAAAAEXRSTlNAMCUqNSA6FUUQShtQBQtaVftufO4AAACMSURBVAjXBcGHQcAwEASwK19tB9h/WiQEVy/bHreOVxfgie8eOjSxPUqguMH7hPFqPcZp8cTN31mZzDxIRFZESShVcoQbBwzk1/mOC9mo7Zlq03fPQ1+hbGLLDFVQQYIYbQ6MmP7JU8ZwlfXhIbKRjYeQIko9VjqLd7B1XEbsD0AQ9aFbuFDTTcQf1/9STgSmXgY0bAAAAABJRU5ErkJggg==", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEwAAABMAgMAAAC6+bm4AAAACVBMVEUAAAA6OjoRERF2CL9MAAAAA3RSTlMYagB3UbU7AAAAKUlEQVR4Xu3MMQEAAAjDsD48qEMiUhEwAxyNgFCJTUyi08/Pz8/Pz+8AYZNnpzQ2VbkAAAAASUVORK5CYII=", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAUCAYAAADLP76nAAAAlUlEQVRIx+2VMQoFIQxE50a5/3EEQUH9kkZRUvxOdl3cdhUylYSXIsjwICIkIoRLjDHkvacY423ee6fdeMyx1t6GIYQntCOfUhoXMjMx8wDny7finXOU0m8MWmvjXWslAMg50678I9cFACilvH7x5/wpZV3x55V15o8p64I/pqxv/BllXfFqYjWxmlhNrCZWE6uJP+T/5sS+zrENYFQAAAAASUVORK5CYII=", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACYAAAAmCAMAAACf4xmcAAAAV1BMVEXKysrHx8fJycnKysrIyMjKysrGxsbJycnJycnHx8fLy8vKysrJycnIyMjGxsbExMTLy8vLy8vJycnKysrKysrLy8vExMTLy8vBwcHLy8vDw8PAwMDLy8smPLGjAAAAHXRSTlNTMENNOFAtRUAzWFU9NSslXVs7S0hgI2MdZSAbaIddL18AAANVSURBVHheJZNHll1ZDMNIhZvjSz+497/OdrnmoAY4EHgAfTZc+bhXC+gnhqSGhFza3EwfCxBscMrybNhxEmLlGIulxyxO1fxqhBDylhVHx9ZOqZJr+iJdZ4et44tQU0DKBX+0Tisv7+FQZavynAiruyUPrlIDpNcG4Dk/J0dXtQYP48REouaSBibyFYk4gadszgZPptpDXDGgsFrEEJXawarfE7Ns9uK9n35QINNKpUSrR1jBGZsgtIKz0IplxTGaC22/Ig/Qdbi0ajXX9NSMTavdVnyOojnt++RIYEQ4MLdFS6Bqx8Ha0+K7ImfsMzNVtVgZVnYnbKcvWMBibeVnyfRbO5srM/TharkETw08/QDk13uau9owjf1w9IHV+UrNc5GB6R0g4oM4PpjdvTXVPBLilFsCcsRImrahCULyuTGlmil+1Gk+9i1TY1p93AEm6JCxMzAFlNpGqzKz7zMEdXocSFatwMCoufxQEYFQHvsDoxQh8DTMbWLY8taAlkCtXy7LuE/OrpoN8TkW/SQOgIIEglcJfNFeZw4JaKaeRyxMO2hrkKeGy6LIYnjl4yOhIVq/3ChLKC8TZ8FIattAl7HN/lKqZoqDzSVY2RbAE+AKbilJZfN5/1BU9Offc5TXSdbUSkfpV7Xa0cbKW/4VLW+9JcuuEqgwq8fAxcLfDqRjQnJpf9Sn7SLMEULBMYC5Y4f9XGAxjbnKG/rU10UmlZxqHBkRBQHWwBMNdMKH1nkjTIGYIIahxTI8RLV1PJhuKrGOXmZFaEUtuQT6kkc2mEDVgSstc0LCyucOqWZzzdlh89h3gzpjCfSJLC1ipMjCBMo6RqoWrtcrBiJ1RQjLHL10pFFsSa+MdYx19XRvCUMqrJzjWI11SvutxQModfA2okhgrFcG+HWQL0n1RwtY23WlksMr55dmRiQa8EjR6Z84PYszwiqdJX1L6/+ds7nkBCWWhl6LTdVjHaNMtRijD734d6puAg1BMXu9ld2VHkdNbRmox8CscapSQepKWB/Po8EIjANz95ak0KPUHwr+7bXNhDieA56lyPtY/NUiAxM5eoC/02LbN4YU712RA1ZIJVytgRIVhuD4tvX8+9gamRUWEtKQ2wQs8b2CUi3W0O9xfozxfx+JLgq5a14TAAAAAElFTkSuQmCC", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAHCAQAAABuW59YAAAAQElEQVR4ARXEsQnFMBAFMBUfXnVFwFWGSHWdF8h8XsCj/mAEAgbs0kA8aIDgNXbZR5nOARr5/zSl17UIMAVwywex1QiXwasx9AAAAABJRU5ErkJggg==", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAMCAQAAADrXgSlAAAAQElEQVR4AWPg5eLlUnZXdldJU0lD5SgZKxmDBFQLVAtQOcq2yrYqMUDIoMKAyoEpAQmickBGggQwOTAlIAEUDgB6yxiliUh3swAAAABJRU5ErkJggg==", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAAeCAQAAACLBYanAAAAbklEQVR4Ac2SUQqAQBBCvdZcxfsfJNo+HiGU9VNIMLpl4+xIGo8WPKcaRciHBOdRSvlZmMNRQqIGO13gGM5LACfg3ummJ/O7dHqUzv9KB4q7K7eg3KdiM5FA9pSBcyjpAF44Qa96inSF08fpqolvjA6+VCjT/sMAAAAASUVORK5CYII=", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHUlEQVQIW2NgY2OzYUACYL6+vn4UsgAynwwBEB8ARuIGpsZxGOoAAAAASUVORK5CYII=", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAMCAQAAADxYuQrAAAAWklEQVQI12NgAAFZBgRQBBGSDJITRRFiPUA+w0RRIIUCkPlGQGiGKq3XI9mo1iHLoIcsqAaltRjQ7URzB9hONHcAAcgVCHtBtqICI4Z6LaA8sp1GMCOQ7QSyAcvLDf4Fs8YtAAAAAElFTkSuQmCC", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAkCAMAAAC+LeqSAAAAM1BMVEX8/PzGxsa/v7+8vLzDw8PGxsaLi4vExMQzMzO6urrAwMC3t7efn5+zs7OqqqrExMTBwcHQoBS8AAAAEXRSTlMAVTAqQFALRQUlNSAQGxVKOk/UpQ0AAADESURBVHhejdHBksMgDANQWcYEAkn7/1+7M1kc7bbTmepk3g0J3h/2G6ycBOkeQkwnQZKdidXJheTYLhykkPQR7eQKnnkde9qAPa5Hr7CSF8xso1cAZlHoE7jQAnmVhkQT4jPGO1awvGAbBLlvf/HMv/PGLb/pEwuT4QdWbKUQDZmSGjdNur9s0JxXQohFZN8TDyrs1waV/+M9oL61gfrWBupbG6hvbXCj6v4GawjVtzZQ38wN1HcmUezzrW9tgGdqtKT2AzbuBedeG9ZWAAAAAElFTkSuQmCC", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAGCAYAAADgzO9IAAAAXklEQVQIW2NQ09a/ZmwfLmLg7ivvYBQuwgAEDj7JIgwgQTUdw2tW9mGaIEEQraZjcA0sAVKppmf0FaQSJAhWBCJAkiDVato618DGgADMbJBxMGPBdsE4MAeA7QAaCwCKJiG9lhuUtwAAAABJRU5ErkJggg==", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyBAMAAADsEZWCAAAAD1BMVEXg4ODe3t7Z2dnh4eHMzMwfFvLJAAAABXRSTlMpHxQzCglRi48AAAInSURBVHheTZOBjR0xCEQfpgEgDRiUAji5g+u/qNzoS0lmJe9KDwyDvbytmXj4WlhO+9rdSAqwDIe3sFbXN2NzKE77e0/rspyAfu9MJxXvR+APlA8JpydJfzxp7VzrirTpimpI8lMIC+C/zPlRc8L3H2mAmOFcmwBrHAjss1n1hySbgFY4jSSrpgw+PYZ6NaRMhxI5AOGIyOcic/F15bSxONeQ2IAzfZrjCyqj7bG7CZYzE8ffYzEVhuTrumHTFuaAXQvgrfpfc5tL6pu6xluAC5TbqDYDE+Ai1gB+RDIH68AcIGuuv63vS9QkWeGG1JmAW8dmZoAFhyJJlVM6W7+M91DXv0kkhwTqFwqTQBdAI7KJzYq3D0BLAYL0X+cZRqUI+EJyREBDutUksams0oTD3873PTPBf6qL+WO+sUh4bxsdvNP48bW5uoB6toEaMG0IdvEHPBS7ZwKbexo2AIwdrmMB1sqQwNdgiKX4EHhITpKfAkjCAI5X08laKgYCha6GJcID/BW6DifIbd4SBISQBauc7EzeAxzucpxhMT8zk/rZTIR1HMuwgGnqgpfIW3jyLj91txpjAJ5leQE2SbF2qRaJtU4RqACZILN41syFcr1cJOwCPMMSKEgWsT7XRdiMd6JaR3XGsZnrhgSU07pAM8BMQKGVGt/8ITr/FFlG5K1Ny9dGKd4qXP0FD5EFi6PZkEEFMq1I8Qs1ndUwQIbIBQiwCdRg8gfxVEji4SgRmgAAAABJRU5ErkJggg==", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEgAAABIAgMAAAAog1vUAAAACVBMVEUAAAABAQETExM20mnVAAAAA3RSTlMOECJvSrphAAABBElEQVR4AWyRwQ3CQAwEJ5/rIVQTyuAfHunmXlRAoaxkMfJJkQ4Dznl3x+G4xlzOxvZ5vZdzMJ7fx3Im+7a2jpNzrINzZ+6r/DnIp7dyg9zsg9Ehel0+bsS1t5KJZOuDSU4Iunz4qC8BU6nLAqZSkgKmUsYCplLxBEylIARMxV8+w/sqoKo+6G0aTGhm5JAM//gARxxHYU3Q3igY0sCIIhYCC49rcUW4PBeJK3bd+CIKsDle8H91N62bwTv5Xxv1QQAAAAQQsH9rAU6DH3CIG9WFbm2Pcyf00PcOn3avFYDDRJgOOcE8fIX8VFCY00r5TlFFPt2NwqXDwFyGjNUlzfBdHo1oSKi9zm79GKMAAAAASUVORK5CYII=", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAWCAYAAADAQbwGAAAAk0lEQVQ4y83TsQmAMBRF0TuAWziOlTOkt0qVRexTOUAaB3AvC78IovLyETTwmgQOFl6AAAxABoot211wjAGYgeW0GYgecLzA9mUPWB7A8gswPYDJA7Y3X1nsrRrs2E4EJlu0u84DBqAHGo7T2F3wgm/uW1BJtApTEpVBNVEZVIv6DlQTlUE1URlUE636D5VEf57eCqJrxu8yn+EZAAAAAElFTkSuQmCC", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAWCAYAAADafVyIAAAAV0lEQVR4AWPg5uaexcDI8B9Ec3JyFhDCpKpnACmGYWI0kKqe9j4AAi0gBtPEaCBZPYggF1NsAYXBR9gCShPAwPuAkgRA30imJR4tKkaLitGiYrSoIAIDAKy7LKCTTHSAAAAAAElFTkSuQmCC", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAQAAAC1QeVaAAAASElEQVQY02NgQALS/5F5Ssg8qa/IUgooUg+QpWRRpA7hNB5VCsV4VANReKjOQDWDgYFIm/G4F7cv8YSNLG4pFCNQeSjq0MwAAPCoHW3Q0Dt9AAAAAElFTkSuQmCC", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADEAAAAcCAMAAAD/cKfGAAAASFBMVEU5OTk7OztKSkpKSko5OTU5OTVAQEBAQEA4ODU8PDw5OTU8PDU5OTk8PDxAQDU7Ozs8PDU7OzVKSjRKSjQ5OTk4ODVAQDU7OzWYxDbHAAAAGHRSTlNGLgwAOkYXAFEjACM6ABcAAC4MAAAAAACT/zuUAAACXklEQVR4AWVTgXbbMAhEhCPIUtNqTdL//9PByfXbe6PxJsPBoQOLSFPV22kGV/X7aelusd9cb3rrhoDk03xHb94lj7+/XcdwpHkCxowGhExxQ8+4393RPz5OBmfZ/EP+71qpzR8xIQPtcwDj6+tLV5CJhJd1/Pn+1h5Iv7VPyDHl6XcLJEqSgiTZEHNJJna4YaVjZIeQfHq+eIs52XKiC37J4QNg26qJ1JDXy7ccCpm+a1f/fram3pCAClgBiyOJCJxzX4fwS3CP2aV9plHIzKiuZSTM4/UyCSeUDClXBxJtVgVgR/6bXaW1eKljOVszEjLHDVVdb1Gq4ygTMnkGDKyuw2IoU3yFUWm/95QdFFIhVKaj5xXSCjoCngMckF6p5JPVgtwesn2CzbnNMHtguV+jdIHvTYPspWklIBVlwBGzWmcDWzG2r67MSKfM+Xyqblm1AWvCz/TaZY+8PE3kWb0ucfi5fbcGebzf7wYuwzaZDYcmlDPPGqlVO7d6ALb71wWhHLV2Lxf7R11DJa+fnx+f0fyqrE0m1Y9UreOoAC/04M42cZ0gghegOWqwmz+4K5y5NQIwga0OF+/c3w5ZMWpSA9woUR94VGhIJEE5N82veY/Yo7TU02vmeYFEWliTVJgDuAZX6T0QTSuAxnkspLeJZR73bo+hfr/Ds6ODS7TyAw5pGO5BrI6o5knCNC6kcT9GzIRIfecWfSaew3PY8Z8hVU/ThZklFwQIu9R02St9fYT7uk+Ga7YREIGRfGcY9oFwz3OPLTgBj4mAICL41JGUSIs60xsidImE1Cv+AjGbIgREWQoxAAAAAElFTkSuQmCC", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACgAAAAoBAMAAAB+0KVeAAAAMFBMVEUqKiosLCwuLi4xMTErKystLS0qKiopKSkpKSkzMzMpKSkoKCg3NzcoKCgrKysnJydKwFaoAAAAEHRSTlNcQDIqTjlVanEjY3gcf0eVx2e4NwAAAJNJREFUeAHt0SEKwmAAQOEHDrVYdEmTgwXBoCzZ9l9h8HeT2Wa1CUY9gc3qFTyBJ/EKij+DF7yAwfbVx+Nc5kBoVoUi5mugG2Kh+Ci5UtRJkFWKcctLpVi07ERFeUy6Nk/FaLIH+rflRhHmgwO7xz1XkA1Pvdd2Nq2VMQpjlDHqK0YZo4xRxihjFMYoMEb9/qP/ozcE1oO5SZysbgAAAABJRU5ErkJggg==", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMAAAADAAgMAAAAvsoSUAAAADFBMVEUBAQFBQUFEREQCAgK80sqkAAAABHRSTlMAUkAALNLTQQAAAGxJREFUeF7t06EVwDAMQ0GT7JexPK1nqFcQKcg78KGAwNW9M0k76E6qc2aSdtCd9MSH6MFW0YOtogdbRQ+2Fz7864EHHnjggQceeOCBBx544IEHHnjggQceeOCBBx544IEHHnjggQceeOCBhw/AIyPx4O3WOQAAAABJRU5ErkJggg==", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACYAAAAmAQMAAACS83vtAAAABlBMVEU9PT0zMzMr5a4YAAAAAnRSTlMUZvzs3gAAAABzSURBVHgBPc/BCUIxDIDhDBMKuXeECg0uoDvoLhKhiOc3QafQmziRgf/ZW/lI07/iGq4y3fQhNVqcdhkpHykpr13ibeUm+m2j/+VsNeXZ5pKjbSn3Qyzxq6bEZQlnHGGeuwg72Y/wLg0IbXQi9PMXZEvpP7f9RXkNrx9UAAAAAElFTkSuQmCC", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAO0lEQVQY02NgoAVQJkpVcXExH5CSIaAMIj99+nR2PCbLQA1jQFaMbrIyiiI0ZyjjVYSuGGoDUR4kDwAA0u8QeBv9liAAAAAASUVORK5CYII=", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAQBAMAAAD+CqKmAAAAJ1BMVEXNzc3///////////+Kioq6urq6urrAwMCurq6urq6Kior///////9+BMitAAAADXRSTlNKIgsABhEAFgsAAAYR4A9SOgAAAI5JREFUeAFjQAGMgiAAJRmVBJU+2tV0HIx7yMPCoM7IICjCoKOzIf4ZA+PmsNDNNozGRzqVWhkYjY23LNnK2DklOjoMxDHuDGP06Jx5fDdQWbfKqiWMe4w3W8xEtQdiCYRkMA4LZVQ2CXNvZez0YrHfKAC3iiFl1Rq4VQwrNpvDrWLwWlUOt4ohLKMTbhUADaAyw4qOAkgAAAAASUVORK5CYII=", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAKIAAAAPCAMAAABQruQZAAAASFBMVEX///////////////////////////////////9oaGhoaGgQEBD///////////+Hh4cQEBB8fHz///+Hh4eUlJR8fHz///+QkJAYFjeHAAAAGHRSTlMVGRIcDgsAByALAAUDIycVABArACAAMRvrRcTkAAAECElEQVR4AW2U7Y4suQ1DaX0cum/JNTuze5P3f9P0NOY2giAG/I+qMo8oSSuyoovAGDDCmMZ2bkOjx69fulQ70w0EAeDGNJAAmGauAaCBss597pWGamMGYUQjcqeFabh8NdBjhiYwQRAdvZ2KWFIqT6ZWhvL7OcX6KASMyr7++ssUZdpsHS+CAaA/BxDVfpgAmkKlfeeOZBiKApcbw7UsSeECQARFYMBASHvn19rrhNbyQgIMH4Fpispz7hDCYNwPj0LDlQ1gjB0deur0/FTIqowcZSr3vaWNojBmrrn++vj7eYZubN0+KgT4n8LENRS+FmudsyNXINzGGF+B9X8w1+y8pRlE0ZiVqQaCpl4XjDGqcFf3RoigKdeLurH5FMDl5zNL91rVgIEa4GGg4ktnl9Q9BgCKoX8qQwxQCDOYgodpqrXTC55t7w8hnTgejN/KoBn8T+On6tc8tQZTmH4Y05fJls45XppHMRgDfsxnWF5KH8cE/WEWTYP9AwwahEmLQBgocGNDOH1LCIjhSUbKlvpRLKAeAZhgGPzhbwWDC5phsJfOvmthuMJNff6+AgMi9pII4hJgpkxhYABT2AsRckpEZZyjfc5BCPNThmspEIVpho44W4IRxggDwKMIDFeQKPLkzhABNLxGkDFFEUtrRWMA5of4PIwwGXl2rtyr5uylrc/fv80QCIG3Tp7Mhnfe4mghROFrgJpVih2ZVcurlAqNJJ2d5+RXhAXwotuAWa/aFVmlRWD6MzAGoDCydFbWzmUwxjRgMS+PBnwZY4qT99bUtRADeJ8Wcw11mXAzf2xZdG+fVjVtUwAYwxgwIHJ03xKmMKYHiu/4jDfnfO3umKLsF3FfQ2MPCCgGf/7+MCBMAUWuu0U//DAGp46HeqXSNMbUc1IXQQN6h6OmKMwCTLt1lCUCA/MxGIDptkJrUwDAGExTGAADqLKkGlM0wsTDqITAEU289lrDR8052wMUXIVpigEMFAEAgPDDtPN8KVwqgMs0gwlqgrUVhQDTzDNwr/Px9/UG4EU5NIv0iVdGlWsjPKYZRFBa4jIiMEK51205ATDwXv0YPwkXa9T3uY+yo77X0fd9r/62VqooAlGYoX5Gxiy3d72KK0vWhP74wpenJ+K+M9bb1/eRRGPAfP9yWKGM+2vZWoqe1RFrrT77/GvH8bGAovFV8PDHAI18dlkO4N3SKWz76D57CdEYI4rBl/UIjAjwMMyYmqPcBwaKAloK/fhsgD/uSw5Usi1kD2/F4GkCqCfbRnkvuQxQ9L89BoqKhc6J1bIRAMYUMcUm5P7fnODLDKUv1TsnY61iLvPm+WphAyDeWwEwfjRuX3GJcOTJ4+DNE2MK0Doh2f/NExbBwKefU2D8H8SfO2A4p3dXAAAAAElFTkSuQmCC", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACEAAAAkCAQAAACtIJtXAAABc0lEQVRIx41VIZbFIBCL4z0Eaup21Ao0unf4YlUPwGE49or2FxgCLbjpPEgyaQAAfH7tBpDQL4Ecm+0rDsCxAYimHTlAoF1pB1upuLM9jt+K63AoJIehKQLFTe8orkOXauu9POJ9bA5QCCET2W312MfCja69rZVXu2oOECqqQiaHJyZfnOBQKqQfqF3y2a3wtE6RCXwOx9bvLyFS1zfcAECKY+05wFvijNs1zOIQx5GP2kVygDTDTNR6aWLUkVoO0JFMi06oddQMc+mOF9Zh8lV0U+v01an10jkwHa1jtSkOwD704VSDWMqkxZUYtuuy3rFNRxZJPk1TS6l1El6MvVafrJOo9bRNLaH/wRfdTjHsK9h9m9Cx20Am8lV0q/ifhK2VTLih6IRoavE6vU6Bvx/64PG6vuFW4//poVpwSw8PledPG7fOYyA8NCzS4k4tpdHbBPIqLeYYukC2YXtXPSLwofE/yFtcL1+LTrh1qPeYxeI/Pt5vuBkXfBQAAAAASUVORK5CYII=", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPwAAADmBAMAAAADyPWpAAAAHlBMVEUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAC3KG9qAAAACnRSTlMEAgEFAAMGBwgJHK6+iAAAAjRJREFUeAHt3DFv00AYxvE3RDGMNZDOwdDd1anQlarsLuX2SEiGEQmJwhcofGymPq+HR3IV4Qzo/5+Qse8XezqdfY3bolr1sXtoF+rzo8/ch+rUja55URQ8PDw8PDw8/H/Ob+tDQ1Wh1qF6d3ClQbczl9sfGtfqfVVF9f5GDf/8Wr3SwZNQn/TfV51akoeHh4eHh4eHh+/Uzs4qq0rpxJ0ZVW1y+hrqZd5nZPaXTqSq8u7PWhWqKeqiqk69Ef8BHh4eHh4eHh7+OPyQ11veLZU2o/ou892ovrkxn+SvD3XQmu7lnZpIye/dIznX6NtOLcnDw8PDw8PDw8MPMxPIon7L/JX8va754qaa9v17tGoy0T61gyb/Iw+6R/K2qJW9UXh4eHh4eHh4+GPzky84R5Wzyp9FTaRQY+ZfoJvWYdc6W1WcNHPmhf18wF2+g4eHh4eHh4eHPw7f61+bTsUBb9Wjqht3ZkJP71Rkm2vVqbOqLG8Ozj6nS3h4eHh4eHh4+OPw1ZVzxW2rqrot6txta7fzz17Hnv1RYT4gtVud5qfPjl+7D11fjwoeHh4eHh4eHn5B3u/W6Q9Yq2wePdVsJrz/gFQ1C6z+Ts6Eh4eHh4eHh4dfkPe7daoaFnjV3oQt+Zx9X7Xqn63+blsFDw8PDw8PDw9/FN7/saShqlCr5CfjV2X3z/czu5JO3Qb44gbtkh8OeHjRKXh4eHh4eHh4+CX5NL+O6t7tdd+765Nfh9pU5fh1qL/F+oNE7tL7IwAAAABJRU5ErkJggg==", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA3NpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNS1jMDE0IDc5LjE1MTQ4MSwgMjAxMy8wMy8xMy0xMjowOToxNSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDpjOTAwMGYxZC03YWQ1LTRhNmYtYmUzNi1lNTZmYmY2OGY4MDQiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6RkE5Rjc3OEFBOTQzMTFFM0JCM0NCMkM5MDQzRTZCRDEiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6RThCQUYzQkVBOTM0MTFFM0JCM0NCMkM5MDQzRTZCRDEiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIChNYWNpbnRvc2gpIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6YzkwMDBmMWQtN2FkNS00YTZmLWJlMzYtZTU2ZmJmNjhmODA0IiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOmM5MDAwZjFkLTdhZDUtNGE2Zi1iZTM2LWU1NmZiZjY4ZjgwNCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/Pv/iy6QAAACSSURBVHjadJDBDoJADETr0njGC2ezITGc/VR+Srhy8BOUi5+ATGVKKoEmb9vsTiebOYlIC55gkqW8p9AbO0YbeOEiX0h8exU4zuACruATxOoi0NtGBg863+iinO2uN4053uk4gJLOFXiDDtTgm8KnM7fH6OR/VfmvmgKf1xQ0RDCRLDulm0i2tWYbQz2af30WYACb6x/hdmXlNgAAAABJRU5ErkJggg==", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHkAAAAmCAQAAABKK/zgAAABP0lEQVR4AcRXsXLFMAzSxqbNmzdv/v//ox16r3F90cVIvRw7IRiCY5wfDDaaALBxXFg6nVYCZ2P/QSNknsb+i13ylCU7+/Lqukgsr+oJy/pu2d8HzeW0IMl19gvPyflgEekV6dh57ryZqdO6yw5OzkNPR2xZ7PgaU1cdD3hQ0daNxyIcnpYubGv6ENsaVOGZsiMXo5gKPBrHVoVTHi2m+UEC8dZwmRir/CC9M1wgTBctDFK+rZ43zNh00eIg6ReJvGEgoksjigdJinB95xXRetPr2yoYFsUh+3nCw9JAHxzFsP9c47g0yA+OttC66OzVc9a39RmyHXXxGzq+4e8stPbI/L9W1X+SAFMk600vb6tg2Vc7diAAAAAAIMjfepALIxEkgkSQCJpEkAgSQSJIBIkgESSCRJAIEkEiSASJoAD0zWGDTyzyOQAAAABJRU5ErkJggg==", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAA5klEQVR42u1WMQ7CMBA7KQNbt27Z2DpmY+MRuY2NrS/Kc4mlng5FIGE6AOIsWbfU7jWtaktHuWcSOfW5yItIImfpGtNtswgBu+GxM2OCqnoh9Bk0D0qfzGAgDEj9zOkdxTd3I+0g9KYDJ0zuBHyByUxgwCww6PO7r2A2Egss0BrpBQBc/IBK6LXWet24mof8NVprBwkEAj8Oz3vrCUYy74tAN5DuC2zejw8wdI5MpyXZF/xP+KRvIDeII9xVOMqYmDvi2iP7gwu4Af0NeWOCXqm+gHeGCVr+79FjRmxG44kKFSfzFbgB2H9a/oMniUIAAAAASUVORK5CYII=", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABkAAAAZCAQAAABu4E3oAAAAWElEQVR4AWPo5u4GYhAJgierCPOBFELoeMJxBiAkwAciOEyASEEhTj5MgPtk1UmwaYT5UAooABQCQcJ8sBDEjRCSMB/mKRK0MqA7gDCfpvEyGi+j8TIaLwCoTtCAQiXtYAAAAABJRU5ErkJggg==", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAOCAYAAAAfSC3RAAAAOklEQVQoz2NgQAOWlpZRhMSwqcEvgU2OGFOJtgmfzQQVD5xmvICqAYRTjlhTSXI6UV7AZSL9NBEyBACwbSS1//dRZAAAAABJRU5ErkJggg==", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkBAMAAACCzIhnAAAAD1BMVEUAAAAAAAAAAAAAAAAAAABPDueNAAAABXRSTlMJDhMYEkBm58sAAABISURBVHhe7dExEQAwFINQrMRD/Gurhix/6LGwc48AmUKBToGQMZSOgcyhY25eblx+0ldfffXVV1999dVXX3311VdfffXVV/8Btlgq5Eo+mtMAAAAASUVORK5CYII=", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGcAAAAXCAMAAAAhvaEKAAAAM1BMVEUAAAAjIyMjIyMAAAAPDw8PDw8kJCQAAAAAAAAkJCQAAAAAAAA7OztAQEBHR0cxMTExMTFSK924AAAAEXRSTlMAFgAGEQAVAgsADwceICQaAKU/Wn8AAAIzSURBVHgBjZXhbuM4DIRJc0LNUkm77/+exaLApreIRdusLjH6/bAAmdSQozCWA10eGC4PdFnJBd7kOQ24rGgrh9Dkgf/aEZKAs22bYxnhEfIAuAwMoRxooIvU1xzLyMeu2hEepHDs2LWXesbT16p6FhAestKZCtx2nCXXS7ntxtI6GY5bPzqt1mFEQkGnkz216OGkjtBeXSjPdnVqkKQcdPhIg82d6Ztn3xPUt4xYXw9VDGk45RUdaNZ3GcOaEU1OCO+PJ3c/jJImn9HfucmgH7+nU+Amhs3sfg35EcBaF8zU5GeY9r4K+YsZIEml06QCXRbopEIAzgE8MNnvV1wuc/sEQoNU2eCXXD6K0r3/uctGuy/4vMtEs79f/5Xd64eo7KiK3z/lCfX6nIcn7iavMCBfjllLuqLJGeGWCcnYOMP8MGuU5/8XIWlTmpp3SdLvg84VqdSwpuaUiYxvxBiC5P13UlVawHkEdSrqXFGX5P3YtYBzVu3ZrW2HH6lLdzxzr6GUh5ABuF12e+l0CLbMXSX9f0GoSaJNJCuldjnlllkRuyEm5+SFlKR2e9JJIxWRh6F9L43lW0UH9v9roF63czIh10YNJznPTszhbR8TN5mxcj3apnW+1ELPdi2b2KsEzr7bA2bSdvY15vnpkmSIZerWlLOaPCi6Xe1bK0wB1JnLZAdFrFcZZpzzcCnK/MThpGVFEfUA4zorwfm7k6/HAvs2FKZPrGv7dKdplstICj2s+wdYtietbSOnTgAAAABJRU5ErkJggg==", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACMAAAAjCAQAAAC00HvSAAAAqUlEQVR4AaXTIa7EMBBEwfrSAAODwAUfGBiY5P7H26XDIqXfAUrpseI520fcAf+itgEqgW4TMugoCKA2J4DanAQ6CgKozYmg44IMuhVk0FaQQceEDLoNyKBtQAZtExKozQkot7Dv37e42rqoaUk6Koe21ngJLYMManN6034xJzz2UnqvvugY+fNvIIOWIoW24aHnG20V/yJtTgAtAyKozQmgpURdLp+nOT9tfAyifaRWFwAAAABJRU5ErkJggg==", "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB8AAAAfCAMAAAAocOYLAAAANlBMVEUAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAC3dmhyAAAAEnRSTlMYFxkWGhUbExQcHRIeER8PIA73vaSEAAAB3ElEQVQoFQXBh4HkOBAEsHJtSEmz9/kn+wAauv2O+gq9Hz4OB1tEAAnncPWe9g1P4WFs1BRhi8Lv8AqWSddDcecTz3NHryy0oijmf2CtjjwFl9QRJKSu74Fgl/0ExpjYbp+8wCtCjvtzk64+roqUH8oDfAgbYBlboqb+ctNJIx0Cmj8sgRhTBXwEGej2uXxw6Keqy3KVxmwfxgJCV8CHSD46NNbaSscJzVQTsKEqrtlSd0pvn7e7vCAB6LAi5jKv7gkVFjMrP0ZRlg+6VYcvQjeePxcAZ1DU9MEVcCDxhI2akZGawkfIbrwBncABsb1VU7BBvH1eFtL66eEGi60hVM98ODr5OVe3y3A1xqky58uMYEo83EtCKdqAA3sJyAj6x3suNSbpsrDd0ZAlI67GLftT1VL9QDWW1LoJeNr8yAuqVBcAJhH7WincMrw9T2Ecl9Th/ZdOp7NAIo+xPnA9S7N4Ql0wNyiK0mwKy4g5GKeBHPUIBBvbRNWWpHvUuiCaQz2o0RIbbBdPGq1F3sYcpQZZ1tTag9t9CrjZF4yrHga1XZ/Ke/7dVz1unm16WQEIuBKyeU13OR2sJzOIm/h4haPJi1Bx6QN2fauKFcQ3Hb+I5Y96ahWh9YcnnP8BI+wQR1WzuvYAAAAASUVORK5CYII="];
- //Functions for localstorage store and get
- function localStore(key, obj) {
-   return window.localStorage.setItem(key, JSON.stringify(obj));
- }
- function localGet(key) {
-   return JSON.parse(window.localStorage.getItem(key));
- }
- //Function to wait
- function wait(ms){
-  var start = new Date().getTime();
-  var end = start;
-  while(end < start + ms) {
-    end = new Date().getTime();
- }
-}
- //Show NTP ( should reduce the flash effect )
- //document.getElementById('bdy').classList.add('inited');
- if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
-   document.body.style.backgroundColor = '#000';
-   document.getElementById('incognito').style.display = 'inline';
-   document.getElementById('ntp-contents').style.display = 'none';
- } else {
-   var root = document.documentElement;
-   var ntpVersion="3.0.3";
-   //Function for innerHTML
-   function customInner(oldDiv, html) {
-     var newDiv = oldDiv.cloneNode(false);
-     newDiv.innerHTML = html;
-     oldDiv.parentNode.replaceChild(newDiv, oldDiv);
-   }
-   //Function for default widgets
-   function default_wdg(i) {
-     var cached_;
-     switch (i) {
-       case 0:
-         cached_ = '<div id="search_bar"><img src="' + kiwiIcon + '"/>' +
-           '<input class="search_input" placeholder="Search"/><button class="fa fa-search search_button"></button></div>';
-         break;
-       case 1:
-         cached_ = '<div id="quick_links" class="ql_icons">';
-         const ar1 = ["chrome://bookmarks", "chrome://extensions", "chrome://downloads", "chrome://history/"];
-         const ar2 = ["fas fa-bookmark", "far fa-puzzle-piece", "fas fa-download", "far fa-history"];
-         for (var i = 0; i < 4; i++)
-           cached_ += '<a href="' + ar1[i] + '" > <i class="' + ar2[i] + '"></i></a>';
-         cached_ += "</div>";
-         break;
-       case 2:
-         cached_ = '<div id="bkg-p" class="swiper-pagination"></div><div class="swiper-container s1" id="bkg-c" oncontextmenu="return false" > <div class="swiper-wrapper">';
-         for (var i = 1; i < 4; i++)
-           cached_ += '<div class="swiper-slide"><div id="bookmarks-grid' + i + '" class="bm-grid"></div></div>';
-         cached_ += "</div></div>";
-         break;
-       case 3:
-         cached_ = '<div id="newsToolbar" ><select id="newsLocal" onchange="select_locale()"><option value="?hl=en-US&gl=US&ceid=US:en">English | United States</option></select><span onclick="toggle_news_view()" class="newsT_icon"><i class="fas fa-stream"></i></span><span onclick="reload_locale()" class="newsT_icon"><i class="far fa-sync-alt newsT_icon"></i></span></div><div id="news-section"><div id="news"></div><div id="newsMore"></div></div>';
-         break;
-       case 4:
-         var ar = ["Bookmarks", "Download", "Closed Tabs", "History"];
-         cached_ = '<div class="wdg_tabs"><ul>';
-         for (var i = 1; i < 5; i++) {
-           cached_ += '<li><input type="radio" id="tab' + i + '" class="rd_tab" name="tabs" checked><label for="tab' + i + '" class="tab_label">' + ar[i - 1] + '</label><div class="tab-content"><h2>' + ar[i - 1] + '</h2><article></article></div></li>';
-         }
-         cached_ += '</ul></div>';
-         break;
-     }
-     return cached_;
-   }
-   //Get cached widgets
-   var ntp_wdg = localGet("ntp_wdg");
-   //Create default widgets and cache them 
-   if (ntp_wdg == undefined) {
-     console.log("Create default cached widgets... ");
-     ntp_wdg = [{
-         name: "Search Bar",
-         cached: default_wdg(0)
-       },
-       {
-         name: "Quick Links",
-         cached: default_wdg(1)
-       },
-       {
-         name: "Bookmarks Grid",
-         cached: default_wdg(2)
-       },
-       {
-         name: "News Section",
-         cached: default_wdg(3)
-       },
-       {
-         name: "Tabs Widget",
-         cached: default_wdg(4)
-       },
-     ];
-     localStore("ntp_wdg", ntp_wdg);
-   }
-   //Get cached settings
-   var ntp_sett = localGet("ntp_sett");
-   //Create default settings and cache them 
-   if (ntp_sett == undefined) {
-     console.log("ntp_sett is undefined , let's create default one");
-     ntp_sett = [{ //Widgets
-         order: [0, 1, 2, 3, 4],
-         status: [0, 0, 1, 1, 0],
-         values: ["#00000059", "#00000059", "#00000059", "#00000059", "#00000059"],
-         colors: [],
-         options: []
-       },
-       { //NTP Background
-         status: [false, true, true, false, false],
-         c22: "radial-gradient(at top left, rgb(0, 60, 125), rgb(0, 255, 241))",
-         c23: "url(" + patternsURI[0] + "),radial-gradient(at top left, rgb(0, 60, 125), rgb(0, 255, 241))",
-         c24: "auto",
-         gradientC: "radial-gradient(at top left, rgb(0, 60, 125), rgb(0, 255, 241))",
-         solidC: "#c5c5c5",
-         patternURL: patternsURI[0],
-         wallpaperURL: "",
-         wallpaperFILE: ""
-       }
-     ];
-     //Get default property colors
-     for (var i = 0; i < 22; i++) {
-       ntp_sett[0].colors.push(getComputedStyle(document.documentElement).getPropertyValue("--ntp-c" + i));
-     }
-     //Get default property options
-     for (var i = 0; i < 12; i++) {
-       ntp_sett[0].options.push(getComputedStyle(document.documentElement).getPropertyValue("--ntp-o" + i));
-     }
-     localStore("ntp_sett", ntp_sett);
-   } else {
-     //Load css property of root
-     try {
-       for (var i = 0; i < 5; i++) {
-         root.style.setProperty("--ntp-wdg" + i, ntp_sett[0].values[i]);
-       }
-       for (var i = 0; i < 22; i++) {
-         root.style.setProperty("--ntp-c" + i, ntp_sett[0].colors[i]);
-       }
-       for (var i = 0; i < 12; i++) {
-         root.style.setProperty("--ntp-o" + i, ntp_sett[0].options[i]);
-       }
-       root.style.setProperty("--ntp-bgc", ntp_sett[1].c22);
-       root.style.setProperty("--ntp-bgi", ntp_sett[1].c23);
-       root.style.setProperty("--ntp-bgs", ntp_sett[1].c24);
-       
-     } catch (err) {
-       addLogS("Error:" + err.name + " ( " + err.message + " )");
-     }
-   }
-   
-    //Function that invert text color based on background-color
-    function adaptColor(selector,color) {
-      var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(color);
-      r = parseInt(result[1], 16);
-      g = parseInt(result[2], 16);
-      b = parseInt(result[3], 16);
-      var hsp = Math.sqrt(0.299*(r*r)+0.587*(g*g)+0.114*(b*b));
-      if (hsp > 127.5) {
-        document.getElementById(selector).classList.add('dark-color');
-        document.getElementById(selector).classList.remove('light-color');
+if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
+  document.body.style.backgroundImage = 'none';
+  document.body.style.backgroundColor = '#000';
+  document.getElementById('incognito').style.display = 'inline';
+  document.getElementById('ntp_cnt').style.display = 'none';
+  var inc = false;
+} else {
+  var ntp_ver = "4.0.0";
+  var orderListChanged = 0;
+  document.getElementById("sett_mtc").style.background = localStorage.ntp_mtc;
+  function save_ntpbdy() {
+    try {
+      localStorage.ntp_bdy = ntp_bdy.getAttribute("style");
+    } catch (err) {
+      showBox("Something gone wrong ! Info _:" + err.message);
+    }
+  }
+  //Check ntp_ver and show changelog
+  if (localStorage.ntp_ver != ntp_ver || !localStorage.ntp_ver) {
+    localStorage.clear();
+    localStorage.ntp_ver = ntp_ver;
+    showBox("<b> New update - " + ntp_ver + "</b><br><br>Hi , finally after months of working on ,new update is here !<br>"+
+     "First i want to warn that your data are lost (sorry for that), you have to add again the tiles and configure the settings.<br><br><b><i>But why ?</i></b><br> "+
+     "Well this ntp is still a beta , every update i try to make it faster, feature rich and adding a lot of customizability requested by users , "+
+     "and with the new update , a lot of things changed .<br><br><b><i>What's new ?</i></b><br> A lot changed on the ntp.. "+
+     "old widget are improved/changed and more settings are added.I can't do a list, so i released today for testing and in the upcoming day will fix bugs then will add a full guide for settings and FAQs.<br> Enjoy !<br><br>Ps. If you are facing any problem please , ping me on discord");
+  }
+  //Function to get default widgets
+  function f_dwdg(i) {
+    var chd;
+    switch (i) {
+      case 0:
+        chd = '<div id="sb_r"><img id="sb_logo" src=""/>' +
+          '<input name="sb_input" type="text" id="sb_input" size="50" spellcheck="false" onkeydown="handleKeyPress(event)"></div>'
+        break;
+      case 1:
+        chd = '<div id="tlg"> <div class="tlg_item folder"> <div class="tlg_img tlg_fld"></div><span id="tlg_span" class="tlg_title">Folder</span></a> </div><div class="tlg_item"> <a id="tile_target" class="tile_target" href="https://kiwibrowser.com"> <img class="tlg_img" src="https://logos.kiwibrowser.com/kiwibrowser.com"onerror="f_iimg(this)"> <span id="tlg_span" class="tlg_title">Kiwi Browser</span> </a> </div></div>';
+        break;
+      case 2:
+        chd = '<div class="wth"><div id="wth_s" onclick="func_dlg_st(1);func_st_page(6);"><i class="far fa-cog"></i> Open Weather Settings</div><div id="wth_top"><div id="wth_i"></div><div id="wth_t"></div><div id="wth_d"><div id="wth_mm"></div><div id="wth_w"></div><div id="wth_h"></div></div><br style="clear: left;" />' +
+          '<div id="wth_d1"></div></div><div id="wth_btm"><div id="wth_c"></div></div><div id="wth_l">Loading...</div></div>';
+        break;
+      case 3:
+        chd = '<div id="newsT" ><select id="newsL" onchange="f_nsrl(1)"><option value="?hl=en-US&gl=US&ceid=US:en">English | United States</option></select><span onclick="f_tnv()" class="newsT_icon"><i class="fas fa-stream"></i></span><span onclick="f_nsrl(0)" class="newsT_icon"><i class="far fa-sync-alt newsT_icon"></i></span></div><div id="newsS"><div id="news"></div><div id="newsMore"></div></div>';
+        break;
+      case 4:
+        chd = '<div class="tbw"><ul class="tbw_ul">' +
+          '<li><input type="radio" id="tab1" class="rd_tab" name="tabs"><label for="tab1" class="tbw_l"><i class="far fa-sticky-note"></i></label>' +
+          '<div class="tbw_cnt"><textarea name="note" placeholder="Add some text..." id="ntarea"></textarea> </div></li>' +
+          '<li><input type="radio" id="tab2" class="rd_tab" name="tabs" checked><label for="tab2" class="tbw_l"><i class="far fa-tasks"></i></label>' +
+          '<div class="tbw_cnt">' +
+          '<form id="tdlform" autocomplete="off"><input id="tdlinput" placeholder="What would you like to do today?" /></form>' +
+          '<ul id="tdlist"></ul></div></li>' +
+          '<li><input type="radio" id="tab3" class="rd_tab" name="tabs"><label for="tab3" class="tbw_l"><i class="far fa-link"></i></label>' +
+          '<div class="tbw_cnt"><form id="lkform" autocomplete="off"><input id="lkinput" placeholder="Save that link .." /></form><ul id="lklist"></ul></div></li>' +
+          '</ul></div>';
+        break;
+    }
+    return chd;
+  }
+  //Get cached widgets
+  var ntp_wdg = localGet("ntp_wdg");
+  if (ntp_wdg == undefined) {
+    console.log("Create default cached widgets... ");
+    ntp_wdg = [{
+        name: "Search Bar",
+        cached: f_dwdg(0)
+      },
+      {
+        name: "Tiles Grid",
+        cached: f_dwdg(1)
+      },
+      {
+        name: "Weather",
+        cached: f_dwdg(2)
+      },
+      {
+        name: "News Section",
+        cached: f_dwdg(3)
+      },
+      {
+        name: "Tabs ",
+        cached: f_dwdg(4),
+        ntarea: ""
+      },
+    ];
+    localStore("ntp_wdg", ntp_wdg);
+  }
+  //Get cached settings
+  var ntp_sett = localGet("ntp_sett");
+  if (ntp_sett == undefined) {
+    console.log("ntp_sett is undefined , let's create default one");
+    ntp_sett = { //Widgets
+      order: [0, 1, 2, 3, 4],
+      status: [1, 1, 1, 1, 1]
+    };
+    localStore("ntp_sett", ntp_sett);
+  }
+  //Load widgets from cache
+  function load_widgets() {
+    let list = document.getElementById("stt_lwo").querySelectorAll("li");
+    for (let z = 0; z < 5; z++) {
+      let y = ntp_sett.order[z];
+      let status = ntp_sett.status[z];
+      let wdgn = document.getElementById("wdg_" + y);
+      let c = "";
+      if (status) {
+        wdgn.style.display = "block";
+        c = "checked";
+        customInner(wdgn, ntp_wdg[z].cached);
       } else {
-        document.getElementById(selector).classList.add('light-color');
-        document.getElementById(selector).classList.remove('dark-color');
+        wdgn.style.display = "none";
+        customInner(wdgn, "...");
+      }
+      if (orderListChanged == 0) {
+        list[y].setAttribute("data-order", z);
+        customInner(list[y], '<i class="fas fa-arrows stt_lwoh"></i><label>' + ntp_wdg[z].name + '</label><input ' +
+          'class="toggle togg_li" type="checkbox" onchange="toggle_widget(' + y + ')" ' + c + '/>');
+      }
+    }
+    let paras = document.getElementsByClassName('editMode');
+    while (paras[0]) paras[0].parentNode.removeChild(paras[0]);
+    
+  }
+  //Load cached widget 
+  load_widgets();
+  ntp_bdy.classList.toggle("op");
+  //Load settings option status and value
+  for (var i = 0; i < 6; i++) {
+    var a = document.getElementById("stt_opt" + i);
+    var b = getComputedStyle(ntp_bdy).getPropertyValue("--o" + i);
+    if (i == 2) {
+      var ar = document.getElementsByClassName("tile_target");
+      for (var i = 0; i < ar.length; i++) ar[i].target = b;
+    }
+    //console.log("|" + a.value + "==" + b + "|");
+    if (a.value == b) a.checked = true;
+    else a.checked = false;
+  }
+  //Function to set options with toggle
+  function set_option_t(t, f, i) {
+    console.log("status :" + t.checked + " value : " + t.value + " if false : " + f + ", index " + i);
+    var value = (t.checked) ? t.value : f;
+    ntp_bdy.style.setProperty("--o" + i, value);
+    if (i == 2) {
+      var ar = document.getElementsByClassName("tile_target");
+      for (var i = 0; i < ar.length; i++) ar[i].target = value;
+      f_sgs();
+    }
+    save_ntpbdy();
+  }
+
+  //Search Bar Settings Config
+  var ntp_sb = localGet("ntp_sb");
+  if (ntp_sb == undefined) {
+    ntp_sb = { //SearchBar
+      logo: kiwiIcon,
+      sK: {
+        "placeholder": "Search with commands..",
+        "key": ",",
+        "default": "d",
+        "b": "https://bing.com/search?q=",
+        "g": "https://google.com/search?q=",
+        "d": "https://duckduckgo.com/?q=",
+        "r": "https://www.reddit.com/search?q=",
+        "y": "https://www.youtube.com/results?q="
       }
     };
-      var orderListChanged=0;
-     function load_widgets() {
-       //Load widgets from cache
-       try {
-         var list = document.getElementById("listWidgetOrder").querySelectorAll("li");
-         for (var z = 0; z < 5; z++) {
-           var y = ntp_sett[0].order[z];
-           var status = ntp_sett[0].status[z];
-           var wdgn = document.getElementById("wdg-" + y);
+    localStore("ntp_sb", ntp_sb);
+  }
+  const sb_len = document.getElementById("sb_len");
+  var sk = ntp_sb.sK;
+  var sb_len_v = "";
+  for (var key in sk) {
+    sb_len_v += key + ' -> ' + sk[key] + '\n';
+  }
+  sb_len.value = sb_len_v;
+  //Function to remove multiple, leading or trailing spaces 
+  function f_trim(s) {
+    s = s.replace(/(^\s*)|(\s*$)/gi, "");
+    s = s.replace(/[ ]{2,}/gi, " ");
+    s = s.replace(/\n /, "\n");
+    return s;
+  }
+  //Function to save search bar config
+  function f_svsbc() {
+    var tlen = f_trim(document.getElementById("sb_len").value)+"\n";
+    var error = false;
+    var lines = tlen.split('\n');
+    lines.splice(-1, 1);
+    lines= lines.filter(function(e){ return e.replace(/(\r\n|\n|\r)/gm,"")});
+    var sKc = {};
+    for (var i = 0; i < lines.length; i++) {
+      var zlen = lines[i].split("->");
+      if (zlen.length != 2) {
+        i = lines.length;
+        error = true;
+      } else {
+        sKc[f_trim(zlen[0])] = f_trim(zlen[1]);
+      }
+    }
+    error = error || !(sKc['placeholder'] && sKc['key'] && sKc['default']);
+    if (error) {
+      showBox("Looks like you removed important keywords like \n-placeholder\n-key\n-default\n Make sure to follow the syntax too :'k' -> 'value'");
+    } else {
+      ntp_sb.sK = sKc;
+      localStore("ntp_sb", ntp_sb);
+      f_setup_sb();
+      showBox("Search Bar Config saved !");
+    }
+  }
 
-           console.log("Widget "+z+ " order :"+y+" status:"+status+" on wdg-"+y)
+  const tg_r5 = document.getElementById('tg_r5');
+  var tg_r5v = parseInt(ntp_bdy.style.getPropertyValue("--v0").replace("px", ""));
+  if (isNaN(tg_r5v)) {
+    tg_r5v = 8;
+    ntp_bdy.style.setProperty("--v0", tg_r5v + "px");
+    save_ntpbdy();
+  }
+  tg_r5.value = tg_r5v;
+  tg_r5.addEventListener("input", function () {
+    tg_r5v = parseInt(tg_r5.value);
+    ntp_bdy.style.setProperty("--v0", tg_r5v + "px");
+    save_ntpbdy();
+  });
+  const tg_r7 = document.getElementById('tg_r7');
+  var tg_r7v = parseInt(ntp_bdy.style.getPropertyValue("--v2").replace("px", ""));
+  if (isNaN(tg_r7v)) {
+    tg_r6v = 8;
+    ntp_bdy.style.setProperty("--v2", tg_r6v + "px");
+    save_ntpbdy();
+  }
+  tg_r7.value = tg_r7v;
+  tg_r7.addEventListener("input", function () {
+    tg_r7v = parseInt(tg_r7.value);
+    ntp_bdy.style.setProperty("--v2", tg_r7v + "px");
+    save_ntpbdy();
+  });
+  const tg_r6 = document.getElementById('tg_r6');
+  var tg_r6v = parseInt(ntp_bdy.style.getPropertyValue("--v1").replace("px", ""));
+  if (isNaN(tg_r6v)) {
+    tg_r6v = 70;
+    ntp_bdy.style.setProperty("--v1", tg_r6v + "px");
+    save_ntpbdy();
+  }
+  tg_r7.setAttribute("max", tg_r6v / 2);
+  tg_r6.value = tg_r6v;
+  tg_r6.addEventListener("input", function () {
+    tg_r6v = parseInt(tg_r6.value);
+    ntp_bdy.style.setProperty("--v1", tg_r6v + "px");
+    save_ntpbdy();
+  });
+  const sb_logo = document.getElementById("sb_logo");
+  const sett_sblgp = document.getElementById("sb_lgp");
+  const sett_sb_lgf = document.getElementById("sb_lgf");
+  sett_sblgp.src = ntp_sb.logo;
 
-           root.style.setProperty("--ntp-wdg" + y, ntp_sett[0].values[z]);
-           var j =document.getElementById("set-bgw"+z);
-           var item2=j.parentElement;
-            item2.querySelector("span").style.backgroundColor=ntp_sett[0].values[z];
+  function f_sb_lg1() {
+    // fetch FileList object
+    var file = sett_sb_lgf.files[0]; // get a reference to the selected file
+    if (file && file.type.match('image.*')) {
+      var reader = new FileReader();
+      reader.onload = function (e) {
+        sett_sblgp.src = e.target.result;
+        sb_logo.src = e.target.result;
+        ntp_sb.logo = e.target.result;
+        localStore("ntp_sb", ntp_sb);
+      }
+      reader.readAsDataURL(file);
+    }
+  }
+  function f_sb_lg2() {
+    var url = prompt("Enter url of the wallpaper . \nExample : ", "url");
+    var img = new Image();
+    img.crossOrigin = "Anonymous";
+    img.onload = function (e) {
+      var canvas = document.createElement("canvas");
+      canvas.width = img.width;
+      canvas.height = img.height;
+      var ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0);
+      var dataURL = canvas.toDataURL("image/png");
+      dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
+        sett_sblgp.src = dataURL;
+        sb_logo.src = dataURL;
+        ntp_sb.logo = dataURL;
+        localStore("ntp_sb", ntp_sb);
+    };
+    img.src = (url);
+  }
+  //End of Search Bar Settings Config
 
-           var c = "";
-           if (status) {
-             wdgn.style.display = "block";
-             c = "checked";
-             customInner(wdgn, ntp_wdg[z].cached);
-           } else {
-             wdgn.style.display = "none";
-             customInner(wdgn,"...");
-           }
-           if(orderListChanged==0){
-              list[y].setAttribute("data-order", z);
-              customInner(list[y], '<i class="fal fa-arrows my-handle"></i><label>' + ntp_wdg[z].name + '</label><input ' +
-             'class="toggle togg_li" type="checkbox" onchange="toggle_widget(' + y + ')" ' + c + '/>');
-           }
-           
-         }
-         var paras = document.getElementsByClassName('editMode');
-         while(paras[0])paras[0].parentNode.removeChild(paras[0]);
-          
-       } catch (err) {
-         addLogS("Error:" + err.name + " ( " + err.message + " )");
-       }
-     }
-     load_widgets();
 
-     function toggle_widget(i) {
-       
-       var y = ntp_sett[0].order[i];
-       var status = (ntp_sett[0].status[i] == 1) ? 0 : 1;
-       console.log(" Widget : "+i +" Order : "+y + " Status :"+ntp_sett[0].status[i]+" - >"+status);
-       ntp_sett[0].status[i] = status;
-       if (status) {
-         document.getElementById("wdg-" + y).style.display = "block";
-         customInner(document.getElementById("wdg-" + y), ntp_wdg[i].cached);
-       } else {
-         document.getElementById("wdg-" + y).style.display = "none";
-       }
-       localStore("ntp_sett", ntp_sett);
-     }
-     //Bookmark grid configuration
-     if (ntp_sett[0].status[2]) {
-      
-       var timeoutVariable;
-       var currentEditedTile;
-       //Function for open and close dialog
-       function func_co_dlg(a, i) {
-         if (i) {
-           document.getElementById('p-tile').src = "#";
-           document.getElementById('i-url').value = "";
-           document.getElementById("form-id1").reset();
-           document.getElementsByTagName('input').className = "form-input";
-           document.getElementById('e-icon').innerHTML = '<i class="far fa-sync-alt"></i> &nbsp; Auto &nbsp;';
-           document.getElementById('i-url').disabled = true;
-           document.getElementById('btn-add').style.display = 'inline';
-           document.getElementById('btn-save').style.display = 'none';
-         }
-         document.getElementById("floating-btn").classList.remove("open");
-         document.getElementById("fb-btn").innerHTML = '<i class="fas fa-caret-up"></i>';
-         document.getElementById("dlg_nt").style.display = (a) ? "inline" : "none";
-         document.getElementById("dlg_nt").style.opacity = a;
-       }
-       function remove_tile_from_editMode() {
-         item = currentEditedTile.parentNode;
-         //Remove item from grid 
-         item.removeChild(currentEditedTile);
-         event.stopPropagation();
-         window.setTimeout(function () {
-           setup_grid();
-         }, 100);
-       }
-       //Function to create a new tile from dialog box
-       function create_new_tile() {
-         var ngrid = ((document.querySelector('.swiper-slide-active .bm-grid')).id)[14];
-         var keyS = "storedItems" + (ngrid);
-         var url = document.getElementById('t-url').value;
-         var i_url = document.getElementById('p-tile').src;
-         var rootDomain = get_root_domain(url);
-         //If user left the title empty pick the rootDomain as title of tile
-         var title = document.getElementById('t-lab').value;
-         if (title == "") title = rootDomain;
-         if (typeof localGet(keyS) == undefined || localGet(keyS) == "") localStore(keyS, []);
-         var sItems = localGet(keyS);
-         if (sItems == undefined) sItems = [];
-         var newTile = {
-           url: url,
-           title: title,
-           imgSrc: i_url,
-           ngrid: ngrid
-         }
-         sItems.push(newTile); //Add new tile to list 
-         localStore(keyS, sItems); //Save the new list of tiles
-         add_tile_to_grid(newTile); //Create new tile and add to grid
-         window.setTimeout(function () {
-           save_grid_snapshot();
-         }, 200);
-         localStorage.useCustomTiles = "true";
-         func_co_dlg(0, 1);
-       }
-       //Set p-tile image from t-url
-       function setPT_fromTurl(tID) {
-         if (document.getElementById('i-url').disabled) {
-           window.clearTimeout(timeoutVariable);
-           timeoutVariable = setTimeout(function () {
-             var iUrl = "https://logos.kiwibrowser.com/" + get_root_domain(tID.value);
-             document.getElementById('p-tile').src = iUrl;
-             document.getElementById('i-url').value = iUrl;
-           }, 1000);
-         }
-       }
-       //Set p-tile image from i-url
-       function setPT_fromIurl(tID) {
-         window.clearTimeout(timeoutVariable);
-         timeoutVariable = setTimeout(function () {
-           document.getElementById('p-tile').src = tID.value;
-         }, 1000);
-       }
-       //Switch between auto/custom mode of icon
-       function switch_auto_custom(eID) {
-         var idIURL = document.getElementById('i-url');
-         if (idIURL.disabled) {
-           eID.innerHTML = '<i class="far fa-edit"></i>&nbsp; Custom &nbsp;';
-           idIURL.value = "";
-           idIURL.disabled = false;
-           idIURL.select();
-           idIURL.focus();
-         } else {
-           eID.innerHTML = '<i class="far fa-sync-alt"></i>&nbsp; Auto &nbsp;';
-           var bID = document.getElementById('t-url');
-           var iUrl = "https://logos.kiwibrowser.com/" + get_root_domain(bID.value);
-           window.clearTimeout(timeoutVariable);
-           timeoutVariable = setTimeout(function () {
-             document.getElementById('p-tile').src = iUrl;
-           }, 1000);
-           idIURL.value = iUrl;
-           idIURL.disabled = true;
-           (bID).classList.remove('filled');
-         }
-       }
-       //Function to get rootDomain
-       function get_root_domain(url) {
-         return url.replace('http://', '').replace('https://', '').replace('www.', '').replace(':', '').split(/[/?#]/)[0];
-       }
-       //Function to apply change to edited tile and save
-       function save_edited_tile() {
-         var nGrid = (parseInt(currentSwiperSlide) + 1);
-         var keyS = "storedItems" + nGrid;
-         var items = localGet(keyS);
-         var item = currentEditedTile;
-         var bkmg = document.getElementById("bookmarks-grid" + nGrid);
-         var index = items.offset;
-         //Find index of edited tile
-         for (i = 0, len = bkmg.children.length; i < len; i++) {
-           if (bkmg.children[i] == item) index = i;
-         }
-         items[index] = {
-           url: document.getElementById('t-url').value,
-           title: document.getElementById('t-lab').value,
-           imgSrc: document.getElementById('p-tile').src,
-           ngrid: nGrid
-         }
-         //Apply changes to the tile on grid
-         item.querySelector('#tile_target').href = items[index].url;
-         item.children[0].children[1].innerHTML = items[index].title;
-         item.children[0].children[0].src = items[index].imgSrc;
-         //Save changes on local storage
-         localStore(keyS, items);
-         save_grid_snapshot();
-         document.getElementById('btn-add').style.display = 'inline';
-         document.getElementById('btn-save').style.display = 'none';
-         func_co_dlg(0, 1);
-       }
-       //Function to get fallback icon on preview tile src error
-       function get_fallback_icon() {
-         var url = document.getElementById('i-url').value;
-         if (url[30])document.getElementById('p-tile').src = url+ "?fallback=1";
-       }
-       //Function that return jdenticon if img src of tile is invalid
-       function invalidate_image(item) {
-         var parser = document.createElement('a');
-         parser.href = document.getElementById('t-url').value;
-         var rootDomain = psl.get(parser.hostname);
-         //console.log("Invalidating rootDomain: " + rootDomain);
-         item.src = "data:image/svg+xml;base64," + btoa(jdenticon.toSvg(parser.hostname, 64));
-         localStorage.setItem('icon-' + rootDomain, item.src);
-       }
-       //Function to edit a tile from grid
-       function edit_tile_from_grid(item) {
-         currentEditedTile = item;
-         var url = item.querySelector('#tile_target').href;
-         var title = item.textContent;
-         var img = item.querySelector('#tile_target > img').src;
-         //Set dialog with current item to edit
-         document.getElementById('e-icon').innerHTML = '<i class="far fa-edit"></i> Custom';
-         document.getElementById('i-url').disabled = false;
-         document.getElementById('btn-add').style.display = 'none';
-         document.getElementById('btn-save').style.display = 'inline';
-         document.getElementById('p-tile').src = img;
-         document.getElementById('i-url').value = img;
-         document.getElementById('t-url').value = url;
-         document.getElementById('t-lab').value = title;
-         func_co_dlg(1, 0);
-       }
-       //Function to add a tile into the grid 
-       function add_tile_to_grid(item) {
-         //Retrieve some user settings 
-         var targetBlank = ntp_sett[0].options[4];
-         //Get rootDomain from url
-         var rootDomain = get_root_domain(item.url);
-         if (typeof item.title === "undefined" || item.title === "") item.title = rootDomain;
-         var innerDiv = document.createElement('div');
-         innerDiv.className = 'grid-item';
-         if (typeof item.imgSrc === "undefined")
-           item.imgSrc = 'https://logos.kiwibrowser.com/' + rootDomain;
-         //Create the tile
-         innerDiv.innerHTML = 
-           '<a id="tile_target" class="tile_target" name="' + item.title + '" href="' + item.url + '" ' + targetBlank + '>' +
-           '<img border="0" class="grid-image"  title="' + item.title + '" src="' + item.imgSrc +
-           '" onError="invalidate_image(this)" /><span id="title_span" style="line-height: 15px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">' +
-           item.title + '</span></a>';
-         var nGrid = item.ngrid;
-         innerDiv.oncontextmenu = function () {
-          toggle_edit_mode();
-          };
-         document.getElementById('bookmarks-grid' + nGrid).appendChild(innerDiv);
-         console.log(" Function add_tile_to_grid -> grid :" + item.ngrid + " | url : " + item.url + "   |  title : " + item.title + " | img : " + item.imgSrc);
-       }
-       //Function to add a tile into the storage from grid
-       function add_tile_to_storage(el) {
-         var nGrid = ((el.parentNode).id)[14];
-         var keyS = "storedItems" + nGrid;
-         var items = localGet(keyS);
-         var itm = {
-           url: el.querySelector('#tile_target').href,
-           title: el.textContent,
-           imgSrc: el.querySelector('#tile_target > img').src,
-           ngrid: nGrid
-         }
-         items.push(itm);
-         localStore(keyS, items);
-         console.log(" add_tile_to_storage : offset " + items.length + " grid n°: " + nGrid + "the URL: " + itm.url +
-           " title: " + itm.title + " imgSRc: " + itm.img);
-       }
-       //Function to cache the grid 
-       function save_grid_snapshot() {
-         if ((typeof localStorage.cachedGridUpdate == "undefined") || ((Date.now() / 1000) - localStorage.cachedGridUpdate) >= 0.1) {
-           var y = ntp_sett[0].order[2];
-           ntp_wdg[2].cached = document.getElementById('wdg-' + y).innerHTML;
-           localStorage.cachedGridUpdate = (Date.now() / 1000);
-           console.log("Saving grid snapshot on update : " + localStorage.cachedGridUpdate);
-         }
-         localStore("ntp_wdg", ntp_wdg);
-       }
+  //Search Bar Widget Config 
+  if (ntp_sett.status[0]) {
+    function f_cache_sb() {
+      const y = ntp_sett.order[0];
+      ntp_wdg[0].cached = document.getElementById('wdg_' + y).innerHTML;
+      localStorage.cachedNewsUpdate = (Date.now() / 1000);
+      console.log("Cache search bar");
+      localStore("ntp_wdg", ntp_wdg);
+    }
+    String.prototype.replaceAll = function (search, replacement) {
+      var target = this;
+      return target.split(search).join(replacement);
+    };
 
-       var grids = [, , ];
+    function f_setup_sb() {
+      document.getElementById("sb_input").placeholder = ntp_sb.sK["placeholder"];
+      if (sb_logo.src != ntp_sb.logo) {
+        sb_logo.src = ntp_sb.logo;
+        f_cache_sb();
+      }
+    }
 
-       //Function to create the most visited tiles 
-       function fetch_tiles_from_most_visited() {
-          console.log(" fetch_tiles_from_most_visited...");
-          var pages = userData.mostVisited;
-          for (var ind = 1; ind < 4; ind++) {
-            var sItems = [, , , ];
-            for (var i = 0; i < Math.min(4, pages.length); ++i) {
-              sItems[i] = {
-                url: pages[i].url,
-                ngrid: ind
-              }
-              add_tile_to_grid(sItems[i]);
-            }
-            localStore("storedItems" + ind, sItems);
-          }
-          console.log(" Loaded 12 tiles from most visited");
-          save_grid_snapshot();
-       }
-       //Function to exit from editemode
-       function process_body_click(e) {
-         if (!grids[0].option("disabled") || !grids[1].option("disabled") || !grids[2].option("disabled")) {
-           toggle_edit_mode();
-           e.preventDefault();
-         }
-       }
-      
-       //Function to toggle edit mode of tiles
-       function toggle_edit_mode() {
-         var n = ((document.querySelector('.swiper-slide-active .bm-grid')).id)[14];
-         var state = grids[n - 1].option("disabled");
-         console.log("Toggle_edit_mode _ state:" + state);
-         bk_swiper.allowTouchMove = (state) ? false : true;
-         grids[n - 1].option("disabled", !state);
-         var el = document.querySelector('.swiper-slide-active .bm-grid');
+    function handleKeyPress(e) {
+      const key = e.keyCode || e.which;
+      var text = document.getElementById("sb_input").value.replaceAll("+", "%2B");
+      if (key == 13) search(text);
+    }
 
-         document.getElementById("edit_m_area").style.display= (!state)?'none':'flex';
-         if (!state) {
-           localStore("storedItems" + (n), []);
-           Array.prototype.forEach.call(el.getElementsByClassName("grid-item"), function (el) {
-             add_tile_to_storage(el);
-           });
-           save_grid_snapshot();
-         }
-       }
-       //Function to add listener on grid-items
-       function add_ev_listener() {
-         //Add context listener on tiles used to enable edit_mode
-         window.setTimeout(function () {
-           Array.from(document.getElementsByClassName("grid-item")).forEach(element => {
-             element.oncontextmenu = function () {
-               toggle_edit_mode();
-             };
-           });
-         }, 300);
-       }
-       //Function to create grid
-       function setup_grid() {
-         console.log("setup_grid_ ");
-         if (localGet("storedItems1") == undefined && localGet("storedItems2") == undefined && localGet("storedItems2") == undefined) {
-           fetch_tiles_from_most_visited();
-         } else if (localGet("userCustomTiles") == 1) {
-           console.log("First time,after update get user tiles");
-           for (var i = 1; i < 4; i++) {
-             var items = localGet("storedItems" + i);
-             if (items) {
-               customInner(document.getElementById("bookmarks-grid" + i), "");
-               items.forEach(el => {
-                 add_tile_to_grid(el);
-               });
-             }
-           }
-           localStore("userCustomTiles", 0);
-         }
-         //Create grids with draggable items 
-         var bookmarksGrids = [document.getElementById("bookmarks-grid1"), document.getElementById("bookmarks-grid2"), document.getElementById("bookmarks-grid3")];
-         for (var i = 0; i < 3; i++) {
-           grids[i] = new Sortable(bookmarksGrids[i], {
-            group: {
-              name: 'editM',
-              pull: 'clone' // To clone: set pull to 'clone'
-            },
-             animation: 150,
-             ghostClass: 'hidden',
-             disabled: 1,
-             direction: "horizontal",
-             draggable: ".grid-item",
-            onChange: function (evt) {
-              document.getElementById("edit_bin").style.background="transparent";
-              document.getElementById("edit_pencil").style.background="transparent";
-            },
-           });
-          
-           add_ev_listener();
-         }
-         //Check if edit_area is created 
-         if(! document.getElementById("edit_m_area")){
-           var div=document.createElement("div");
-           div.innerHTML='<div id="edit_m_area" class="edit_mode"><div id="edit_bin"><i class="far fa-trash-alt"></i></div>'+
-           '<div id="edit_pencil" ><i class="far fa-edit"></i></div><div id="moveP" ><i class="far fa-arrow-from-right"></i>'+
-           '</div><div id="moveN" ><i class="far fa-arrow-from-left"></i></div></div>';
-           document.getElementById("bkg-c").appendChild(div);
-         }
+    function search(text) {
+      var option = text.substr(1, text.indexOf(' ') - 1) || text.substr(1);
+      var subtext = text.substr(2 + option.length);
+      var sK = ntp_sb.sK;
+      var def_se = sK[sK["default"]];
+      var key_se = sK[option];
+      if (text[0] === sK["key"]) {
+        if (text.indexOf(' ') > -1 && key_se != undefined)
+          window.location = key_se + subtext;
+        else {
+          if (key_se != undefined)
+            window.location = (key_se).match(/^(?:https?:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:\/\n\?\=]+)/im)[0];
+          else
+            window.location = def_se + subtext;
+        }
+      } else
+        window.location = def_se + text;
+    }
+    f_setup_sb();
+  } // End of Search Bar Widget Config 
 
-        new Sortable(document.getElementById("edit_bin"), {
-          group: 'editM',
-          animation: 150,
-          // Called when creating a clone of element
-          onAdd: function (/**Event*/evt) {
-            var itemEl = evt.item;  // dragged HTMLElement
-            itemEl.parentNode.removeChild(itemEl);
-            itemEl = evt.clone;  // dragged HTMLElement
-            itemEl.parentNode.removeChild(itemEl);
-            document.getElementById("edit_bin").style.background="transparent";
-            add_ev_listener();
-          },
-          onChange: function (evt) {
-            document.getElementById("moveP").style.background="transparent";
-            document.getElementById("moveN").style.background="transparent";
-            document.getElementById("edit_pencil").style.background="transparent";
-            document.getElementById("edit_bin").style.background="red";
-          },
-        });
-        new Sortable(document.getElementById("edit_pencil"), {
-            group: 'editM',
-            animation: 150,
-            onAdd: function (/**Event*/evt) {
-              var itemEl = evt.clone;  // element HTMLElement
-              edit_tile_from_grid(itemEl);
-              var itemEl = evt.item;  // dragged HTMLElement
-              itemEl.parentNode.removeChild(itemEl);
-              document.getElementById("edit_pencil").style.background="transparent";
-              add_ev_listener();
-            },
-            onChange: function (evt) {
-              document.getElementById("moveP").style.background="transparent";
-              document.getElementById("moveN").style.background="transparent";
-              document.getElementById("edit_bin").style.background="transparent";
-              document.getElementById("edit_pencil").style.background="green";
-            },
-        });
-        new Sortable(document.getElementById("moveP"), {
-          group: 'editM',
-          animation: 150,
-          onAdd: function (/**Event*/evt) {
-            var itemEl = evt.clone;  // element HTMLElement
-            itemEl.parentNode.removeChild(itemEl);
-            var itemEl = evt.item;  // dragged HTMLElement
-            var x=parseInt(sessionStorage.getItem("currentSwiperSlide"));
-            
-            if(x==0)x=3;console.log("x : " +x);
-            //Append item to new grid
-            document.getElementById("bookmarks-grid"+x).appendChild(itemEl);
-            document.getElementById("moveP").style.background="transparent";
-            toggle_edit_mode();
-            add_ev_listener();
-          },
-          onChange: function (evt) {
-            document.getElementById("edit_bin").style.background="transparent";
-            document.getElementById("edit_pencil").style.background="transparent";
-            document.getElementById("moveN").style.background="transparent";
-            document.getElementById("moveP").style.background="#03a9f4";
-          },
+
+  //Tiles Grid Widget Config
+  if (ntp_sett.status[1]) {
+    var gridT, fldT;
+    var timeoutVariable;
+    var currentEditedTile;
+    var tlg = document.getElementById("tlg");
+    const p_tile = document.getElementById('p_tile');
+    const i_url = document.getElementById('i_url');
+    const fi_url = document.getElementById('fi_url');
+    const t_ac = document.getElementById('t_ac');
+    const t_url = document.getElementById('t_url');
+    const t_lab = document.getElementById('t_lab');
+    const ft_lab = document.getElementById('ft_lab');
+    const dlg_ = document.getElementById("dlg");
+    const dlg_fl = document.getElementById("dlg_fl");
+    const dlg_tg = document.getElementById("dlg_tg");
+    const b_save = document.getElementById('b_save');
+    const b_add = document.getElementById('b_add');
+    const b_save2 = document.getElementById('b_save2');
+    const b_add2 = document.getElementById('b_add2');
+    const lrt_fl = document.getElementById("lrt_fl");
+    const fldb = document.getElementById("lrt_bfl");
+    var fld_current;
+    //Function to cache the tiles 
+    function f_sgs() {
+      if ((typeof localStorage.cachedGridUpdate == "undefined") || ((Date.now() / 1000) - localStorage.cachedGridUpdate) >= 0.1) {
+        var y = ntp_sett.order[1];
+        ntp_wdg[1].cached = document.getElementById('wdg_' + y).innerHTML;
+        localStorage.cachedGridUpdate = (Date.now() / 1000);
+        console.log("Cache grid tiles : " + localStorage.cachedGridUpdate);
+      }
+      localStore("ntp_wdg", ntp_wdg);
+    }
+    //Toggle lrt for new/edit tile/folder
+    function f_dlg(view) {
+      if (view == 0) { //New Tile
+        dlg_tg.style.display = "inline";
+        dlg_fl.style.display = "none";
+        b_add.style.display = "inline";
+        b_add2.style.display = "none";
+        b_save.style.display = 'none';
+      }
+      if (view == 4) { //Edit Tile
+        dlg_tg.style.display = "inline";
+        dlg_fl.style.display = "none";
+        b_add.style.display = "none";
+        b_add2.style.display = "none";
+        b_save.style.display = 'inline';
+      }
+      if (view == 2) { //New Folder
+        dlg_tg.style.display = "none";
+        dlg_fl.style.display = "inline";
+        b_add.style.display = "none";
+        b_add2.style.display = "inline";
+        b_save.style.display = 'none';
+      }
+      if (view == 5) { //Edit Folder
+        dlg_tg.style.display = "none";
+        dlg_fl.style.display = "inline";
+        b_add.style.display = "none";
+        b_add2.style.display = "none";
+        b_save.style.display = 'inline';
+      }
+      if (view == 1) {
+        p_tile.removeAttribute('src');
+        i_url.value = "";
+        document.getElementById("dlg_frm").reset();
+        t_ac.checked = true;
+        i_url.disabled = true;
+        b_add.style.display = 'inline';
+        b_add2.style.display = "none";
+        b_save.style.display = 'none';
+      }
+      //Show/Hide Dialog
+      dlg_.classList.toggle("show-lrt");
+      ntp_bdy.classList.toggle("sl");
+      document.getElementById("flt_btn").classList.remove("open");
+      document.getElementById("fb-btn").innerHTML = '<i class="fas fa-caret-up"></i>';
+
+    }
+    //Create a new folder from lrt
+    function f_cnf() {
+      var div = document.createElement("div");
+      div.classList.add("tlg_item", "folder");
+      div.innerHTML = '<div class="tlg_img tlg_fld"></div><span id="tlg_span" class="tlg_title">' + ft_lab.value + '</span>';
+      tlg.appendChild(div);
+      f_evl_gtiles();
+      f_sgs();
+      f_dlg(1);
+    }
+    function fixURL(value){
+
+      alert(value.indexOf('https://') +"----"+ value.indexOf('http://'));
+      if(value.indexOf('https://')<0 && value.indexOf('http://')<0) return "https://"+value;
+      alert(value);
+      return value;
+    }
+    //Create a new tile from lrt
+    function f_cnt() {
+      var newt = {};
+      newt["url"] = fixURL(t_url.value);
+      var title = t_lab.value;
+      if (title == "") title = get_root_domain(newt["url"]);
+      newt["title"] = title;
+      newt["imgSrc"] = p_tile.src;
+      f_attg(newt); //Create new tile and add to grid
+      f_dlg(1);
+    }
+    //Edit a tile/folder from grid
+    function f_etfg(item) {
+      currentEditedTile = item;
+      var title = item.textContent;
+      if (currentEditedTile.classList.contains("folder")) {
+        try {
+          var img = item.querySelector('.tlg-img').backgroundImage;
+        } catch {}
+        ft_ac.checked = false;
+        fi_url.disabled = false;
+        ft_lab.value = title;
+        f_dlg(5);
+      } else {
+        var url = item.querySelector('#tile_target').href;
+        var img = item.querySelector('#tile_target > img').src;
+        t_ac.checked = false;
+        i_url.disabled = false;
+        p_tile.src = img;
+        i_url.value = img;
+        t_url.value = url;
+        t_lab.value = title;
+        f_dlg(4);
+      }
+    }
+    //Set p_tile image from t_url
+    function f_sptt(t) {
+      if (i_url.disabled) {
+        window.clearTimeout(timeoutVariable);
+        timeoutVariable = setTimeout(function () {
+          var iUrl = "https://logos.kiwibrowser.com/" + get_root_domain(t.value);
+          p_tile.src = iUrl;
+          i_url.value = iUrl;
+        }, 1000);
+      }
+    }
+    //Set p_tile image from i_url
+    function f_spti(t) {
+      window.clearTimeout(timeoutVariable);
+      timeoutVariable = setTimeout(function () {
+        p_tile.src = t.value;
+      }, 1000);
+    }
+    //Toggle auto/custom mode of icon tile
+    function f_sac(e, s) {
+      if (s == 1) {
+        if (i_url.disabled) {
+          e.checked = false;
+          i_url.value = "";
+          i_url.disabled = false;
+          i_url.select();
+          i_url.focus();
+        } else {
+          e.checked = true;
+          var iUrl = "https://logos.kiwibrowser.com/" + get_root_domain(t_url.value);
+          window.clearTimeout(timeoutVariable);
+          timeoutVariable = setTimeout(function () {
+            p_tile.src = iUrl;
+          }, 1000);
+          i_url.value = iUrl;
+          i_url.disabled = true;
+        }
+      } else {
+        if (fi_url.disabled) {
+          e.checked = true;
+          fi_url.value = "";
+          fi_url.disabled = false;
+          fi_url.select();
+          fi_url.focus();
+        } else {
+          e.checked = false;
+          fi_url.disabled = true;
+        }
+      }
+    }
+    //Apply change to edited tile/folder and save
+    function f_sedt() {
+      var item = currentEditedTile;
+      for (i = 0, len = tlg.children.length; i < len; i++)
+        if (tlg.children[i] == item) index = i;
+      if (!currentEditedTile.classList.contains("folder")) {
+        item.querySelector('#tile_target').href = t_url.value;
+        const title = t_lab.value;
+        if (title == "") title = get_root_domain(newt["url"]);
+        item.children[0].children[1].innerHTML = title;
+        item.children[0].children[0].src = p_tile.src;
+      } else {
+        item.children[1].innerHTML = ft_lab.value;
+      }
+      f_sgs();
+      f_dlg(1);
+    }
+    //Get fallback icon on preview tile src error
+    function f_gfi() {
+      var url = i_url.value;
+      if (url[30]) p_tile.src = url + "?fallback=1";
+    }
+    //Replace img error src
+    function f_iimg(item) {
+      var parser = document.createElement('a');
+      parser.href = t_url.value;
+      item.src = "https://logos.kiwibrowser.com/kiwibrowser.com";
+    }
+    //Add a tile into the grid 
+    function f_attg(item) {
+      const targetBlank = getComputedStyle(ntp_bdy).getPropertyValue("--o2");
+      var innerDiv = document.createElement('div');
+      innerDiv.className = 'tlg_item';
+      innerDiv.innerHTML =
+        '<a id="tile_target" class="tile_target" href="' + item.url + '" ' + targetBlank + '>' +
+        '<img class="tlg_img" src="' + item.imgSrc +
+        '" onError="f_iimg(this)" /><span id="tlg_span" class="tlg_title">' +
+        item.title + '</span></a>';
+      tlg.appendChild(innerDiv);
+      console.log(" Function f_attg -> url : " + item.url + "   |  title : " + item.title + " | img : " + item.imgSrc);
+      f_evl_gtiles();
+      //Save
+      window.setTimeout(function () {
+        f_sgs();
+      }, 200);
+
+    }
+    //Function to open folder lrt
+    function f_ofld(el) {
+      fld_current = el.querySelector('.tlg_fld');
+      var tls = fld_current.innerHTML;
+      fldb.innerHTML = tls;
+      lrt_fl.classList.toggle("show-lrt");
+      ntp_bdy.classList.toggle("sl");
+    }
+    //Function to toggle edit mode of folder
+    function f_tggl_f() {
+      var state = fldT.option("disabled");
+      fldT.option("disabled", !state);
+      document.getElementById("fld_editA").style.display = (!state) ? 'none' : 'flex';
+      if (!state) {
+        fld_current.innerHTML = fldb.innerHTML;
+        f_sgs();
+      };
+    }
+    //Function to toggle edit mode of tiles
+    function f_tggl_t() {
+      var state = gridT.option("disabled");
+      gridT.option("disabled", !state);
+      document.getElementById("tlg_sldr").style.display = (!state) ? 'none' : 'block';
+      document.getElementById("tlg_editA").style.display = (!state) ? 'none' : 'flex';
+      if (!state) {
+        f_sgs();
+        save_ntpbdy();
+      }
+    }
+    //Function to add listener on tlg_items
+    function f_evl_gtiles() {
+      var currentFolder = null;
+      var folders = document.querySelectorAll(".folder:not(.np)");
+      Array.from(folders).forEach(e => {
+        e.onclick = function () {
+          f_ofld(e)
+        };
       });
-      new Sortable(document.getElementById("moveN"), {
+      //To toggle edit mode on grid tiles
+      document.getElementById("tlg").oncontextmenu = function (e) {
+        e.preventDefault();
+        f_tggl_t();
+      };
+      //To toggle edit mode on folder view
+      document.getElementById("lrt_bfl").oncontextmenu = function (e) {
+        e.preventDefault();
+        f_tggl_f();
+      };
+      //To exit toggle mode on folder view
+      lrt_fl.addEventListener('click', function (e) {
+        if (e.target == this) {
+          e.preventDefault();
+          f_tggl_f();
+        }
+      });
+      //Detect items hovering a folder and add to folder if dropped hover folder
+      Array.from(document.querySelectorAll(".tlg_item:not(.folder)")).forEach(element => {
+        element.addEventListener(mLstnr[0],
+          function (evt) {
+            var by = evt.touches[0].clientY;
+            var bx = evt.touches[0].clientX;
+            if (!gridT.option("disabled")) {
+              for (let i = 0; i < folders.length; i++) {
+                var a = folders[i].getBoundingClientRect();
+                const t = ((a.x + a.width > bx) && (a.x < bx) && (a.y < by) && ((a.y + a.height) > by));
+                if (t) {
+                  folders[i].style.background = "red";
+                  currentFolder = folders[i];
+                } else {
+                  folders[i].style.background = "none";
+                }
+              }
+            }
+          }, {
+            passive: true
+          });
+        element.addEventListener(mLstnr[1], function (evt) {
+          var by = evt.changedTouches[0].pageY;
+          var bx = evt.changedTouches[0].pageX;
+          if (currentFolder != null) {
+            var a = currentFolder.getBoundingClientRect();
+            const t = ((a.x + a.width > bx) && (a.x < bx) && (a.y < by) && ((a.y + a.height) > by));
+            if (!gridT.option("disabled") && t) {
+              console.log(currentFolder + " | " + element);
+              currentFolder.querySelector('.tlg_fld').appendChild(element);
+              currentFolder.style.background = "none";
+              currentFolder = null;
+              f_sgs();
+            }
+          }
+        }, {
+          passive: true
+        });
+      });
+    }
+    //Function to setup sliders on grid tiles
+    function f_setup_sldr() {
+      //Add slider options for grid tiles
+      if (!document.getElementById("tlg_sldr")) {
+        var div = document.createElement("div");
+        div.id = "tlg_sldr";
+        div.innerHTML = '<div id="sld_tg"><i class="far fa-cog"></i>   Grid Tiles Sliders</div><div id="sld_vw"><label>Number of Tiles</label><div class="vrl_wrp"><input type="range" min="0" max="8" value="50" class="slr_rng" id="tg_r1"></div>' +
+          '<label>Tile Width</label><div class="vrl_wrp"><input type="range" min="30" max="200" value="50" class="slr_rng" id="tg_r2"></div>' +
+          '<label>Tile Space</label><div class="vrl_wrp"><input type="range" min="0" max="100" value="50" class="slr_rng" id="tg_r3"></div>' +
+          '<label>Tile Rounding</label><div class="vrl_wrp"><input type="range" min="0" max="100" value="50" class="slr_rng" id="tg_r4"></div></div>';
+        tlg.parentNode.prepend(div);
+      }
+      const wid = ((window.innerWidth) ? window.innerWidth : screen.width) - 28; //Get the width of device 
+      const tg_r1 = document.getElementById('tg_r1');
+      const tg_r2 = document.getElementById('tg_r2');
+      const tg_r3 = document.getElementById('tg_r3');
+      const tg_r4 = document.getElementById('tg_r4');
+      var ntp_tlg = {
+        w: parseInt(ntp_bdy.style.getPropertyValue("--tile-w").replace("px", "")),
+        m: parseInt(ntp_bdy.style.getPropertyValue("--tile-m").replace("px", "")),
+        n: parseInt(ntp_bdy.style.getPropertyValue("--tile-n")),
+        r: parseInt(ntp_bdy.style.getPropertyValue("--tile-r").replace("px", "")),
+      };
+      if (isNaN(ntp_tlg.w)) {
+        ntp_tlg = {
+          w: 64,
+          m: 10,
+          n: f_gncols(),
+          r: 6
+        };
+        setTLG();
+      }
+      tg_r1.value = ntp_tlg.n;
+      tg_r2.value = ntp_tlg.w;
+      tg_r3.value = ntp_tlg.m;
+      tg_r4.setAttribute("max", ntp_tlg.w / 2);
+      tg_r4.value = ntp_tlg.r;
+      tg_r1.addEventListener("input", function () {
+        ntp_tlg.n = parseInt(tg_r1.value);
+        set_tg_r1();
+      });
+      tg_r2.addEventListener("input", function () {
+        ntp_tlg.w = parseInt(tg_r2.value);
+        set_tg_r2();
+      });
+      tg_r3.addEventListener("input", function () {
+        ntp_tlg.m = parseInt(tg_r3.value);
+        set_tg_r3();
+      });
+      tg_r4.addEventListener("input", function () {
+        ntp_tlg.r = parseInt(tg_r4.value);
+        setTLG();
+      });
+      //Set values in settings
+      function setTLG() {
+        tg_r1.value = ntp_tlg.n;
+        tg_r2.value = ntp_tlg.w;
+        tg_r3.value = ntp_tlg.m;
+        tg_r4.setAttribute("max", ntp_tlg.w / 2);
+        tg_r4.value = ntp_tlg.r;
+        ntp_bdy.style.setProperty("--tile-n", ntp_tlg.n);
+        ntp_bdy.style.setProperty("--tile-w", ntp_tlg.w + 'px');
+        ntp_bdy.style.setProperty("--tile-m", ntp_tlg.m + 'px');
+        ntp_bdy.style.setProperty("--tile-r", ntp_tlg.r + 'px');
+        save_ntpbdy();
+      }
+      //Function to retrieve default number of cols
+      function f_gncols() {
+        if (wid > 253 && wid < 337) return 3;
+        else if (wid > 336 && wid < 421) return 4;
+        else if (wid > 420 && wid < 510) return 5;
+        else if (wid > 509 && wid < 672) return 6;
+        else if (wid > 671) return 8;
+        return 2;
+      }
+
+      function set_tg_r3() {
+        var tCol = parseInt(ntp_tlg.n);
+        var tWidth = parseInt(ntp_tlg.w);
+        var tMargin = parseInt(ntp_tlg.m);
+        var calc = (tCol * (tWidth + tMargin)) + 1;
+        while (calc > wid) {
+          tWidth -= 1;
+          calc = (tCol * (tWidth + tMargin)) + 1;
+        }
+        ntp_tlg.n = tCol;
+        ntp_tlg.w = tWidth;
+        ntp_tlg.m = tMargin;
+        setTLG();
+      }
+
+      function set_tg_r2() {
+        var tCol = parseInt(ntp_tlg.n);
+        var tWidth = parseInt(ntp_tlg.w);
+        var tMargin = 10;
+        var calc = (tCol * (tWidth + tMargin)) + 1;
+        while (calc > wid) {
+          tCol -= 1;
+          calc = (tCol * (tWidth + tMargin)) + 1;
+          console.log(wid + " . - " + calc)
+        }
+        ntp_tlg.n = tCol;
+        ntp_tlg.m = tMargin;
+        setTLG();
+      }
+
+      function set_tg_r1() {
+        var nCol = parseInt(ntp_tlg.n),
+          tWidth = parseInt(ntp_tlg.w),
+          tMargin = parseInt(ntp_tlg.m);
+        var calc = (nCol * (tWidth + tMargin)) + 1;
+        while (calc > wid) {
+          calc = (nCol * (tWidth + tMargin)) + 1;
+          if (tMargin > 10) tMargin -= 1;
+          else tWidth -= 1;
+        }
+        ntp_tlg.n = nCol;
+        ntp_tlg.m = tMargin;
+        ntp_tlg.w = tWidth;
+        setTLG();
+      }
+    }
+
+    //Function to exit from editemode
+    function process_body_click(e) {
+
+      if (e.target == document.getElementById("sld_tg")) {
+        document.getElementById("sld_vw").classList.toggle("open_sld");
+        e.preventDefault();
+        return;
+      }
+      if (e.target == document.getElementById("tlg_sldr")) {
+        e.preventDefault();
+        return;
+      }
+      if (!gridT.option("disabled")) {
+        document.getElementById("sld_vw").classList.remove("open_sld");
+        f_tggl_t();
+        e.preventDefault();
+      }
+      if (!fldT.option("disabled")) {
+        f_tggl_f();
+        e.preventDefault();
+      }
+      if (e.target == lrt_fl) {
+        lrt_fl.classList.toggle("show-lrt");
+        ntp_bdy.classList.toggle("sl");
+        e.preventDefault();
+      }
+    }
+
+    //Function to setup grid tiles
+    function f_setup_gtiles() {
+      tlg = document.getElementById("tlg");
+      //Check if edit_area is created 
+      if (!document.getElementById("tlg_editA")) {
+        var div = document.createElement("div");
+        div.innerHTML = '<div id="tlg_editA" class="edit_mode"><div id="edit_bin"><i class="far fa-trash-alt"></i></div>' +
+          '<div id="edit_pencil" ><i class="far fa-edit"></i></div></div>';
+        tlg.parentNode.appendChild(div);
+      }
+      gridT = new Sortable(tlg, {
+        group: {
+          name: 'editM',
+          pull: 'clone'
+        },
+        swapThreshold: 0.45,
+        invertSwap: true,
+        fallbackOnBody: true,
+        animation: 150,
+        ghostClass: 'hidden',
+        disabled: 1,
+        direction: "horizontal",
+        draggable: ".tlg_item",
+        onChange: function (evt) {
+          document.getElementById("edit_bin").style.background = "transparent";
+          document.getElementById("edit_pencil").style.background = "transparent";
+        }
+      });
+      new Sortable(document.getElementById("edit_bin"), {
         group: 'editM',
         animation: 150,
-        onAdd: function (/**Event*/evt) {
-          var itemEl = evt.clone;  // element HTMLElement
+        onAdd: function (evt) {
+          var itemEl = evt.item;
           itemEl.parentNode.removeChild(itemEl);
-          var itemEl = evt.item;  // dragged HTMLElement
-          var x=(parseInt(currentSwiperSlide) + 1)+1;
-          if(x==4)x=1;console.log("x : " +x);
-          //Append item to new grid
-          document.getElementById("bookmarks-grid"+x).appendChild(itemEl);
-          document.getElementById("moveN").style.background="transparent";
-          add_ev_listener();
+          itemEl = evt.clone;
+          itemEl.parentNode.removeChild(itemEl);
+          document.getElementById("edit_bin").style.background = "transparent";
         },
         onChange: function (evt) {
-          document.getElementById("edit_bin").style.background="transparent";
-          document.getElementById("edit_pencil").style.background="transparent";
-          document.getElementById("moveP").style.background="transparent";
-          document.getElementById("moveN").style.background="#03a9f4";
+          document.getElementById("edit_pencil").style.background = "transparent";
+          document.getElementById("edit_bin").style.background = "red";
         },
-    });
-         window.setTimeout(function () {
-           save_grid_snapshot();
-         }, 900);
-       }
-       
-       var bk_swiper,currentSwiperSlide = sessionStorage.getItem("currentSwiperSlide");
-       
-       function initSwiper(){
-        //Check active slide on this session
-        if (currentSwiperSlide == undefined) currentSwiperSlide = 0;
-        //Create swiper for grids
-        bk_swiper = new Swiper(' .s1', {
-          speed: parseInt(ntp_sett[0].options[2]), //speed:  Fast|150 , Normal|450 , Slow|850 
-          pagination: {
-            el: '.swiper-pagination',
-            clickable: true,
-          },
-          effect: ntp_sett[0].options[1], // effect : "slide", "fade"
-          fadeEffect: {crossFade: true}, //Better fade effect
-          autoHeight:true,
-          initialSlide: currentSwiperSlide
-        });
-        bk_swiper.on('transitionEnd', function() {sessionStorage.currentSwiperSlide = bk_swiper.realIndex;});
-        //Create Grid with setup_grid
-        setup_grid();
-        //Make sure there is no edit_mode status 
-        Array.prototype.forEach.call(document.getElementsByClassName("grid-item"), function (el) {el.style.WebkitAnimation = 'none';});
-        //Add body click used to disable edit_mode
-        document.body.addEventListener("click", process_body_click);
-        add_ev_listener();
-      }
-      initSwiper();
-       
-     }
-     // End of Bookmarks grid section
-     function arrayBufferToBase64(buffer) {
-       var binary = '';
-       var bytes = [].slice.call(new Uint8Array(buffer));
-       bytes.forEach((b) => binary += String.fromCharCode(b));
-       return window.btoa(binary);
-     };
-
-     //Check News Section widget status
-     if (ntp_sett[0].status[3]) {
-      adaptColor("newsLocal",getComputedStyle(document.documentElement).getPropertyValue("--ntp-c" + 16));
-       //Function that reset readed news
-       function resetNH_items() {
-         localStorage.removeItem("itemsNewsH");
-         reload_locale();
-       }
-       //Function that add delete item news on swipe
-       function addSwipeToDelete() {
-         var xDown = xDiff = null;
-         var tasks = document.getElementsByClassName("newsItem");
-         function is_touch_device() {
-           try {document.createEvent("TouchEvent");return true;
-           } catch (e) {return false;}
-         }
-         for (var i = 0; i < tasks.length; i++) {
-           if (is_touch_device()) {
-             tasks[i].addEventListener('touchstart', handleTouchStart, false);
-             tasks[i].addEventListener('touchmove', handleTouchMove, false);
-             tasks[i].addEventListener('touchend', handleTouchEnd, false);
-           }
-           //code for desktop item move
-         }
-         function handleTouchStart(evt) {
-           xDown = evt.touches[0].clientX;
-         }
-         function handleTouchMove(evt) {
-           var el = (evt.target.closest("div.newsItem"));
-           el.style.transition = "margin 0ms";
-           if (!xDown) return;
-           var xUp = evt.touches[0].clientX;
-           var yUp = evt.touches[0].clientY;
-           xDiff = xDown - xUp;
-           if (xDiff < 20 && xDiff > -20) return;
-           if (xDiff < -20) el.style.marginLeft = ((Math.abs(xDiff))) + 'px';
-           else el.style.marginLeft = "-" + (xDiff) + 'px';
-           if (xDiff < 130 && xDiff > -130) {
-             var op = ((Math.abs(xDiff)) / 130);
-             el.style.opacity = "1" - op;
-           }
-         }
-         function handleTouchEnd(evt) {
-           var el = (evt.target.closest("div.newsItem"));
-           if (xDiff > 130 || xDiff < -130) {
-             el.style.display = "none";
-             var itemsArray;
-             if (localStorage.getItem('itemsNewsH')) itemsArray = JSON.parse(localStorage.getItem('itemsNewsH'));
-             else itemsArray = [];
-             itemsArray.push(el.id);
-             localStorage.setItem('itemsNewsH', JSON.stringify(itemsArray));
-             console.log("News with id : " + el.id + " added to hide list");
-           } else {
-             el.style.transition = "margin 600ms";
-             el.style.opacity = "1";
-             el.style.marginLeft = '4px';
-           }
-           xDiff = xDown = null;
-         }
-       }
-       //Function to toggle news view mode ( compact / standard )
-       function toggle_news_view() {
-         var x = document.getElementsByClassName("newsT_icon");
-         if (ntp_sett[0].options[7] == "150px") {
-           ntp_sett[0].options[7] = "auto";
-           root.style.setProperty("--ntp-o7", "auto");
-           x[0].innerHTML = '<i class="fas fa-rectangle-wide"></i>';
-         } else {
-           ntp_sett[0].options[7] = "150px";
-           root.style.setProperty("--ntp-o7", "150px");
-           x[0].innerHTML = '<i class="fas fa-stream"></i>';
-
-         }
-         localStore("ntp_sett", ntp_sett);
-       }
-       //Function to reload news
-       function reload_locale() {
-         console.log("reload locale");
-         localStorage.removeItem('cachedNewsUpdate');
-         localStorage.removeItem('cachedGNews');
-         loadGNews();
-         window.setTimeout(function () {
-           addSwipeToDelete();
-         }, 1000);
-         window.setTimeout(function () {
-           addSwipeToDelete();
-         }, 2000);
-       }
-       //Function to reload news with new locale selected
-       function select_locale() {
-         localStorage.newsLocale = document.getElementById('newsLocal').value;
-         localStorage.removeItem('cachedNewsUpdate');
-         localStorage.removeItem('cachedGNews');
-         loadGNews();
-         window.setTimeout(function () {
-           addSwipeToDelete();
-         }, 1000);
-         window.setTimeout(function () {
-           addSwipeToDelete();
-         }, 2000);
-       }
-       //Function to convert locale into readable text
-       function locale_to_readabletext(string) {
-         string = string.replace('%3A', ':');
-         for (var locale in locales) {
-           if (locales[locale].replace('%3A', ':') == string)
-             return locale;
-         }
-         return null;
-       }
-       var must_clear_news = false;
-       //Function for loading news animation
-       function render_news_loading() {
-         must_clear_news = true;
-         document.getElementById('news').innerHTML =
-           '<div style="clear:both;text-align:center;width: 100%"><br />&nbsp;<br /><div class="lds-dual-ring"></div></div>';
-       }
-       //Function to create an id for news 
-       function c_itemnews_ID(title, news_time) {
-         var result = title.toUpperCase().replace(/\b(\S{1,2})\S*/g, '$1').replace(/ /g, '');
-         var tResult = result.substring(0, 8);
-         return tResult + "_" + news_time;
-       }
-       //Function to add a news item 
-       function add_gnews(is_primary, title, news_time, source, source_logo, link, image) {
-         var itemID = c_itemnews_ID(title, news_time);
-         //If the news has been read , don't add it
-         if (localStorage.itemsNewsH && (localStorage.itemsNewsH).indexOf(itemID) > -1) return;
-         var innerDiv = document.createElement('div');
-         var creationTime = new Date(news_time * 1000);
-         var timeagoInstance = timeago();
-         innerDiv.className = 'newsItem';
-         innerDiv.id = itemID;
-         innerDiv.innerHTML = '<img src="' + image + '" class="newsImage" />' +
-           '<div class="newsContent">' +
-           '<span class="newsAttribution"><img src="' + source_logo + '/>&nbsp;&nbsp;&nbsp;<a href="' + link + '">' + source +
-           '</a></span>' +
-           '<div class="newsTitle"><a href="' + link + '">' +
-           title + '</a></div>' +
-           '<span class="newsTime">' +
-           timeagoInstance.format(creationTime) + '</span></a></div>';
-         document.getElementById('news').appendChild(innerDiv);
-       }
-       var has_valid_entries = false;
-       var last_offset_rendered = 0;
-       //Function to render news ( get news from gnews )
-       function render_gnews(answer, start_offset, n) {
-         last_offset_rendered = start_offset + n;
-         if (must_clear_news) {
-           must_clear_news = false;
-           document.getElementById('news').innerHTML = '';
-         }
-         var el = document.createElement('div');
-         el.style.display = 'none';
-         el.baseURI = newsServer;
-         el.innerHTML = answer.replace(new RegExp('<img', 'gi'), '<source');
-         var articles = el.getElementsByTagName('article');
-         for (var i = start_offset; i < articles.length && i < (n + start_offset); i++) {
-           var article = articles[i];
-           var children = article.childNodes;
-           var title = null;
-           var link = null;
-           var image = null;
-           var source = null;
-           var source_logo = null;
-           var is_primary = false;
-           var news_time = null;
-           for (var j = 0; j < children.length; j++) {
-             var child = children[j];
-             if (child.tagName == 'A') {
-               link = child.href;
-             } else if (child.tagName == 'FIGURE') {
-               if (child.childNodes.length >= 2 && child.childNodes[0].tagName == 'SOURCE') {
-                 image = child.childNodes[0].src;
-                 is_primary = true;
-               } else if (child.childNodes.length >= 2 && child.childNodes[1].tagName == 'SOURCE') // video to play
-               {
-                 image = child.childNodes[1].src;
-                 is_primary = true;
-               } else if (child.childNodes.length == 1 && child.childNodes[0].tagName == 'SOURCE') {
-                 image = child.childNodes[0].src;
-               }
-             } else if (child.tagName == 'H4') {
-               title = child.childNodes[0].innerText;
-             } else if (child.tagName == 'DIV') {
-               if (child.childNodes.length >= 2 && child.childNodes[0].tagName == 'DIV' && child.childNodes[1].tagName ==
-                 'MENU') {
-                 if (child.childNodes[0].childNodes[0].tagName == 'TIME')
-                   news_time = child.childNodes[0].childNodes[0].dateTime;
-                 else if (child.childNodes[0].childNodes[1].tagName == 'TIME')
-                   news_time = child.childNodes[0].childNodes[1].dateTime;
-               } else if (child.childNodes.length >= 2 && child.childNodes[0].tagName == 'DIV') {
-                 var subNode = child.childNodes[1];
-                 if (subNode.childNodes[0].tagName == 'DIV' && subNode.childNodes[1].tagName == 'MENU') {
-                   if (subNode.childNodes[0].tagName == 'DIV' && subNode.childNodes[1].tagName == 'MENU') {
-                     if (subNode.childNodes[0].childNodes[0].tagName == 'TIME')
-                       news_time = subNode.childNodes[0].childNodes[0].dateTime;
-                     else if (subNode.childNodes[0].childNodes[1].tagName == 'TIME')
-                       news_time = subNode.childNodes[0].childNodes[1].dateTime;
-                   }
-                 }
-                 var subNode = child.childNodes[0].childNodes[0];
-                 if (subNode.childNodes.length == 3 && subNode.childNodes[0].tagName == 'DIV') {
-                   source = subNode.childNodes[0].innerText;
-                   var sourceNode = subNode.childNodes[0].childNodes[0];
-                   if ((sourceNode.tagName == 'A' || sourceNode.tagName == 'SPAN') && sourceNode.childNodes[0].tagName ==
-                     'SOURCE')
-                     source_logo = sourceNode.childNodes[0].src;
-                 }
-                 if (subNode.childNodes.length == 3 && subNode.childNodes[1].tagName == 'H4')
-                   title = subNode.childNodes[1].innerText;
-               } else if (child.childNodes.length >= 2 && child.childNodes[0].tagName == 'FIGURE') {
-                 if (child.childNodes[0].childNodes[0].tagName == 'SOURCE')
-                   image = child.childNodes[0].childNodes[0].src;
-                 else if (child.childNodes[0].childNodes[1].tagName == 'SOURCE') // video to play
-                   image = child.childNodes[0].childNodes[1].src;
-                 var divSubNode = child.childNodes[1];
-                 if (divSubNode.childNodes.length == 3 && divSubNode.childNodes[0].tagName == 'DIV') {
-                   source = divSubNode.childNodes[0].innerText;
-                   var sourceNode = divSubNode.childNodes[0].childNodes[0];
-                   if ((sourceNode.tagName == 'A' || sourceNode.tagName == 'SPAN') && sourceNode.childNodes[0].tagName ==
-                     'SOURCE')
-                     source_logo = sourceNode.childNodes[0].src;
-                 }
-                 if (divSubNode.childNodes.length == 3 && divSubNode.childNodes[1].tagName == 'H4')
-                   title = divSubNode.childNodes[1].innerText;
-               } else if (child.childNodes.length >= 2 && child.childNodes[0].tagName == 'SOURCE') {
-                 if (child.childNodes[0].tagName == 'SOURCE' && child.childNodes[1].tagName == 'A') {
-                   source_logo = child.childNodes[0].src;
-                   if (child.childNodes[1].innerText)
-                     source = child.childNodes[1].innerText;
-                 }
-               } else if (child.childNodes.length == 1 && child.childNodes[0].tagName == 'A') {
-                 subNode = child.childNodes[0];
-                 source = subNode.innerText;
-                 var sourceNode = subNode.childNodes[0];
-                 if (sourceNode.tagName == 'SOURCE')
-                   source_logo = sourceNode.src;
-               } else if (child.childNodes.length >= 2 && child.childNodes[0].tagName == 'A') {
-                 source = child.childNodes[1].innerText;
-                 var sourceNode = child.childNodes[0].childNodes[0];
-                 if (sourceNode.tagName == 'SOURCE')
-                   source_logo = sourceNode.src;
-               } else if (child.childNodes.length >= 2 && child.childNodes[0].tagName == 'SPAN') {
-                 source = child.childNodes[1].innerText;
-                 var sourceNode = child.childNodes[0].childNodes[0];
-                 if (sourceNode.tagName == 'SOURCE')
-                   source_logo = sourceNode.src;
-               } else if (child.childNodes.length >= 2 && child.childNodes[0].tagName == 'SOURCE') {
-                 if (child.childNodes[1].innerText)
-                   source = child.childNodes[1].innerText;
-               }
-             }
-           }
-           if (news_time && parseInt(news_time.substr(news_time.lastIndexOf(":") + 2)) > 1518000000)
-             news_time = parseInt(news_time.substr(news_time.lastIndexOf(":") + 2));
-           else
-             news_time = parseInt(Date.parse(news_time) / 1000);
-           if (link)
-             link = link.replace('https://d3ward.github.io/ntp/', 'https://news.google.com/');
-           if (link && image && title) {
-             has_valid_entries = true;
-             //console.log('Title: ' + title);
-             add_gnews(is_primary, title, news_time, source, source_logo, link, image);
-           }
-           if (articles.length > (i + 1) && i <= 29) {
-             document.getElementById('newsMore').innerHTML =
-               '<div style="width:  calc(100% - 20px);color: var(--ntp-c14);background-color: var(--ntp-c16);box-shadow: 0 1px 4px var(--ntp-o3);font-size: 24px;border-radius: 5px;margin: auto;text-align: center;"><i class="fas fa-ellipsis-h"></i></div><br />&nbsp;<br />';
-           } else {
-             document.getElementById('newsMore').innerHTML = '';
-           }
-         }
-         localStorage.cachedGNews = answer;
-       }
-       console.log('News locale is ' + localStorage.newsLocale);
-       //Function to load news 
-       function loadGNews() {
-         if (typeof localStorage.cachedGNews != "undefined") {
-           console.log('Rendering GNews from cache');
-           render_gnews(localStorage.cachedGNews, 0, 10);
-           if (typeof localStorage.lastOffsetRendered != "undefined") {
-             for (var i = 10; i <= localStorage.lastOffsetRendered; i += 10)
-               render_gnews(localStorage.cachedGNews, i, 10);
-           }
-         }
-         if ((typeof localStorage.cachedNewsUpdate == "undefined") ||
-           ((Date.now() / 1000) - localStorage.cachedNewsUpdate) > 3600 ||
-           (typeof localStorage.needFetch == "undefined")) {
-           if (typeof localStorage.hideNews == "undefined") {
-             localStorage.needFetch = false;
-             console.log("Fetching fresh news");
-             has_valid_entries = false;
-             try {
-               document.getElementById('newsMore').innerHTML = '';
-               last_offset_rendered = 0;
-               localStorage.lastOffsetRendered = 0;
-               render_news_loading();
-               fetch(newsServer + 'foryou' + localStorage.newsLocale, {
-                   method: 'GET',
-                   credentials: 'include'
-                 })
-                 .then(function (response) {
-                   if (response.url.includes("&ceid=")) {
-                     localStorage.newsLocale = response.url.substr(response.url.lastIndexOf('?'));
-                   }
-                   return response.text();
-                 }).then(function (answer) {
-                   if (answer != localStorage.cachedGNews) {
-                     render_gnews(answer, 0, 10);
-                   }
-                   localStorage.cachedNewsUpdate = (Date.now() / 1000);
-                 });
-             } catch (err) {
-               console.log('Fetch news failed for: ' + err.message);
-             }
-             try {
-               if (!has_valid_entries) {
-                 last_offset_rendered = 0;
-                 localStorage.lastOffsetRendered = 0;
-                 render_news_loading();
-                 fetch(newsServer + localStorage.newsLocale, {
-                     method: 'GET',
-                     mode: 'cors'
-                   })
-                   .then(function (response) {
-                     console.log('News Response:');
-                     console.log(response);
-                     if (response.url.includes("&ceid=")) {
-                       localStorage.newsLocale = response.url.substr(response.url.lastIndexOf('?'));
-                     }
-                     return response.text();
-                   })
-                   .then(function (answer) {
-                     console.log('Has valid entries: ' + has_valid_entries);
-                     if (answer != localStorage.cachedGNews && !has_valid_entries) {
-                       render_gnews(answer, 0, 10);
-                     }
-                     localStorage.cachedNewsUpdate = (Date.now() / 1000);
-                   });
-               }
-             } catch (err) {
-               console.log('Fetch generic news failed for: ' + err.message);
-             }
-           }
-         }
-       }
-       //Function to add more news
-       function load_more_news() {
-         localStorage.lastOffsetRendered = last_offset_rendered;
-         render_gnews(localStorage.cachedGNews, last_offset_rendered, 10);
-         window.setTimeout(function () {
-           addSwipeToDelete();
-         }, 300);
-       }
-       preconnectTo(newsServer);
-       document.getElementById('newsMore').addEventListener('click', load_more_news);
-       var x = document.getElementsByClassName("newsT_icon");
-       if (ntp_sett[0].options[7] == "auto") x[0].innerHTML = '<i class="fas fa-rectangle-wide"></i>';
-       else x[0].innerHTML = '<i class="fas fa-stream"></i>';
-       //Variable of locales
-       var locales = {
-         'English | Australia': '?hl=en-AU&gl=AU&ceid=AU:en',
-         'English | Botswana': '?hl=en-BW&gl=BW&ceid=BW:en',
-         'English | Canada': '?hl=en-CA&gl=CA&ceid=CA:en',
-         'English | Ethiopia': '?hl=en-ET&gl=ET&ceid=ET:en',
-         'English | Ghana': '?hl=en-GH&gl=GH&ceid=GH:en',
-         'English | India': '?hl=en-IN&gl=IN&ceid=IN:en',
-         'English | Indonesia': '?hl=en-ID&gl=ID&ceid=ID:en',
-         'English | Ireland': '?hl=en-IE&gl=IE&ceid=IE:en',
-         'English | Israel': '?hl=en-IL&gl=IL&ceid=IL:en',
-         'English | Kenya': '?hl=en-KE&gl=KE&ceid=KE:en',
-         'English | Latvia': '?hl=en-LV&gl=LV&ceid=LV:en',
-         'English | Malaysia': '?hl=en-MY&gl=MY&ceid=MY:en',
-         'English | Namibia': '?hl=en-NA&gl=NA&ceid=NA:en',
-         'English | New Zealand': '?hl=en-NZ&gl=NZ&ceid=NZ:en',
-         'English | Nigeria': '?hl=en-NG&gl=NG&ceid=NG:en',
-         'English | Pakistan': '?hl=en-PK&gl=PK&ceid=PK:en',
-         'English | Philippines': '?hl=en-PH&gl=PH&ceid=PH:en',
-         'English | Singapore': '?hl=en-SG&gl=SG&ceid=SG:en',
-         'English | South Africa': '?hl=en-ZA&gl=ZA&ceid=ZA:en',
-         'English | Tanzania': '?hl=en-TZ&gl=TZ&ceid=TZ:en',
-         'English | Uganda': '?hl=en-UG&gl=UG&ceid=UG:en',
-         'English | United Kingdom': '?hl=en-GB&gl=GB&ceid=GB:en',
-         'English | United States': '?hl=en-US&gl=US&ceid=US:en',
-         'English | Zimbabwe': '?hl=en-ZW&gl=ZW&ceid=ZW:en',
-         'Bahasa Indonesia | Indonesia': '?hl=id&gl=ID&ceid=ID%3Aid',
-         'Čeština | Česko': '?hl=cs&gl=CZ&ceid=CZ%3Acs',
-         'Deutsch | Deutschland': '?hl=de&gl=DE&ceid=DE%3Ade',
-         'Deutsch | Österreich': '?hl=de&gl=AT&ceid=AT%3Ade',
-         'Deutsch | Schweiz': '?hl=de&gl=CH&ceid=CH%3Ade',
-         'Español | Argentina': '?hl=es-419&gl=AR&ceid=AR%3Aes-419',
-         'Español | Chile': '?hl=es-419&gl=CL&ceid=CL%3Aes-419',
-         'Español | Colombia': '?hl=es-419&gl=CO&ceid=CO%3Aes-419',
-         'Español | Cuba': '?hl=es-419&gl=CU&ceid=CU%3Aes-419',
-         'Español | Estados Unidos': '?hl=es-419&gl=US&ceid=US%3Aes-419',
-         'Español | México': '?hl=es-419&gl=MX&ceid=MX%3Aes-419',
-         'Español | Perú': '?hl=es-419&gl=PE&ceid=PE%3Aes-419',
-         'Español | Venezuela': '?hl=es-419&gl=VE&ceid=VE%3Aes-419',
-         'Français | Belgique': '?hl=fr&gl=BE&ceid=BE%3Afr',
-         'Français | Canada': '?hl=fr-CA&gl=CA&ceid=CA:fr',
-         'Français | France': '?hl=fr&gl=FR&ceid=FR%3Afr',
-         'Français | Maroc': '?hl=fr&gl=MA&ceid=MA%3Afr',
-         'Français | Sénégal': '?hl=fr&gl=SN&ceid=SN%3Afr',
-         'Français | Suisse': '?hl=fr&gl=CH&ceid=CH%3Afr',
-         'Italiano | Italia': '?hl=it&gl=IT&ceid=IT%3Ait',
-         'Latviešu | Latvija': '?hl=lv&gl=LV&ceid=LV%3Alv',
-         'Lietuvių | Lietuva': '?hl=lt&gl=LT&ceid=LT%3Alt',
-         'Magyar | Magyarország': '?hl=hu&gl=HU&ceid=HU%3Ahu',
-         'Nederlands | België': '?hl=nl&gl=BE&ceid=BE%3Anl',
-         'Nederlands | Nederland': '?hl=nl&gl=NL&ceid=NL%3Anl',
-         'Norsk | Norge': '?hl=no&gl=NO&ceid=NO%3Ano',
-         'Polski | Polska': '?hl=pl&gl=PL&ceid=PL%3Apl',
-         'Português | Brasil': '?hl=pt-BR&gl=BR&ceid=BR%3Apt-419',
-         'Português | Portugal': '?hl=pt-PT&gl=PT&ceid=PT%3Apt-150',
-         'Română | România': '?hl=ro&gl=RO&ceid=RO%3Aro',
-         'Slovenčina | Slovensko': '?hl=sk&gl=SK&ceid=SK%3Ask',
-         'Slovenščina | Slovenija': '?hl=sl&gl=SI&ceid=SI%3Asl',
-         'Svenska | Sverige': '?hl=sv&gl=SE&ceid=SE%3Asv',
-         'Tiếng Việt | Việt Nam': '?hl=vi&gl=VN&ceid=VN%3Avi',
-         'Türkçe | Türkiye': '?hl=tr&gl=TR&ceid=TR%3Atr',
-         'Ελληνικά | Ελλάδα': '?hl=el&gl=GR&ceid=GR%3Ael',
-         'Български | България': '?hl=bg&gl=BG&ceid=BG%3Abg',
-         'Русский | Россия': '?hl=ru&gl=RU&ceid=RU%3Aru',
-         'Русский | Украина': '?hl=ru&gl=UA&ceid=UA%3Aru',
-         'Српски | Србија': '?hl=sr&gl=RS&ceid=RS%3Asr',
-         'Українська | Україна': '?hl=uk&gl=UA&ceid=UA%3Auk',
-         'עברית | ישראל': '?hl=he&gl=IL&ceid=IL%3Ahe',
-         'العربية | الإمارات العربية المتحدة': '?hl=ar&gl=AE&ceid=AE%3Aar',
-         'العربية | المملكة العربية السعودية': '?hl=ar&gl=SA&ceid=SA%3Aar',
-         'العربية | لبنان': '?hl=ar&gl=LB&ceid=LB%3Aar',
-         'العربية | مصر': '?hl=ar&gl=EG&ceid=EG%3Aar',
-         'मराठी | भारत': '?hl=mr&gl=IN&ceid=IN%3Amr',
-         'हिन्दी | भारत': '?hl=hi&gl=IN&ceid=IN%3Ahi',
-         'বাংলা | বাংলাদেশ': '?hl=bn&gl=BD&ceid=BD%3Abn',
-         'தமிழ் | இந்தியா': '?hl=ta&gl=IN&ceid=IN%3Ata',
-         'മലയാളം | ഇന്ത്യ': '?hl=ml&gl=IN&ceid=IN%3Aml',
-         'తెలుగు | భారతదేశం': '?hl=te&gl=IN&ceid=IN%3Ate',
-         'ไทย | ไทย': '?hl=th&gl=TH&ceid=TH%3Ath',
-         '中文 | 中国': '?hl=zh-CN&gl=CN&ceid=CN:zh-Hans',
-         '中文 | 台灣': '?hl=zh-TW&gl=TW&ceid=TW%3Azh-Hant',
-         '中文 | 香港': '?hl=zh-HK&gl=HK&ceid=HK%3Azh-Hant',
-         '한국어 | 대한민국': '?hl=ko&gl=KR&ceid=KR%3Ako',
-       };
-       if (!localStorage.newsLocale) localStorage.newsLocale = "?hl=en-US&gl=US&ceid=US:en";
-       document.getElementById('newsLocal').value = localStorage.newsLocale;
-       //Add options for news locale
-       var sel = document.getElementById("newsLocal");
-       for (var el in locales) {
-         var opt = document.createElement('option');
-         opt.appendChild(document.createTextNode(el));
-         opt.value = locales[el];
-         if(locales[el]==localStorage.newsLocale)opt.selected=true;
-         sel.appendChild(opt);
-       }
-       
-
-       loadGNews();
-       //Add swipe to delete on news items
-       window.setTimeout(function () {
-         addSwipeToDelete();
-       }, 1000);
-       window.setTimeout(function () {
-         addSwipeToDelete();
-       }, 2000);
-     }
-       //Settings Stuff
-     //Set all buttons color
-     for (var i = 0; i < 21; i++){
-      var color=ntp_sett[0].colors[i];
-      var item=document.getElementById("set-color"+i);
-      item.value = color.substring(0,7);
-      var item2=item.parentElement;
-      item2.querySelector("span").style.backgroundColor=color;
-     }
-     for(var i=0;i<3;i++){
-        var a= document.querySelector("[name=radioES"+(i+1)+"][value='"+ntp_sett[0].options[i]+"']")
-        if(a) a.checked=true;
-     }
-     for(var i=3;i<7;i++){
-       var a=document.getElementById("set-opt"+i);
-       if(a.value == ntp_sett[0].options[i]) a.checked=true;
-       else a.checked=false;
-     }
-     lionright = document.getElementsByClassName("li_onright");
-     var ulcheck = document.getElementsByName("lntpbg");
-     for (var i = 0; i < 5; i++) {
-       if (ntp_sett[1].status[i]) {
-         lionright[i].style.display = "inline";
-         ulcheck[i].checked = true;
-       }
-     }
-     var nStyle = localGet("bgNStyle");
-     if (nStyle == undefined) {
-       nStyle = 1;
-       root.style.setProperty("--ntp-bgi", ntp_sett[1].c23);
-     }
-     ulcheck.forEach(element => {
-       element.addEventListener('change', function () {
-         if (this.checked) {
-           ntp_sett[1].status[this.value] = 1;
-           ntp_bg_checkbox(this.value);
-         } else {
-           ntp_sett[1].status[this.value] = 0;
-           lionright[this.value].style.display = "none";
-           if (this.value == "2") {
-             ntp_sett[1].c23 = (ntp_sett[1].status[1] ? ',' + ntp_sett[1].gradientC : "");
-             root.style.setProperty("--ntp-bgi", ntp_sett[1].c23);
-           }
-         }
-       });
-     });
-     //Set ntp background 
-     function ntp_bg_checkbox(mode) {
-       switch (mode) {
-         case '0':
-           lionright[0].style.display = "inline";
-           lionright[1].style.display = "none";
-           ulcheck[1].checked = false;
-           for (i = 3; i < 5; i++) {
-             lionright[i].style.display = "none";
-             ulcheck[i].checked = false;
-           }
-           ntp_sett[1].c22 = ntp_sett[1].solidC
-           ntp_sett[1].c23 = 'url(' + patternsURI[nStyle - 1] + ')';
-           if (!ulcheck[2].checked) ntp_sett[1].c23 = "url(0)";
-           ntp_sett[1].c24 = 'auto';
-
-           break;
-         case '1':
-           lionright[1].style.display = "inline";
-           lionright[0].style.display = "none";
-           ulcheck[0].checked = false;
-           for (i = 3; i < 5; i++) {
-             lionright[i].style.display = "none";
-             ulcheck[i].checked = false;
-           }
-           ntp_sett[1].c22 = ntp_sett[1].gradientC;
-           ntp_sett[1].c23 = 'url(' + patternsURI[nStyle - 1] + '),' + ntp_sett[1].gradientC;
-           if (!ulcheck[2].checked) ntp_sett[1].c23 = ntp_sett[1].gradientC;
-           ntp_sett[1].c24 = 'auto';
-           break;
-         case '2':
-           lionright[2].style.display = "inline";
-           for (i = 3; i < 5; i++) {
-             lionright[i].style.display = "none";
-             ulcheck[i].checked = false;
-           }
-           ntp_sett[1].c23 = 'url(' + patternsURI[nStyle - 1] + ')' +
-             (ntp_sett[1].status[1] ? ',' + ntp_sett[1].gradientC : "");
-           ntp_sett[1].c24 = 'auto';
-           break;
-         case '3':
-           lionright[3].style.display = "inline";
-           for (i = 0; i < 3; i++) {
-             lionright[i].style.display = "none";
-             ulcheck[i].checked = false;
-           }
-           lionright[4].style.display = "none";
-           ulcheck[4].checked = false;
-           ntp_sett[1].c23 = 'url(' + ntp_sett[1].wallpaperURL + ')';
-           ntp_sett[1].c24 = 'cover';
-           break;
-         case '4':
-           lionright[4].style.display = "inline";
-           for (i = 0; i < 4; i++) {
-             lionright[i].style.display = "none";
-             ulcheck[i].checked = false;
-           }
-           ntp_sett[1].c23 = 'url(' + ntp_sett[1].wallpaperFILE + ')';
-           ntp_sett[1].c24 = 'cover';
-           break;
-       }
-       root.style.setProperty("--ntp-bgc", ntp_sett[1].c22);
-       root.style.setProperty("--ntp-bgi", ntp_sett[1].c23);
-       root.style.setProperty("--ntp-bgs", ntp_sett[1].c24);
-       //Save status
-       for (i = 0; i < 5; i++)
-         ntp_sett[1].status[i] = (ulcheck[i].checked) ? 1 : 0;
-       localStore("ntp_sett", ntp_sett);
-     }
-     //Function to set options radio
-     function set_option_r(t, i) {
-       ntp_sett[0].options[i] = t.value;
-       root.style.setProperty("--ntp-o"+i,t.value);
-       if(i==1){ bk_swiper.destroy(true, true);initSwiper();save_grid_snapshot();}
-       localStore("ntp_sett", ntp_sett);
-     }
-    
-
-     function set_option_t(t, f, i) {
-       console.log("status :"+t.checked+ " value : "+ t.value + " if false : "+f+ ", index "+i);
-       var value=(t.checked)?t.value:f;
-       ntp_sett[0].options[i] = value;
-       root.style.setProperty("--ntp-o"+i,value);
-       localStore("ntp_sett", ntp_sett);
-       if(i==4)set_targetBlank();
-     }
-     
-     function set_targetBlank(){
-      var ar =document.getElementsByClassName("tile_target");
-      for(var i=0;i<ar.length;i++)
-        ar[i].target=ntp_sett[0].options[4];
-    
-      save_grid_snapshot();
-     }
-
-
-     function set_bgcolor_w(y, t) {
-      var i= ntp_sett[0].order[y];
-      root.style.setProperty("--ntp-wdg" + i, t.value);
-      ntp_sett[0].values[y] = t.value;
-      localStore("ntp_sett", ntp_sett);
-      var item2=t.parentElement;
-       item2.querySelector("span").style.backgroundColor=t.value;
+      });
+      new Sortable(document.getElementById("edit_pencil"), {
+        group: 'editM',
+        animation: 150,
+        onAdd: function (evt) {
+          var itemEl = evt.clone;
+          f_etfg(itemEl);
+          var itemEl = evt.item;
+          itemEl.parentNode.removeChild(itemEl);
+          document.getElementById("edit_pencil").style.background = "transparent";
+          f_evl_gtiles();
+        },
+        onChange: function (evt) {
+          document.getElementById("edit_bin").style.background = "transparent";
+          document.getElementById("edit_pencil").style.background = "green";
+        },
+      });
+      const edit_b2 = document.getElementById("edit_bin2");
+      const edit_p2 = document.getElementById("edit_pencil2");
+      const edit_o2 = document.getElementById("edit_out2");
+      fldT = new Sortable(fldb, {
+        group: {
+          name: 'editM2',
+          pull: 'clone'
+        },
+        swapThreshold: 0.45,
+        invertSwap: true,
+        fallbackOnBody: true,
+        animation: 150,
+        ghostClass: 'hidden',
+        disabled: 1,
+        direction: "horizontal",
+        draggable: ".tlg_item",
+        onChange: function (evt) {
+          edit_b2.style.background = "transparent";
+          edit_p2.style.background = "transparent";
+          edit_o2.style.background = "transparent";
+        }
+      });
+      new Sortable(edit_b2, {
+        group: 'editM2',
+        animation: 150,
+        onAdd: function (evt) {
+          var itemEl = evt.item;
+          itemEl.parentNode.removeChild(itemEl);
+          itemEl = evt.clone;
+          itemEl.parentNode.removeChild(itemEl);
+          edit_b2.style.background = "transparent";
+        },
+        onChange: function (evt) {
+          edit_p2.style.background = "transparent";
+          edit_o2.style.background = "transparent";
+          edit_b2.style.background = "red";
+        },
+      });
+      new Sortable(edit_o2, {
+        group: 'editM2',
+        animation: 150,
+        onAdd: function (evt) {
+          var itemEl = evt.item;
+          tlg.appendChild(itemEl);
+          itemEl = evt.clone;
+          itemEl.parentNode.removeChild(itemEl);
+          edit_o2.style.background = "transparent";
+          f_tggl_f();
+          f_evl_gtiles();
+        },
+        onChange: function (evt) {
+          edit_b2.style.background = "transparent";
+          edit_o2.style.background = "blue";
+          edit_p2.style.background = "transparent";
+        },
+      });
+      new Sortable(edit_p2, {
+        group: 'editM2',
+        animation: 150,
+        onAdd: function (evt) {
+          var itemEl = evt.clone;
+          f_etfg(itemEl);
+          var itemEl = evt.item;
+          itemEl.parentNode.removeChild(itemEl);
+          edit_p2.style.background = "transparent";
+          f_evl_gtiles();
+        },
+        onChange: function (evt) {
+          edit_b2.style.background = "transparent";
+          edit_o2.style.background = "transparent";
+          edit_p2.style.background = "green";
+        },
+      });
+      f_evl_gtiles();
+      f_setup_sldr();
+      window.setTimeout(function () {
+        f_sgs();
+      }, 900);
     }
-     //Function to set solid color for ntp bg
-     function set_color_property2(value) {
-       root.style.setProperty("--ntp-bgc", value);
-       localStorage.metaTColor=value;
-       ntp_sett[1].solidC = value;
-       ntp_sett[1].c22 = value;
-       localStore("ntp_sett", ntp_sett);
-     }
-     //Function change background to next style
-     function nextStyle() {
-       if (nStyle == 45) nStyle = 1;
-       else nStyle++;
-       localStore("bgNStyle", nStyle);
-       ntp_sett[1].c23 = 'url(' + patternsURI[nStyle - 1] + ')' + (ntp_sett[1].status[1] ? ',' + ntp_sett[1].gradientC : "");
-       root.style.setProperty("--ntp-bgi", ntp_sett[1].c23);
-       localStore("ntp_sett",ntp_sett);
-     }
-     //Function change background to prev style
-     function prevStyle() {
-       if (nStyle == 1) nStyle = 45;
-       else nStyle--;
-       localStore("bgNStyle", nStyle);
-       ntp_sett[1].c23 = 'url(' + patternsURI[nStyle - 1] + ')' + (ntp_sett[1].status[1] ? ',' + ntp_sett[1].gradientC : "");
-       root.style.setProperty("--ntp-bgi", ntp_sett[1].c23);
-       localStore("ntp_sett",ntp_sett);
-     }
-     //Function to apply setting property
-     function set_color_property(y, t) {
-       root.style.setProperty("--ntp-c" + y, t.value);
-       ntp_sett[0].colors[y] = t.value;
-       localStore("ntp_sett", ntp_sett);
-       var item2=t.parentElement;
-        item2.querySelector("span").style.backgroundColor=t.value;
-        if(y==16)adaptColor("newsLocal",ntp_sett[0].colors[16]);
-     }
-     //Function to input custom RGB color
-     function setCustomRGB(t, y) {
-        var v = prompt("Enter the RGB or RGBA color. \nExample : #d6d6d6 or #d6d6d6aa (aa is for transparency )", ntp_sett[0].colors[y]);
-        if (v != null){
-          color=v.substring(0,7);
-          var item2=t.parentElement;
-          item2.querySelector("span").style.backgroundColor=v;
-          t.value=color;  
-          root.style.setProperty("--ntp-c" + y, v);
-          ntp_sett[0].colors[y] = v;
-          localStore("ntp_sett", ntp_sett);
+    //Add body click used to disable edit_mode
+    document.body.addEventListener("click", process_body_click);
+    f_setup_gtiles();
+  } // End of Tiles Grid Widget Config
+
+  //Weather Settings Config
+  var ntp_wth = localGet("ntp_wth");
+  if (ntp_wth == undefined) {
+    ntp_wth = {
+      api: "",
+      lon: "",
+      lat: ""
+    }
+  }
+  document.getElementById("wt_ik").value = ntp_wth.api;
+  document.getElementById("wt_ila").value = ntp_wth.lat;
+  document.getElementById("wt_iln").value = ntp_wth.lon;
+
+  function f_save_wth() {
+    const api = document.getElementById("wt_ik").value;
+    const lat = document.getElementById("wt_ila").value;
+    const lon = document.getElementById("wt_iln").value;
+    if (api && lat && lon) {
+      ntp_wth.api = api;
+      ntp_wth.lon = lon;
+      ntp_wth.lat = lat;
+      localStore("ntp_wth", ntp_wth);
+      f_setup_wth();
+      showBox("Config of Weather saved ! ");
+    } else {
+      showBox("ops.. Invalid values , fill all the 3 input ! ");
+    }
+
+  }
+
+  function f_get_ll() {
+    try {
+      navigator.geolocation.getCurrentPosition(showPosition);
+    } catch (e) {
+      alert(e);
+      console.log(e);
+    }
+  }
+
+  function showPosition(position) {
+    document.getElementById("wt_ila").value = position.coords.latitude;
+    document.getElementById("wt_iln").value = position.coords.longitude;
+  }
+  //End of Weather Settings Config
+
+  //Weather Widget Config
+  if (ntp_sett.status[2]) {
+    const cloudsI = '<svg version="1.1" x="0px" y="0px" viewBox="0 0 60.7 40" style="enable-background:new 0 0 60.7 40;" xml:space="preserve"> <g fill="#fff"> <path d="M47.2,40H7.9C3.5,40,0,36.5,0,32.1l0,0c0-4.3,3.5-7.9,7.9-7.9h39.4c4.3,0,7.9,3.5,7.9,7.9v0 C55.1,36.5,51.6,40,47.2,40z"/> <circle cx="17.4" cy="22.8" r="9.3"/> <circle cx="34.5" cy="21.1" r="15.6"/> <animateTransform attributeName="transform" attributeType="XML" dur="6s" keyTimes="0;0.5;1" repeatCount="indefinite" type="translate" values="0;5;0" calcMode="linear"> </animateTransform> </g> <g fill="#ccc"> <path d="M54.7,22.3H33.4c-3.3,0-6-2.7-6-6v0c0-3.3,2.7-6,6-6h21.3c3.3,0,6,2.7,6,6v0 C60.7,19.6,58,22.3,54.7,22.3z"/> <circle cx="45.7" cy="10.7" r="10.7"/> <animateTransform attributeName="transform" attributeType="XML" dur="6s" keyTimes="0;0.5;1" repeatCount="indefinite" type="translate" values="0;-3;0" calcMode="linear"> </animateTransform> </g> </svg>';
+    const rainyI = '<svg version="1.1" x="0px" y="0px" viewBox="0 0 55.1 60" style="enable-background:new 0 0 55.1 49.5;" xml:space="preserve"> <g fill="#fff"> <path d="M20.7,46.4c0,1.7-1.4,3.1-3.1,3.1s-3.1-1.4-3.1-3.1c0-1.7,3.1-7.8,3.1-7.8 S20.7,44.7,20.7,46.4z"></path> <path d="M31.4,46.4c0,1.7-1.4,3.1-3.1,3.1c-1.7,0-3.1-1.4-3.1-3.1c0-1.7,3.1-7.8,3.1-7.8 S31.4,44.7,31.4,46.4z"> </path> <path d="M41.3,46.4c0,1.7-1.4,3.1-3.1,3.1c-1.7,0-3.1-1.4-3.1-3.1c0-1.7,3.1-7.8,3.1-7.8 S41.3,44.7,41.3,46.4z"> </path> <animateTransform attributeName="transform" attributeType="XML" dur="1s" keyTimes="0;1" repeatCount="indefinite" type="translate" values="0 0;0 10" calcMode="linear"> </animateTransform> <animate attributeType="CSS" attributeName="opacity" attributeType="XML" dur="1s" keyTimes="0;1" repeatCount="indefinite" values="1;0" calcMode="linear"/> </g> <g fill="#fff"> <path d="M47.2,34.5H7.9c-4.3,0-7.9-3.5-7.9-7.9l0,0c0-4.3,3.5-7.9,7.9-7.9h39.4c4.3,0,7.9,3.5,7.9,7.9 v0C55.1,30.9,51.6,34.5,47.2,34.5z"/> <circle cx="17.4" cy="17.3" r="9.3"/> <circle cx="34.5" cy="15.6" r="15.6"/> </g> </svg>';
+    const crlI = '<svg version="1.1" x="0px" y="0px" viewBox="0 0 60.7 80" style="enable-background:new 0 0 60.7 55;" xml:space="preserve"> <g fill="#999"> <path d="M47.2,40H7.9C3.5,40,0,36.5,0,32.1l0,0c0-4.3,3.5-7.9,7.9-7.9h39.4c4.3,0,7.9,3.5,7.9,7.9v0 C55.1,36.5,51.6,40,47.2,40z"/> <circle cx="17.4" cy="22.8" r="9.3"/> <circle cx="34.5" cy="21.1" r="15.6"/> </g> <g fill="#ccc"> <path d="M54.7,22.3H33.4c-3.3,0-6-2.7-6-6v0c0-3.3,2.7-6,6-6h21.3c3.3,0,6,2.7,6,6v0 C60.7,19.6,58,22.3,54.7,22.3z"/> <circle cx="45.7" cy="10.7" r="10.7"/> <animateTransform attributeName="transform" attributeType="XML" dur="6s" keyTimes="0;0.5;1" repeatCount="indefinite" type="translate" values="0;-3;0" calcMode="linear"> </animateTransform> </g> <g fill="#ff0"> <path d="M43.6,22.7c-0.2,0.6-0.4,1.3-0.6,1.9c-0.2,0.6-0.4,1.2-0.7,1.8c-0.4,1.2-0.9,2.4-1.5,3.5 c-1,2.3-2.2,4.6-3.4,6.8l-1.7-2.9c3.2-0.1,6.3-0.1,9.5,0l3,0.1l-1.3,2.5c-1.1,2.1-2.2,4.2-3.5,6.2c-0.6,1-1.3,2-2,3 c-0.7,1-1.4,2-2.2,2.9c0.2-1.2,0.5-2.4,0.8-3.5c0.3-1.2,0.6-2.3,1-3.4c0.7-2.3,1.5-4.5,2.4-6.7l1.7,2.7c-3.2,0.1-6.3,0.2-9.5,0 l-3.4-0.1l1.8-2.8c1.4-2.1,2.8-4.2,4.3-6.2c0.8-1,1.6-2,2.4-3c0.4-0.5,0.8-1,1.3-1.5C42.7,23.7,43.1,23.2,43.6,22.7z"/> <animate attributeType="CSS" attributeName="opacity" attributeType="XML" dur="3s" keyTimes="0;0.5;1" repeatCount="indefinite" values="1;0;1" calcMode="linear"/> </g> <g fill="#fff"> <path d="M36.3,51.9c0,1.7-1.4,3.1-3.1,3.1c-1.7,0-3.1-1.4-3.1-3.1c0-1.7,3.1-7.8,3.1-7.8 S36.3,50.2,36.3,51.9z"/> <path d="M26.4,51.9c0,1.7-1.4,3.1-3.1,3.1c-1.7,0-3.1-1.4-3.1-3.1c0-1.7,3.1-7.8,3.1-7.8 S26.4,50.2,26.4,51.9z"/> <path d="M15.7,51.9c0,1.7-1.4,3.1-3.1,3.1s-3.1-1.4-3.1-3.1c0-1.7,3.1-7.8,3.1-7.8 S15.7,50.2,15.7,51.9z"/> <animateTransform attributeName="transform" attributeType="XML" dur="1s" keyTimes="0;1" repeatCount="indefinite" type="translate" values="0 0;0 10" calcMode="linear"> </animateTransform> <animate attributeType="CSS" attributeName="opacity" attributeType="XML" dur="1s" keyTimes="0;1" repeatCount="indefinite" values="1;0" calcMode="linear"/> </g> </svg>';
+    const mist = '<svg version="1.1" x="0px" y="0px" viewBox="0 0 45.1 47.6" style="enable-background:new 0 0 45.1 47.6;" xml:space="preserve"> <g fill="none" stroke="#FFF" stroke-width="2" stroke-miterlimit="10"> <line x1="25.5" y1="17.3" x2="5.3" y2="17.3"/> <line x1="27" y1="20.3" x2="0" y2="20.3"/> <line x1="35" y1="24.3" x2="20" y2="24.3"/> <line x1="40" y1="27.3" x2="15" y2="27.3"/> <line x1="25.5" y1="30.3" x2="5.3" y2="30.3"/> <line x1="27" y1="33.3" x2="0" y2="33.3"/> <line x1="15" y1="36.3" x2="50" y2="36.3"/> <line x1="20" y1="39.3" x2="45" y2="39.3"/> <line x1="10" y1="42.3" x2="35" y2="42.3"/> <line x1="5" y1="45.3" x2="30" y2="45.3"/> <animateTransform attributeName="transform" attributeType="XML" dur="4s" keyTimes="0;0.5;1" repeatCount="indefinite" type="translate" values="5;0;5" calcMode="linear"> </animateTransform> <animate attributeType="CSS" attributeName="opacity" attributeType="XML" dur="4s" keyTimes="0;1" repeatCount="indefinite" values="0.3;3;" calcMode="linear"/> </g> </svg>';
+    const snowy = '<svg version="1.1" x="0px" y="0px" viewBox="0 0 55.1 52.5" style="enable-background:new 0 0 55.1 52.5;" xml:space="preserve"> <g fill="#fff"> <g> <path d="M47.2,34.5H7.9c-4.3,0-7.9-3.5-7.9-7.9l0,0c0-4.3,3.5-7.9,7.9-7.9h39.4c4.3,0,7.9,3.5,7.9,7.9 v0C55.1,30.9,51.6,34.5,47.2,34.5z"/> <circle cx="17.4" cy="17.3" r="9.3"/> <circle cx="34.5" cy="15.6" r="15.6"/> </g> <circle cx="37" cy="43.5" r="3"> <animateTransform attributeName="transform" attributeType="XML" dur="1.5s" keyTimes="0;0.33;0.66;1" repeatCount="indefinite" type="translate" values="1 -2;3 2; 1 4; 2 6" calcMode="linear"> </animateTransform> </circle> <circle cx="27" cy="43.5" r="3"> <animateTransform attributeName="transform" attributeType="XML" dur="1.5s" keyTimes="0;0.33;0.66;1" repeatCount="indefinite" type="translate" values="1 -2;3 2; 1 4; 2 6" calcMode="linear"> </animateTransform> </circle> <circle cx="17" cy="43.5" r="3"> <animateTransform attributeName="transform" attributeType="XML" dur="1.5s" keyTimes="0;0.33;0.66;1" repeatCount="indefinite" type="translate" values="1 -2;3 2; 1 4; 2 6" calcMode="linear"> </animateTransform> </circle> </g> </svg>';
+    const icons = {
+      '50d': mist,
+      '50n': mist,
+      '13d': snowy,
+      '13n': snowy,
+      '11d': crlI,
+      '11n': crlI,
+      '10d': rainyI,
+      '10n': rainyI,
+      '09d': rainyI,
+      '09n': rainyI,
+      '04d': cloudsI,
+      '04n': cloudsI,
+      '03d': cloudsI,
+      '03n': cloudsI,
+      '02d': '<svg version="1.1" x="0px" y="0px" viewBox="0 0 61.7 42.8" style="enable-background:new 0 0 61.7 42.8;" xml:space="preserve"> <g fill="#fff"> <path d="M47.2,42.8H7.9c-4.3,0-7.9-3.5-7.9-7.9l0,0C0,30.5,3.5,27,7.9,27h39.4c4.3,0,7.9,3.5,7.9,7.9 v0C55.1,39.2,51.6,42.8,47.2,42.8z"/> <circle cx="17.4" cy="25.5" r="9.3"/> <circle cx="34.5" cy="23.9" r="15.6"/> <animateTransform attributeName="transform" attributeType="XML" dur="6s" keyTimes="0;0.5;1" repeatCount="indefinite" type="translate" values="0;5;0" calcMode="linear"> </animateTransform> </g> <g fill="#ff0"> <circle cx="31.4" cy="18.5" r="9"/> <g> <path d="M31.4,6.6L31.4,6.6c-0.4,0-0.6-0.3-0.6-0.6V0.6C30.8,0.3,31,0,31.3,0l0.1,0 C31.7,0,32,0.3,32,0.6v5.5C32,6.4,31.7,6.6,31.4,6.6z"/> <path d="M31.4,30.1L31.4,30.1c-0.4,0-0.6,0.3-0.6,0.6v5.5c0,0.3,0.3,0.6,0.6,0.6h0.1 c0.3,0,0.6-0.3,0.6-0.6v-5.5C32,30.4,31.7,30.1,31.4,30.1z"/> <path d="M19.6,18.3L19.6,18.3c0,0.4-0.3,0.6-0.6,0.6h-5.5c-0.3,0-0.6-0.3-0.6-0.6v-0.1 c0-0.3,0.3-0.6,0.6-0.6H19C19.3,17.8,19.6,18,19.6,18.3z"/> <path d="M43.1,18.3L43.1,18.3c0,0.4,0.3,0.6,0.6,0.6h5.5c0.3,0,0.6-0.3,0.6-0.6v-0.1 c0-0.3-0.3-0.6-0.6-0.6h-5.5C43.4,17.8,43.1,18,43.1,18.3z"/> <path d="M22.4,26L22.4,26c0.3,0.3,0.2,0.7,0,0.9l-4.2,3.6c-0.2,0.2-0.6,0.2-0.8-0.1l-0.1-0.1 c-0.2-0.2-0.2-0.6,0.1-0.8l4.2-3.6C21.9,25.8,22.2,25.8,22.4,26z"/> <path d="M40.3,10.7L40.3,10.7c0.3,0.3,0.6,0.3,0.8,0.1l4.2-3.6c0.2-0.2,0.3-0.6,0.1-0.8l-0.1-0.1 c-0.2-0.2-0.6-0.3-0.8-0.1l-4.2,3.6C40.1,10.1,40,10.5,40.3,10.7z"/> <path d="M22.4,10.8L22.4,10.8c0.3-0.3,0.2-0.7,0-0.9l-4.2-3.6c-0.2-0.2-0.6-0.2-0.8,0.1l-0.1,0.1 c-0.2,0.2-0.2,0.6,0.1,0.8l4.2,3.6C21.9,11,22.2,11,22.4,10.8z"/> <path d="M40.3,26.1L40.3,26.1c0.3-0.3,0.6-0.3,0.8-0.1l4.2,3.6c0.2,0.2,0.3,0.6,0.1,0.8l-0.1,0.1 c-0.2,0.2-0.6,0.3-0.8,0.1l-4.2-3.6C40.1,26.7,40,26.3,40.3,26.1z"/> <animate attributeType="CSS" attributeName="opacity" attributeType="XML" dur="0.5s" keyTimes="0;0.5;1" repeatCount="indefinite" values="1;0.6;1" calcMode="linear"/> </g> <animateTransform attributeName="transform" attributeType="XML" dur="2s" keyTimes="0;1" repeatCount="indefinite" type="scale" values="1;1" calcMode="linear"> </animateTransform> </g> <g fill="#ccc"> <path d="M55.7,25.1H34.4c-3.3,0-6-2.7-6-6v0c0-3.3,2.7-6,6-6h21.3c3.3,0,6,2.7,6,6v0 C61.7,22.4,59,25.1,55.7,25.1z"/> <circle cx="46.7" cy="13.4" r="10.7"/> <animateTransform attributeName="transform" attributeType="XML" dur="6s" keyTimes="0;0.5;1" repeatCount="indefinite" type="translate" values="0;-3;0" calcMode="linear"> </animateTransform> </g> </svg>',
+      '02n': '<svg version="1.1" x="0px" y="0px" viewBox="0 0 60.7 44.4" style="enable-background:new 0 0 60.7 44.4;" xml:space="preserve"> <g fill="#fff"> <path d="M47.2,44.4H7.9c-4.3,0-7.9-3.5-7.9-7.9l0,0c0-4.3,3.5-7.9,7.9-7.9h39.4c4.3,0,7.9,3.5,7.9,7.9 v0C55.1,40.9,51.6,44.4,47.2,44.4z"/> <circle cx="17.4" cy="27.2" r="9.3"/> <circle cx="34.5" cy="25.5" r="15.6"/> <animateTransform attributeName="transform" attributeType="XML" dur="6s" keyTimes="0;0.5;1" repeatCount="indefinite" type="translate" values="0;5;0" calcMode="linear"> </animateTransform> </g> <path fill="#ff0" d="M33.6,17.9c-0.2-7.7,4.9-14.4,12-16.4c-2.3-1-4.9-1.5-7.6-1.5c-9.8,0.3-17.5,8.5-17.2,18.3 c0.3,9.8,8.5,17.5,18.3,17.2c2.7-0.1,5.2-0.8,7.5-1.9C39.3,32,33.8,25.6,33.6,17.9z"/> <g fill="#ccc"> <path d="M54.7,26.8H33.4c-3.3,0-6-2.7-6-6v0c0-3.3,2.7-6,6-6h21.3c3.3,0,6,2.7,6,6v0 C60.7,24.1,58,26.8,54.7,26.8z"/> <circle cx="45.7" cy="15.1" r="10.7"/> <animateTransform attributeName="transform" attributeType="XML" dur="6s" keyTimes="0;0.5;1" repeatCount="indefinite" type="translate" values="0;-3;0" calcMode="linear"> </animateTransform> </g> </svg>',
+      '01d': '<svg version="1.1" x="0px" y="0px" viewBox="0 0 44.9 44.9" xml:space="preserve"> <g fill="#ff0"> <circle cx="22.4" cy="22.6" r="11"/> <g> <path d="M22.6,8.1h-0.3c-0.3,0-0.6-0.3-0.6-0.6v-7c0-0.3,0.3-0.6,0.6-0.6l0.3,0c0.3,0,0.6,0.3,0.6,0.6 v7C23.2,7.8,22.9,8.1,22.6,8.1z"/> <path d="M22.6,36.8h-0.3c-0.3,0-0.6,0.3-0.6,0.6v7c0,0.3,0.3,0.6,0.6,0.6h0.3c0.3,0,0.6-0.3,0.6-0.6v-7 C23.2,37,22.9,36.8,22.6,36.8z"/> <path d="M8.1,22.3v0.3c0,0.3-0.3,0.6-0.6,0.6h-7c-0.3,0-0.6-0.3-0.6-0.6l0-0.3c0-0.3,0.3-0.6,0.6-0.6h7 C7.8,21.7,8.1,21.9,8.1,22.3z"/> <path d="M36.8,22.3v0.3c0,0.3,0.3,0.6,0.6,0.6h7c0.3,0,0.6-0.3,0.6-0.6v-0.3c0-0.3-0.3-0.6-0.6-0.6h-7 C37,21.7,36.8,21.9,36.8,22.3z"/> <path d="M11.4,31.6l0.2,0.3c0.2,0.2,0.2,0.6-0.1,0.8l-5.3,4.5c-0.2,0.2-0.6,0.2-0.8-0.1l-0.2-0.3 c-0.2-0.2-0.2-0.6,0.1-0.8l5.3-4.5C10.9,31.4,11.2,31.4,11.4,31.6z"/> <path d="M33.2,13l0.2,0.3c0.2,0.2,0.6,0.3,0.8,0.1l5.3-4.5c0.2-0.2,0.3-0.6,0.1-0.8l-0.2-0.3 c-0.2-0.2-0.6-0.3-0.8-0.1l-5.3,4.5C33,12.4,33,12.7,33.2,13z"/> <path d="M11.4,13.2l0.2-0.3c0.2-0.2,0.2-0.6-0.1-0.8L6.3,7.6C6.1,7.4,5.7,7.5,5.5,7.7L5.3,7.9 C5.1,8.2,5.1,8.5,5.4,8.7l5.3,4.5C10.9,13.5,11.2,13.5,11.4,13.2z"/> <path d="M33.2,31.9l0.2-0.3c0.2-0.2,0.6-0.3,0.8-0.1l5.3,4.5c0.2,0.2,0.3,0.6,0.1,0.8l-0.2,0.3 c-0.2,0.2-0.6,0.3-0.8,0.1l-5.3-4.5C33,32.5,33,32.1,33.2,31.9z"/> <animate attributeType="CSS" attributeName="opacity" attributeType="XML" dur="0.5s" keyTimes="0;0.5;1" repeatCount="indefinite" values="1;0.6;1" calcMode="linear"/> </g> </g> </svg>',
+      '01n': '<svg version="1.1" x="0px" y="0px" viewBox="0 0 30.8 42.5" xml:space="preserve" > <path fill="#ff0" d="M15.3,21.4C15,12.1,21.1,4.2,29.7,1.7c-2.8-1.2-5.8-1.8-9.1-1.7C8.9,0.4-0.3,10.1,0,21.9 c0.3,11.7,10.1,20.9,21.9,20.6c3.2-0.1,6.3-0.9,8.9-2.3C22.2,38.3,15.6,30.7,15.3,21.4z"/> </svg>'
+    };
+
+    function capitalizeF(str) {
+      return str.charAt(0).toUpperCase() + str.slice(1);
+    }
+
+    function getJSON(url) {
+      var resp = '';
+      var xmlHttp = new XMLHttpRequest();
+      if (xmlHttp != null) {
+        xmlHttp.open("GET", url, false, {
+          async: true
+        });
+        try {
+          xmlHttp.send(null);
+        } catch {
+          console.error("xmlHttp send failed");
         }
-     }
-      //Function to input custom RGB background color
-      function setCustomRGB2(t, y) {
-        var v = prompt("Enter the RGB or RGBA color. \nExample : #d6d6d6 or #d6d6d6aa (aa is for transparency )", ntp_sett[0].values[y]);
-        if (v != null){
-          var item2=t.parentElement;
-          var i= ntp_sett[0].order[y];
-          item2.querySelector("span").style.backgroundColor=v;
-          root.style.setProperty("--ntp-wdg" + i, v);
-          ntp_sett[0].values[y] = v;
-          localStore("ntp_sett", ntp_sett);
+        resp = xmlHttp.responseText;
+      }
+      return resp;
+    }
+
+    function f_setup_wth() {
+      var appid = ntp_wth.api;
+      if (appid.length > 6 && appid != "") {
+        document.getElementById('wth_s').style.display = "none";
+        var url = 'https://api.openweathermap.org/data/2.5/find?lat=' + ntp_wth.lat + '&lon=' + ntp_wth.lon + '&cnt=1&appid=' + appid + '&callback=?';
+        var data = getJSON(url);
+        if (data == "") return;
+        data = JSON.parse(data.substring(2, data.length - 1));
+
+        //Loading
+        document.getElementById("wth_l").style.opacity = 1;
+        document.getElementById("wth_c").innerHTML = data.list[0].name;
+        document.getElementById("wth_i").innerHTML = icons[data.list[0].weather[0].icon];
+        document.getElementById("wth_d1").innerHTML = capitalizeF(data.list[0].weather[0].description);
+
+        var temp = (data.list[0].main.temp - 273.15).toFixed(0);
+        var temp_f = (data.list[0].main.feels_like - 273.15).toFixed(0);
+        var temp_min = (data.list[0].main.temp_min - 273.15).toFixed(0);
+        var temp_max = (data.list[0].main.temp_max - 273.15).toFixed(0);
+        var tt = "&#8451;";
+        var windDeg = data.list[0].wind.deg;
+        //convert to F
+        if (0) {
+          temp = (1.8 * temp + 32).toFixed(0);
+          temp_f = (1.8 * temp_f + 32).toFixed(0);
+          temp_min = (1.8 * temp_min + 32).toFixed(0);
+          temp_max = (1.8 * temp_max + 32).toFixed(0);
+          tt = "&#8457;";
         }
-     }
-     //Function to enter custom url image
-     function cWallpaper1() {
-       var url = prompt("Enter url of the wallpaper . \nExample : ", "url");
-       var w = (window.innerWidth) ? window.innerWidth : screen.width;
-       var h = (window.innerHeight) ? window.innerHeight : screen.height;
-       var image = new Image();
-       image.onload = function () {
-         if (this.width < w || this.height < h || url == null) {
-           alert("The image dimensions doesn't fit your screen . \nImage : (" + this.width + "x" + this.height + ")\nRequired :(" + w + "x" + h + ")");
-           return;
-         }
-         root.style.setProperty("--ntp-bgi", 'url(' + url + ')');
-         ntp_sett[1].c23 = 'url(' + url + ')';
-         ntp_sett[1].wallpaperURL = url;
-         localStore("ntp_sett", ntp_sett);
-       };
-       image.src = (url);
-     }
-     //Function to enter custom file image
-     function cWallpaper2() {
-       var fData = document.getElementById('wallpaper_file');
-       var FileUploadPath = fData.value;
-       if (FileUploadPath == '') {
-         alert("Please upload an image");
-       } else {
-         var Extension = FileUploadPath.substring(
-           FileUploadPath.lastIndexOf('.') + 1).toLowerCase();
-         if (Extension == "gif" || Extension == "png" || Extension == "bmp" ||
-           Extension == "jpeg" || Extension == "jpg") {
-           if (fData.files && fData.files[0]) {
-             var w = (window.innerWidth) ? window.innerWidth : screen.width;
-             var h = (window.innerHeight) ? window.innerHeight : screen.height;
-             var reader = new FileReader();
-             reader.onload = function (e) {
-               var imgsize = parseInt((fData.files[0].size) / 1024);
-               var img = new Image;
-               img.onload = function () {
-                 if (img.width < w || img.height < h || (imgsize) > 1024) {
-                   alert("\nInput : ( " + img.width + " x " + img.height + " ) " + imgsize + " KB\nRequired : ( " + w + "x" + h + " or higher ) max 1 MB (1000 KB) \n");
-                   return;
-                 }
-                 root.style.setProperty("--ntp-bgi", 'url(' + e.target.result + ')');
-                 ntp_sett[1].c23 = 'url(' + e.target.result + ')';
-                 ntp_sett[1].wallpaperFILE = e.target.result;
-                 localStore("ntp_sett", ntp_sett);
-               };
-               img.src = reader.result;
+        document.getElementById("wth_t").innerHTML = temp + tt;
+        document.getElementById("wth_mm").innerHTML = temp_max + tt + " / " + temp_min + tt;
 
-             }
-             reader.readAsDataURL(fData.files[0]);
-           }
-         } else {
-           alert("Photo only allows file types of GIF, PNG, JPG, JPEG and BMP. ");
-         }
-       }
-     }
-     //Function to generate gradient color
-     function random_gradient() {
-       var colorOne = {
-         R: Math.floor(Math.random() * 255),
-         G: Math.floor(Math.random() * 255),
-         B: Math.floor(Math.random() * 255)
-       };
-       var colorTwo = {
-         R: Math.floor(Math.random() * 255),
-         G: Math.floor(Math.random() * 255),
-         B: Math.floor(Math.random() * 255)
-       };
-       colorOne.rgb = 'rgb(' + colorOne.R + ',' + colorOne.G + ',' + colorOne.B + ')';
-       colorTwo.rgb = 'rgb(' + colorTwo.R + ',' + colorTwo.G + ',' + colorTwo.B + ')';
-       ntp_sett[1].gradientC = 'radial-gradient(at top left, ' + colorOne.rgb + ', ' + colorTwo.rgb + ')';
-       ntp_sett[1].c22 = ntp_sett[1].gradientC;
-       ntp_sett[1].c23 = 'url(' + patternsURI[nStyle - 1] + '),' + ntp_sett[1].gradientC;
-       if (!ulcheck[2].checked) ntp_sett[1].c23 = ntp_sett[1].gradientC;
-       root.style.setProperty("--ntp-bgc", ntp_sett[1].c22);
-       root.style.setProperty("--ntp-bgi", ntp_sett[1].c23);
-       localStore("ntp_sett", ntp_sett);
-     }
-     
-     //Create list for sorting widgets with handle
-     Sortable.create(document.getElementById("listWidgetOrder"), {
-       handle: '.my-handle',
-       animation: 150,
-       // Element dragging ended
-       onEnd: function (evt) {
-         var list = document.getElementById("listWidgetOrder").getElementsByTagName("li");
-         console.log("After onEnd Finished :")
-         console.log("Order  ->> " + ntp_sett[0].order);
-         console.log("Status ->> " + ntp_sett[0].status);
-         for (var z = 0; z < list.length; z++) {
-           var y = parseInt(list[z].getAttribute("data-order"));
-           ntp_sett[0].order[y] = z;
-           orderListChanged=1;
-         }
-         reload_locale();
-         load_widgets();
-         localStore("ntp_sett", ntp_sett); //Save Settings
-         save_grid_snapshot();
-         bk_swiper.destroy(true, true);
-         initSwiper();
+        document.getElementById('wth_w').innerHTML = ('<i class="far fa-wind _' + windDeg + '-deg" title="Wind direction (' + windDeg + ' degrees)"></i> ' + data.list[0].wind.speed + " mps");
+        document.getElementById('wth_h').innerHTML = ('<i class="fal fa-humidity"></i>  ' + data.list[0].main.humidity + "%");
+        document.getElementById('wth_top').style.opacity = 1;
+        document.getElementById('wth_btm').style.opacity = 1;
+        document.getElementById('wth_l').style.display = "none";
 
-         wait(100);
+      } else {
+        document.getElementById('wth_l').style.display = "none";
+        document.getElementById('wth_s').style.opacity = 1;
+      }
+    }
 
-       }
-     });
-     //Create Swiper for settings
-     var swiper_st = new Swiper('.swiper-c-intro', {
-       speed: 400, //speed:  Fast|150 , Normal|450 , Slow|850 
-       pagination: {
-         el: '.swiper-p-intro',
-         clickable: true,
-       },
-       effect: "slide",
-       observer: true,
-       observeParents: true,
-       initialSlide: 0,
-     });
-     //Set logo on settings for icon bookmarks type
-     var ar_klogo = document.getElementsByClassName("k-logo");
-     for (var i = 0; i < ar_klogo.length; i++) ar_klogo[i].src = kiwiIcon;
-     //Show&Close  Settings 
-     function func_dlg_st(a) {
-      func_st_page(0);
-       document.getElementById("dlg_st").style.display = (a) ? "inline" : "none";
-       document.getElementById("dlg_st").style.opacity = a;
-       if(a==0){
-        var el = document.getElementById('floating-btn');
-        el.classList.remove("open")
-        document.getElementById("fb-btn").innerHTML = '<i class="fas fa-caret-up"></i>';
-       }
-     }
-     //Function to slide
-     function func_st_page(i) {
-       swiper_st.slideTo(i, 10, false);
-     }
-     //Function to export NTP settings and widgets
-     document.getElementById('exportJSON').onclick = function () {
-       //Create a copy of localstorage
-       var localStorageCopy = JSON.parse(JSON.stringify(localStorage));
-       var keys = Object.keys(localStorageCopy),
-         i = keys.length;
-       while (i--) {
-         if (keys[i].startsWith('cached') || keys[i].startsWith('icon-') || keys[i].startsWith('ntp_wdg') )
-           delete localStorageCopy[keys[i]];
-       }
-       var dataStr = JSON.stringify(localStorageCopy);
-       var dataUri = 'data:application/json;charset=utf-8,' + encodeURIComponent(dataStr);
-       var date = new Date();
-       var exportFileDefaultName = 'ntpB_' + date.getUTCFullYear() + '' + (date.getUTCMonth() + 1) + '' + date.getUTCDate() + '_' +
-         date.getHours() + '-' + date.getMinutes() + '.json';
-       var linkElement = document.createElement('a');
-       linkElement.setAttribute('href', dataUri);
-       linkElement.setAttribute('download', exportFileDefaultName);
-       linkElement.click();
-     }
-     //Function to import NTP settings and widgets
-     document.getElementById('file').onchange = function () {
-       var file = this.files[0];
-       var reader = new FileReader();
-       reader.onload = function (progressEvent) {
-         var test = this.result;
-         var test2 = JSON.parse(test);
-         var values = Object.values(test2),keys = Object.keys(test2),i = keys.length;
-         //Clear the localstorage
-         localStorage.clear();
-         localStorage.ntpVersion = ntpVersion;
-         //Let's take stuff we need from backup { ntp_sett  , userCols , storedItems(1,2,3) ,newsLocale}
-         if(test2["ntp_sett"])localStorage.setItem('ntp_sett', test2["ntp_sett"]);
-         if(test2["userCols"])localStorage.userCols =test2["userCols"];
-         localStorage.storedItems1= test2["storedItems1"];
-         localStorage.storedItems2= test2["storedItems2"];
-         localStorage.storedItems3=test2["storedItems3"];
-         localStore("newsLocale", test2["newsLocale"]);
-         localStore("metaTColor", test2["metaTColor"]);
-         //User imported tiles,widgets and settings let take the stored stuf after reload
-         localStorage.userCustomTiles=1;
-       };
-       reader.readAsText(file);
-       location.reload();
-     };
+    f_setup_wth();
+    /* Click on widget to show more info
+    document.getElementsByClassName('').addEventListener('click', function(){
+      
+    });*/
 
-     /******* Make tiles fit the screen ***/
-     function getNumberOfCols() {//Function to retrieve number of cols
-       if (wid > 253 && wid < 337) return 3;
-       else if (wid > 336 && wid < 421) return 4;
-       else if (wid > 420 && wid < 510) return 5;
-       else if (wid > 509 && wid < 672) return 6;
-       else if (wid > 672) return 8;
-       return 2;
-     }
-     function editNCols(a) {//Function to add or remove cols
-       var el = document.getElementById('nColsLabel');
-       var t = parseInt(el.textContent);
-       if (a){
-         if (t < 8) el.textContent = t + 1;
-       }else { if (t > 3) el.textContent = t - 1;}
-       userCols = el.textContent;
-       setColRow();
-     }
-     var wid = (window.innerWidth) ? window.innerWidth : screen.width; //Get the width of device 
-     wid = (wid - 28);//Remove the padding and margin of widget 
-     var userCols = localStorage.getItem("userCols");//Get userCols for tiles 
-     if (userCols == undefined) userCols = getNumberOfCols();//If no cols cached , get default one 
-     console.log("User width : " + wid + " , user cols for bookmarks : " + userCols);
-     document.getElementById('nColsLabel').textContent = userCols;//Set value in settings of n cols
-     //Function to edit tiles size and margin 
-     function setColRow() {
-       var defCol = getNumberOfCols();
-       var tWidth = 64,tMargin = 10;//Standard 64px for tile + 10px for margin
-       //If default col is different let's calculate new tile width and margin
-       if (defCol != userCols) {
-         if (userCols > defCol) {
-           //Calculate new margin and tile width so can fit the width of device
-           var calcCOL = (userCols * (tWidth + tMargin)) + 1;
-           while (calcCOL > wid) {
-             calcCOL = (userCols * (tWidth + tMargin)) + 1;
-             if (tMargin > 10) tMargin -= 1;
-             else tWidth -= 1;
-             console.log("Calculating width... -> " + calcCOL);
-           }
-         }
-       }
-       root.style.setProperty("--column-count", userCols);
-       root.style.setProperty("--tile-width", tWidth + 'px');
-       root.style.setProperty("--tile-margin", tMargin + 'px');
-       localStorage.setItem("userCols", userCols);
-     }
-     setColRow();
-     //**********************************/
+  }
+  // End of Weather Widget Config
 
-     
+  //News Section Widget Config
+  if (ntp_sett.status[3]) {
+    var forceReload = false;
+    // Check if 30h passed and clean the news 
+    function shouldIC() {
+      const date1 = new Date();
+      const date2 = new Date(localStorage.shouldIC);
+      if (localStorage.shouldIC == undefined) {
+        localStorage.shouldIC = date1;
+        return false;
+      }
+      const diffTime = Math.abs(date2 - date1);
+      const diffH = Math.ceil(diffTime / (1000 * 60 * 60));
+      if (diffH < 30) return false;
+      localStorage.shouldI = date1;
+      return true;
+    }
+    //Function that add delete item news on swipe
+    function f_astd() {
+      var xDown = xDiff = null;
+      const ntms = document.getElementsByClassName("news_item");
+      for (var i = 0; i < ntms.length; i++) {
+        ntms[i].addEventListener(mLstnr[2], f_ev_start, {
+          passive: true
+        });
+        ntms[i].addEventListener(mLstnr[0], f_ev_move, {
+          passive: true
+        });
+        ntms[i].addEventListener(mLstnr[1], f_ev_end, {
+          passive: true
+        });
+      }
 
-     // Uh , that's eg stuff
-     var start,end,delta,button = document.getElementById("fb-eg");
-     button.addEventListener("touchstart", function () {start = new Date();});
-     button.addEventListener("touchend", function (e){
-       end = new Date();
-       delta = end - start;
-       if (delta > 5000){
-         document.getElementById("dlg_eg").style.display = "inline";
-         document.getElementById("dlg_eg").style.opacity = 1;
-         e.preventDefault();
-       }
-     });
-     function close_eg() {//Secret function for eg
-       document.getElementById("dlg_eg").style.display = "none";
-       document.getElementById("dlg_eg").style.opacity = 0;
-     }
+      function f_ev_start(evt) {
+        xDown = (isTD) ? evt.touches[0].clientX : evt.pageX;
+      }
 
-     //Function to preconnect to an url
-     function preconnectTo(url) {
-       var hint = document.createElement("link");
-       hint.rel = "preconnect";
-       hint.href = url;
-       document.head.appendChild(hint);
-     }
-    
-     //Function to clear log 
-     function clear_log() {
-       localStore("cached-logC", "");
-       document.getElementById("logC_section").innerHTML = "";
-     }
-     //Function to test the log
-     function test_log() {test;}
-     //Function to export log file
-     function export_logfile() {
-       var dataStr = localGet("cached-logC");
-       dataStr.replace("<br>", "\\n");
-       var dataUri = 'data:text/plain;charset=utf-8,' + encodeURIComponent(dataStr);
-       var exportFileDefaultName = 'ntpLog_.text';
-       var linkElement = document.createElement('a');
-       linkElement.setAttribute('href', dataUri);
-       linkElement.setAttribute('download', exportFileDefaultName);
-       linkElement.click();
-     }
+      function f_ev_move(evt) {
+        var el = (evt.target.closest("div.news_item"));
+        el.style.transition = "margin 0ms";
+        if (!xDown) return;
+        var xUp = (isTD) ? evt.touches[0].clientX : evt.pageX;
+        xDiff = xDown - xUp;
+        if (xDiff < 20 && xDiff > -20) return;
+        if (xDiff < -20) el.style.marginLeft = ((Math.abs(xDiff))) + 'px';
+        else el.style.marginLeft = "-" + (xDiff) + 'px';
+        if (xDiff < 130 && xDiff > -130) el.style.opacity = "1" - ((Math.abs(xDiff)) / 130);
+      }
 
-     //Check ntpVersion and show changelog
-     if (localStorage.ntpVersion) {
-       if (localStorage.ntpVersion != ntpVersion) {
-         localStorage.ntpVersion = ntpVersion;
-         func_dlg_st(1);func_st_page(10);
-       }
-     } else {
-       localStorage.ntpVersion = ntpVersion;
-       func_dlg_st(1);func_st_page(10);
-     }
- }
+      function f_ev_end(evt) {
+        var el = (evt.target.closest("div.news_item"));
+        if (xDiff > 130 || xDiff < -130) {
+          el.parentNode.removeChild(el);
+          fc_ns();
+        } else {
+          el.style.transition = "margin 600ms";
+          el.style.opacity = "1";
+          el.style.marginLeft = '4px';
+        }
+        xDiff = xDown = null;
+      }
+    }
+    //Function to cache the news section
+    function fc_ns() {
+      if ((typeof localStorage.cachedNewsUpdate == "undefined") || ((Date.now() / 1000) - localStorage.cachedNewsUpdate) >= 0.1) {
+        const y = ntp_sett.order[3];
+        ntp_wdg[3].cached = document.getElementById('wdg_' + y).innerHTML;
+        localStorage.cachedNewsUpdate = (Date.now() / 1000);
+        console.log("Cache news section : " + localStorage.cachedNewsUpdate);
+      }
+      localStore("ntp_wdg", ntp_wdg);
+    }
+    //Function to toggle news view mode ( compact / standard )
+    function f_tnv() {
+      const x = document.getElementsByClassName("newsT_icon");
+      if (getComputedStyle(ntp_bdy).getPropertyValue("--o4") == "150px") {
+        ntp_bdy.style.setProperty("--o4", "auto");
+        x[0].innerHTML = '<i class="fas fa-rectangle-wide"></i>';
+        document.getElementById("stt_opt4").checked = false;
+      } else {
+        ntp_bdy.style.setProperty("--o4", "150px");
+        x[0].innerHTML = '<i class="fas fa-stream"></i>';
+        document.getElementById("stt_opt4").checked = true;
+      }
+      save_ntpbdy();
+      fc_ns();
+    }
+    //Function to reload news ( 1 for full clean )
+    function f_nsrl(t) {
+      if (t == 1 || t == 2) {
+        localStorage.removeItem('itemsNews');
+        localStorage.newsLe = document.getElementById('newsL').value;
+        document.getElementById('news').innerHTML = '';
+        if (t == 2) showBox("Fetched news cleaned !");
+      }
+      localStorage.removeItem('cachedNewsUpdate');
+      forceReload = true;
+      loadGNews();
+      window.setTimeout(function () {
+        f_astd();
+      }, 1000);
+      window.setTimeout(function () {
+        f_astd();
+      }, 2000);
+    }
+    //Function to convert locale into readable text
+    function locale_to_readabletext(string) {
+      string = string.replace('%3A', ':');
+      for (let locale in locales) {
+        if (locales[locale].replace('%3A', ':') == string)
+          return locale;
+      }
+      return null;
+    }
+    var loadingSVG;
+    //Function for svg loading news animation
+    function render_news_loading() {
+      loadingSVG = document.createElement('div');
+      loadingSVG.id = "loadingNW";
+      loadingSVG.innerHTML = '<svg x="0px" y="0px" width="24px" height="30px" viewBox="0 0 24 30" style="enable-background:new 0 0 50 50;" xml:space="preserve"><rect x="0" y="13" width="4" height="5"><animate attributeName="height" attributeType="XML" values="5;21;5" begin="0s" dur="0.6s" repeatCount="indefinite"/><animate attributeName="y" attributeType="XML" values="13; 5; 13" begin="0s" dur="0.6s" repeatCount="indefinite"/></rect><rect x="10" y="13" width="4" height="5"><animate attributeName="height" attributeType="XML" values="5;21;5" begin="0.15s" dur="0.6s" repeatCount="indefinite"/><animate attributeName="y" attributeType="XML" values="13; 5; 13" begin="0.15s" dur="0.6s" repeatCount="indefinite"/></rect><rect x="20" y="13" width="4" height="5"><animate attributeName="height" attributeType="XML" values="5;21;5" begin="0.3s" dur="0.6s" repeatCount="indefinite"/><animate attributeName="y" attributeType="XML" values="13; 5; 13" begin="0.3s" dur="0.6s" repeatCount="indefinite"/></rect></svg>';
+      document.getElementById('news').prepend(loadingSVG);
+    }
+    //Function to create an id for news to track them
+    function c_itemnews_ID(title) {
+      var result = title.toUpperCase().replace(/\b(\S{1,2})\S*/g, '$1').replace(/ /g, '').replace(/[^a-z0-9]/gi, '');
+      var tResult = result.substring(0, 8);
+      return tResult;
+    }
+    //Function to add a news item 
+    function add_gnews(title, news_time, source, source_logo, link, image) {
+      const itemID = c_itemnews_ID(title);
+      //If the news has been fetched, don't add it
+      if ((localStorage.itemsNews && (localStorage.itemsNews).indexOf(itemID) > -1)) return;
+      var itemsNews = [];
+      if (localStorage.getItem('itemsNews')) itemsNews = JSON.parse(localStorage.getItem('itemsNews'));
+      itemsNews.push(itemID);
+      localStorage.setItem('itemsNews', JSON.stringify(itemsNews));
+      var innerDiv = document.createElement('div');
+      innerDiv.className = 'news_item';
+      innerDiv.id = itemID;
+      innerDiv.innerHTML = '<img src="' + image + '" class="news_img" />' +
+        '<div class="news_cnt">' +
+        '<span class="news_attr"><img src="' + source_logo + '"/>&nbsp;&nbsp;&nbsp;<a href="' + link + '">' + source +
+        '</a></span>' +
+        '<div class="news_title"><a href="' + link + '">' +
+        title + '</a></div>' +
+        '<span class="news_time" data-time="' + news_time.a + '">' + news_time.b + '</span></a></div>';
+      document.getElementById('news').prepend(innerDiv);
+    }
+    //Function to render news ( get news from gnews )
+    function render_gnews(answer) {
+      var el = document.createElement('div');
+      el.style.display = 'none';
+      el.baseURI = newsServer;
+      el.innerHTML = answer.replace(new RegExp('<img', 'gi'), '<source');
+      var articles = el.getElementsByTagName('article');
+      loadingSVG.remove();
+      for (var i = articles.length - 1; i > 0; i--) {
+        var article = articles[i];
+        var title = null;
+        var link = null;
+        var image = null;
+        var source = null;
+        var source_logo = null;
+        var news_time = null;
+        link = article.querySelector("a.VDXfz").href;
+        title = article.querySelector("h4 a.DY5T1d").innerHTML;
+        try {
+          image = article.querySelector(".QwxBBf").src;
+        } catch {}
+        source = article.querySelector("a.wEwyrc").innerHTML;
+        source_logo = article.querySelector(".wsLqz source").src;
+        news_time = {
+          'a': article.querySelector(".WW6dff").getAttribute("datetime"),
+          'b': article.querySelector(".WW6dff").innerHTML
+        };
+        if (link) link = link.replace(/.+?(?=articles)/, 'https://news.google.com/');
+        if (link && image && title) {
+          add_gnews(title, news_time, source, source_logo, link, image);
+        }
+      }
+      fc_ns(); //Cache the news items
+    }
+    console.log('News locale is ' + localStorage.newsLe);
+    //Function to load news 
+    function loadGNews() {
+      if (shouldIC()) {
+        document.getElementById('news').innerHTML == ""
+      }
+      if ((document.getElementById('news').innerHTML == "") ||
+        ((Date.now() / 1000) - localStorage.cachedNewsUpdate) > 3600 || forceReload) {
+        forceReload = false;
+        console.log("Fetching news..");
+        render_news_loading();
+        try {
+
+          fetch(newsServer + 'foryou' + localStorage.newsLe, {
+              method: 'GET',
+              credentials: 'include'
+            })
+            .then(function (response) {
+              if (response.url.includes("&ceid=")) {
+                localStorage.newsLe = response.url.substr(response.url.lastIndexOf('?'));
+              }
+              return response.text();
+            }).then(function (answer) {
+              render_gnews(answer);
+              localStorage.cachedNewsUpdate = (Date.now() / 1000);
+            });
+        } catch (err) {
+          console.log('Fetch news failed for: ' + err.message);
+        }
+        try {
+          fetch(newsServer + localStorage.newsLe, {
+              method: 'GET',
+              mode: 'cors'
+            })
+            .then(function (response) {
+              if (response.url.includes("&ceid=")) {
+                localStorage.newsLe = response.url.substr(response.url.lastIndexOf('?'));
+              }
+              return response.text();
+            })
+            .then(function (answer) {
+              render_gnews(answer);
+              localStorage.cachedNewsUpdate = (Date.now() / 1000);
+            });
+        } catch (err) {
+          console.log('Fetch generic news failed for: ' + err.message);
+        }
+      }
+    }
+    const locales = {
+      'English | Australia': '?hl=en-AU&gl=AU&ceid=AU:en',
+      'English | Botswana': '?hl=en-BW&gl=BW&ceid=BW:en',
+      'English | Canada': '?hl=en-CA&gl=CA&ceid=CA:en',
+      'English | Ethiopia': '?hl=en-ET&gl=ET&ceid=ET:en',
+      'English | Ghana': '?hl=en-GH&gl=GH&ceid=GH:en',
+      'English | India': '?hl=en-IN&gl=IN&ceid=IN:en',
+      'English | Indonesia': '?hl=en-ID&gl=ID&ceid=ID:en',
+      'English | Ireland': '?hl=en-IE&gl=IE&ceid=IE:en',
+      'English | Israel': '?hl=en-IL&gl=IL&ceid=IL:en',
+      'English | Kenya': '?hl=en-KE&gl=KE&ceid=KE:en',
+      'English | Latvia': '?hl=en-LV&gl=LV&ceid=LV:en',
+      'English | Malaysia': '?hl=en-MY&gl=MY&ceid=MY:en',
+      'English | Namibia': '?hl=en-NA&gl=NA&ceid=NA:en',
+      'English | New Zealand': '?hl=en-NZ&gl=NZ&ceid=NZ:en',
+      'English | Nigeria': '?hl=en-NG&gl=NG&ceid=NG:en',
+      'English | Pakistan': '?hl=en-PK&gl=PK&ceid=PK:en',
+      'English | Philippines': '?hl=en-PH&gl=PH&ceid=PH:en',
+      'English | Singapore': '?hl=en-SG&gl=SG&ceid=SG:en',
+      'English | South Africa': '?hl=en-ZA&gl=ZA&ceid=ZA:en',
+      'English | Tanzania': '?hl=en-TZ&gl=TZ&ceid=TZ:en',
+      'English | Uganda': '?hl=en-UG&gl=UG&ceid=UG:en',
+      'English | United Kingdom': '?hl=en-GB&gl=GB&ceid=GB:en',
+      'English | United States': '?hl=en-US&gl=US&ceid=US:en',
+      'English | Zimbabwe': '?hl=en-ZW&gl=ZW&ceid=ZW:en',
+      'Bahasa Indonesia | Indonesia': '?hl=id&gl=ID&ceid=ID%3Aid',
+      'Čeština | Česko': '?hl=cs&gl=CZ&ceid=CZ%3Acs',
+      'Deutsch | Deutschland': '?hl=de&gl=DE&ceid=DE%3Ade',
+      'Deutsch | Österreich': '?hl=de&gl=AT&ceid=AT%3Ade',
+      'Deutsch | Schweiz': '?hl=de&gl=CH&ceid=CH%3Ade',
+      'Español | Argentina': '?hl=es-419&gl=AR&ceid=AR%3Aes-419',
+      'Español | Chile': '?hl=es-419&gl=CL&ceid=CL%3Aes-419',
+      'Español | Colombia': '?hl=es-419&gl=CO&ceid=CO%3Aes-419',
+      'Español | Cuba': '?hl=es-419&gl=CU&ceid=CU%3Aes-419',
+      'Español | Estados Unidos': '?hl=es-419&gl=US&ceid=US%3Aes-419',
+      'Español | México': '?hl=es-419&gl=MX&ceid=MX%3Aes-419',
+      'Español | Perú': '?hl=es-419&gl=PE&ceid=PE%3Aes-419',
+      'Español | Venezuela': '?hl=es-419&gl=VE&ceid=VE%3Aes-419',
+      'Français | Belgique': '?hl=fr&gl=BE&ceid=BE%3Afr',
+      'Français | Canada': '?hl=fr-CA&gl=CA&ceid=CA:fr',
+      'Français | France': '?hl=fr&gl=FR&ceid=FR%3Afr',
+      'Français | Maroc': '?hl=fr&gl=MA&ceid=MA%3Afr',
+      'Français | Sénégal': '?hl=fr&gl=SN&ceid=SN%3Afr',
+      'Français | Suisse': '?hl=fr&gl=CH&ceid=CH%3Afr',
+      'Italiano | Italia': '?hl=it&gl=IT&ceid=IT%3Ait',
+      'Latviešu | Latvija': '?hl=lv&gl=LV&ceid=LV%3Alv',
+      'Lietuvių | Lietuva': '?hl=lt&gl=LT&ceid=LT%3Alt',
+      'Magyar | Magyarország': '?hl=hu&gl=HU&ceid=HU%3Ahu',
+      'Nederlands | België': '?hl=nl&gl=BE&ceid=BE%3Anl',
+      'Nederlands | Nederland': '?hl=nl&gl=NL&ceid=NL%3Anl',
+      'Norsk | Norge': '?hl=no&gl=NO&ceid=NO%3Ano',
+      'Polski | Polska': '?hl=pl&gl=PL&ceid=PL%3Apl',
+      'Português | Brasil': '?hl=pt-BR&gl=BR&ceid=BR%3Apt-419',
+      'Português | Portugal': '?hl=pt-PT&gl=PT&ceid=PT%3Apt-150',
+      'Română | România': '?hl=ro&gl=RO&ceid=RO%3Aro',
+      'Slovenčina | Slovensko': '?hl=sk&gl=SK&ceid=SK%3Ask',
+      'Slovenščina | Slovenija': '?hl=sl&gl=SI&ceid=SI%3Asl',
+      'Svenska | Sverige': '?hl=sv&gl=SE&ceid=SE%3Asv',
+      'Tiếng Việt | Việt Nam': '?hl=vi&gl=VN&ceid=VN%3Avi',
+      'Türkçe | Türkiye': '?hl=tr&gl=TR&ceid=TR%3Atr',
+      'Ελληνικά | Ελλάδα': '?hl=el&gl=GR&ceid=GR%3Ael',
+      'Български | България': '?hl=bg&gl=BG&ceid=BG%3Abg',
+      'Русский | Россия': '?hl=ru&gl=RU&ceid=RU%3Aru',
+      'Русский | Украина': '?hl=ru&gl=UA&ceid=UA%3Aru',
+      'Српски | Србија': '?hl=sr&gl=RS&ceid=RS%3Asr',
+      'Українська | Україна': '?hl=uk&gl=UA&ceid=UA%3Auk',
+      'עברית | ישראל': '?hl=he&gl=IL&ceid=IL%3Ahe',
+      'العربية | الإمارات العربية المتحدة': '?hl=ar&gl=AE&ceid=AE%3Aar',
+      'العربية | المملكة العربية السعودية': '?hl=ar&gl=SA&ceid=SA%3Aar',
+      'العربية | لبنان': '?hl=ar&gl=LB&ceid=LB%3Aar',
+      'العربية | مصر': '?hl=ar&gl=EG&ceid=EG%3Aar',
+      'मराठी | भारत': '?hl=mr&gl=IN&ceid=IN%3Amr',
+      'हिन्दी | भारत': '?hl=hi&gl=IN&ceid=IN%3Ahi',
+      'বাংলা | বাংলাদেশ': '?hl=bn&gl=BD&ceid=BD%3Abn',
+      'தமிழ் | இந்தியா': '?hl=ta&gl=IN&ceid=IN%3Ata',
+      'മലയാളം | ഇന്ത്യ': '?hl=ml&gl=IN&ceid=IN%3Aml',
+      'తెలుగు | భారతదేశం': '?hl=te&gl=IN&ceid=IN%3Ate',
+      'ไทย | ไทย': '?hl=th&gl=TH&ceid=TH%3Ath',
+      '中文 | 中国': '?hl=zh-CN&gl=CN&ceid=CN:zh-Hans',
+      '中文 | 台灣': '?hl=zh-TW&gl=TW&ceid=TW%3Azh-Hant',
+      '中文 | 香港': '?hl=zh-HK&gl=HK&ceid=HK%3Azh-Hant',
+      '한국어 | 대한민국': '?hl=ko&gl=KR&ceid=KR%3Ako',
+    };
+    if (!localStorage.newsLe) localStorage.newsLe = "?hl=en-US&gl=US&ceid=US:en";
+    document.getElementById('newsL').value = localStorage.newsLe;
+    //Add options for news locale
+    const sel = document.getElementById("newsL");
+    if (sel.options.length < 20) {
+      for (var el in locales) {
+        var opt = document.createElement('option');
+        opt.appendChild(document.createTextNode(el));
+        opt.value = locales[el];
+        sel.appendChild(opt);
+        if (locales[el] == localStorage.newsLe) opt.selected = true;
+      }
+    }
+    adaptColor("newsL", getComputedStyle(ntp_cnt).getPropertyValue("--c25"));
+    preconnectTo(newsServer);
+    loadGNews();
+    //Add swipe to delete on news items
+    window.setTimeout(function () {
+      f_astd();
+    }, 1000);
+    window.setTimeout(function () {
+      f_astd();
+    }, 2000);
+  }
+  //End of News Section Widget Config
+
+  //Tabs Widget Config
+  if (ntp_sett.status[4]) {
+    //Save widget by caching it
+    function saveTabs(ntvalue) {
+      if (ntvalue) {
+        ntp_wdg[4].ntarea = ntvalue;
+      } else {
+        const y = ntp_sett.order[4];
+        ntp_wdg[4].cached = document.getElementById('wdg_' + y).innerHTML;
+      }
+      localStore("ntp_wdg", ntp_wdg);
+    }
+    //Setup of tabs widget 
+    function f_setup_tabs() {
+      //Notes
+      const ntarea = document.getElementById("ntarea");
+      ntarea.value = ntp_wdg[4].ntarea;
+      ntarea.addEventListener('blur', function () {
+        saveTabs(ntarea.value);
+      })
+      //To-do List
+      const formtd = document.getElementById("tdlform");
+      const tdlist = document.getElementById("tdlist");
+      const tdlinput = document.getElementById("tdlinput");
+
+      function f_ev_tdl() {
+        const tli = tdlist.querySelectorAll('li');
+        tli.forEach(element => {
+          element.addEventListener('click', function (e) {
+            const t = e.target;
+            if (t.classList.contains('tdchecked')) t.parentNode.removeChild(t);
+            else t.classList.add('tdchecked');
+            saveTabs();
+          }, false);
+        });
+      }
+
+      formtd.addEventListener('submit', function (e) {
+        e.preventDefault();
+        tdlist.innerHTML += '<li>' + tdlinput.value + '</li>';
+        tdlinput.value = "";
+        f_ev_tdl();
+        saveTabs();
+      }, false);
+      f_ev_tdl();
+      //Links 
+      const formlk = document.getElementById("lkform");
+      const lklist = document.getElementById("lklist");
+      const lkinput = document.getElementById("lkinput");
+
+      function f_ev_lkl() {
+        const li = lklist.querySelectorAll('li');
+        li.forEach(element => {
+          element.oncontextmenu = function (e) {
+            e.preventDefault();
+            lklist.removeChild(element);
+            saveTabs();
+          };
+          element.addEventListener('click', function () {
+            location.href = element.innerHTML;
+          }, false);
+        });
+      }
+      formlk.addEventListener('submit', function (e) {
+        e.preventDefault();
+        lklist.innerHTML += '<li>' + lkinput.value + '</li>';
+        lkinput.value = "";
+        saveTabs();
+        f_ev_lkl()
+      }, false);
+      f_ev_lkl();
+    }
+    //Call tabs setup
+    f_setup_tabs();
+  }
+  //End of Tabs Widget Config 
+
+  //Config widgets ordering and toggle
+  Sortable.create(document.getElementById("stt_lwo"), {
+    handle: '.stt_lwoh',
+    animation: 150,
+    onEnd: function (evt) {
+      var list = document.getElementById("stt_lwo").getElementsByTagName("li");
+      for (var z = 0; z < list.length; z++) {
+        var y = parseInt(list[z].getAttribute("data-order"));
+        ntp_sett.order[y] = z;
+        orderListChanged = 1;
+      }
+      load_widgets();
+      localStore("ntp_sett", ntp_sett);
+      if (ntp_sett.status[1]) {
+        f_setup_gtiles();
+      }
+      if (ntp_sett.status[4]) {
+        f_setup_tabs();
+      }
+      if (ntp_sett.status[3]) {
+        f_setup_wth();
+      }
+      wait(100);
+    }
+  });
+
+  function toggle_widget(i) {
+    var y = ntp_sett.order[i];
+    var status = (ntp_sett.status[i] == 1) ? 0 : 1;
+    console.log(" Widget : " + i + " Order : " + y + " Status :" + ntp_sett.status[i] + " - >" + status);
+    ntp_sett.status[i] = status;
+    document.getElementById("wdg_" + y).style.display = (status) ? "block" : "none";
+    customInner(document.getElementById("wdg_" + y), (status) ? ntp_wdg[i].cached : "");
+    localStore("ntp_sett", ntp_sett);
+    if (ntp_sett.status[i] && i == 1) f_setup_gtiles();
+    if (ntp_sett.status[i] && i == 4) f_setup_tabs();
+  }
+  //End of Config widgets ordering and toggle
+
+
+  //Config Settings page 
+  var stSections = document.querySelectorAll("section");
+  var stSec = 0;
+  //Toggle Settings lrt
+  function func_dlg_st(a) {
+    document.getElementById("dlg_st").classList.toggle("show-lrt");
+    ntp_bdy.classList.toggle("sl");
+    stSections[0].style.display = "block";
+    if (a == 0) stSections[stSec].style.display = "none";
+    document.getElementById('flt_btn').classList.remove("open")
+    document.getElementById("fb-btn").innerHTML = '<i class="fas fa-caret-up"></i>';
+  }
+  //Function to slide to setting page 
+  function func_st_page(i) {
+    stSections[0].style.display = "none";
+    stSections[stSec].style.display = "none";
+    stSections[i].style.display = "block";
+    stSec = i;
+  }
+  //End of Config Settings page 
+
+
+
+  //Function to generate gradient color
+  function random_gradient() {
+    var colorOne = {
+      R: Math.floor(Math.random() * 255),
+      G: Math.floor(Math.random() * 255),
+      B: Math.floor(Math.random() * 255)
+    };
+    var colorTwo = {
+      R: Math.floor(Math.random() * 255),
+      G: Math.floor(Math.random() * 255),
+      B: Math.floor(Math.random() * 255)
+    };
+    colorOne.rgb = 'rgb(' + colorOne.R + ',' + colorOne.G + ',' + colorOne.B + ')';
+    colorTwo.rgb = 'rgb(' + colorTwo.R + ',' + colorTwo.G + ',' + colorTwo.B + ')';
+    var gradientC = 'radial-gradient(at top left, ' + colorOne.rgb + ', ' + colorTwo.rgb + ')';
+
+  }
+
+  //********* BG Wallpaper */
+  const wDevice = (window.innerWidth) ? window.innerWidth : screen.width;
+  const hDevice = (window.innerHeight) ? (window.innerHeight + 56) : screen.height;
+  const bg_pld = document.getElementById('bg_pld'),
+    crop = document.getElementById('crop'),
+    result = document.getElementById('result'),
+    imgRes = document.getElementById('imgRes'),
+    crpp = document.getElementById('croppie');
+  var cr, cr_img = '',
+    img_w = wDevice / 2,
+    img_h = hDevice / 2,
+    isCrop = 0;
+  while (img_w > 670) {
+    img_w = img_w / 1.2;
+    img_h = img_h / 1.2;
+  }
+  ntp_bdy.style.setProperty("--bg-cw", img_w + "px");
+  ntp_bdy.style.setProperty("--bg-ch", img_h + "px");
+
+  function savebg_cropped(t) {
+    ntp_bdy.style.setProperty("--bg-img", "url(" + imgRes.src + ")");
+    ntp_bdy.style.setProperty("--bg-cl", "#fff");
+    save_ntpbdy();
+    save_ntpbdy();
+    showBox(" Background saved !");
+    cropCancel();
+  }
+  const wllp_file = document.getElementById("wllp_file");
+
+  function f_wallp1() {
+    var file = wllp_file.files[0];
+    if (file && file.type.match('image.*')) {
+      var reader = new FileReader();
+      reader.onload = function (e) {
+        bg_pld.style.display = "none";
+        if (cr_img == '') {
+          cr_img = e.target.result;
+          cropInit();
+        } else {
+          cr_img = e.target.result;
+          bindCropImg();
+        }
+        crop.style.display = "inline";
+      }
+      reader.readAsDataURL(file);
+    }
+  }
+  function f_wallp2() {
+    var url = prompt("Enter url of the wallpaper . \nExample : ", "url");
+    var image = new Image();
+    image.crossOrigin = "Anonymous";
+    image.onload = function (e) {
+      bg_pld.style.display = "none";
+      if (cr_img == '') {
+        cr_img = image.src;
+        cropInit();
+      } else {
+        cr_img = image.src;
+        bindCropImg();
+      }
+      crop.style.display = "inline";
+    };
+    image.src = (url);
+  }
+
+  //********* Cropping  *********/
+  function cropInit() {
+    cr = new Croppie(crpp, {
+      viewport: {
+        width: img_w,
+        height: img_h
+      },
+      boundary: {
+        width: img_w,
+        height: img_h
+      },
+      mouseWheelZoom: false,
+      enableOrientation: true
+    });
+    bindCropImg();
+  }
+
+  function bindCropImg() {
+    cr.bind({
+      url: cr_img
+    })
+  }
+
+  function cropCancel() {
+    if (bg_pld.style.display == "none") {
+      bg_pld.style.display = "inline";
+      crop.style.display = "none";
+      result.style.display = "none";
+      wllp_file.value = "";
+      isCrop = 0;
+    }
+  }
+
+  function cropResult() {
+    if (!isCrop) {
+      isCrop = 1;
+      cr.result({
+        type: 'base64', // canvas(base64)|html
+        size: '{width:wDevice, height:hDevice}',
+        format: 'jpeg', //'jpeg'|'png'|'webp'
+        quality: 1 //0~1
+      }).then(function (resp) {
+        crop.style.display = "none";
+        imgRes.src = resp;
+        result.style.display = "inline";
+      });
+    }
+  }
+
+  //********  Color picker ******/
+  const cp_lrt = document.getElementById("cl_vn");
+  var cp_current_el;
+  var picker = new Picker({
+    parent: document.querySelector('#cp_v'),
+    popup: false,
+    cancelButton: true,
+    onDone: function (color) {
+      if (cp_current_el != null && cp_current_el != "bgcl") {
+        ntp_bdy.style.setProperty("--c" + cp_current_el, color.hex);
+        save_ntpbdy();
+      } else {
+        if (cp_current_el == "bgcl") {
+          ntp_bdy.style.setProperty("--bg-img", "none");
+          ntp_bdy.style.setProperty("--bg-cl", color.hex);
+          save_ntpbdy();
+        } else {
+          document.querySelector("meta[name=theme-color]").setAttribute("content", color.hex);
+          document.getElementById("sett_mtc").style.background = color.hex;
+          localStorage.ntp_mtc = color.hex;
+        }
+
+      }
+      cp_lrt.classList.toggle("show-lrt");
+    }
+  });
+
+  function f_cp_mtc() {
+    cp_current_el = null;
+    picker.setColor(document.getElementById("sett_mtc").style.background, true);
+    cp_lrt.classList.toggle("show-lrt");
+  }
+
+  function f_cp_bg() {
+    cp_current_el = "bgcl";
+    let color = getComputedStyle(ntp_bdy).getPropertyValue("--bg-cl");
+    picker.setColor(color, true);
+    cp_lrt.classList.toggle("show-lrt");
+  }
+
+  function f_cp_rgb(t) {
+    cp_current_el = t;
+    let color = getComputedStyle(ntp_bdy).getPropertyValue("--c" + t);
+    picker.setColor(color, true);
+    cp_lrt.classList.toggle("show-lrt");
+  }
+
+  function f_close_cl() {
+    cp_lrt.classList.toggle("show-lrt");
+  }
+
+}
