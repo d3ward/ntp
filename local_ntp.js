@@ -285,7 +285,9 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
     f_setup_sb();
   } // End of Search Bar Widget Config 
   }
-  const sb_logo = document.getElementById("sb_logo");
+  
+  load_sb();
+const sb_logo = document.getElementById("sb_logo");
   const sett_sblgp = document.getElementById("sb_lgp");
   const sett_sb_lgf = document.getElementById("sb_lgf");
   sett_sblgp.src = ntp_sb.logo;
@@ -322,8 +324,6 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
     };
     img.src = (url);
   }
-  load_sb();
-
   function load_tl(){
     //Tiles Grid Widget Config
   if (ntp_sett.status[1]) {
