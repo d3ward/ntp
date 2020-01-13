@@ -127,7 +127,6 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
       var ar = document.getElementsByClassName("tile_target");
       for (var i = 0; i < ar.length; i++) ar[i].target = b;
     }
-    //console.log("|" + a.value + "==" + b + "|");
     if (a.value == b) a.checked = true;
     else a.checked = false;
   }
@@ -143,7 +142,6 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
     }
     save_ntpbdy();
   }
-
   function load_sb(){
     //Search Bar Settings Config
   var ntp_sb = localGet("ntp_sb");
@@ -1544,12 +1542,9 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
     }
   });
 
-
   function toggle_widget(i) {
-
     var pos= (ntp_sett.order).indexOf(i);
     var status = (ntp_sett.status[i] == 1) ? 0 : 1;
-
     console.log(" Widget : " + i + " Order : " + pos + " Status :" + ntp_sett.status[i] + " - >" + status);
     ntp_sett.status[i] = status;
     document.getElementById("wdg_" + pos).style.display = (status) ? "block" : "none";
@@ -1560,7 +1555,6 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
     if (ntp_sett.status[i] && i == 2) load_wt();
   }
   //End of Config widgets ordering and toggle
-
 
   //Function to generate gradient color
   function random_gradient() {
@@ -1577,7 +1571,6 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
     colorOne.rgb = 'rgb(' + colorOne.R + ',' + colorOne.G + ',' + colorOne.B + ')';
     colorTwo.rgb = 'rgb(' + colorTwo.R + ',' + colorTwo.G + ',' + colorTwo.B + ')';
     var gradientC = 'radial-gradient(at top left, ' + colorOne.rgb + ', ' + colorTwo.rgb + ')';
-
   }
 
   //********* BG Wallpaper */
@@ -1598,7 +1591,6 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
   }
   ntp_bdy.style.setProperty("--bg-cw", img_w + "px");
   ntp_bdy.style.setProperty("--bg-ch", img_h + "px");
-
   function savebg_cropped(t) {
     ntp_bdy.style.setProperty("--bg-img", "url(" + imgRes.src + ")");
     ntp_bdy.style.setProperty("--bg-cl", "#fff");
@@ -1608,7 +1600,6 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
     cropCancel();
   }
   const wllp_file = document.getElementById("wllp_file");
-
   function f_wallp1() {
     var file = wllp_file.files[0];
     if (file && file.type.match('image.*')) {
@@ -1661,13 +1652,11 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
     });
     bindCropImg();
   }
-
   function bindCropImg() {
     cr.bind({
       url: cr_img
     })
   }
-
   function cropCancel() {
     if (bg_pld.style.display == "none") {
       bg_pld.style.display = "inline";
@@ -1677,7 +1666,6 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
       isCrop = 0;
     }
   }
-
   function cropResult() {
     if (!isCrop) {
       isCrop = 1;
@@ -1720,29 +1708,24 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
       cp_lrt.classList.toggle("show-lrt");
     }
   });
-
   function f_cp_mtc() {
     cp_current_el = null;
     picker.setColor(document.getElementById("sett_mtc").style.background, true);
     cp_lrt.classList.toggle("show-lrt");
   }
-
   function f_cp_bg() {
     cp_current_el = "bgcl";
     let color = getComputedStyle(ntp_bdy).getPropertyValue("--bg-cl");
     picker.setColor(color, true);
     cp_lrt.classList.toggle("show-lrt");
   }
-
   function f_cp_rgb(t) {
     cp_current_el = t;
     let color = getComputedStyle(ntp_bdy).getPropertyValue("--c" + t);
     picker.setColor(color, true);
     cp_lrt.classList.toggle("show-lrt");
   }
-
   function f_close_cl() {
     cp_lrt.classList.toggle("show-lrt");
   }
-
 }
