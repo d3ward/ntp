@@ -433,9 +433,8 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
     }
     function fixURL(value){
 
-      alert(value.indexOf('https://') +"----"+ value.indexOf('http://'));
       if(value.indexOf('https://')<0 && value.indexOf('http://')<0) return "https://"+value;
-      alert(value);
+     
       return value;
     }
     //Create a new tile from lrt
