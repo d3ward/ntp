@@ -152,6 +152,43 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
     };
     localStore("ntp_sb", ntp_sb);
   }
+  const sb_logo = document.getElementById("sb_logo");
+  const sett_sblgp = document.getElementById("sb_lgp");
+  const sett_sb_lgf = document.getElementById("sb_lgf");
+  sett_sblgp.src = ntp_sb.logo;
+  function f_sb_lg1() {
+    // fetch FileList object
+    var file = sett_sb_lgf.files[0]; // get a reference to the selected file
+    if (file && file.type.match('image.*')) {
+      var reader = new FileReader();
+      reader.onload = function (e) {
+        sett_sblgp.src = e.target.result;
+        sb_logo.src = e.target.result;
+        ntp_sb.logo = e.target.result;
+        localStore("ntp_sb", ntp_sb);
+      }
+      reader.readAsDataURL(file);
+    }
+  }
+  function f_sb_lg2() {
+    var url = prompt("Enter url of the wallpaper . \nExample : ", "url");
+    var img = new Image();
+    img.crossOrigin = "Anonymous";
+    img.onload = function (e) {
+      var canvas = document.createElement("canvas");
+      canvas.width = img.width;
+      canvas.height = img.height;
+      var ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0);
+      var dataURL = canvas.toDataURL("image/png");
+      dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
+        sett_sblgp.src = dataURL;
+        sb_logo.src = dataURL;
+        ntp_sb.logo = dataURL;
+        localStore("ntp_sb", ntp_sb);
+    };
+    img.src = (url);
+  }
   const sb_len = document.getElementById("sb_len");
   var sk = ntp_sb.sK;
   var sb_len_v = "";
@@ -288,43 +325,7 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
 }
   
   load_sb();
-const sb_logo = document.getElementById("sb_logo");
-  const sett_sblgp = document.getElementById("sb_lgp");
-  const sett_sb_lgf = document.getElementById("sb_lgf");
-  sett_sblgp.src = ntp_sb.logo;
-  function f_sb_lg1() {
-    // fetch FileList object
-    var file = sett_sb_lgf.files[0]; // get a reference to the selected file
-    if (file && file.type.match('image.*')) {
-      var reader = new FileReader();
-      reader.onload = function (e) {
-        sett_sblgp.src = e.target.result;
-        sb_logo.src = e.target.result;
-        ntp_sb.logo = e.target.result;
-        localStore("ntp_sb", ntp_sb);
-      }
-      reader.readAsDataURL(file);
-    }
-  }
-  function f_sb_lg2() {
-    var url = prompt("Enter url of the wallpaper . \nExample : ", "url");
-    var img = new Image();
-    img.crossOrigin = "Anonymous";
-    img.onload = function (e) {
-      var canvas = document.createElement("canvas");
-      canvas.width = img.width;
-      canvas.height = img.height;
-      var ctx = canvas.getContext("2d");
-      ctx.drawImage(img, 0, 0);
-      var dataURL = canvas.toDataURL("image/png");
-      dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
-        sett_sblgp.src = dataURL;
-        sb_logo.src = dataURL;
-        ntp_sb.logo = dataURL;
-        localStore("ntp_sb", ntp_sb);
-    };
-    img.src = (url);
-  }
+
   function load_tl(){
     //Tiles Grid Widget Config
   if (ntp_sett.status[1]) {
