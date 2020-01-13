@@ -4,7 +4,7 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
   ntp_bdy.classList.remove("op");
 } else {
   var ntp_ver = "4.0.1";
-  console.log("NTP Version"+ntp_ver )
+  console.log("NTP Version"+ntp_ver);
   var orderListChanged = 0;
   document.getElementById("sett_mtc").style.background = localStorage.ntp_mtc;
   function save_ntpbdy() {
