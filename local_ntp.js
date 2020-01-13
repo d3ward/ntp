@@ -284,7 +284,8 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
     }
     f_setup_sb();
   } // End of Search Bar Widget Config 
-  }
+  
+}
   
   load_sb();
 const sb_logo = document.getElementById("sb_logo");

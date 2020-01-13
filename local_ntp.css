@@ -1499,20 +1499,16 @@ body .show-lrt {
   transform:scale(1);
   transition:transform 0.3s, -webkit-transform 0.3s;
 }
-
 #crop .cr-slider-wrap .cr-slider:hover::-webkit-slider-thumb {
   -webkit-transform:scale(1.25);
   transform:scale(1.25);
 }
-
 #crop .cr-slider-wrap .cr-slider:focus {
   outline:none;
 }
-
 #crop .cr-slider-wrap .cr-slider:focus::-webkit-slider-thumb {
   background-color:#425389;
 }
-
 #crop .cr-slider-wrap .cr-slider::-moz-range-track {
   width:100%;
   height:4px;
@@ -1520,7 +1516,6 @@ body .show-lrt {
   border:0;
   border-radius:1em;
 }
-
 #crop .cr-slider-wrap .cr-slider::-moz-range-thumb {
   height:16px;
   width:16px;
@@ -1531,20 +1526,16 @@ body .show-lrt {
   transform:scale(1);
   transition:transform 0.3s, -webkit-transform 0.3s;
 }
-
 #crop .cr-slider-wrap .cr-slider:hover::-moz-range-thumb {
   transform:scale(1.25);
 }
-
 #crop .cr-slider-wrap .cr-slider:-moz-focusring {
   outline:1px solid white;
   outline-offset:-1px;
 }
-
 #crop .cr-slider-wrap .cr-slider:-moz-focusring::-moz-range-thumb {
   background-color:#425389;
 }
-
 #crop .cr-slider-wrap .cr-slider::-ms-track {
   width:300px;
   height:4px;
@@ -1553,13 +1544,11 @@ body .show-lrt {
   border-width:6px 0;
   color:transparent;
 }
-
 #crop .cr-slider-wrap .cr-slider::-ms-fill-lower,
 #crop .cr-slider-wrap .cr-slider::-ms-fill-upper {
   background:#c8cccf;
   border-radius:10px;
 }
-
 #crop .cr-slider-wrap .cr-slider::-ms-thumb {
   border:none;
   height:16px;
@@ -1567,50 +1556,41 @@ body .show-lrt {
   border-radius:50%;
   background-color:#8193a2;
 }
-
 #crop .cr-slider-wrap #cr-rotate {
   color:#8193a2;
   text-align:right;
   background-color:transparent;
   flex:1;
 }
-
 #result img {
   width:100%;
   height:100%;
   display:block;
 }
-
 #loadingNW {
   width:100%;
   text-align:center;
 }
-
 #loadingNW svg path,
 #loadingNW svg rect {
   fill:var(--c25);
 }
-
 .ns_readed {
   display:none;
 }
-
 #sld_tg {
   color:#fff;
   line-height:35px;
   height:35px;
 }
-
 #sld_tg i {
   font-size:14px;
 }
-
 #sld_vw.open_sld {
   transform:scale(1.0);
   height:196px;
   transition:height 0.3s, transform 0.5s;
 }
-
 #sld_vw {
   position:relative;
   width:100%;
@@ -1618,12 +1598,9 @@ body .show-lrt {
   transform:scale(0);
   transition:height 0.5s, transform 0.3s;
 }
-
-
 #cl_vn {
   z-index:120;
 }
-
 #code_f{
   background: transparent;
   border-radius: 8px;
