@@ -8,11 +8,7 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
   var orderListChanged = 0;
   document.getElementById("sett_mtc").style.background = localStorage.ntp_mtc;
   function save_ntpbdy() {
-    try {
-      localStorage.ntp_bdy = ntp_bdy.getAttribute("style");
-    } catch (err) {
-      showBox("Something gone wrong ! Info _:" + err.message);
-    }
+    try {localStorage.ntp_bdy = ntp_bdy.getAttribute("style");} catch (err) {showBox("Something gone wrong ! Info _:" + err.message);}
   }
   //Check ntp_ver and show changelog
   if (localStorage.ntp_ver != ntp_ver || !localStorage.ntp_ver) {
@@ -86,10 +82,7 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
   var ntp_sett = localGet("ntp_sett");
   if (ntp_sett == undefined) {
     console.log("ntp_sett is undefined , let's create default one");
-    ntp_sett = { //Widgets
-      order: [0, 1, 2, 3, 4],
-      status: [1, 1, 1, 1, 1]
-    };
+    ntp_sett = {order: [0, 1, 2, 3, 4],status: [1, 1, 1, 1, 1]};
     localStore("ntp_sett", ntp_sett);
   }
   //Load widgets from cache
@@ -99,7 +92,6 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
     (ntp_sett.order).forEach(function (el,index){
       let wdgn = document.getElementById("wdg_"+index);
       let status = ntp_sett.status[el];
-
       let c = "";
       if (status) {
         wdgn.style.display = "block";
@@ -127,8 +119,7 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
       var ar = document.getElementsByClassName("tile_target");
       for (var i = 0; i < ar.length; i++) ar[i].target = b;
     }
-    if (a.value == b) a.checked = true;
-    else a.checked = false;
+    if (a.value == b) a.checked = true;else a.checked = false;
   }
   //Function to set options with toggle
   function set_option_t(t, f, i) {
@@ -242,43 +233,7 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
     ntp_bdy.style.setProperty("--v1", tg_r6v + "px");
     save_ntpbdy();
   });
-  const sb_logo = document.getElementById("sb_logo");
-  const sett_sblgp = document.getElementById("sb_lgp");
-  const sett_sb_lgf = document.getElementById("sb_lgf");
-  sett_sblgp.src = ntp_sb.logo;
-  function f_sb_lg1() {
-    // fetch FileList object
-    var file = sett_sb_lgf.files[0]; // get a reference to the selected file
-    if (file && file.type.match('image.*')) {
-      var reader = new FileReader();
-      reader.onload = function (e) {
-        sett_sblgp.src = e.target.result;
-        sb_logo.src = e.target.result;
-        ntp_sb.logo = e.target.result;
-        localStore("ntp_sb", ntp_sb);
-      }
-      reader.readAsDataURL(file);
-    }
-  }
-  function f_sb_lg2() {
-    var url = prompt("Enter url of the wallpaper . \nExample : ", "url");
-    var img = new Image();
-    img.crossOrigin = "Anonymous";
-    img.onload = function (e) {
-      var canvas = document.createElement("canvas");
-      canvas.width = img.width;
-      canvas.height = img.height;
-      var ctx = canvas.getContext("2d");
-      ctx.drawImage(img, 0, 0);
-      var dataURL = canvas.toDataURL("image/png");
-      dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
-        sett_sblgp.src = dataURL;
-        sb_logo.src = dataURL;
-        ntp_sb.logo = dataURL;
-        localStore("ntp_sb", ntp_sb);
-    };
-    img.src = (url);
-  }
+  
   //End of Search Bar Settings Config
 
   //Search Bar Widget Config 
@@ -329,6 +284,43 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
     }
     f_setup_sb();
   } // End of Search Bar Widget Config 
+  }
+  const sb_logo = document.getElementById("sb_logo");
+  const sett_sblgp = document.getElementById("sb_lgp");
+  const sett_sb_lgf = document.getElementById("sb_lgf");
+  sett_sblgp.src = ntp_sb.logo;
+  function f_sb_lg1() {
+    // fetch FileList object
+    var file = sett_sb_lgf.files[0]; // get a reference to the selected file
+    if (file && file.type.match('image.*')) {
+      var reader = new FileReader();
+      reader.onload = function (e) {
+        sett_sblgp.src = e.target.result;
+        sb_logo.src = e.target.result;
+        ntp_sb.logo = e.target.result;
+        localStore("ntp_sb", ntp_sb);
+      }
+      reader.readAsDataURL(file);
+    }
+  }
+  function f_sb_lg2() {
+    var url = prompt("Enter url of the wallpaper . \nExample : ", "url");
+    var img = new Image();
+    img.crossOrigin = "Anonymous";
+    img.onload = function (e) {
+      var canvas = document.createElement("canvas");
+      canvas.width = img.width;
+      canvas.height = img.height;
+      var ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0);
+      var dataURL = canvas.toDataURL("image/png");
+      dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
+        sett_sblgp.src = dataURL;
+        sb_logo.src = dataURL;
+        ntp_sb.logo = dataURL;
+        localStore("ntp_sb", ntp_sb);
+    };
+    img.src = (url);
   }
   load_sb();
 
@@ -1535,13 +1527,11 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
       console.log("OnEnd 2:>>"+ntp_sett.order);
       localStore("ntp_sett", ntp_sett);
       load_widgets();
-      console.log("OnEnd 3:>>"+ntp_sett.order);
       if (ntp_sett.status[1])load_tl();
       if (ntp_sett.status[4])load_tb();
       if (ntp_sett.status[2])load_wt();
     }
   });
-
   function toggle_widget(i) {
     var pos= (ntp_sett.order).indexOf(i);
     var status = (ntp_sett.status[i] == 1) ? 0 : 1;
@@ -1550,9 +1540,7 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
     document.getElementById("wdg_" + pos).style.display = (status) ? "block" : "none";
     customInner(document.getElementById("wdg_" + pos), (status) ? ntp_wdg[i].cached : "");
     localStore("ntp_sett", ntp_sett);
-    if (ntp_sett.status[i] && i == 1) load_tl();
-    if (ntp_sett.status[i] && i == 4) load_tb();
-    if (ntp_sett.status[i] && i == 2) load_wt();
+    if (ntp_sett.status[i] && i == 1) load_tl();if (ntp_sett.status[i] && i == 4) load_tb();if (ntp_sett.status[i] && i == 2) load_wt();
   }
   //End of Config widgets ordering and toggle
 
@@ -1572,7 +1560,6 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
     colorTwo.rgb = 'rgb(' + colorTwo.R + ',' + colorTwo.G + ',' + colorTwo.B + ')';
     var gradientC = 'radial-gradient(at top left, ' + colorOne.rgb + ', ' + colorTwo.rgb + ')';
   }
-
   //********* BG Wallpaper */
   const wDevice = (window.innerWidth) ? window.innerWidth : screen.width;
   const hDevice = (window.innerHeight) ? (window.innerHeight + 56) : screen.height;
@@ -1581,14 +1568,8 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
     result = document.getElementById('result'),
     imgRes = document.getElementById('imgRes'),
     crpp = document.getElementById('croppie');
-  var cr, cr_img = '',
-    img_w = wDevice / 2,
-    img_h = hDevice / 2,
-    isCrop = 0;
-  while (img_w > 670) {
-    img_w = img_w / 1.2;
-    img_h = img_h / 1.2;
-  }
+  var cr, cr_img = '',img_w = wDevice / 2,img_h = hDevice / 2,isCrop = 0;
+  while (img_w > 670) {img_w = img_w / 1.2;img_h = img_h / 1.2;}
   ntp_bdy.style.setProperty("--bg-cw", img_w + "px");
   ntp_bdy.style.setProperty("--bg-ch", img_h + "px");
   function savebg_cropped(t) {
