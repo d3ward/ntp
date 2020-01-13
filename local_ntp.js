@@ -156,7 +156,7 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
   const sett_sblgp = document.getElementById("sb_lgp");
   const sett_sb_lgf = document.getElementById("sb_lgf");
   sett_sblgp.src = ntp_sb.logo;
-  sett_sb_lgf.onclick=
+  sett_sb_lgf.addEventListener("click",
   function f_sb_lg1() {
     // fetch FileList object
     var file = sett_sb_lgf.files[0]; // get a reference to the selected file
@@ -170,8 +170,8 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
       }
       reader.readAsDataURL(file);
     }
-  };
-  document.getElementById("sb_lg2").onclick=
+  });
+  document.getElementById("sb_lg2").addEventListener("click",
   function f_sb_lg2() {
     var url = prompt("Enter url of the wallpaper . \nExample : ", "url");
     var img = new Image();
@@ -190,7 +190,7 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
         localStore("ntp_sb", ntp_sb);
     };
     img.src = (url);
-  };
+  });
   const sb_len = document.getElementById("sb_len");
   var sk = ntp_sb.sK;
   var sb_len_v = "";
