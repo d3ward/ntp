@@ -359,7 +359,8 @@ a:link {
   left:45%;
   top:45%;
 }
-
+.tlg_fld .tlg_item:nth-child(n+5):nth-child(-n+40){
+opacity:0;}
 .tlg_fld .tlg_img {
   border:none;
   width:calc((var(--tile-w) - 8px) / 2);
