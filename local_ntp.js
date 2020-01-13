@@ -156,7 +156,7 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
   const sett_sblgp = document.getElementById("sb_lgp");
   const sett_sb_lgf = document.getElementById("sb_lgf");
   sett_sblgp.src = ntp_sb.logo;
-  sett_sb_lgf.addEventListener("click",
+  sett_sb_lgf.addEventListener("change",
   function f_sb_lg1() {
     // fetch FileList object
     var file = sett_sb_lgf.files[0]; // get a reference to the selected file
