@@ -1,11 +1,9 @@
 if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
-  document.body.style.backgroundImage = 'none';
-  document.body.style.backgroundColor = '#000';
   document.getElementById('incognito').style.display = 'inline';
   document.getElementById('ntp_cnt').style.display = 'none';
-  var inc = false;
+  ntp_bdy.classList.remove("op");
 } else {
-  var ntp_ver = "4.0.0";
+  var ntp_ver = "4.0.1";
   var orderListChanged = 0;
   document.getElementById("sett_mtc").style.background = localStorage.ntp_mtc;
   function save_ntpbdy() {
@@ -19,11 +17,9 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
   if (localStorage.ntp_ver != ntp_ver || !localStorage.ntp_ver) {
     localStorage.clear();
     localStorage.ntp_ver = ntp_ver;
-    showBox("<b> New update - " + ntp_ver + "</b><br><br>Hi , finally after months of working on ,new update is here !<br>"+
-     "First i want to warn that your data are lost (sorry for that), you have to add again the tiles and configure the settings.<br><br><b><i>But why ?</i></b><br> "+
-     "Well this ntp is still a beta , every update i try to make it faster, feature rich and adding a lot of customizability requested by users , "+
-     "and with the new update , a lot of things changed .<br><br><b><i>What's new ?</i></b><br> A lot changed on the ntp.. "+
-     "old widget are improved/changed and more settings are added.I can't do a list, so i released today for testing and in the upcoming day will fix bugs then will add a full guide for settings and FAQs.<br> Enjoy !<br><br>Ps. If you are facing any problem please , ping me on discord");
+    showBox("<b> New update - " + ntp_ver + "</b><br><br> - Possible fix for tile ordering <br>"+
+     "- Added Code fixer tool, this will help user to solve some bugs that i can't fix with update <br> "+
+     "- General code improvements ");
   }
   //Function to get default widgets
   function f_dwdg(i) {
@@ -99,28 +95,26 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
   //Load widgets from cache
   function load_widgets() {
     let list = document.getElementById("stt_lwo").querySelectorAll("li");
-    for (let z = 0; z < 5; z++) {
-      let y = ntp_sett.order[z];
-      let status = ntp_sett.status[z];
-      let wdgn = document.getElementById("wdg_" + y);
+    console.log("loadW:  >>"+ntp_sett.order);
+    (ntp_sett.order).forEach(function (el,index){
+      let wdgn = document.getElementById("wdg_"+index);
+      let status = ntp_sett.status[el];
+
       let c = "";
       if (status) {
         wdgn.style.display = "block";
         c = "checked";
-        customInner(wdgn, ntp_wdg[z].cached);
+        wdgn.innerHTML=ntp_wdg[el].cached;
       } else {
         wdgn.style.display = "none";
-        customInner(wdgn, "...");
+        wdgn.innerHTML="...";
       }
       if (orderListChanged == 0) {
-        list[y].setAttribute("data-order", z);
-        customInner(list[y], '<i class="fas fa-arrows stt_lwoh"></i><label>' + ntp_wdg[z].name + '</label><input ' +
-          'class="toggle togg_li" type="checkbox" onchange="toggle_widget(' + y + ')" ' + c + '/>');
+        list[index].setAttribute("data-id",el);
+        list[index].innerHTML= '<i class="fas fa-arrows stt_lwoh"></i><label>' + ntp_wdg[el].name + '</label><input ' +
+          'class="toggle togg_li" type="checkbox" onchange="toggle_widget(' +el+ ')" ' + c + '/>';
       }
-    }
-    let paras = document.getElementsByClassName('editMode');
-    while (paras[0]) paras[0].parentNode.removeChild(paras[0]);
-    
+    });
   }
   //Load cached widget 
   load_widgets();
@@ -145,12 +139,13 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
     if (i == 2) {
       var ar = document.getElementsByClassName("tile_target");
       for (var i = 0; i < ar.length; i++) ar[i].target = value;
-      f_sgs();
+      f_cache_tl();
     }
     save_ntpbdy();
   }
 
-  //Search Bar Settings Config
+  function load_sb(){
+    //Search Bar Settings Config
   var ntp_sb = localGet("ntp_sb");
   if (ntp_sb == undefined) {
     ntp_sb = { //SearchBar
@@ -209,7 +204,6 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
       showBox("Search Bar Config saved !");
     }
   }
-
   const tg_r5 = document.getElementById('tg_r5');
   var tg_r5v = parseInt(ntp_bdy.style.getPropertyValue("--v0").replace("px", ""));
   if (isNaN(tg_r5v)) {
@@ -254,7 +248,6 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
   const sett_sblgp = document.getElementById("sb_lgp");
   const sett_sb_lgf = document.getElementById("sb_lgf");
   sett_sblgp.src = ntp_sb.logo;
-
   function f_sb_lg1() {
     // fetch FileList object
     var file = sett_sb_lgf.files[0]; // get a reference to the selected file
@@ -290,12 +283,11 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
   }
   //End of Search Bar Settings Config
 
-
   //Search Bar Widget Config 
   if (ntp_sett.status[0]) {
     function f_cache_sb() {
-      const y = ntp_sett.order[0];
-      ntp_wdg[0].cached = document.getElementById('wdg_' + y).innerHTML;
+      const pos = (ntp_sett.order).indexOf(0);
+      ntp_wdg[0].cached = document.getElementById('wdg_' + pos).innerHTML;
       localStorage.cachedNewsUpdate = (Date.now() / 1000);
       console.log("Cache search bar");
       localStore("ntp_wdg", ntp_wdg);
@@ -339,9 +331,11 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
     }
     f_setup_sb();
   } // End of Search Bar Widget Config 
+  }
+  load_sb();
 
-
-  //Tiles Grid Widget Config
+  function load_tl(){
+    //Tiles Grid Widget Config
   if (ntp_sett.status[1]) {
     var gridT, fldT;
     var timeoutVariable;
@@ -365,10 +359,10 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
     const fldb = document.getElementById("lrt_bfl");
     var fld_current;
     //Function to cache the tiles 
-    function f_sgs() {
+    function f_cache_tl() {
       if ((typeof localStorage.cachedGridUpdate == "undefined") || ((Date.now() / 1000) - localStorage.cachedGridUpdate) >= 0.1) {
-        var y = ntp_sett.order[1];
-        ntp_wdg[1].cached = document.getElementById('wdg_' + y).innerHTML;
+        var pos = (ntp_sett.order).indexOf(1);
+        ntp_wdg[1].cached = document.getElementById('wdg_' +pos).innerHTML;
         localStorage.cachedGridUpdate = (Date.now() / 1000);
         console.log("Cache grid tiles : " + localStorage.cachedGridUpdate);
       }
@@ -428,14 +422,11 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
       div.innerHTML = '<div class="tlg_img tlg_fld"></div><span id="tlg_span" class="tlg_title">' + ft_lab.value + '</span>';
       tlg.appendChild(div);
       f_evl_gtiles();
-      f_sgs();
+      f_cache_tl();
       f_dlg(1);
     }
     function fixURL(value){
-
-      alert(value.indexOf('https://') +"----"+ value.indexOf('http://'));
       if(value.indexOf('https://')<0 && value.indexOf('http://')<0) return "https://"+value;
-      alert(value);
       return value;
     }
     //Create a new tile from lrt
@@ -537,7 +528,7 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
       } else {
         item.children[1].innerHTML = ft_lab.value;
       }
-      f_sgs();
+      f_cache_tl();
       f_dlg(1);
     }
     //Get fallback icon on preview tile src error
@@ -566,7 +557,7 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
       f_evl_gtiles();
       //Save
       window.setTimeout(function () {
-        f_sgs();
+        f_cache_tl();
       }, 200);
 
     }
@@ -585,7 +576,7 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
       document.getElementById("fld_editA").style.display = (!state) ? 'none' : 'flex';
       if (!state) {
         fld_current.innerHTML = fldb.innerHTML;
-        f_sgs();
+        f_cache_tl();
       };
     }
     //Function to toggle edit mode of tiles
@@ -595,7 +586,7 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
       document.getElementById("tlg_sldr").style.display = (!state) ? 'none' : 'block';
       document.getElementById("tlg_editA").style.display = (!state) ? 'none' : 'flex';
       if (!state) {
-        f_sgs();
+        f_cache_tl();
         save_ntpbdy();
       }
     }
@@ -657,7 +648,7 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
               currentFolder.querySelector('.tlg_fld').appendChild(element);
               currentFolder.style.background = "none";
               currentFolder = null;
-              f_sgs();
+              f_cache_tl();
             }
           }
         }, {
@@ -847,6 +838,7 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
       new Sortable(document.getElementById("edit_bin"), {
         group: 'editM',
         animation: 150,
+        filter: ".far",
         onAdd: function (evt) {
           var itemEl = evt.item;
           itemEl.parentNode.removeChild(itemEl);
@@ -862,6 +854,7 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
       new Sortable(document.getElementById("edit_pencil"), {
         group: 'editM',
         animation: 150,
+        filter: ".far",
         onAdd: function (evt) {
           var itemEl = evt.clone;
           f_etfg(itemEl);
@@ -900,6 +893,7 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
       new Sortable(edit_b2, {
         group: 'editM2',
         animation: 150,
+        filter: ".far",
         onAdd: function (evt) {
           var itemEl = evt.item;
           itemEl.parentNode.removeChild(itemEl);
@@ -916,6 +910,7 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
       new Sortable(edit_o2, {
         group: 'editM2',
         animation: 150,
+        filter: ".far",
         onAdd: function (evt) {
           var itemEl = evt.item;
           tlg.appendChild(itemEl);
@@ -934,6 +929,7 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
       new Sortable(edit_p2, {
         group: 'editM2',
         animation: 150,
+        filter: ".far",
         onAdd: function (evt) {
           var itemEl = evt.clone;
           f_etfg(itemEl);
@@ -951,14 +947,18 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
       f_evl_gtiles();
       f_setup_sldr();
       window.setTimeout(function () {
-        f_sgs();
+        f_cache_tl();
       }, 900);
     }
     //Add body click used to disable edit_mode
     document.body.addEventListener("click", process_body_click);
     f_setup_gtiles();
   } // End of Tiles Grid Widget Config
+  }
+  load_tl();
 
+  function load_wt(){
+    
   //Weather Settings Config
   var ntp_wth = localGet("ntp_wth");
   if (ntp_wth == undefined) {
@@ -971,7 +971,6 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
   document.getElementById("wt_ik").value = ntp_wth.api;
   document.getElementById("wt_ila").value = ntp_wth.lat;
   document.getElementById("wt_iln").value = ntp_wth.lon;
-
   function f_save_wth() {
     const api = document.getElementById("wt_ik").value;
     const lat = document.getElementById("wt_ila").value;
@@ -988,7 +987,6 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
     }
 
   }
-
   function f_get_ll() {
     try {
       navigator.geolocation.getCurrentPosition(showPosition);
@@ -997,7 +995,6 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
       console.log(e);
     }
   }
-
   function showPosition(position) {
     document.getElementById("wt_ila").value = position.coords.latitude;
     document.getElementById("wt_iln").value = position.coords.longitude;
@@ -1031,11 +1028,9 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
       '01d': '<svg version="1.1" x="0px" y="0px" viewBox="0 0 44.9 44.9" xml:space="preserve"> <g fill="#ff0"> <circle cx="22.4" cy="22.6" r="11"/> <g> <path d="M22.6,8.1h-0.3c-0.3,0-0.6-0.3-0.6-0.6v-7c0-0.3,0.3-0.6,0.6-0.6l0.3,0c0.3,0,0.6,0.3,0.6,0.6 v7C23.2,7.8,22.9,8.1,22.6,8.1z"/> <path d="M22.6,36.8h-0.3c-0.3,0-0.6,0.3-0.6,0.6v7c0,0.3,0.3,0.6,0.6,0.6h0.3c0.3,0,0.6-0.3,0.6-0.6v-7 C23.2,37,22.9,36.8,22.6,36.8z"/> <path d="M8.1,22.3v0.3c0,0.3-0.3,0.6-0.6,0.6h-7c-0.3,0-0.6-0.3-0.6-0.6l0-0.3c0-0.3,0.3-0.6,0.6-0.6h7 C7.8,21.7,8.1,21.9,8.1,22.3z"/> <path d="M36.8,22.3v0.3c0,0.3,0.3,0.6,0.6,0.6h7c0.3,0,0.6-0.3,0.6-0.6v-0.3c0-0.3-0.3-0.6-0.6-0.6h-7 C37,21.7,36.8,21.9,36.8,22.3z"/> <path d="M11.4,31.6l0.2,0.3c0.2,0.2,0.2,0.6-0.1,0.8l-5.3,4.5c-0.2,0.2-0.6,0.2-0.8-0.1l-0.2-0.3 c-0.2-0.2-0.2-0.6,0.1-0.8l5.3-4.5C10.9,31.4,11.2,31.4,11.4,31.6z"/> <path d="M33.2,13l0.2,0.3c0.2,0.2,0.6,0.3,0.8,0.1l5.3-4.5c0.2-0.2,0.3-0.6,0.1-0.8l-0.2-0.3 c-0.2-0.2-0.6-0.3-0.8-0.1l-5.3,4.5C33,12.4,33,12.7,33.2,13z"/> <path d="M11.4,13.2l0.2-0.3c0.2-0.2,0.2-0.6-0.1-0.8L6.3,7.6C6.1,7.4,5.7,7.5,5.5,7.7L5.3,7.9 C5.1,8.2,5.1,8.5,5.4,8.7l5.3,4.5C10.9,13.5,11.2,13.5,11.4,13.2z"/> <path d="M33.2,31.9l0.2-0.3c0.2-0.2,0.6-0.3,0.8-0.1l5.3,4.5c0.2,0.2,0.3,0.6,0.1,0.8l-0.2,0.3 c-0.2,0.2-0.6,0.3-0.8,0.1l-5.3-4.5C33,32.5,33,32.1,33.2,31.9z"/> <animate attributeType="CSS" attributeName="opacity" attributeType="XML" dur="0.5s" keyTimes="0;0.5;1" repeatCount="indefinite" values="1;0.6;1" calcMode="linear"/> </g> </g> </svg>',
       '01n': '<svg version="1.1" x="0px" y="0px" viewBox="0 0 30.8 42.5" xml:space="preserve" > <path fill="#ff0" d="M15.3,21.4C15,12.1,21.1,4.2,29.7,1.7c-2.8-1.2-5.8-1.8-9.1-1.7C8.9,0.4-0.3,10.1,0,21.9 c0.3,11.7,10.1,20.9,21.9,20.6c3.2-0.1,6.3-0.9,8.9-2.3C22.2,38.3,15.6,30.7,15.3,21.4z"/> </svg>'
     };
-
     function capitalizeF(str) {
       return str.charAt(0).toUpperCase() + str.slice(1);
     }
-
     function getJSON(url) {
       var resp = '';
       var xmlHttp = new XMLHttpRequest();
@@ -1052,7 +1047,6 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
       }
       return resp;
     }
-
     function f_setup_wth() {
       var appid = ntp_wth.api;
       if (appid.length > 6 && appid != "") {
@@ -1061,13 +1055,11 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
         var data = getJSON(url);
         if (data == "") return;
         data = JSON.parse(data.substring(2, data.length - 1));
-
         //Loading
         document.getElementById("wth_l").style.opacity = 1;
         document.getElementById("wth_c").innerHTML = data.list[0].name;
         document.getElementById("wth_i").innerHTML = icons[data.list[0].weather[0].icon];
         document.getElementById("wth_d1").innerHTML = capitalizeF(data.list[0].weather[0].description);
-
         var temp = (data.list[0].main.temp - 273.15).toFixed(0);
         var temp_f = (data.list[0].main.feels_like - 273.15).toFixed(0);
         var temp_min = (data.list[0].main.temp_min - 273.15).toFixed(0);
@@ -1090,13 +1082,11 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
         document.getElementById('wth_top').style.opacity = 1;
         document.getElementById('wth_btm').style.opacity = 1;
         document.getElementById('wth_l').style.display = "none";
-
       } else {
         document.getElementById('wth_l').style.display = "none";
         document.getElementById('wth_s').style.opacity = 1;
       }
     }
-
     f_setup_wth();
     /* Click on widget to show more info
     document.getElementsByClassName('').addEventListener('click', function(){
@@ -1105,8 +1095,11 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
 
   }
   // End of Weather Widget Config
+  }
+  load_wt();
 
-  //News Section Widget Config
+  function load_ns(){
+    //News Section Widget Config
   if (ntp_sett.status[3]) {
     var forceReload = false;
     // Check if 30h passed and clean the news 
@@ -1159,7 +1152,7 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
         var el = (evt.target.closest("div.news_item"));
         if (xDiff > 130 || xDiff < -130) {
           el.parentNode.removeChild(el);
-          fc_ns();
+          f_cache_ns();
         } else {
           el.style.transition = "margin 600ms";
           el.style.opacity = "1";
@@ -1169,10 +1162,10 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
       }
     }
     //Function to cache the news section
-    function fc_ns() {
+    function f_cache_ns() {
       if ((typeof localStorage.cachedNewsUpdate == "undefined") || ((Date.now() / 1000) - localStorage.cachedNewsUpdate) >= 0.1) {
-        const y = ntp_sett.order[3];
-        ntp_wdg[3].cached = document.getElementById('wdg_' + y).innerHTML;
+        const pos = (ntp_sett.order).indexOf(3);
+        ntp_wdg[3].cached = document.getElementById('wdg_'+pos).innerHTML;
         localStorage.cachedNewsUpdate = (Date.now() / 1000);
         console.log("Cache news section : " + localStorage.cachedNewsUpdate);
       }
@@ -1191,7 +1184,7 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
         document.getElementById("stt_opt4").checked = true;
       }
       save_ntpbdy();
-      fc_ns();
+      f_cache_ns();
     }
     //Function to reload news ( 1 for full clean )
     function f_nsrl(t) {
@@ -1287,7 +1280,7 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
           add_gnews(title, news_time, source, source_logo, link, image);
         }
       }
-      fc_ns(); //Cache the news items
+      f_cache_ns(); //Cache the news items
     }
     console.log('News locale is ' + localStorage.newsLe);
     //Function to load news 
@@ -1446,16 +1439,19 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
     }, 2000);
   }
   //End of News Section Widget Config
+  }
+  load_ns()
 
-  //Tabs Widget Config
+  function load_tb(){
+//Tabs Widget Config
   if (ntp_sett.status[4]) {
     //Save widget by caching it
-    function saveTabs(ntvalue) {
+    function f_cache_tb(ntvalue) {
       if (ntvalue) {
         ntp_wdg[4].ntarea = ntvalue;
       } else {
-        const y = ntp_sett.order[4];
-        ntp_wdg[4].cached = document.getElementById('wdg_' + y).innerHTML;
+        const pos = (ntp_sett.order).indexOf(4);
+        ntp_wdg[4].cached = document.getElementById('wdg_'+pos).innerHTML;
       }
       localStore("ntp_wdg", ntp_wdg);
     }
@@ -1465,7 +1461,7 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
       const ntarea = document.getElementById("ntarea");
       ntarea.value = ntp_wdg[4].ntarea;
       ntarea.addEventListener('blur', function () {
-        saveTabs(ntarea.value);
+        f_cache_tb(ntarea.value);
       })
       //To-do List
       const formtd = document.getElementById("tdlform");
@@ -1479,7 +1475,7 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
             const t = e.target;
             if (t.classList.contains('tdchecked')) t.parentNode.removeChild(t);
             else t.classList.add('tdchecked');
-            saveTabs();
+            f_cache_tb();
           }, false);
         });
       }
@@ -1489,7 +1485,7 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
         tdlist.innerHTML += '<li>' + tdlinput.value + '</li>';
         tdlinput.value = "";
         f_ev_tdl();
-        saveTabs();
+        f_cache_tb();
       }, false);
       f_ev_tdl();
       //Links 
@@ -1503,7 +1499,7 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
           element.oncontextmenu = function (e) {
             e.preventDefault();
             lklist.removeChild(element);
-            saveTabs();
+            f_cache_tb();
           };
           element.addEventListener('click', function () {
             location.href = element.innerHTML;
@@ -1514,7 +1510,7 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
         e.preventDefault();
         lklist.innerHTML += '<li>' + lkinput.value + '</li>';
         lkinput.value = "";
-        saveTabs();
+        f_cache_tb();
         f_ev_lkl()
       }, false);
       f_ev_lkl();
@@ -1523,68 +1519,47 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
     f_setup_tabs();
   }
   //End of Tabs Widget Config 
+  }
+  load_tb();
 
   //Config widgets ordering and toggle
-  Sortable.create(document.getElementById("stt_lwo"), {
+  var listO = new Sortable.create(document.getElementById("stt_lwo"), {
     handle: '.stt_lwoh',
     animation: 150,
     onEnd: function (evt) {
       var list = document.getElementById("stt_lwo").getElementsByTagName("li");
+      console.log("OnEnd 1:>>"+ntp_sett.order);
       for (var z = 0; z < list.length; z++) {
-        var y = parseInt(list[z].getAttribute("data-order"));
-        ntp_sett.order[y] = z;
+        var widget = parseInt(list[z].getAttribute("data-id"));
+        ntp_sett.order[z] = widget;
         orderListChanged = 1;
       }
-      load_widgets();
+      console.log("OnEnd 2:>>"+ntp_sett.order);
       localStore("ntp_sett", ntp_sett);
-      if (ntp_sett.status[1]) {
-        f_setup_gtiles();
-      }
-      if (ntp_sett.status[4]) {
-        f_setup_tabs();
-      }
-      if (ntp_sett.status[3]) {
-        f_setup_wth();
-      }
-      wait(100);
+      load_widgets();
+      console.log("OnEnd 3:>>"+ntp_sett.order);
+      if (ntp_sett.status[1])load_tl();
+      if (ntp_sett.status[4])load_tb();
+      if (ntp_sett.status[2])load_wt();
     }
   });
 
+
   function toggle_widget(i) {
-    var y = ntp_sett.order[i];
+
+    var pos= (ntp_sett.order).indexOf(i);
     var status = (ntp_sett.status[i] == 1) ? 0 : 1;
-    console.log(" Widget : " + i + " Order : " + y + " Status :" + ntp_sett.status[i] + " - >" + status);
+
+    console.log(" Widget : " + i + " Order : " + pos + " Status :" + ntp_sett.status[i] + " - >" + status);
     ntp_sett.status[i] = status;
-    document.getElementById("wdg_" + y).style.display = (status) ? "block" : "none";
-    customInner(document.getElementById("wdg_" + y), (status) ? ntp_wdg[i].cached : "");
+    document.getElementById("wdg_" + pos).style.display = (status) ? "block" : "none";
+    customInner(document.getElementById("wdg_" + pos), (status) ? ntp_wdg[i].cached : "");
     localStore("ntp_sett", ntp_sett);
-    if (ntp_sett.status[i] && i == 1) f_setup_gtiles();
-    if (ntp_sett.status[i] && i == 4) f_setup_tabs();
+    if (ntp_sett.status[i] && i == 1) load_tl();
+    if (ntp_sett.status[i] && i == 4) load_tb();
+    if (ntp_sett.status[i] && i == 2) load_wt();
   }
   //End of Config widgets ordering and toggle
-
-
-  //Config Settings page 
-  var stSections = document.querySelectorAll("section");
-  var stSec = 0;
-  //Toggle Settings lrt
-  function func_dlg_st(a) {
-    document.getElementById("dlg_st").classList.toggle("show-lrt");
-    ntp_bdy.classList.toggle("sl");
-    stSections[0].style.display = "block";
-    if (a == 0) stSections[stSec].style.display = "none";
-    document.getElementById('flt_btn').classList.remove("open")
-    document.getElementById("fb-btn").innerHTML = '<i class="fas fa-caret-up"></i>';
-  }
-  //Function to slide to setting page 
-  function func_st_page(i) {
-    stSections[0].style.display = "none";
-    stSections[stSec].style.display = "none";
-    stSections[i].style.display = "block";
-    stSec = i;
-  }
-  //End of Config Settings page 
-
 
 
   //Function to generate gradient color
