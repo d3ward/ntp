@@ -70,7 +70,7 @@
     try{
       eval(document.getElementById("code_f").value);
     document.getElementById("code_f").value="";
-    }catch(error){showBox("Something gone wrong ! Info _:" + err.message);}
+    }catch(error){showBox("Something gone wrong ! Info _:" + error.message);}
     
   }
 
