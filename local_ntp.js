@@ -4,6 +4,7 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
   ntp_bdy.classList.remove("op");
 } else {
   var ntp_ver = "4.0.1";
+  console.log("NTP Version"+ntp)
   var orderListChanged = 0;
   document.getElementById("sett_mtc").style.background = localStorage.ntp_mtc;
   function save_ntpbdy() {
@@ -15,7 +16,6 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
   }
   //Check ntp_ver and show changelog
   if (localStorage.ntp_ver != ntp_ver || !localStorage.ntp_ver) {
-    localStorage.clear();
     localStorage.ntp_ver = ntp_ver;
     showBox("<b> New update - " + ntp_ver + "</b><br><br> - Possible fix for tile ordering <br>"+
      "- Added Code fixer tool, this will help user to solve some bugs that i can't fix with update <br> "+
