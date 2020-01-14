@@ -133,7 +133,7 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
     }
     save_ntpbdy();
   }
-  function load_sb(){
+  
     //Search Bar Settings Config
   var ntp_sb = localGet("ntp_sb");
   if (ntp_sb == undefined) {
@@ -323,12 +323,7 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
     }
     f_setup_sb();
   } // End of Search Bar Widget Config 
-  
-}
-  
-  load_sb();
-
-  function load_tl(){
+ 
     //Tiles Grid Widget Config
   if (ntp_sett.status[1]) {
     var gridT, fldT;
@@ -948,10 +943,7 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
     document.body.addEventListener("click", process_body_click);
     f_setup_gtiles();
   } // End of Tiles Grid Widget Config
-  }
-  load_tl();
-
-  function load_wt(){
+  
     
   //Weather Settings Config
   var ntp_wth = localGet("ntp_wth");
@@ -1089,10 +1081,7 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
 
   }
   // End of Weather Widget Config
-  }
-  load_wt();
-
-  function load_ns(){
+  
     //News Section Widget Config
   if (ntp_sett.status[3]) {
     var forceReload = false;
@@ -1433,10 +1422,7 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
     }, 2000);
   }
   //End of News Section Widget Config
-  }
-  load_ns()
-
-  function load_tb(){
+  
 //Tabs Widget Config
   if (ntp_sett.status[4]) {
     //Save widget by caching it
@@ -1513,8 +1499,7 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
     f_setup_tabs();
   }
   //End of Tabs Widget Config 
-  }
-  load_tb();
+  
 
   //Config widgets ordering and toggle
   var listO = new Sortable.create(document.getElementById("stt_lwo"), {
