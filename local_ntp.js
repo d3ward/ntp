@@ -3,7 +3,7 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
   document.getElementById('ntp_cnt').style.display = 'none';
   ntp_bdy.classList.remove("op");
 } else {
-  var ntp_ver = "4.0.1";
+  var ntp_ver = "4.0.2";
   console.log("NTP Version"+ntp_ver);
   var orderListChanged = 0;
   document.getElementById("sett_mtc").style.background = localStorage.ntp_mtc;
@@ -13,9 +13,7 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
   //Check ntp_ver and show changelog
   if (localStorage.ntp_ver != ntp_ver || !localStorage.ntp_ver) {
     localStorage.ntp_ver = ntp_ver;
-    showBox("<b> New update - " + ntp_ver + "</b><br><br> - Possible fix for tile ordering <br>"+
-     "- Added Code fixer tool, this will help user to solve some bugs that i can't fix with update <br> "+
-     "- General code improvements ");
+    showBox("<b> New update - " + ntp_ver + "</b><br><br> - Test");
   }
   //Function to get default widgets
   function f_dwdg(i) {
