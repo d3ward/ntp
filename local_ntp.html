@@ -34,7 +34,7 @@
 <!-- Licensed under https://creativecommons.org/licenses/by-nc-sa/4.0/ -->
 
 <head>
-  <!----> <base href="https://d3ward.github.io/ntp/">
+  <!--<base href="https://d3ward.github.io/ntp/">--> 
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <meta name="theme-color" content="#000000">
   <link rel="stylesheet" href="./local_ntp.css?%%COMMIT%%">
@@ -261,7 +261,7 @@
           <div class="vrl_wrp vw2"><label class="stt_cllb">Folder label text color</label><div class="stt_clfrt" id="stt_cl13" onclick="f_cp_rgb(13)"></div></div>
           <div class="vrl_wrp vw2"><label class="stt_cllb">Folder label background color</label><div class="stt_clfrt" id="stt_cl14" onclick="f_cp_rgb(14)"></div></div>
           <div class="vrl_wrp vw2"><label class="stt_cllb">Folder background on grid view</label><div class="stt_clfrt" id="stt_cl15" onclick="f_cp_rgb(15)"></div></div><br><hr><br>
-          <div class="vrl_wrp vw2"><label class="stt_opt">Open tile in new tab</label><input id="stt_opt2" class="toggle" type="checkbox" value="_blank" onchange="set_option_t(this,' ',2)"/></div>
+          <div class="vrl_wrp vw2"><label class="stt_opt">Open tile in new tab</label><input id="stt_opt2" class="toggle" type="checkbox" value="_blank" onchange="set_option_t(this,'_self',2)"/></div>
           <div class="vrl_wrp vw2"><label class="stt_opt">Hide icon label</label><input id="stt_opt3" class="toggle" type="checkbox" value="none" onchange="set_option_t(this,'inline-block',3)"/></div>
         </section>
         <!-- Weather-->
@@ -353,7 +353,8 @@
           <br><br>
           For any question , bug report , feature request ping me (@d3ward) on Discord Server of Kiwi Browser .
           <br><br>
-          Thanks for using this NTP and contributing on it <br>
+          Thanks for using this NTP and contributing on it <br><br>
+          <div id="version"></div>
           <br><br>
           <hr>
           <br>
@@ -398,6 +399,7 @@
         <div class="flt_ac" onclick="func_dlg_st(1);func_st_page(3);"><i class="fas fa-rectangle-wide"></i> Widgets
         </div>
         <div class="flt_ac" onclick="reset_page()"> <i class="far fa-exclamation-triangle"></i> Reset NTP</div>
+        <div class="flt_ac" onclick='window.open("https://todontp.glitch.me/", "_blank");'><i class="far fa-list-ol"></i> To-do NTP</div>
         <div class="flt_ac" id="settings-btn" onclick="func_dlg_st(1)"> <i class="fas fa-cogs fa-lg"></i> Settings</div>
       </div>
       <div class="flt_trg" onclick="fabAction()" id="fb-eg"><span id="fb-btn"><i class="fas fa-caret-up"></i></span>
@@ -433,6 +435,6 @@
     </div>
   </div>
 </body>
-<script src="./lib_min.js?%%COMMIT%%" crossorigin="anonymous" ></script>
-<script src="./local_ntp.js?%%COMMIT%%" crossorigin="anonymous" ></script>
+<script src="./lib_min.js?%%COMMIT%%" ></script>
+<script src="./local_ntp.js?%%COMMIT%%" ></script>
 </html>

@@ -3,21 +3,19 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
   document.getElementById('ntp_cnt').style.display = 'none';
   ntp_bdy.classList.remove("op");
 } else {
-  var ntp_ver = "4.0.1";
+  var ntp_ver = "4.0.4";
   console.log("NTP Version"+ntp_ver);
   var orderListChanged = 0;
   document.getElementById("sett_mtc").style.background = localStorage.ntp_mtc;
-  function save_ntpbdy() {
-    try {localStorage.ntp_bdy = ntp_bdy.getAttribute("style");} catch (err) {showBox("Something gone wrong ! Info _:" + err.message);}
-  }
-  //Check ntp_ver and show changelog
+  function save_ntpbdy() {try {localStorage.ntp_bdy = ntp_bdy.getAttribute("style");} catch (err) {showBox("Something gone wrong ! Info _:" + err.message);}}
+  /* ---- Check ntp_ver and show changelog ---- */
   if (localStorage.ntp_ver != ntp_ver || !localStorage.ntp_ver) {
     localStorage.ntp_ver = ntp_ver;
-    showBox("<b> New update - " + ntp_ver + "</b><br><br> - Possible fix for tile ordering <br>"+
-     "- Added Code fixer tool, this will help user to solve some bugs that i can't fix with update <br> "+
-     "- General code improvements ");
+    showBox("<b> New update - " + ntp_ver + "</b><br><br> - Fix some options not working<br> - Export/Import now should work<br> - Reduce Weather calls to 10 minutes"
+    +"<br> - Added todontp on floating button<br> - General improvements<br><br><b>You can contribute by reporting bugs or requesting features on <a style='color:#008080' target='_blank' href='https://todontp.glitch.me/'>Todo NTP</a><b>");
   }
-  //Function to get default widgets
+  document.getElementById("version").innerHTML="Version "+ntp_ver;
+  /* ------ Function to get default widgets ----- */
   function f_dwdg(i) {
     var chd;
     switch (i) {
@@ -50,42 +48,25 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
     }
     return chd;
   }
-  //Get cached widgets
+  /* ------------ Get cached widgets ------------ */
   var ntp_wdg = localGet("ntp_wdg");
   if (ntp_wdg == undefined) {
     console.log("Create default cached widgets... ");
-    ntp_wdg = [{
-        name: "Search Bar",
-        cached: f_dwdg(0)
-      },
-      {
-        name: "Tiles Grid",
-        cached: f_dwdg(1)
-      },
-      {
-        name: "Weather",
-        cached: f_dwdg(2)
-      },
-      {
-        name: "News Section",
-        cached: f_dwdg(3)
-      },
-      {
-        name: "Tabs ",
-        cached: f_dwdg(4),
-        ntarea: ""
-      },
-    ];
+    ntp_wdg = [{name: "Search Bar",cached: f_dwdg(0)},
+      {name: "Tiles Grid",cached: f_dwdg(1)},
+      {name: "Weather",cached: f_dwdg(2)},
+      {name: "News Section",cached: f_dwdg(3)},
+      {name: "Tabs ",cached: f_dwdg(4),ntarea: ""}];
     localStore("ntp_wdg", ntp_wdg);
   }
-  //Get cached settings
+  /* ------------ Get cached settings ----------- */
   var ntp_sett = localGet("ntp_sett");
   if (ntp_sett == undefined) {
     console.log("ntp_sett is undefined , let's create default one");
     ntp_sett = {order: [0, 1, 2, 3, 4],status: [1, 1, 1, 1, 1]};
     localStore("ntp_sett", ntp_sett);
   }
-  //Load widgets from cache
+  /* ---------- Load widgets from cache --------- */
   function load_widgets() {
     let list = document.getElementById("stt_lwo").querySelectorAll("li");
     console.log("loadW:  >>"+ntp_sett.order);
@@ -108,10 +89,10 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
       }
     });
   }
-  //Load cached widget 
   load_widgets();
+  /* -------- Widgets Loaded - Show body -------- */
   ntp_bdy.classList.toggle("op");
-  //Load settings option status and value
+  /* --- Load settings option status and value -- */
   for (var i = 0; i < 6; i++) {
     var a = document.getElementById("stt_opt" + i);
     var b = getComputedStyle(ntp_bdy).getPropertyValue("--o" + i);
@@ -121,7 +102,7 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
     }
     if (a.value == b) a.checked = true;else a.checked = false;
   }
-  //Function to set options with toggle
+  /* ---- Function to set options with toggle --- */
   function set_option_t(t, f, i) {
     console.log("status :" + t.checked + " value : " + t.value + " if false : " + f + ", index " + i);
     var value = (t.checked) ? t.value : f;
@@ -133,8 +114,7 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
     }
     save_ntpbdy();
   }
-  function load_sb(){
-    //Search Bar Settings Config
+  /* -------- Search Bar Settings Config -------- */
   var ntp_sb = localGet("ntp_sb");
   if (ntp_sb == undefined) {
     ntp_sb = { //SearchBar
@@ -158,8 +138,7 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
   sett_sblgp.src = ntp_sb.logo;
   sett_sb_lgf.addEventListener("change",
   function f_sb_lg1() {
-    // fetch FileList object
-    var file = sett_sb_lgf.files[0]; // get a reference to the selected file
+    var file = sett_sb_lgf.files[0];
     if (file && file.type.match('image.*')) {
       var reader = new FileReader();
       reader.onload = function (e) {
@@ -194,19 +173,16 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
   const sb_len = document.getElementById("sb_len");
   var sk = ntp_sb.sK;
   var sb_len_v = "";
-  for (var key in sk) {
-    sb_len_v += key + ' -> ' + sk[key] + '\n';
-  }
+  for (var key in sk) {sb_len_v += key + ' -> ' + sk[key] + '\n';}
   sb_len.value = sb_len_v;
-  //Function to remove multiple, leading or trailing spaces 
   function f_trim(s) {
     s = s.replace(/(^\s*)|(\s*$)/gi, "");
     s = s.replace(/[ ]{2,}/gi, " ");
     s = s.replace(/\n /, "\n");
     return s;
   }
-  //Function to save search bar config
-  function f_svsbc() {
+  /* ---- Function to save search bar config ---- */
+  function f_svsbc() { 
     var tlen = f_trim(document.getElementById("sb_len").value)+"\n";
     var error = false;
     var lines = tlen.split('\n');
@@ -272,10 +248,9 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
     ntp_bdy.style.setProperty("--v1", tg_r6v + "px");
     save_ntpbdy();
   });
-  
-  //End of Search Bar Settings Config
+  /* ----- End of Search Bar Settings Config ---- */
 
-  //Search Bar Widget Config 
+  /* --------- Search Bar Widget Config --------- */
   if (ntp_sett.status[0]) {
     function f_cache_sb() {
       const pos = (ntp_sett.order).indexOf(0);
@@ -284,11 +259,7 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
       console.log("Cache search bar");
       localStore("ntp_wdg", ntp_wdg);
     }
-    String.prototype.replaceAll = function (search, replacement) {
-      var target = this;
-      return target.split(search).join(replacement);
-    };
-
+    String.prototype.replaceAll = function (search, replacement) {var target = this;return target.split(search).join(replacement);};
     function f_setup_sb() {
       document.getElementById("sb_input").placeholder = ntp_sb.sK["placeholder"];
       if (sb_logo.src != ntp_sb.logo) {
@@ -296,13 +267,11 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
         f_cache_sb();
       }
     }
-
     function handleKeyPress(e) {
       const key = e.keyCode || e.which;
       var text = document.getElementById("sb_input").value.replaceAll("+", "%2B");
       if (key == 13) search(text);
     }
-
     function search(text) {
       var option = text.substr(1, text.indexOf(' ') - 1) || text.substr(1);
       var subtext = text.substr(2 + option.length);
@@ -322,14 +291,10 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
         window.location = def_se + text;
     }
     f_setup_sb();
-  } // End of Search Bar Widget Config 
-  
-}
-  
-  load_sb();
-
-  function load_tl(){
-    //Tiles Grid Widget Config
+  } 
+  /* ------ End of Search Bar Widget Config ----- */
+ 
+  /* --------- Tiles Grid Widget Config --------- */
   if (ntp_sett.status[1]) {
     var gridT, fldT;
     var timeoutVariable;
@@ -407,7 +372,6 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
       ntp_bdy.classList.toggle("sl");
       document.getElementById("flt_btn").classList.remove("open");
       document.getElementById("fb-btn").innerHTML = '<i class="fas fa-caret-up"></i>';
-
     }
     //Create a new folder from lrt
     function f_cnf() {
@@ -419,10 +383,7 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
       f_cache_tl();
       f_dlg(1);
     }
-    function fixURL(value){
-      if(value.indexOf('https://')<0 && value.indexOf('http://')<0) return "https://"+value;
-      return value;
-    }
+    function fixURL(value){if(value.indexOf('https://')<0 && value.indexOf('http://')<0) return "https://"+value;return value;}
     //Create a new tile from lrt
     function f_cnt() {
       var newt = {};
@@ -431,7 +392,7 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
       if (title == "") title = get_root_domain(newt["url"]);
       newt["title"] = title;
       newt["imgSrc"] = p_tile.src;
-      f_attg(newt); //Create new tile and add to grid
+      f_attg(newt);
       f_dlg(1);
     }
     //Edit a tile/folder from grid
@@ -526,10 +487,7 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
       f_dlg(1);
     }
     //Get fallback icon on preview tile src error
-    function f_gfi() {
-      var url = i_url.value;
-      if (url[30]) p_tile.src = url + "?fallback=1";
-    }
+    function f_gfi() {var url = i_url.value;if (url[30]) p_tile.src = url + "?fallback=1";}
     //Replace img error src
     function f_iimg(item) {
       var parser = document.createElement('a');
@@ -549,11 +507,7 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
       tlg.appendChild(innerDiv);
       console.log(" Function f_attg -> url : " + item.url + "   |  title : " + item.title + " | img : " + item.imgSrc);
       f_evl_gtiles();
-      //Save
-      window.setTimeout(function () {
-        f_cache_tl();
-      }, 200);
-
+      window.setTimeout(function () {f_cache_tl();}, 200);
     }
     //Function to open folder lrt
     function f_ofld(el) {
@@ -568,10 +522,7 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
       var state = fldT.option("disabled");
       fldT.option("disabled", !state);
       document.getElementById("fld_editA").style.display = (!state) ? 'none' : 'flex';
-      if (!state) {
-        fld_current.innerHTML = fldb.innerHTML;
-        f_cache_tl();
-      };
+      if(!state){fld_current.innerHTML = fldb.innerHTML;f_cache_tl();};
     }
     //Function to toggle edit mode of tiles
     function f_tggl_t() {
@@ -579,37 +530,19 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
       gridT.option("disabled", !state);
       document.getElementById("tlg_sldr").style.display = (!state) ? 'none' : 'block';
       document.getElementById("tlg_editA").style.display = (!state) ? 'none' : 'flex';
-      if (!state) {
-        f_cache_tl();
-        save_ntpbdy();
-      }
+      if(!state){f_cache_tl();save_ntpbdy();}
     }
     //Function to add listener on tlg_items
     function f_evl_gtiles() {
       var currentFolder = null;
       var folders = document.querySelectorAll(".folder:not(.np)");
-      Array.from(folders).forEach(e => {
-        e.onclick = function () {
-          f_ofld(e)
-        };
-      });
+      Array.from(folders).forEach(e => { e.onclick=function(){f_ofld(e)};});
       //To toggle edit mode on grid tiles
-      document.getElementById("tlg").oncontextmenu = function (e) {
-        e.preventDefault();
-        f_tggl_t();
-      };
+      document.getElementById("tlg").oncontextmenu=function(e){e.preventDefault();f_tggl_t();};
       //To toggle edit mode on folder view
-      document.getElementById("lrt_bfl").oncontextmenu = function (e) {
-        e.preventDefault();
-        f_tggl_f();
-      };
+      document.getElementById("lrt_bfl").oncontextmenu=function(e){e.preventDefault();f_tggl_f();};
       //To exit toggle mode on folder view
-      lrt_fl.addEventListener('click', function (e) {
-        if (e.target == this) {
-          e.preventDefault();
-          f_tggl_f();
-        }
-      });
+      lrt_fl.addEventListener('click',function(e){if(e.target == this){e.preventDefault();f_tggl_f();}});
       //Detect items hovering a folder and add to folder if dropped hover folder
       Array.from(document.querySelectorAll(".tlg_item:not(.folder)")).forEach(element => {
         element.addEventListener(mLstnr[0],
@@ -652,7 +585,6 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
     }
     //Function to setup sliders on grid tiles
     function f_setup_sldr() {
-      //Add slider options for grid tiles
       if (!document.getElementById("tlg_sldr")) {
         var div = document.createElement("div");
         div.id = "tlg_sldr";
@@ -673,37 +605,17 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
         n: parseInt(ntp_bdy.style.getPropertyValue("--tile-n")),
         r: parseInt(ntp_bdy.style.getPropertyValue("--tile-r").replace("px", "")),
       };
-      if (isNaN(ntp_tlg.w)) {
-        ntp_tlg = {
-          w: 64,
-          m: 10,
-          n: f_gncols(),
-          r: 6
-        };
-        setTLG();
-      }
+      if (isNaN(ntp_tlg.w)){ntp_tlg = {w: 64, m: 10,n: f_gncols(),r: 6};setTLG();}
       tg_r1.value = ntp_tlg.n;
       tg_r2.value = ntp_tlg.w;
       tg_r3.value = ntp_tlg.m;
       tg_r4.setAttribute("max", ntp_tlg.w / 2);
       tg_r4.value = ntp_tlg.r;
-      tg_r1.addEventListener("input", function () {
-        ntp_tlg.n = parseInt(tg_r1.value);
-        set_tg_r1();
-      });
-      tg_r2.addEventListener("input", function () {
-        ntp_tlg.w = parseInt(tg_r2.value);
-        set_tg_r2();
-      });
-      tg_r3.addEventListener("input", function () {
-        ntp_tlg.m = parseInt(tg_r3.value);
-        set_tg_r3();
-      });
-      tg_r4.addEventListener("input", function () {
-        ntp_tlg.r = parseInt(tg_r4.value);
-        setTLG();
-      });
-      //Set values in settings
+      tg_r1.addEventListener("input", function(){ntp_tlg.n = parseInt(tg_r1.value);set_tg_r1();});
+      tg_r2.addEventListener("input", function(){ntp_tlg.w = parseInt(tg_r2.value);set_tg_r2();});
+      tg_r3.addEventListener("input", function(){ntp_tlg.m = parseInt(tg_r3.value);set_tg_r3();});
+      tg_r4.addEventListener("input", function(){ntp_tlg.r = parseInt(tg_r4.value);setTLG();});
+      //Set values in settings and save
       function setTLG() {
         tg_r1.value = ntp_tlg.n;
         tg_r2.value = ntp_tlg.w;
@@ -716,7 +628,6 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
         ntp_bdy.style.setProperty("--tile-r", ntp_tlg.r + 'px');
         save_ntpbdy();
       }
-      //Function to retrieve default number of cols
       function f_gncols() {
         if (wid > 253 && wid < 337) return 3;
         else if (wid > 336 && wid < 421) return 4;
@@ -725,90 +636,53 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
         else if (wid > 671) return 8;
         return 2;
       }
-
       function set_tg_r3() {
         var tCol = parseInt(ntp_tlg.n);
         var tWidth = parseInt(ntp_tlg.w);
         var tMargin = parseInt(ntp_tlg.m);
         var calc = (tCol * (tWidth + tMargin)) + 1;
-        while (calc > wid) {
-          tWidth -= 1;
-          calc = (tCol * (tWidth + tMargin)) + 1;
-        }
+        while (calc > wid) {tWidth -= 1;calc = (tCol * (tWidth + tMargin)) + 1;}
         ntp_tlg.n = tCol;
         ntp_tlg.w = tWidth;
         ntp_tlg.m = tMargin;
         setTLG();
       }
-
       function set_tg_r2() {
         var tCol = parseInt(ntp_tlg.n);
         var tWidth = parseInt(ntp_tlg.w);
         var tMargin = 10;
         var calc = (tCol * (tWidth + tMargin)) + 1;
-        while (calc > wid) {
-          tCol -= 1;
-          calc = (tCol * (tWidth + tMargin)) + 1;
-          console.log(wid + " . - " + calc)
-        }
+        while (calc > wid) {tCol -= 1;calc = (tCol * (tWidth + tMargin)) + 1;}
         ntp_tlg.n = tCol;
         ntp_tlg.m = tMargin;
         setTLG();
       }
-
       function set_tg_r1() {
         var nCol = parseInt(ntp_tlg.n),
           tWidth = parseInt(ntp_tlg.w),
           tMargin = parseInt(ntp_tlg.m);
         var calc = (nCol * (tWidth + tMargin)) + 1;
-        while (calc > wid) {
-          calc = (nCol * (tWidth + tMargin)) + 1;
-          if (tMargin > 10) tMargin -= 1;
-          else tWidth -= 1;
-        }
+        while (calc > wid) {calc = (nCol * (tWidth + tMargin)) + 1;if (tMargin > 10) tMargin -= 1;else tWidth -= 1;}
         ntp_tlg.n = nCol;
         ntp_tlg.m = tMargin;
         ntp_tlg.w = tWidth;
         setTLG();
       }
     }
-
     //Function to exit from editemode
     function process_body_click(e) {
-
-      if (e.target == document.getElementById("sld_tg")) {
-        document.getElementById("sld_vw").classList.toggle("open_sld");
-        e.preventDefault();
-        return;
-      }
-      if (e.target == document.getElementById("tlg_sldr")) {
-        e.preventDefault();
-        return;
-      }
-      if (!gridT.option("disabled")) {
-        document.getElementById("sld_vw").classList.remove("open_sld");
-        f_tggl_t();
-        e.preventDefault();
-      }
-      if (!fldT.option("disabled")) {
-        f_tggl_f();
-        e.preventDefault();
-      }
-      if (e.target == lrt_fl) {
-        lrt_fl.classList.toggle("show-lrt");
-        ntp_bdy.classList.toggle("sl");
-        e.preventDefault();
-      }
+      if (e.target == document.getElementById("sld_tg")){document.getElementById("sld_vw").classList.toggle("open_sld");e.preventDefault();return;}
+      if (e.target == document.getElementById("tlg_sldr")){e.preventDefault();return;}
+      if (!gridT.option("disabled")){document.getElementById("sld_vw").classList.remove("open_sld");f_tggl_t();e.preventDefault();}
+      if (!fldT.option("disabled")){f_tggl_f();e.preventDefault();}
+      if (e.target == lrt_fl){lrt_fl.classList.toggle("show-lrt");ntp_bdy.classList.toggle("sl");e.preventDefault();}
     }
-
     //Function to setup grid tiles
     function f_setup_gtiles() {
       tlg = document.getElementById("tlg");
-      //Check if edit_area is created 
       if (!document.getElementById("tlg_editA")) {
         var div = document.createElement("div");
-        div.innerHTML = '<div id="tlg_editA" class="edit_mode"><div id="edit_bin"><i class="far fa-trash-alt"></i></div>' +
-          '<div id="edit_pencil" ><i class="far fa-edit"></i></div></div>';
+        div.innerHTML = '<div id="tlg_editA" class="edit_mode"><div id="edit_bin"><i class="far fa-trash-alt"></i></div><div id="edit_pencil" ><i class="far fa-edit"></i></div></div>';
         tlg.parentNode.appendChild(div);
       }
       gridT = new Sortable(tlg, {
@@ -940,27 +814,18 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
       });
       f_evl_gtiles();
       f_setup_sldr();
-      window.setTimeout(function () {
-        f_cache_tl();
-      }, 900);
+      window.setTimeout(function(){f_cache_tl();}, 500);
     }
     //Add body click used to disable edit_mode
     document.body.addEventListener("click", process_body_click);
     f_setup_gtiles();
-  } // End of Tiles Grid Widget Config
-  }
-  load_tl();
-
-  function load_wt(){
-    
-  //Weather Settings Config
+  } 
+  /* ------ End of Tiles Grid Widget Config ----- */
+  
+  /* ---------- Weather Settings Config --------- */
   var ntp_wth = localGet("ntp_wth");
   if (ntp_wth == undefined) {
-    ntp_wth = {
-      api: "",
-      lon: "",
-      lat: ""
-    }
+    ntp_wth = {api: "",lon: "",lat: ""}
   }
   document.getElementById("wt_ik").value = ntp_wth.api;
   document.getElementById("wt_ila").value = ntp_wth.lat;
@@ -979,24 +844,27 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
     } else {
       showBox("ops.. Invalid values , fill all the 3 input ! ");
     }
+  }
+  function f_get_ll() {try {navigator.geolocation.getCurrentPosition(showPosition);}catch (e){alert(e);}}
 
-  }
-  function f_get_ll() {
-    try {
-      navigator.geolocation.getCurrentPosition(showPosition);
-    } catch (e) {
-      alert(e);
-      console.log(e);
-    }
-  }
   function showPosition(position) {
     document.getElementById("wt_ila").value = position.coords.latitude;
     document.getElementById("wt_iln").value = position.coords.longitude;
   }
-  //End of Weather Settings Config
+  /* ------ End of Weather Settings Config ------ */
 
-  //Weather Widget Config
+  /* ----------- Weather Widget Config ---------- */
   if (ntp_sett.status[2]) {
+    //Function to cache the weather
+    function f_cache_wt() {
+      if ((typeof localStorage.cachedWeatherUpdate == "undefined") || ((Date.now() / 1000) - localStorage.cachedWeatherUpdate) >= 600) {
+        var pos = (ntp_sett.order).indexOf(2);
+        ntp_wdg[2].cached = document.getElementById('wdg_' +pos).innerHTML;
+        localStorage.cachedWeatherUpdate = (Date.now() / 1000);
+        console.log("Cache Weather : " + localStorage.cachedWeatherUpdate);
+      }
+      localStore("ntp_wdg", ntp_wdg);
+    }
     const cloudsI = '<svg version="1.1" x="0px" y="0px" viewBox="0 0 60.7 40" style="enable-background:new 0 0 60.7 40;" xml:space="preserve"> <g fill="#fff"> <path d="M47.2,40H7.9C3.5,40,0,36.5,0,32.1l0,0c0-4.3,3.5-7.9,7.9-7.9h39.4c4.3,0,7.9,3.5,7.9,7.9v0 C55.1,36.5,51.6,40,47.2,40z"/> <circle cx="17.4" cy="22.8" r="9.3"/> <circle cx="34.5" cy="21.1" r="15.6"/> <animateTransform attributeName="transform" attributeType="XML" dur="6s" keyTimes="0;0.5;1" repeatCount="indefinite" type="translate" values="0;5;0" calcMode="linear"> </animateTransform> </g> <g fill="#ccc"> <path d="M54.7,22.3H33.4c-3.3,0-6-2.7-6-6v0c0-3.3,2.7-6,6-6h21.3c3.3,0,6,2.7,6,6v0 C60.7,19.6,58,22.3,54.7,22.3z"/> <circle cx="45.7" cy="10.7" r="10.7"/> <animateTransform attributeName="transform" attributeType="XML" dur="6s" keyTimes="0;0.5;1" repeatCount="indefinite" type="translate" values="0;-3;0" calcMode="linear"> </animateTransform> </g> </svg>';
     const rainyI = '<svg version="1.1" x="0px" y="0px" viewBox="0 0 55.1 60" style="enable-background:new 0 0 55.1 49.5;" xml:space="preserve"> <g fill="#fff"> <path d="M20.7,46.4c0,1.7-1.4,3.1-3.1,3.1s-3.1-1.4-3.1-3.1c0-1.7,3.1-7.8,3.1-7.8 S20.7,44.7,20.7,46.4z"></path> <path d="M31.4,46.4c0,1.7-1.4,3.1-3.1,3.1c-1.7,0-3.1-1.4-3.1-3.1c0-1.7,3.1-7.8,3.1-7.8 S31.4,44.7,31.4,46.4z"> </path> <path d="M41.3,46.4c0,1.7-1.4,3.1-3.1,3.1c-1.7,0-3.1-1.4-3.1-3.1c0-1.7,3.1-7.8,3.1-7.8 S41.3,44.7,41.3,46.4z"> </path> <animateTransform attributeName="transform" attributeType="XML" dur="1s" keyTimes="0;1" repeatCount="indefinite" type="translate" values="0 0;0 10" calcMode="linear"> </animateTransform> <animate attributeType="CSS" attributeName="opacity" attributeType="XML" dur="1s" keyTimes="0;1" repeatCount="indefinite" values="1;0" calcMode="linear"/> </g> <g fill="#fff"> <path d="M47.2,34.5H7.9c-4.3,0-7.9-3.5-7.9-7.9l0,0c0-4.3,3.5-7.9,7.9-7.9h39.4c4.3,0,7.9,3.5,7.9,7.9 v0C55.1,30.9,51.6,34.5,47.2,34.5z"/> <circle cx="17.4" cy="17.3" r="9.3"/> <circle cx="34.5" cy="15.6" r="15.6"/> </g> </svg>';
     const crlI = '<svg version="1.1" x="0px" y="0px" viewBox="0 0 60.7 80" style="enable-background:new 0 0 60.7 55;" xml:space="preserve"> <g fill="#999"> <path d="M47.2,40H7.9C3.5,40,0,36.5,0,32.1l0,0c0-4.3,3.5-7.9,7.9-7.9h39.4c4.3,0,7.9,3.5,7.9,7.9v0 C55.1,36.5,51.6,40,47.2,40z"/> <circle cx="17.4" cy="22.8" r="9.3"/> <circle cx="34.5" cy="21.1" r="15.6"/> </g> <g fill="#ccc"> <path d="M54.7,22.3H33.4c-3.3,0-6-2.7-6-6v0c0-3.3,2.7-6,6-6h21.3c3.3,0,6,2.7,6,6v0 C60.7,19.6,58,22.3,54.7,22.3z"/> <circle cx="45.7" cy="10.7" r="10.7"/> <animateTransform attributeName="transform" attributeType="XML" dur="6s" keyTimes="0;0.5;1" repeatCount="indefinite" type="translate" values="0;-3;0" calcMode="linear"> </animateTransform> </g> <g fill="#ff0"> <path d="M43.6,22.7c-0.2,0.6-0.4,1.3-0.6,1.9c-0.2,0.6-0.4,1.2-0.7,1.8c-0.4,1.2-0.9,2.4-1.5,3.5 c-1,2.3-2.2,4.6-3.4,6.8l-1.7-2.9c3.2-0.1,6.3-0.1,9.5,0l3,0.1l-1.3,2.5c-1.1,2.1-2.2,4.2-3.5,6.2c-0.6,1-1.3,2-2,3 c-0.7,1-1.4,2-2.2,2.9c0.2-1.2,0.5-2.4,0.8-3.5c0.3-1.2,0.6-2.3,1-3.4c0.7-2.3,1.5-4.5,2.4-6.7l1.7,2.7c-3.2,0.1-6.3,0.2-9.5,0 l-3.4-0.1l1.8-2.8c1.4-2.1,2.8-4.2,4.3-6.2c0.8-1,1.6-2,2.4-3c0.4-0.5,0.8-1,1.3-1.5C42.7,23.7,43.1,23.2,43.6,22.7z"/> <animate attributeType="CSS" attributeName="opacity" attributeType="XML" dur="3s" keyTimes="0;0.5;1" repeatCount="indefinite" values="1;0;1" calcMode="linear"/> </g> <g fill="#fff"> <path d="M36.3,51.9c0,1.7-1.4,3.1-3.1,3.1c-1.7,0-3.1-1.4-3.1-3.1c0-1.7,3.1-7.8,3.1-7.8 S36.3,50.2,36.3,51.9z"/> <path d="M26.4,51.9c0,1.7-1.4,3.1-3.1,3.1c-1.7,0-3.1-1.4-3.1-3.1c0-1.7,3.1-7.8,3.1-7.8 S26.4,50.2,26.4,51.9z"/> <path d="M15.7,51.9c0,1.7-1.4,3.1-3.1,3.1s-3.1-1.4-3.1-3.1c0-1.7,3.1-7.8,3.1-7.8 S15.7,50.2,15.7,51.9z"/> <animateTransform attributeName="transform" attributeType="XML" dur="1s" keyTimes="0;1" repeatCount="indefinite" type="translate" values="0 0;0 10" calcMode="linear"> </animateTransform> <animate attributeType="CSS" attributeName="opacity" attributeType="XML" dur="1s" keyTimes="0;1" repeatCount="indefinite" values="1;0" calcMode="linear"/> </g> </svg>';
@@ -1022,21 +890,13 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
       '01d': '<svg version="1.1" x="0px" y="0px" viewBox="0 0 44.9 44.9" xml:space="preserve"> <g fill="#ff0"> <circle cx="22.4" cy="22.6" r="11"/> <g> <path d="M22.6,8.1h-0.3c-0.3,0-0.6-0.3-0.6-0.6v-7c0-0.3,0.3-0.6,0.6-0.6l0.3,0c0.3,0,0.6,0.3,0.6,0.6 v7C23.2,7.8,22.9,8.1,22.6,8.1z"/> <path d="M22.6,36.8h-0.3c-0.3,0-0.6,0.3-0.6,0.6v7c0,0.3,0.3,0.6,0.6,0.6h0.3c0.3,0,0.6-0.3,0.6-0.6v-7 C23.2,37,22.9,36.8,22.6,36.8z"/> <path d="M8.1,22.3v0.3c0,0.3-0.3,0.6-0.6,0.6h-7c-0.3,0-0.6-0.3-0.6-0.6l0-0.3c0-0.3,0.3-0.6,0.6-0.6h7 C7.8,21.7,8.1,21.9,8.1,22.3z"/> <path d="M36.8,22.3v0.3c0,0.3,0.3,0.6,0.6,0.6h7c0.3,0,0.6-0.3,0.6-0.6v-0.3c0-0.3-0.3-0.6-0.6-0.6h-7 C37,21.7,36.8,21.9,36.8,22.3z"/> <path d="M11.4,31.6l0.2,0.3c0.2,0.2,0.2,0.6-0.1,0.8l-5.3,4.5c-0.2,0.2-0.6,0.2-0.8-0.1l-0.2-0.3 c-0.2-0.2-0.2-0.6,0.1-0.8l5.3-4.5C10.9,31.4,11.2,31.4,11.4,31.6z"/> <path d="M33.2,13l0.2,0.3c0.2,0.2,0.6,0.3,0.8,0.1l5.3-4.5c0.2-0.2,0.3-0.6,0.1-0.8l-0.2-0.3 c-0.2-0.2-0.6-0.3-0.8-0.1l-5.3,4.5C33,12.4,33,12.7,33.2,13z"/> <path d="M11.4,13.2l0.2-0.3c0.2-0.2,0.2-0.6-0.1-0.8L6.3,7.6C6.1,7.4,5.7,7.5,5.5,7.7L5.3,7.9 C5.1,8.2,5.1,8.5,5.4,8.7l5.3,4.5C10.9,13.5,11.2,13.5,11.4,13.2z"/> <path d="M33.2,31.9l0.2-0.3c0.2-0.2,0.6-0.3,0.8-0.1l5.3,4.5c0.2,0.2,0.3,0.6,0.1,0.8l-0.2,0.3 c-0.2,0.2-0.6,0.3-0.8,0.1l-5.3-4.5C33,32.5,33,32.1,33.2,31.9z"/> <animate attributeType="CSS" attributeName="opacity" attributeType="XML" dur="0.5s" keyTimes="0;0.5;1" repeatCount="indefinite" values="1;0.6;1" calcMode="linear"/> </g> </g> </svg>',
       '01n': '<svg version="1.1" x="0px" y="0px" viewBox="0 0 30.8 42.5" xml:space="preserve" > <path fill="#ff0" d="M15.3,21.4C15,12.1,21.1,4.2,29.7,1.7c-2.8-1.2-5.8-1.8-9.1-1.7C8.9,0.4-0.3,10.1,0,21.9 c0.3,11.7,10.1,20.9,21.9,20.6c3.2-0.1,6.3-0.9,8.9-2.3C22.2,38.3,15.6,30.7,15.3,21.4z"/> </svg>'
     };
-    function capitalizeF(str) {
-      return str.charAt(0).toUpperCase() + str.slice(1);
-    }
+    function capitalizeF(str) {return str.charAt(0).toUpperCase() + str.slice(1);}
     function getJSON(url) {
       var resp = '';
       var xmlHttp = new XMLHttpRequest();
       if (xmlHttp != null) {
-        xmlHttp.open("GET", url, false, {
-          async: true
-        });
-        try {
-          xmlHttp.send(null);
-        } catch {
-          console.error("xmlHttp send failed");
-        }
+        xmlHttp.open("GET", url, false, {async: true});
+        try {xmlHttp.send(null);} catch {console.error("xmlHttp send failed");}
         resp = xmlHttp.responseText;
       }
       return resp;
@@ -1044,38 +904,39 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
     function f_setup_wth() {
       var appid = ntp_wth.api;
       if (appid.length > 6 && appid != "") {
-        document.getElementById('wth_s').style.display = "none";
-        var url = 'https://api.openweathermap.org/data/2.5/find?lat=' + ntp_wth.lat + '&lon=' + ntp_wth.lon + '&cnt=1&appid=' + appid + '&callback=?';
-        var data = getJSON(url);
-        if (data == "") return;
-        data = JSON.parse(data.substring(2, data.length - 1));
-        //Loading
-        document.getElementById("wth_l").style.opacity = 1;
-        document.getElementById("wth_c").innerHTML = data.list[0].name;
-        document.getElementById("wth_i").innerHTML = icons[data.list[0].weather[0].icon];
-        document.getElementById("wth_d1").innerHTML = capitalizeF(data.list[0].weather[0].description);
-        var temp = (data.list[0].main.temp - 273.15).toFixed(0);
-        var temp_f = (data.list[0].main.feels_like - 273.15).toFixed(0);
-        var temp_min = (data.list[0].main.temp_min - 273.15).toFixed(0);
-        var temp_max = (data.list[0].main.temp_max - 273.15).toFixed(0);
-        var tt = "&#8451;";
-        var windDeg = data.list[0].wind.deg;
-        //convert to F
-        if (0) {
-          temp = (1.8 * temp + 32).toFixed(0);
-          temp_f = (1.8 * temp_f + 32).toFixed(0);
-          temp_min = (1.8 * temp_min + 32).toFixed(0);
-          temp_max = (1.8 * temp_max + 32).toFixed(0);
-          tt = "&#8457;";
+        if ((typeof localStorage.cachedWeatherUpdate == "undefined") || ((Date.now() / 1000) - localStorage.cachedWeatherUpdate) > 600) {
+          document.getElementById('wth_s').style.display = "none";
+          var url = 'https://api.openweathermap.org/data/2.5/find?lat=' + ntp_wth.lat + '&lon=' + ntp_wth.lon + '&cnt=1&appid=' + appid + '&callback=?';
+          var data = getJSON(url);
+          if (data == "") return;
+          data = JSON.parse(data.substring(2, data.length - 1));
+          document.getElementById("wth_l").style.opacity = 1;
+          document.getElementById("wth_c").innerHTML = data.list[0].name;
+          document.getElementById("wth_i").innerHTML = icons[data.list[0].weather[0].icon];
+          document.getElementById("wth_d1").innerHTML = capitalizeF(data.list[0].weather[0].description);
+          var temp = (data.list[0].main.temp - 273.15).toFixed(0);
+          var temp_f = (data.list[0].main.feels_like - 273.15).toFixed(0);
+          var temp_min = (data.list[0].main.temp_min - 273.15).toFixed(0);
+          var temp_max = (data.list[0].main.temp_max - 273.15).toFixed(0);
+          var tt = "&#8451;";
+          var windDeg = data.list[0].wind.deg;
+          //convert to F
+          if (0) {
+            temp = (1.8 * temp + 32).toFixed(0);
+            temp_f = (1.8 * temp_f + 32).toFixed(0);
+            temp_min = (1.8 * temp_min + 32).toFixed(0);
+            temp_max = (1.8 * temp_max + 32).toFixed(0);
+            tt = "&#8457;";
+          }
+          document.getElementById("wth_t").innerHTML = temp + tt;
+          document.getElementById("wth_mm").innerHTML = temp_max + tt + " / " + temp_min + tt;
+          document.getElementById('wth_w').innerHTML = ('<i class="far fa-wind _' + windDeg + '-deg" title="Wind direction (' + windDeg + ' degrees)"></i> ' + data.list[0].wind.speed + " mps");
+          document.getElementById('wth_h').innerHTML = ('<i class="fal fa-humidity"></i>  ' + data.list[0].main.humidity + "%");
+          f_cache_wt();
         }
-        document.getElementById("wth_t").innerHTML = temp + tt;
-        document.getElementById("wth_mm").innerHTML = temp_max + tt + " / " + temp_min + tt;
-
-        document.getElementById('wth_w').innerHTML = ('<i class="far fa-wind _' + windDeg + '-deg" title="Wind direction (' + windDeg + ' degrees)"></i> ' + data.list[0].wind.speed + " mps");
-        document.getElementById('wth_h').innerHTML = ('<i class="fal fa-humidity"></i>  ' + data.list[0].main.humidity + "%");
+        document.getElementById('wth_l').style.display = "none";
         document.getElementById('wth_top').style.opacity = 1;
         document.getElementById('wth_btm').style.opacity = 1;
-        document.getElementById('wth_l').style.display = "none";
       } else {
         document.getElementById('wth_l').style.display = "none";
         document.getElementById('wth_s').style.opacity = 1;
@@ -1084,29 +945,22 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
     f_setup_wth();
     /* Click on widget to show more info
     document.getElementsByClassName('').addEventListener('click', function(){
-      
     });*/
 
   }
-  // End of Weather Widget Config
-  }
-  load_wt();
-
-  function load_ns(){
-    //News Section Widget Config
+  /* ------- End of Weather Widget Config ------- */
+  
+  /* -------- News Section Widget Config -------- */
   if (ntp_sett.status[3]) {
     var forceReload = false;
-    // Check if 30h passed and clean the news 
+    // Check if 24h passed and clean the news 
     function shouldIC() {
       const date1 = new Date();
       const date2 = new Date(localStorage.shouldIC);
-      if (localStorage.shouldIC == undefined) {
-        localStorage.shouldIC = date1;
-        return false;
-      }
+      if (localStorage.shouldIC == undefined) {localStorage.shouldIC = date1;return false;}
       const diffTime = Math.abs(date2 - date1);
       const diffH = Math.ceil(diffTime / (1000 * 60 * 60));
-      if (diffH < 30) return false;
+      if (diffH < 24) return false;
       localStorage.shouldI = date1;
       return true;
     }
@@ -1115,21 +969,11 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
       var xDown = xDiff = null;
       const ntms = document.getElementsByClassName("news_item");
       for (var i = 0; i < ntms.length; i++) {
-        ntms[i].addEventListener(mLstnr[2], f_ev_start, {
-          passive: true
-        });
-        ntms[i].addEventListener(mLstnr[0], f_ev_move, {
-          passive: true
-        });
-        ntms[i].addEventListener(mLstnr[1], f_ev_end, {
-          passive: true
-        });
+        ntms[i].addEventListener(mLstnr[2],f_ev_start,{passive: true});
+        ntms[i].addEventListener(mLstnr[0],f_ev_move,{passive: true});
+        ntms[i].addEventListener(mLstnr[1],f_ev_end,{passive: true});
       }
-
-      function f_ev_start(evt) {
-        xDown = (isTD) ? evt.touches[0].clientX : evt.pageX;
-      }
-
+      function f_ev_start(evt){xDown = (isTD) ? evt.touches[0].clientX : evt.pageX;}
       function f_ev_move(evt) {
         var el = (evt.target.closest("div.news_item"));
         el.style.transition = "margin 0ms";
@@ -1141,7 +985,6 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
         else el.style.marginLeft = "-" + (xDiff) + 'px';
         if (xDiff < 130 && xDiff > -130) el.style.opacity = "1" - ((Math.abs(xDiff)) / 130);
       }
-
       function f_ev_end(evt) {
         var el = (evt.target.closest("div.news_item"));
         if (xDiff > 130 || xDiff < -130) {
@@ -1191,21 +1034,13 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
       localStorage.removeItem('cachedNewsUpdate');
       forceReload = true;
       loadGNews();
-      window.setTimeout(function () {
-        f_astd();
-      }, 1000);
-      window.setTimeout(function () {
-        f_astd();
-      }, 2000);
+      window.setTimeout(function(){f_astd();}, 1000);
+      window.setTimeout(function(){f_astd();}, 2000);
     }
     //Function to convert locale into readable text
     function locale_to_readabletext(string) {
       string = string.replace('%3A', ':');
-      for (let locale in locales) {
-        if (locales[locale].replace('%3A', ':') == string)
-          return locale;
-      }
-      return null;
+      for (let locale in locales) {if (locales[locale].replace('%3A', ':') == string)return locale;}return null;
     }
     var loadingSVG;
     //Function for svg loading news animation
@@ -1279,50 +1114,26 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
     console.log('News locale is ' + localStorage.newsLe);
     //Function to load news 
     function loadGNews() {
-      if (shouldIC()) {
-        document.getElementById('news').innerHTML == ""
-      }
+      if (shouldIC()){document.getElementById('news').innerHTML == "";}
       if ((document.getElementById('news').innerHTML == "") ||
         ((Date.now() / 1000) - localStorage.cachedNewsUpdate) > 3600 || forceReload) {
         forceReload = false;
         console.log("Fetching news..");
         render_news_loading();
-        try {
-
-          fetch(newsServer + 'foryou' + localStorage.newsLe, {
-              method: 'GET',
-              credentials: 'include'
-            })
-            .then(function (response) {
-              if (response.url.includes("&ceid=")) {
-                localStorage.newsLe = response.url.substr(response.url.lastIndexOf('?'));
-              }
+        try{
+          fetch(newsServer + 'foryou' + localStorage.newsLe, {method: 'GET',credentials: 'include'})
+          .then(function(response){
+            if (response.url.includes("&ceid=")){localStorage.newsLe = response.url.substr(response.url.lastIndexOf('?'));}
               return response.text();
-            }).then(function (answer) {
-              render_gnews(answer);
-              localStorage.cachedNewsUpdate = (Date.now() / 1000);
-            });
-        } catch (err) {
-          console.log('Fetch news failed for: ' + err.message);
-        }
-        try {
-          fetch(newsServer + localStorage.newsLe, {
-              method: 'GET',
-              mode: 'cors'
-            })
-            .then(function (response) {
-              if (response.url.includes("&ceid=")) {
-                localStorage.newsLe = response.url.substr(response.url.lastIndexOf('?'));
-              }
+          }).then(function(answer){render_gnews(answer);localStorage.cachedNewsUpdate = (Date.now() / 1000);});
+        } catch (err) {console.log('Fetch news failed for: ' + err.message);}
+        try{
+          fetch(newsServer + localStorage.newsLe, {method: 'GET',mode: 'cors'})
+            .then(function(response){if(response.url.includes("&ceid=")){localStorage.newsLe = response.url.substr(response.url.lastIndexOf('?'));}
               return response.text();
             })
-            .then(function (answer) {
-              render_gnews(answer);
-              localStorage.cachedNewsUpdate = (Date.now() / 1000);
-            });
-        } catch (err) {
-          console.log('Fetch generic news failed for: ' + err.message);
-        }
+            .then(function(answer){render_gnews(answer);localStorage.cachedNewsUpdate=(Date.now() / 1000);});
+        }catch(err){console.log('Fetch generic news failed for: ' + err.message);        }
       }
     }
     const locales = {
@@ -1425,28 +1236,18 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
     preconnectTo(newsServer);
     loadGNews();
     //Add swipe to delete on news items
-    window.setTimeout(function () {
-      f_astd();
-    }, 1000);
-    window.setTimeout(function () {
-      f_astd();
-    }, 2000);
+    window.setTimeout(function(){f_astd();}, 1000);
+    window.setTimeout(function(){f_astd();}, 2000);
   }
-  //End of News Section Widget Config
-  }
-  load_ns()
-
-  function load_tb(){
-//Tabs Widget Config
+  /* ----- End of News Section Widget Config ---- */
+  
+  /* ------------ Tabs Widget Config ------------ */
   if (ntp_sett.status[4]) {
     //Save widget by caching it
     function f_cache_tb(ntvalue) {
-      if (ntvalue) {
-        ntp_wdg[4].ntarea = ntvalue;
-      } else {
-        const pos = (ntp_sett.order).indexOf(4);
-        ntp_wdg[4].cached = document.getElementById('wdg_'+pos).innerHTML;
-      }
+      if (ntvalue) {ntp_wdg[4].ntarea = ntvalue;
+      } else {const pos = (ntp_sett.order).indexOf(4);ntp_wdg[4].cached = document.getElementById('wdg_'+pos).innerHTML;}
+      console.log("Cache Tabs : static");
       localStore("ntp_wdg", ntp_wdg);
     }
     //Setup of tabs widget 
@@ -1454,14 +1255,11 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
       //Notes
       const ntarea = document.getElementById("ntarea");
       ntarea.value = ntp_wdg[4].ntarea;
-      ntarea.addEventListener('blur', function () {
-        f_cache_tb(ntarea.value);
-      })
+      ntarea.addEventListener('blur', function () {f_cache_tb(ntarea.value);})
       //To-do List
       const formtd = document.getElementById("tdlform");
       const tdlist = document.getElementById("tdlist");
       const tdlinput = document.getElementById("tdlinput");
-
       function f_ev_tdl() {
         const tli = tdlist.querySelectorAll('li');
         tli.forEach(element => {
@@ -1473,7 +1271,6 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
           }, false);
         });
       }
-
       formtd.addEventListener('submit', function (e) {
         e.preventDefault();
         tdlist.innerHTML += '<li>' + tdlinput.value + '</li>';
@@ -1486,7 +1283,6 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
       const formlk = document.getElementById("lkform");
       const lklist = document.getElementById("lklist");
       const lkinput = document.getElementById("lkinput");
-
       function f_ev_lkl() {
         const li = lklist.querySelectorAll('li');
         li.forEach(element => {
@@ -1512,11 +1308,9 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
     //Call tabs setup
     f_setup_tabs();
   }
-  //End of Tabs Widget Config 
-  }
-  load_tb();
+  /* --------- End of Tabs Widget Config -------- */
 
-  //Config widgets ordering and toggle
+  /* ---- Config Widgets List Toggle ---- */
   var listO = new Sortable.create(document.getElementById("stt_lwo"), {
     handle: '.stt_lwoh',
     animation: 150,
@@ -1546,7 +1340,7 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
     localStore("ntp_sett", ntp_sett);
     if (ntp_sett.status[i] && i == 1) load_tl();if (ntp_sett.status[i] && i == 4) load_tb();if (ntp_sett.status[i] && i == 2) load_wt();
   }
-  //End of Config widgets ordering and toggle
+  /* ----- End of Config Widgets List Toggle ---- */
 
   //Function to generate gradient color
   function random_gradient() {
@@ -1564,7 +1358,8 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
     colorTwo.rgb = 'rgb(' + colorTwo.R + ',' + colorTwo.G + ',' + colorTwo.B + ')';
     var gradientC = 'radial-gradient(at top left, ' + colorOne.rgb + ', ' + colorTwo.rgb + ')';
   }
-  //********* BG Wallpaper */
+
+  /* ----------- Config NTP Background ---------- */
   const wDevice = (window.innerWidth) ? window.innerWidth : screen.width;
   const hDevice = (window.innerHeight) ? (window.innerHeight + 56) : screen.height;
   const bg_pld = document.getElementById('bg_pld'),
@@ -1621,28 +1416,19 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
     image.src = (url);
   }
 
-  //********* Cropping  *********/
-  function cropInit() {
+/* -------------- Config Croppie -------------- */
+  function cropInit(){
     cr = new Croppie(crpp, {
-      viewport: {
-        width: img_w,
-        height: img_h
-      },
-      boundary: {
-        width: img_w,
-        height: img_h
-      },
+      viewport: {width: img_w,height: img_h},
+      boundary: {width: img_w,height: img_h},
       mouseWheelZoom: false,
       enableOrientation: true
     });
     bindCropImg();
   }
-  function bindCropImg() {
-    cr.bind({
-      url: cr_img
-    })
+  function bindCropImg(){cr.bind({url: cr_img})
   }
-  function cropCancel() {
+  function cropCancel(){
     if (bg_pld.style.display == "none") {
       bg_pld.style.display = "inline";
       crop.style.display = "none";
@@ -1667,7 +1453,7 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
     }
   }
 
-  //********  Color picker ******/
+  /* ------------ Config Color Picker ----------- */
   const cp_lrt = document.getElementById("cl_vn");
   var cp_current_el;
   var picker = new Picker({
@@ -1688,7 +1474,6 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
           document.getElementById("sett_mtc").style.background = color.hex;
           localStorage.ntp_mtc = color.hex;
         }
-
       }
       cp_lrt.classList.toggle("show-lrt");
     }

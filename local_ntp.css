@@ -89,7 +89,7 @@ body {
   /******************************* OPTIONS *******************************/
   --o0:none;/*  Material design shadow         */
   --o1:blur(5px);/* Backdrop filter */
-  --o2:" ";/* Tile target                     */
+  --o2:'_self';/* Tile target                     */
   --o3:inline-block;/*  Tile label visibility          */
   --o4:150px;/* News compact mode               */
   --o5:inline-block;/*  Tile label visibility          */

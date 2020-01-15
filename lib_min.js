@@ -53,19 +53,14 @@ function preconnectTo(url) {
   hint.href = url;
   document.head.appendChild(hint);
 }
- //Function to get rootDomain
- function get_root_domain(url) {
-  return url.replace('http://', '').replace('https://', '').replace('www.', '').replace(':', '').split(/[/?#]/)[0];
-}
+//Function to get rootDomain
+function get_root_domain(url) {return url.replace('http://', '').replace('https://', '').replace('www.', '').replace(':', '').split(/[/?#]/)[0];}
 
-  //Function to export NTP settings and widgets
-  document.getElementById('exportJSON').onclick = function () {
-    //Create a copy of localstorage
-    
-    var dataStr = JSON.stringify(localStorage);
-    var dataUri = 'data:application/json;charset=utf-8,' + encodeURIComponent(dataStr);
-    var date = new Date();
-    var exportFileDefaultName = 'ntpB_' + date.getUTCFullYear() + '' + (date.getUTCMonth() + 1) + '' + date.getUTCDate() + '_' +
+//Function to export NTP settings and widgets
+document.getElementById('exportJSON').onclick = function () {
+  var dataUri = 'data:application/json;charset=utf-8,' + encodeURIComponent(JSON.stringify(localStorage));
+  var date = new Date();
+  var exportFileDefaultName = 'ntpB_' + date.getUTCFullYear() + '' + (date.getUTCMonth() + 1) + '' + date.getUTCDate() + '_' +
       date.getHours() + '_' + date.getMinutes() + '.json';
     var linkElement = document.createElement('a');
     linkElement.setAttribute('href', dataUri);
@@ -77,34 +72,21 @@ function preconnectTo(url) {
     var file = this.files[0];
     var reader = new FileReader();
     reader.onload = function (progressEvent) {
-      var test = this.result;
-      var test2 = JSON.parse(test);
-      var values = Object.values(test2),
-        keys = Object.keys(test2),
-        i = keys.length;
       localStorage.clear();
-      localStorage = test2;
+      var data = JSON.parse(this.result);
+      Object.keys(data).forEach(function (k) {localStorage.setItem(k, data[k]);});
       localStorage.ntp_ver = ntp_ver;
     };
     reader.readAsText(file);
+
     location.reload();
   };
 
   //Check if user is on touch enabled device
-  function is_td() {
-    try {
-    document.createEvent("TouchEvent");
-    return true;
-  } catch (e) {
-    return false;
-  }
-  }
-
+  function is_td() {try {document.createEvent("TouchEvent");return true;} catch (e) {return false;}}
   const isTD= is_td();
   var mLstnr = ['touchmove','touchend','touchstart'];
-  if(!isTD){
-      mLstnr=['mousemove','mouseup','mousedown'];
-  }
+  if(!isTD){mLstnr=['mousemove','mouseup','mousedown'];}
 
 
 
