@@ -3,7 +3,7 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
   document.getElementById('ntp_cnt').style.display = 'none';
   ntp_bdy.classList.remove("op");
 } else {
-  var ntp_ver = "4.0.4";
+  var ntp_ver = "4.0.5";
   console.log("NTP Version"+ntp_ver);
   var orderListChanged = 0;
   document.getElementById("sett_mtc").style.background = localStorage.ntp_mtc;
