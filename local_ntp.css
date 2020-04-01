@@ -5,7 +5,11 @@ body {
   --bg-ch:0px;
   --bg-img:radial-gradient(at top left, rgb(0, 60, 125), rgb(0, 255, 241));
   --bg-cl:#fff;
-  /****************************** COLORS ******************************/
+  --mt0:10px;
+  --mt1:10px;
+  --mt2:10px;
+  --mt3:10px;
+  --mt4:10px;
   /* Widgets property */
   --c0:#101010;
   /*  Floating button background  */
@@ -116,7 +120,13 @@ body.sl{
     backdrop-filter:var(--o1);
   }
 }
-
+svg {
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  vertical-align: middle;
+  fill: #fff;
+}
 #tlg_span {
   display:var(--o3);
 }
@@ -221,9 +231,9 @@ input[type="color"]::-webkit-color-swatch {
 }
 
 #ntp_cnt {
-  position:relative;
-  margin:auto;
-  max-width:700px;
+  position: relative;
+  margin: auto;
+  max-width: 700px;
 }
 
 a:-webkit-any-link,
@@ -258,7 +268,7 @@ a:link {
   outline:none;
   line-height:30px;
   margin:4px;
-  padding:5px;
+  padding:5px calc(var(--v0)/2);
   font-size:14px;
   border-radius:var(--v0);
   width:calc(100% - 18px);
@@ -283,6 +293,7 @@ a:link {
 #tlg {
   width:var(--content-width);
   margin:auto;
+  user-select: none;
 }
 
 .srtb_ghost {
@@ -292,7 +303,7 @@ a:link {
   display: none;
 }
 .hidden {
-  visibility:hidden;
+  opacity: 0.1;
 }
 
 .tlg_item {
@@ -325,6 +336,9 @@ a:link {
   overflow:unset;
   width:calc((var(--tile-w) - 8px) / 2);
   height:calc((var(--tile-w) - 8px) / 2);
+}
+.tlg_fld .tlg_item a{
+  width:calc((var(--tile-w)- 8px)/ 2) !important;
 }
 
 .tlg_fld .tlg_item:nth-child(1) {
@@ -359,8 +373,10 @@ opacity:0;}
 }
 
 .tlg_item a {
+  display: block;
   text-decoration:none;
   color:var(--c9);
+  width:var(--tile-w);
 }
 
 .tlg_img {
@@ -432,27 +448,25 @@ opacity:0;}
 #fld_editA div {
   width:50%;
   margin:4px;
-  height:70px;
-
+  padding: 40px;
+    height: 20px;
   text-align:center;
   border-radius:8px;
 }
 
-#tlg_editA i,
-#fld_editA i {
-  color:#fff;
-  line-height:70px !important;
-  font-size:20px;
-}
+#tlg_editA svg,
+#fld_editA svg {
+  margin: auto;}
 
 /***************** News Section ***************/
 .newsT_icon {
   position:relative;
   float:right;
   height:30px;
-  font-size:21px;
-  line-height:30px !important;
   margin-left:10px;
+}
+#newsT svg{
+  fill: var(--c25);
 }
 
 #newsT {
@@ -570,14 +584,14 @@ opacity:0;}
 }
 
 /****************** Settings  ***************/
-#stt_lwo {
+#stt_lwo,#sttm_top {
   padding:0;
   margin:auto;
   list-style:none;
-  max-width:350px;
+  max-width:310px;
 }
 
-#stt_lwo li {
+#stt_lwo li,#sttm_top li{
   background:#00000060;
   color:#fff;
   border-radius:8px;
@@ -585,6 +599,15 @@ opacity:0;}
   margin:5px;
   position:relative;
   height:40px;
+}
+#sttm_top li{
+  height: auto;
+  text-align: right;
+}
+#sttm_top li input{
+  width: 100px!important;
+  height: 32px;
+  margin: 8px!important;
 }
 
 #stt_lwo .srtb_ghost {
@@ -596,17 +619,13 @@ opacity:0;}
   line-height:40px;
 }
 
-.stt_lwoh {
-  left:0;
-  width:40px;
-  height:40px;
-  line-height:40px !important;
-  position:absolute;
-  border-right:1px solid #3e3e3e;
-  top:0;
-  font-size:20px;
-  cursor:move;
-  cursor:-webkit-grabbing;
+#stt_lwo svg {
+  left: 0;
+  padding: 10px;
+  line-height: 40px !important;
+  position: absolute;
+  border-right: 1px solid #3e3e3e;
+  top: 0;
 }
 
 .togg_li {
@@ -675,13 +694,17 @@ opacity:0;}
 
 
 /********* Floating button ************/
+
 #flt_btn {
   position:fixed;
   bottom:15px;
   right:15px;
   z-index:10;
 }
-
+#flt_btn svg{
+  width: 16px;
+  fill: var(--c1);
+}
 .flt_trg,
 .flt_ac {
   border-radius:5px;
@@ -691,6 +714,7 @@ opacity:0;}
 
 .flt_trg {
   margin:10px 0px 0px auto;
+  float: right;
   background:var(--c0);
   color:var(--c1);
   height:35px;
@@ -788,7 +812,7 @@ opacity:0;}
   color:#fff;
   width:100%;
   height:35px;
-  line-height:35px !important;
+  line-height:32px !important;
   background:#00000094;
   border-radius:8px;
   opacity:0;
@@ -865,30 +889,43 @@ opacity:0;}
 
 .wdg_ntp {
   min-height:20px;
-  background:red;
   margin:10px;
   padding:4px;
   border-radius:8px;
 }
-
+.wdg_space { 
+  position: relative;
+  min-height:20px;
+  text-align: center;
+  background:red;
+  margin:10px;
+  padding:4px;
+  border-radius:8px; }
+.wdg_space.resizable { background: cyan; position: relative; }
+.wdg_space .resizer { width: 100px; height: 20px; background: black; margin: auto; cursor: se-resize; }
 
 #wdg_0 {
+  margin-top: var(--mt0);
   background:var(--c2);
 }
 
 #wdg_1 {
+  margin-top: var(--mt1);
   background:var(--c6);
 }
 
 #wdg_2 {
+  margin-top: var(--mt2);
   background:var(--c16);
 }
 
 #wdg_3 {
+  margin-top: var(--mt3);
   background:var(--c21);
 }
 
 #wdg_4 {
+  margin-top: var(--mt4);
   background:var(--c26);
 }
 
@@ -897,7 +934,7 @@ opacity:0;}
 #ntarea {
   padding:5px;
   margin:0;
-  width:calc(100% - 10px);
+  width:100%;
   height:226px;
   color:var(--c32);
   background:var(--c31);
@@ -914,7 +951,7 @@ opacity:0;}
   font-size:14px;
   font-family:'Open Sans', sans-serif;
   height:36px;
-  width:calc(100% - 10px);
+  width:100%;
   padding:5px;
   border:0;
 }
@@ -964,24 +1001,20 @@ opacity:0;}
   overflow:hidden;
   overflow-x:auto;
 }
-
 #tdlist li {
   background-color:var(--c36);
   color:var(--c37);
 }
-
 #lklist li {
   background-color:var(--c41);
   color:var(--c42);
 }
-
 .tbw {
   height:280px;
   position:relative;
   border-radius:8px;
   margin:5px;
 }
-
 .tbw_ul {
   list-style:none;
   margin:0;
@@ -990,45 +1023,43 @@ opacity:0;}
   display:table;
   table-layout:fixed;
 }
-
 .tbw_ul li {
   display:table-cell;
   width:auto;
   text-align:center;
 }
-
 .tbw_l {
   margin:0;
   display:block;
   background-color:var(--c29);
   padding:10px;
-  color:var(--c30);
   cursor:pointer;
   text-align:center;
 }
-
+.tbw_l svg{
+  fill:var(--c30);
+  width: 18px;
+}
 .tbw ul {
   border-radius:8px;
 }
-
 .tbw .rd_tab {
   display:none;
   position:absolute;
 }
-
 .tbw .rd_tab:checked~label {
   background-color:var(--c27);
-  color:var(--c28);
   border-radius:8px 8px 0px 0px;
 }
-
+.tbw .rd_tab svg{
+  fill:var(--c28);
+}
 .tbw_cnt {
   display:none;
   position:absolute;
   width:100%;
   left:0;
 }
-
 .rd_tab:checked~.tbw_cnt {
   display:block;
 }
@@ -1147,12 +1178,12 @@ hr {
   height:44px;
 }
 
-#dlg_home .icon {
+#dlg_home svg{
   position:absolute;
   left:18px;
   top:14px;
-  font-size:20px;
-  color:#009088;
+  width:20px;
+  fill:#009088;
 }
 
 .stt_menu {
@@ -1178,7 +1209,7 @@ hr {
 }
 
 .vrl_wrp {
-  max-width:300px;
+  max-width:300px!important;
   position:relative;
   margin:auto;
 }
@@ -1186,7 +1217,7 @@ hr {
 .vrl_wrp button,
 .btn {
   color:#fff;
-  margin:5px;
+  margin:0;
   padding:5px;
   border:none;
   border-radius:5px;
@@ -1582,9 +1613,6 @@ body .show-lrt {
   color:#fff;
   line-height:35px;
   height:35px;
-}
-#sld_tg i {
-  font-size:14px;
 }
 #sld_vw.open_sld {
   transform:scale(1.0);

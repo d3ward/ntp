@@ -1,48 +1,49 @@
 if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
+  metaTColor.setAttribute("content", "#000000");
   document.getElementById('incognito').style.display = 'inline';
   document.getElementById('ntp_cnt').style.display = 'none';
   ntp_bdy.classList.remove("op");
 } else {
-  var ntp_ver = "4.0.5";
-  console.log("NTP Version"+ntp_ver);
+  var ntp_ver = "4.1.0";
+  console.log("NTP Version "  +  ntp_ver);
   var orderListChanged = 0;
   document.getElementById("sett_mtc").style.background = localStorage.ntp_mtc;
-  function save_ntpbdy() {try {localStorage.ntp_bdy = ntp_bdy.getAttribute("style");} catch (err) {showBox("Something gone wrong ! Info _:" + err.message);}}
+  function save_ntpbdy() {try {localStorage.ntp_bdy = ntp_bdy.getAttribute("style");} catch (err) {showBox("Something gone wrong ! Info _:"  +  err.message);}}
   /* ---- Check ntp_ver and show changelog ---- */
   if (localStorage.ntp_ver != ntp_ver || !localStorage.ntp_ver) {
     localStorage.ntp_ver = ntp_ver;
-    showBox("<b> New update - " + ntp_ver + "</b><br><br> - Fix some options not working<br> - Export/Import now should work<br> - Reduce Weather calls to 10 minutes"
-    +"<br> - Added todontp on floating button<br> - General improvements<br><br><b>You can contribute by reporting bugs or requesting features on <a style='color:#008080' target='_blank' href='https://todontp.glitch.me/'>Todo NTP</a><b>");
+    showBox("<b> New update - "  +  ntp_ver  +  "</b><br><br> - Replaced online icon fonts with svg ( faster and cached ) <br> - Clean news on reload ( limit to 30 items ) and swipe to hide improvements"
+     + "<br> - Added spacing on Widgets <br> - Fixed empty tile, if you still see that bug just move the tile to another position<br> - Added padding on rounded search bar <br> - General improvements and bug fixes<br><br>");
   }
-  document.getElementById("version").innerHTML="Version "+ntp_ver;
+  document.getElementById("version").innerHTML="Version " + ntp_ver;
   /* ------ Function to get default widgets ----- */
   function f_dwdg(i) {
     var chd;
     switch (i) {
       case 0:
-        chd = '<div id="sb_r"><img id="sb_logo" src=""/>' +
-          '<input name="sb_input" type="text" id="sb_input" size="50" spellcheck="false" onkeydown="handleKeyPress(event)"></div>'
+        chd = '<div id="sb_r"><img id="sb_logo" src=' + ntp_icons["nitro_kiwi"] + '/>'  + 
+          '<input name="sb_input" type="text" id="sb_input" size="50" spellcheck="false" onkeydown="handleKeyPress(event)"></div>';
         break;
       case 1:
         chd = '<div id="tlg"> <div class="tlg_item folder"> <div class="tlg_img tlg_fld"></div><span id="tlg_span" class="tlg_title">Folder</span></a> </div><div class="tlg_item"> <a id="tile_target" class="tile_target" href="https://kiwibrowser.com"> <img class="tlg_img" src="https://logos.kiwibrowser.com/kiwibrowser.com"onerror="f_iimg(this)"> <span id="tlg_span" class="tlg_title">Kiwi Browser</span> </a> </div></div>';
         break;
       case 2:
-        chd = '<div class="wth"><div id="wth_s" onclick="func_dlg_st(1);func_st_page(6);"><i class="far fa-cog"></i> Open Weather Settings</div><div id="wth_top"><div id="wth_i"></div><div id="wth_t"></div><div id="wth_d"><div id="wth_mm"></div><div id="wth_w"></div><div id="wth_h"></div></div><br style="clear: left;" />' +
+        chd = '<div class="wth"><div id="wth_s" onclick="func_dlg_st(1);func_st_page(6);">' + ntp_icons["cog"] + ' Open Weather Settings</div><div id="wth_top"><div id="wth_i"></div><div id="wth_t"></div><div id="wth_d"><div id="wth_mm"></div><div id="wth_w"></div><div id="wth_h"></div></div><br style="clear: left;" />'  + 
           '<div id="wth_d1"></div></div><div id="wth_btm"><div id="wth_c"></div></div><div id="wth_l">Loading...</div></div>';
         break;
       case 3:
-        chd = '<div id="newsT" ><select id="newsL" onchange="f_nsrl(1)"><option value="?hl=en-US&gl=US&ceid=US:en">English | United States</option></select><span onclick="f_tnv()" class="newsT_icon"><i class="fas fa-stream"></i></span><span onclick="f_nsrl(0)" class="newsT_icon"><i class="far fa-sync-alt newsT_icon"></i></span></div><div id="newsS"><div id="news"></div><div id="newsMore"></div></div>';
+        chd = '<div id="newsT" ><select id="newsL" onchange="f_nsrl(1)"><option value="?hl=en-US&gl=US&ceid=US:en">English | United States</option></select><button onclick="f_tnv()" class="newsT_icon">' + ntp_icons["stream"] + '</button><button onclick="f_nsrl(0)" class="newsT_icon">' + ntp_icons["sync"] + '</button></div><div id="newsS"><div id="news"></div><div id="newsMore"></div></div>';
         break;
       case 4:
-        chd = '<div class="tbw"><ul class="tbw_ul">' +
-          '<li><input type="radio" id="tab1" class="rd_tab" name="tabs"><label for="tab1" class="tbw_l"><i class="far fa-sticky-note"></i></label>' +
-          '<div class="tbw_cnt"><textarea name="note" placeholder="Add some text..." id="ntarea"></textarea> </div></li>' +
-          '<li><input type="radio" id="tab2" class="rd_tab" name="tabs" checked><label for="tab2" class="tbw_l"><i class="far fa-tasks"></i></label>' +
-          '<div class="tbw_cnt">' +
-          '<form id="tdlform" autocomplete="off"><input id="tdlinput" placeholder="What would you like to do today?" /></form>' +
-          '<ul id="tdlist"></ul></div></li>' +
-          '<li><input type="radio" id="tab3" class="rd_tab" name="tabs"><label for="tab3" class="tbw_l"><i class="far fa-link"></i></label>' +
-          '<div class="tbw_cnt"><form id="lkform" autocomplete="off"><input id="lkinput" placeholder="Save that link .." /></form><ul id="lklist"></ul></div></li>' +
+        chd = '<div class="tbw"><ul class="tbw_ul">'  + 
+          '<li><input type="radio" id="tab1" class="rd_tab" name="tabs"><label for="tab1" class="tbw_l">' + ntp_icons["sticky_note"] + '</label>'  + 
+          '<div class="tbw_cnt"><textarea name="note" placeholder="Add some text..." id="ntarea"></textarea> </div></li>'  + 
+          '<li><input type="radio" id="tab2" class="rd_tab" name="tabs" checked><label for="tab2" class="tbw_l">' + ntp_icons["tasks"] + '</label>'  + 
+          '<div class="tbw_cnt">'  + 
+          '<form id="tdlform" autocomplete="off"><input id="tdlinput" placeholder="What would you like to do today?" /></form>'  + 
+          '<ul id="tdlist"></ul></div></li>'  + 
+          '<li><input type="radio" id="tab3" class="rd_tab" name="tabs"><label for="tab3" class="tbw_l">' + ntp_icons["links"] + '</label>'  + 
+          '<div class="tbw_cnt"><form id="lkform" autocomplete="off"><input id="lkinput" placeholder="Save that link .." /></form><ul id="lklist"></ul></div></li>'  + 
           '</ul></div>';
         break;
     }
@@ -69,9 +70,9 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
   /* ---------- Load widgets from cache --------- */
   function load_widgets() {
     let list = document.getElementById("stt_lwo").querySelectorAll("li");
-    console.log("loadW:  >>"+ntp_sett.order);
+    console.log("loadW:  >>" + ntp_sett.order);
     (ntp_sett.order).forEach(function (el,index){
-      let wdgn = document.getElementById("wdg_"+index);
+      let wdgn = document.getElementById("wdg_" + index);
       let status = ntp_sett.status[el];
       let c = "";
       if (status) {
@@ -84,32 +85,88 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
       }
       if (orderListChanged == 0) {
         list[index].setAttribute("data-id",el);
-        list[index].innerHTML= '<i class="fas fa-arrows stt_lwoh"></i><label>' + ntp_wdg[el].name + '</label><input ' +
-          'class="toggle togg_li" type="checkbox" onchange="toggle_widget(' +el+ ')" ' + c + '/>';
+        list[index].innerHTML= ntp_icons["arrows"] + '<label>'  +  ntp_wdg[el].name  +  '</label><input '  + 
+          'class="toggle togg_li" type="checkbox" onchange="toggle_widget('  + el +  ')" '  +  c  +  '/>';
       }
     });
   }
   load_widgets();
+
+  /* ============ Load widget margin ============ */
+  function f_rwmt(){
+    document.querySelectorAll("#sttm_top input").forEach((element) => { element.value= "10px";});
+    for(var i =0 ;i<5;i++ )
+    ntp_bdy.style.setProperty("--mt"  +  i, "10px");
+    save_ntpbdy();
+  }
+  document.querySelectorAll("#sttm_top input").forEach((element,index) => { element.value= getComputedStyle(ntp_bdy).getPropertyValue("--mt" + index);});
+  function setMTop(t,i){
+    ntp_bdy.style.setProperty("--mt"  +  i, t.value);
+    save_ntpbdy();
+  }
+
+  /* Fix icons - This part of code need to be removed after a few updates*/ 
+  if(document.querySelector(".fa-sync-alt") ){
+    console.log("Old icons... start the fix");
+    var el = document.querySelector(".fa-sync-alt");
+    el.parentElement.innerHTML=ntp_icons["sync"];
+    document.querySelector(".newsT_icon").innerHTML = ntp_icons["stream"];
+    el = document.querySelectorAll(".tbw_l");
+    try{
+       el[0].innerHTML=ntp_icons["sticky_note"];
+    el[1].innerHTML=ntp_icons["tasks"];
+    el[2].innerHTML=ntp_icons["links"];
+    }catch(er){console.log(er);}
+    try{
+    document.querySelector("#sld_tg").innerHTML = ntp_icons["cogs"] +  " Grid Tiles Sliders";
+    document.getElementById("edit_bin2").innerHTML= ntp_icons["bin"];
+    document.getElementById("edit_out2").innerHTML= ntp_icons["out"];
+    document.getElementById("edit_pencil2").innerHTML= ntp_icons["pencil"];
+    document.getElementById("edit_bin").innerHTML= ntp_icons["bin"];
+    document.getElementById("edit_pencil").innerHTML= ntp_icons["pencil"];}catch(er){console.log(er);
+    }
+    try{document.getElementById("wth_s").innerHTML=ntp_icons["cog"]  +  " Open Weather Settings";}catch(er){console.log(er);}
+    /*Cache fixed icons*/
+    if ((typeof localStorage.cachedGridUpdate == "undefined") || ((Date.now() / 1000) - localStorage.cachedGridUpdate) >= 0.1) {
+      var pos = (ntp_sett.order).indexOf(1);
+      ntp_wdg[1].cached = document.getElementById('wdg_'  + pos).innerHTML;
+      localStorage.cachedGridUpdate = (Date.now() / 1000);
+    }
+    if ((typeof localStorage.cachedWeatherUpdate == "undefined") || ((Date.now() / 1000) - localStorage.cachedWeatherUpdate) >= 600) {
+      var pos = (ntp_sett.order).indexOf(2);
+      ntp_wdg[2].cached = document.getElementById('wdg_'  + pos).innerHTML;
+      localStorage.cachedWeatherUpdate = (Date.now() / 1000);
+    }
+    if ((typeof localStorage.cachedNewsUpdate == "undefined") || ((Date.now() / 1000) - localStorage.cachedNewsUpdate) >= 0.1) {
+      const pos = (ntp_sett.order).indexOf(3);
+      ntp_wdg[3].cached = document.getElementById('wdg_' + pos).innerHTML;
+      localStorage.cachedNewsUpdate = (Date.now() / 1000);
+    }
+    var pos = (ntp_sett.order).indexOf(4);ntp_wdg[4].cached = document.getElementById('wdg_' + pos).innerHTML;
+    console.log("Cache Tabs : static");
+    localStore("ntp_wdg", ntp_wdg);
+  }
+
   /* -------- Widgets Loaded - Show body -------- */
   ntp_bdy.classList.toggle("op");
   /* --- Load settings option status and value -- */
-  for (var i = 0; i < 6; i++) {
-    var a = document.getElementById("stt_opt" + i);
-    var b = getComputedStyle(ntp_bdy).getPropertyValue("--o" + i);
+  for (var i = 0; i < 6; i++ ) {
+    var a = document.getElementById("stt_opt"  +  i);
+    var b = getComputedStyle(ntp_bdy).getPropertyValue("--o"  +  i);
     if (i == 2) {
       var ar = document.getElementsByClassName("tile_target");
-      for (var i = 0; i < ar.length; i++) ar[i].target = b;
+      for (var i = 0; i < ar.length; i++ ) ar[i].target = b;
     }
     if (a.value == b) a.checked = true;else a.checked = false;
   }
   /* ---- Function to set options with toggle --- */
   function set_option_t(t, f, i) {
-    console.log("status :" + t.checked + " value : " + t.value + " if false : " + f + ", index " + i);
+    console.log("status :"  +  t.checked  +  " value : "  +  t.value  +  " if false : "  +  f  +  ", index "  +  i);
     var value = (t.checked) ? t.value : f;
-    ntp_bdy.style.setProperty("--o" + i, value);
+    ntp_bdy.style.setProperty("--o"  +  i, value);
     if (i == 2) {
       var ar = document.getElementsByClassName("tile_target");
-      for (var i = 0; i < ar.length; i++) ar[i].target = value;
+      for (var i = 0; i < ar.length; i++ ) ar[i].setAttribute("target", value);
       f_cache_tl();
     }
     save_ntpbdy();
@@ -118,7 +175,7 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
   var ntp_sb = localGet("ntp_sb");
   if (ntp_sb == undefined) {
     ntp_sb = { //SearchBar
-      logo: kiwiIcon,
+      logo: ntp_icons["nitro_kiwi"],
       sK: {
         "placeholder": "Search with commands..",
         "key": ",",
@@ -173,7 +230,7 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
   const sb_len = document.getElementById("sb_len");
   var sk = ntp_sb.sK;
   var sb_len_v = "";
-  for (var key in sk) {sb_len_v += key + ' -> ' + sk[key] + '\n';}
+  for (var key in sk) {sb_len_v  += key  +  ' -> '  +  sk[key]  +  '\n';}
   sb_len.value = sb_len_v;
   function f_trim(s) {
     s = s.replace(/(^\s*)|(\s*$)/gi, "");
@@ -183,13 +240,13 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
   }
   /* ---- Function to save search bar config ---- */
   function f_svsbc() { 
-    var tlen = f_trim(document.getElementById("sb_len").value)+"\n";
+    var tlen = f_trim(document.getElementById("sb_len").value) + "\n";
     var error = false;
     var lines = tlen.split('\n');
     lines.splice(-1, 1);
     lines= lines.filter(function(e){ return e.replace(/(\r\n|\n|\r)/gm,"")});
     var sKc = {};
-    for (var i = 0; i < lines.length; i++) {
+    for (var i = 0; i < lines.length; i++ ) {
       var zlen = lines[i].split("->");
       if (zlen.length != 2) {
         i = lines.length;
@@ -212,40 +269,40 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
   var tg_r5v = parseInt(ntp_bdy.style.getPropertyValue("--v0").replace("px", ""));
   if (isNaN(tg_r5v)) {
     tg_r5v = 8;
-    ntp_bdy.style.setProperty("--v0", tg_r5v + "px");
+    ntp_bdy.style.setProperty("--v0", tg_r5v  +  "px");
     save_ntpbdy();
   }
   tg_r5.value = tg_r5v;
   tg_r5.addEventListener("input", function () {
     tg_r5v = parseInt(tg_r5.value);
-    ntp_bdy.style.setProperty("--v0", tg_r5v + "px");
+    ntp_bdy.style.setProperty("--v0", tg_r5v  +  "px");
     save_ntpbdy();
   });
   const tg_r7 = document.getElementById('tg_r7');
   var tg_r7v = parseInt(ntp_bdy.style.getPropertyValue("--v2").replace("px", ""));
   if (isNaN(tg_r7v)) {
     tg_r6v = 8;
-    ntp_bdy.style.setProperty("--v2", tg_r6v + "px");
+    ntp_bdy.style.setProperty("--v2", tg_r6v  +  "px");
     save_ntpbdy();
   }
   tg_r7.value = tg_r7v;
   tg_r7.addEventListener("input", function () {
     tg_r7v = parseInt(tg_r7.value);
-    ntp_bdy.style.setProperty("--v2", tg_r7v + "px");
+    ntp_bdy.style.setProperty("--v2", tg_r7v  +  "px");
     save_ntpbdy();
   });
   const tg_r6 = document.getElementById('tg_r6');
   var tg_r6v = parseInt(ntp_bdy.style.getPropertyValue("--v1").replace("px", ""));
   if (isNaN(tg_r6v)) {
-    tg_r6v = 70;
-    ntp_bdy.style.setProperty("--v1", tg_r6v + "px");
+    tg_r6v = 100;
+    ntp_bdy.style.setProperty("--v1", tg_r6v  +  "px");
     save_ntpbdy();
   }
   tg_r7.setAttribute("max", tg_r6v / 2);
   tg_r6.value = tg_r6v;
   tg_r6.addEventListener("input", function () {
     tg_r6v = parseInt(tg_r6.value);
-    ntp_bdy.style.setProperty("--v1", tg_r6v + "px");
+    ntp_bdy.style.setProperty("--v1", tg_r6v  +  "px");
     save_ntpbdy();
   });
   /* ----- End of Search Bar Settings Config ---- */
@@ -254,7 +311,7 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
   if (ntp_sett.status[0]) {
     function f_cache_sb() {
       const pos = (ntp_sett.order).indexOf(0);
-      ntp_wdg[0].cached = document.getElementById('wdg_' + pos).innerHTML;
+      ntp_wdg[0].cached = document.getElementById('wdg_'  +  pos).innerHTML;
       localStorage.cachedNewsUpdate = (Date.now() / 1000);
       console.log("Cache search bar");
       localStore("ntp_wdg", ntp_wdg);
@@ -269,26 +326,26 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
     }
     function handleKeyPress(e) {
       const key = e.keyCode || e.which;
-      var text = document.getElementById("sb_input").value.replaceAll("+", "%2B");
+      var text = document.getElementById("sb_input").value.replaceAll(" + ", "%2B");
       if (key == 13) search(text);
     }
     function search(text) {
       var option = text.substr(1, text.indexOf(' ') - 1) || text.substr(1);
-      var subtext = text.substr(2 + option.length);
+      var subtext = text.substr(2  +  option.length);
       var sK = ntp_sb.sK;
       var def_se = sK[sK["default"]];
       var key_se = sK[option];
       if (text[0] === sK["key"]) {
         if (text.indexOf(' ') > -1 && key_se != undefined)
-          window.location = key_se + subtext;
+          window.location = key_se  +  subtext;
         else {
           if (key_se != undefined)
-            window.location = (key_se).match(/^(?:https?:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:\/\n\?\=]+)/im)[0];
+            window.location = (key_se).match(/^(?:https?:\/\/)?(?:[^@\n] + @)?(?:www\.)?([^:\/\n\?\=] + )/im)[0];
           else
-            window.location = def_se + subtext;
+            window.location = def_se  +  subtext;
         }
       } else
-        window.location = def_se + text;
+        window.location = def_se  +  text;
     }
     f_setup_sb();
   } 
@@ -321,9 +378,9 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
     function f_cache_tl() {
       if ((typeof localStorage.cachedGridUpdate == "undefined") || ((Date.now() / 1000) - localStorage.cachedGridUpdate) >= 0.1) {
         var pos = (ntp_sett.order).indexOf(1);
-        ntp_wdg[1].cached = document.getElementById('wdg_' +pos).innerHTML;
+        ntp_wdg[1].cached = document.getElementById('wdg_'  + pos).innerHTML;
         localStorage.cachedGridUpdate = (Date.now() / 1000);
-        console.log("Cache grid tiles : " + localStorage.cachedGridUpdate);
+        console.log("Cache grid tiles : "  +  localStorage.cachedGridUpdate);
       }
       localStore("ntp_wdg", ntp_wdg);
     }
@@ -371,19 +428,19 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
       dlg_.classList.toggle("show-lrt");
       ntp_bdy.classList.toggle("sl");
       document.getElementById("flt_btn").classList.remove("open");
-      document.getElementById("fb-btn").innerHTML = '<i class="fas fa-caret-up"></i>';
+      document.getElementById("fb-btn").innerHTML = ntp_icons["caret-up"];
     }
     //Create a new folder from lrt
     function f_cnf() {
       var div = document.createElement("div");
       div.classList.add("tlg_item", "folder");
-      div.innerHTML = '<div class="tlg_img tlg_fld"></div><span id="tlg_span" class="tlg_title">' + ft_lab.value + '</span>';
+      div.innerHTML = '<div class="tlg_img tlg_fld"></div><span id="tlg_span" class="tlg_title">'  +  ft_lab.value  +  '</span>';
       tlg.appendChild(div);
       f_evl_gtiles();
       f_cache_tl();
       f_dlg(1);
     }
-    function fixURL(value){if(value.indexOf('https://')<0 && value.indexOf('http://')<0) return "https://"+value;return value;}
+    function fixURL(value){if(value.indexOf('https://')<0 && value.indexOf('http://')<0) return "https://" + value;return value;}
     //Create a new tile from lrt
     function f_cnt() {
       var newt = {};
@@ -424,7 +481,7 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
       if (i_url.disabled) {
         window.clearTimeout(timeoutVariable);
         timeoutVariable = setTimeout(function () {
-          var iUrl = "https://logos.kiwibrowser.com/" + get_root_domain(t.value);
+          var iUrl = "https://logos.kiwibrowser.com/"  +  get_root_domain(t.value);
           p_tile.src = iUrl;
           i_url.value = iUrl;
         }, 1000);
@@ -448,7 +505,7 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
           i_url.focus();
         } else {
           e.checked = true;
-          var iUrl = "https://logos.kiwibrowser.com/" + get_root_domain(t_url.value);
+          var iUrl = "https://logos.kiwibrowser.com/"  +  get_root_domain(t_url.value);
           window.clearTimeout(timeoutVariable);
           timeoutVariable = setTimeout(function () {
             p_tile.src = iUrl;
@@ -472,7 +529,7 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
     //Apply change to edited tile/folder and save
     function f_sedt() {
       var item = currentEditedTile;
-      for (i = 0, len = tlg.children.length; i < len; i++)
+      for (i = 0, len = tlg.children.length; i < len; i++ )
         if (tlg.children[i] == item) index = i;
       if (!currentEditedTile.classList.contains("folder")) {
         item.querySelector('#tile_target').href = t_url.value;
@@ -487,7 +544,7 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
       f_dlg(1);
     }
     //Get fallback icon on preview tile src error
-    function f_gfi() {var url = i_url.value;if (url[30]) p_tile.src = url + "?fallback=1";}
+    function f_gfi() {var url = i_url.value;if (url[30]) p_tile.src = url  +  "?fallback=1";}
     //Replace img error src
     function f_iimg(item) {
       var parser = document.createElement('a');
@@ -500,12 +557,12 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
       var innerDiv = document.createElement('div');
       innerDiv.className = 'tlg_item';
       innerDiv.innerHTML =
-        '<a id="tile_target" class="tile_target" href="' + item.url + '" ' + targetBlank + '>' +
-        '<img class="tlg_img" src="' + item.imgSrc +
-        '" onError="f_iimg(this)" /><span id="tlg_span" class="tlg_title">' +
-        item.title + '</span></a>';
+        '<a id="tile_target" class="tile_target" href="'  +  item.url  +  '" target='  +  targetBlank  +  '>'  + 
+        '<img class="tlg_img" src="'  +  item.imgSrc  + 
+        '" onError="f_iimg(this)" /><span id="tlg_span" class="tlg_title">'  + 
+        item.title  +  '</span></a>';
       tlg.appendChild(innerDiv);
-      console.log(" Function f_attg -> url : " + item.url + "   |  title : " + item.title + " | img : " + item.imgSrc);
+      console.log(" Function f_attg -> url : "  +  item.url  +  "   |  title : "  +  item.title  +  " | img : "  +  item.imgSrc);
       f_evl_gtiles();
       window.setTimeout(function () {f_cache_tl();}, 200);
     }
@@ -547,12 +604,12 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
       Array.from(document.querySelectorAll(".tlg_item:not(.folder)")).forEach(element => {
         element.addEventListener(mLstnr[0],
           function (evt) {
-            var by = evt.touches[0].clientY;
-            var bx = evt.touches[0].clientX;
+            var by = (isTD) ? evt.touches[0].clientY : evt.pageY;
+            var bx = (isTD) ? evt.touches[0].clientX : evt.pageX;
             if (!gridT.option("disabled")) {
-              for (let i = 0; i < folders.length; i++) {
+              for (let i = 0; i < folders.length; i++ ) {
                 var a = folders[i].getBoundingClientRect();
-                const t = ((a.x + a.width > bx) && (a.x < bx) && (a.y < by) && ((a.y + a.height) > by));
+                const t = ((a.x  +  a.width > bx) && (a.x < bx) && (a.y < by) && ((a.y  +  a.height) > by));
                 if (t) {
                   folders[i].style.background = "red";
                   currentFolder = folders[i];
@@ -562,16 +619,17 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
               }
             }
           }, {
-            passive: true
+            passive: false
           });
         element.addEventListener(mLstnr[1], function (evt) {
-          var by = evt.changedTouches[0].pageY;
-          var bx = evt.changedTouches[0].pageX;
+          if(evt==undefined)return;
+          var by = (isTD) ? evt.changedTouches[0].clientY : evt.pageY;
+          var bx = (isTD) ? evt.changedTouches[0].clientX : evt.pageX;
           if (currentFolder != null) {
             var a = currentFolder.getBoundingClientRect();
-            const t = ((a.x + a.width > bx) && (a.x < bx) && (a.y < by) && ((a.y + a.height) > by));
+            const t = ((a.x  +  a.width > bx) && (a.x < bx) && (a.y < by) && ((a.y  +  a.height) > by));
             if (!gridT.option("disabled") && t) {
-              console.log(currentFolder + " | " + element);
+              console.log(currentFolder  +  " | "  +  element);
               currentFolder.querySelector('.tlg_fld').appendChild(element);
               currentFolder.style.background = "none";
               currentFolder = null;
@@ -579,7 +637,7 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
             }
           }
         }, {
-          passive: true
+          passive: false
         });
       });
     }
@@ -588,9 +646,9 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
       if (!document.getElementById("tlg_sldr")) {
         var div = document.createElement("div");
         div.id = "tlg_sldr";
-        div.innerHTML = '<div id="sld_tg"><i class="far fa-cog"></i>   Grid Tiles Sliders</div><div id="sld_vw"><label>Number of Tiles</label><div class="vrl_wrp"><input type="range" min="0" max="8" value="50" class="slr_rng" id="tg_r1"></div>' +
-          '<label>Tile Width</label><div class="vrl_wrp"><input type="range" min="30" max="200" value="50" class="slr_rng" id="tg_r2"></div>' +
-          '<label>Tile Space</label><div class="vrl_wrp"><input type="range" min="0" max="100" value="50" class="slr_rng" id="tg_r3"></div>' +
+        div.innerHTML = '<div id="sld_tg">' + ntp_icons["cog"] + '   Grid Tiles Sliders</div><div id="sld_vw"><label>Number of Tiles</label><div class="vrl_wrp"><input type="range" min="0" max="8" value="50" class="slr_rng" id="tg_r1"></div>'  + 
+          '<label>Tile Width</label><div class="vrl_wrp"><input type="range" min="30" max="200" value="50" class="slr_rng" id="tg_r2"></div>'  + 
+          '<label>Tile Space</label><div class="vrl_wrp"><input type="range" min="0" max="100" value="50" class="slr_rng" id="tg_r3"></div>'  + 
           '<label>Tile Rounding</label><div class="vrl_wrp"><input type="range" min="0" max="100" value="50" class="slr_rng" id="tg_r4"></div></div>';
         tlg.parentNode.prepend(div);
       }
@@ -623,9 +681,9 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
         tg_r4.setAttribute("max", ntp_tlg.w / 2);
         tg_r4.value = ntp_tlg.r;
         ntp_bdy.style.setProperty("--tile-n", ntp_tlg.n);
-        ntp_bdy.style.setProperty("--tile-w", ntp_tlg.w + 'px');
-        ntp_bdy.style.setProperty("--tile-m", ntp_tlg.m + 'px');
-        ntp_bdy.style.setProperty("--tile-r", ntp_tlg.r + 'px');
+        ntp_bdy.style.setProperty("--tile-w", ntp_tlg.w  +  'px');
+        ntp_bdy.style.setProperty("--tile-m", ntp_tlg.m  +  'px');
+        ntp_bdy.style.setProperty("--tile-r", ntp_tlg.r  +  'px');
         save_ntpbdy();
       }
       function f_gncols() {
@@ -640,8 +698,8 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
         var tCol = parseInt(ntp_tlg.n);
         var tWidth = parseInt(ntp_tlg.w);
         var tMargin = parseInt(ntp_tlg.m);
-        var calc = (tCol * (tWidth + tMargin)) + 1;
-        while (calc > wid) {tWidth -= 1;calc = (tCol * (tWidth + tMargin)) + 1;}
+        var calc = (tCol * (tWidth  +  tMargin))  +  1;
+        while (calc > wid) {tWidth -= 1;calc = (tCol * (tWidth  +  tMargin))  +  1;}
         ntp_tlg.n = tCol;
         ntp_tlg.w = tWidth;
         ntp_tlg.m = tMargin;
@@ -651,8 +709,8 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
         var tCol = parseInt(ntp_tlg.n);
         var tWidth = parseInt(ntp_tlg.w);
         var tMargin = 10;
-        var calc = (tCol * (tWidth + tMargin)) + 1;
-        while (calc > wid) {tCol -= 1;calc = (tCol * (tWidth + tMargin)) + 1;}
+        var calc = (tCol * (tWidth  +  tMargin))  +  1;
+        while (calc > wid) {tCol -= 1;calc = (tCol * (tWidth  +  tMargin))  +  1;}
         ntp_tlg.n = tCol;
         ntp_tlg.m = tMargin;
         setTLG();
@@ -661,8 +719,8 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
         var nCol = parseInt(ntp_tlg.n),
           tWidth = parseInt(ntp_tlg.w),
           tMargin = parseInt(ntp_tlg.m);
-        var calc = (nCol * (tWidth + tMargin)) + 1;
-        while (calc > wid) {calc = (nCol * (tWidth + tMargin)) + 1;if (tMargin > 10) tMargin -= 1;else tWidth -= 1;}
+        var calc = (nCol * (tWidth  +  tMargin))  +  1;
+        while (calc > wid) {calc = (nCol * (tWidth  +  tMargin))  +  1;if (tMargin > 10) tMargin -= 1;else tWidth -= 1;}
         ntp_tlg.n = nCol;
         ntp_tlg.m = tMargin;
         ntp_tlg.w = tWidth;
@@ -682,7 +740,7 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
       tlg = document.getElementById("tlg");
       if (!document.getElementById("tlg_editA")) {
         var div = document.createElement("div");
-        div.innerHTML = '<div id="tlg_editA" class="edit_mode"><div id="edit_bin"><i class="far fa-trash-alt"></i></div><div id="edit_pencil" ><i class="far fa-edit"></i></div></div>';
+        div.innerHTML = '<div id="tlg_editA" class="edit_mode"><div id="edit_bin">' + ntp_icons["bin"] + '</div><div id="edit_pencil">' + ntp_icons["pencil"] + '</div></div>';
         tlg.parentNode.appendChild(div);
       }
       gridT = new Sortable(tlg, {
@@ -706,7 +764,7 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
       new Sortable(document.getElementById("edit_bin"), {
         group: 'editM',
         animation: 150,
-        filter: ".far",
+        filter: "svg",
         onAdd: function (evt) {
           var itemEl = evt.item;
           itemEl.parentNode.removeChild(itemEl);
@@ -722,7 +780,7 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
       new Sortable(document.getElementById("edit_pencil"), {
         group: 'editM',
         animation: 150,
-        filter: ".far",
+        filter: "svg",
         onAdd: function (evt) {
           var itemEl = evt.clone;
           f_etfg(itemEl);
@@ -761,7 +819,7 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
       new Sortable(edit_b2, {
         group: 'editM2',
         animation: 150,
-        filter: ".far",
+        filter: "svg",
         onAdd: function (evt) {
           var itemEl = evt.item;
           itemEl.parentNode.removeChild(itemEl);
@@ -778,7 +836,7 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
       new Sortable(edit_o2, {
         group: 'editM2',
         animation: 150,
-        filter: ".far",
+        filter: "svg",
         onAdd: function (evt) {
           var itemEl = evt.item;
           tlg.appendChild(itemEl);
@@ -797,7 +855,7 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
       new Sortable(edit_p2, {
         group: 'editM2',
         animation: 150,
-        filter: ".far",
+        filter: "svg",
         onAdd: function (evt) {
           var itemEl = evt.clone;
           f_etfg(itemEl);
@@ -859,9 +917,9 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
     function f_cache_wt() {
       if ((typeof localStorage.cachedWeatherUpdate == "undefined") || ((Date.now() / 1000) - localStorage.cachedWeatherUpdate) >= 600) {
         var pos = (ntp_sett.order).indexOf(2);
-        ntp_wdg[2].cached = document.getElementById('wdg_' +pos).innerHTML;
+        ntp_wdg[2].cached = document.getElementById('wdg_'  + pos).innerHTML;
         localStorage.cachedWeatherUpdate = (Date.now() / 1000);
-        console.log("Cache Weather : " + localStorage.cachedWeatherUpdate);
+        console.log("Cache Weather : "  +  localStorage.cachedWeatherUpdate);
       }
       localStore("ntp_wdg", ntp_wdg);
     }
@@ -890,7 +948,7 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
       '01d': '<svg version="1.1" x="0px" y="0px" viewBox="0 0 44.9 44.9" xml:space="preserve"> <g fill="#ff0"> <circle cx="22.4" cy="22.6" r="11"/> <g> <path d="M22.6,8.1h-0.3c-0.3,0-0.6-0.3-0.6-0.6v-7c0-0.3,0.3-0.6,0.6-0.6l0.3,0c0.3,0,0.6,0.3,0.6,0.6 v7C23.2,7.8,22.9,8.1,22.6,8.1z"/> <path d="M22.6,36.8h-0.3c-0.3,0-0.6,0.3-0.6,0.6v7c0,0.3,0.3,0.6,0.6,0.6h0.3c0.3,0,0.6-0.3,0.6-0.6v-7 C23.2,37,22.9,36.8,22.6,36.8z"/> <path d="M8.1,22.3v0.3c0,0.3-0.3,0.6-0.6,0.6h-7c-0.3,0-0.6-0.3-0.6-0.6l0-0.3c0-0.3,0.3-0.6,0.6-0.6h7 C7.8,21.7,8.1,21.9,8.1,22.3z"/> <path d="M36.8,22.3v0.3c0,0.3,0.3,0.6,0.6,0.6h7c0.3,0,0.6-0.3,0.6-0.6v-0.3c0-0.3-0.3-0.6-0.6-0.6h-7 C37,21.7,36.8,21.9,36.8,22.3z"/> <path d="M11.4,31.6l0.2,0.3c0.2,0.2,0.2,0.6-0.1,0.8l-5.3,4.5c-0.2,0.2-0.6,0.2-0.8-0.1l-0.2-0.3 c-0.2-0.2-0.2-0.6,0.1-0.8l5.3-4.5C10.9,31.4,11.2,31.4,11.4,31.6z"/> <path d="M33.2,13l0.2,0.3c0.2,0.2,0.6,0.3,0.8,0.1l5.3-4.5c0.2-0.2,0.3-0.6,0.1-0.8l-0.2-0.3 c-0.2-0.2-0.6-0.3-0.8-0.1l-5.3,4.5C33,12.4,33,12.7,33.2,13z"/> <path d="M11.4,13.2l0.2-0.3c0.2-0.2,0.2-0.6-0.1-0.8L6.3,7.6C6.1,7.4,5.7,7.5,5.5,7.7L5.3,7.9 C5.1,8.2,5.1,8.5,5.4,8.7l5.3,4.5C10.9,13.5,11.2,13.5,11.4,13.2z"/> <path d="M33.2,31.9l0.2-0.3c0.2-0.2,0.6-0.3,0.8-0.1l5.3,4.5c0.2,0.2,0.3,0.6,0.1,0.8l-0.2,0.3 c-0.2,0.2-0.6,0.3-0.8,0.1l-5.3-4.5C33,32.5,33,32.1,33.2,31.9z"/> <animate attributeType="CSS" attributeName="opacity" attributeType="XML" dur="0.5s" keyTimes="0;0.5;1" repeatCount="indefinite" values="1;0.6;1" calcMode="linear"/> </g> </g> </svg>',
       '01n': '<svg version="1.1" x="0px" y="0px" viewBox="0 0 30.8 42.5" xml:space="preserve" > <path fill="#ff0" d="M15.3,21.4C15,12.1,21.1,4.2,29.7,1.7c-2.8-1.2-5.8-1.8-9.1-1.7C8.9,0.4-0.3,10.1,0,21.9 c0.3,11.7,10.1,20.9,21.9,20.6c3.2-0.1,6.3-0.9,8.9-2.3C22.2,38.3,15.6,30.7,15.3,21.4z"/> </svg>'
     };
-    function capitalizeF(str) {return str.charAt(0).toUpperCase() + str.slice(1);}
+    function capitalizeF(str) {return str.charAt(0).toUpperCase()  +  str.slice(1);}
     function getJSON(url) {
       var resp = '';
       var xmlHttp = new XMLHttpRequest();
@@ -906,7 +964,7 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
       if (appid.length > 6 && appid != "") {
         if ((typeof localStorage.cachedWeatherUpdate == "undefined") || ((Date.now() / 1000) - localStorage.cachedWeatherUpdate) > 600) {
           document.getElementById('wth_s').style.display = "none";
-          var url = 'https://api.openweathermap.org/data/2.5/find?lat=' + ntp_wth.lat + '&lon=' + ntp_wth.lon + '&cnt=1&appid=' + appid + '&callback=?';
+          var url = 'https://api.openweathermap.org/data/2.5/find?lat='  +  ntp_wth.lat  +  '&lon='  +  ntp_wth.lon  +  '&cnt=1&appid='  +  appid  +  '&callback=?';
           var data = getJSON(url);
           if (data == "") return;
           data = JSON.parse(data.substring(2, data.length - 1));
@@ -922,16 +980,16 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
           var windDeg = data.list[0].wind.deg;
           //convert to F
           if (0) {
-            temp = (1.8 * temp + 32).toFixed(0);
-            temp_f = (1.8 * temp_f + 32).toFixed(0);
-            temp_min = (1.8 * temp_min + 32).toFixed(0);
-            temp_max = (1.8 * temp_max + 32).toFixed(0);
+            temp = (1.8 * temp  +  32).toFixed(0);
+            temp_f = (1.8 * temp_f  +  32).toFixed(0);
+            temp_min = (1.8 * temp_min  +  32).toFixed(0);
+            temp_max = (1.8 * temp_max  +  32).toFixed(0);
             tt = "&#8457;";
           }
-          document.getElementById("wth_t").innerHTML = temp + tt;
-          document.getElementById("wth_mm").innerHTML = temp_max + tt + " / " + temp_min + tt;
-          document.getElementById('wth_w').innerHTML = ('<i class="far fa-wind _' + windDeg + '-deg" title="Wind direction (' + windDeg + ' degrees)"></i> ' + data.list[0].wind.speed + " mps");
-          document.getElementById('wth_h').innerHTML = ('<i class="fal fa-humidity"></i>  ' + data.list[0].main.humidity + "%");
+          document.getElementById("wth_t").innerHTML = temp  +  tt;
+          document.getElementById("wth_mm").innerHTML = temp_max  +  tt  +  " / "  +  temp_min  +  tt;
+          document.getElementById('wth_w').innerHTML = ('<i class="far fa-wind _'  +  windDeg  +  '-deg" title="Wind direction ('  +  windDeg  +  ' degrees)"></i> '  +  data.list[0].wind.speed  +  " mps");
+          document.getElementById('wth_h').innerHTML = (ntp_icons["humidity"] +  data.list[0].main.humidity  +  "%");
           f_cache_wt();
         }
         document.getElementById('wth_l').style.display = "none";
@@ -967,44 +1025,55 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
     //Function that add delete item news on swipe
     function f_astd() {
       var xDown = xDiff = null;
-      const ntms = document.getElementsByClassName("news_item");
-      for (var i = 0; i < ntms.length; i++) {
-        ntms[i].addEventListener(mLstnr[2],f_ev_start,{passive: true});
-        ntms[i].addEventListener(mLstnr[0],f_ev_move,{passive: true});
-        ntms[i].addEventListener(mLstnr[1],f_ev_end,{passive: true});
-      }
-      function f_ev_start(evt){xDown = (isTD) ? evt.touches[0].clientX : evt.pageX;}
-      function f_ev_move(evt) {
-        var el = (evt.target.closest("div.news_item"));
-        el.style.transition = "margin 0ms";
-        if (!xDown) return;
-        var xUp = (isTD) ? evt.touches[0].clientX : evt.pageX;
-        xDiff = xDown - xUp;
-        if (xDiff < 20 && xDiff > -20) return;
-        if (xDiff < -20) el.style.marginLeft = ((Math.abs(xDiff))) + 'px';
-        else el.style.marginLeft = "-" + (xDiff) + 'px';
-        if (xDiff < 130 && xDiff > -130) el.style.opacity = "1" - ((Math.abs(xDiff)) / 130);
-      }
-      function f_ev_end(evt) {
-        var el = (evt.target.closest("div.news_item"));
-        if (xDiff > 130 || xDiff < -130) {
-          el.parentNode.removeChild(el);
-          f_cache_ns();
-        } else {
-          el.style.transition = "margin 600ms";
-          el.style.opacity = "1";
-          el.style.marginLeft = '4px';
-        }
+      var isScroll=false;// Setup scrolling variable
+      var isScrolling; // Listen for scroll events
+      window.addEventListener('scroll', function (event) {
+        window.clearTimeout(isScrolling);
         xDiff = xDown = null;
+        isScroll=true;
+        isScrolling = setTimeout(function() {isScroll=false;}, 100);
+      }, false);
+      const ntms = document.getElementsByClassName("news_item");
+      for (var i = 0; i < ntms.length; i++ ) {
+        ntms[i].addEventListener(mLstnr[2],f_ev_start,{passive: false});
+        ntms[i].addEventListener(mLstnr[0],f_ev_move,{passive: false});
+        ntms[i].addEventListener(mLstnr[1],f_ev_end,{passive: false});
+      }
+      function f_ev_start(evt){if(!isScroll){xDown = (isTD) ? evt.touches[0].clientX : evt.pageX;}else{xDiff = xDown = null;}}
+      function f_ev_move(evt) {
+          var el = (evt.target.closest("div.news_item"));
+          el.style.transition = "margin 0ms";
+          if (!xDown) return;
+          var xUp = (isTD) ? evt.touches[0].clientX : evt.pageX;
+          xDiff = xDown - xUp;
+          if (xDiff < 6 && xDiff > -6 ) return;
+          if (xDiff < -6) el.style.marginLeft = ((Math.abs(xDiff)))  +  'px';
+          else el.style.marginLeft = "-"  +  (xDiff)  +  'px';
+          if (xDiff < 130 && xDiff > -130) el.style.opacity = "1" - ((Math.abs(xDiff)) / 130); 
+         evt.preventDefault();
+      }
+      function f_ev_end(evt) { 
+        var el = (evt.target.closest("div.news_item"));
+      
+          if (xDiff > 130 || xDiff < -130) {
+            el.parentNode.removeChild(el);
+            f_cache_ns();
+          } else {
+            el.style.transition = "margin 200ms";
+            el.style.opacity = "1";
+            el.style.marginLeft = '4px';
+          }
+          xDiff = xDown = null;
+        
       }
     }
     //Function to cache the news section
     function f_cache_ns() {
       if ((typeof localStorage.cachedNewsUpdate == "undefined") || ((Date.now() / 1000) - localStorage.cachedNewsUpdate) >= 0.1) {
         const pos = (ntp_sett.order).indexOf(3);
-        ntp_wdg[3].cached = document.getElementById('wdg_'+pos).innerHTML;
+        ntp_wdg[3].cached = document.getElementById('wdg_' + pos).innerHTML;
         localStorage.cachedNewsUpdate = (Date.now() / 1000);
-        console.log("Cache news section : " + localStorage.cachedNewsUpdate);
+        console.log("Cache news section : "  +  localStorage.cachedNewsUpdate);
       }
       localStore("ntp_wdg", ntp_wdg);
     }
@@ -1013,11 +1082,11 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
       const x = document.getElementsByClassName("newsT_icon");
       if (getComputedStyle(ntp_bdy).getPropertyValue("--o4") == "150px") {
         ntp_bdy.style.setProperty("--o4", "auto");
-        x[0].innerHTML = '<i class="fas fa-rectangle-wide"></i>';
+        x[0].innerHTML = ntp_icons["rectangle-wide"];
         document.getElementById("stt_opt4").checked = false;
       } else {
         ntp_bdy.style.setProperty("--o4", "150px");
-        x[0].innerHTML = '<i class="fas fa-stream"></i>';
+        x[0].innerHTML = ntp_icons["stream"];
         document.getElementById("stt_opt4").checked = true;
       }
       save_ntpbdy();
@@ -1056,6 +1125,8 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
       var tResult = result.substring(0, 8);
       return tResult;
     }
+    //Function that remove news with error 404
+    function f_eis(t){t.remove();}
     //Function to add a news item 
     function add_gnews(title, news_time, source, source_logo, link, image) {
       const itemID = c_itemnews_ID(title);
@@ -1068,13 +1139,13 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
       var innerDiv = document.createElement('div');
       innerDiv.className = 'news_item';
       innerDiv.id = itemID;
-      innerDiv.innerHTML = '<img src="' + image + '" class="news_img" />' +
-        '<div class="news_cnt">' +
-        '<span class="news_attr"><img src="' + source_logo + '"/>&nbsp;&nbsp;&nbsp;<a href="' + link + '">' + source +
-        '</a></span>' +
-        '<div class="news_title"><a href="' + link + '">' +
-        title + '</a></div>' +
-        '<span class="news_time" data-time="' + news_time.a + '">' + news_time.b + '</span></a></div>';
+      innerDiv.innerHTML = '<img src="'  +  image  +  '" class="news_img" onerror="f_eis(this);"/>'  + 
+        '<div class="news_cnt">'  + 
+        '<span class="news_attr"><img src="'  +  source_logo  +  '"/>&nbsp;&nbsp;&nbsp;<a href="'  +  link  +  '">'  +  source  + 
+        '</a></span>'  + 
+        '<div class="news_title"><a href="'  +  link  +  '">'  + 
+        title  +  '</a></div>'  + 
+        '<span class="news_time" data-time="'  +  news_time.a  +  '">'  +  news_time.b  +  '</span></a></div>';
       document.getElementById('news').prepend(innerDiv);
     }
     //Function to render news ( get news from gnews )
@@ -1085,6 +1156,7 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
       el.innerHTML = answer.replace(new RegExp('<img', 'gi'), '<source');
       var articles = el.getElementsByTagName('article');
       loadingSVG.remove();
+
       for (var i = articles.length - 1; i > 0; i--) {
         var article = articles[i];
         var title = null;
@@ -1104,14 +1176,22 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
           'a': article.querySelector(".WW6dff").getAttribute("datetime"),
           'b': article.querySelector(".WW6dff").innerHTML
         };
-        if (link) link = link.replace(/.+?(?=articles)/, 'https://news.google.com/');
+        if (link) link = link.replace(/. + ?(?=articles)/, 'https://news.google.com/');
         if (link && image && title) {
           add_gnews(title, news_time, source, source_logo, link, image);
         }
       }
       f_cache_ns(); //Cache the news items
     }
-    console.log('News locale is ' + localStorage.newsLe);
+    console.log('News locale is '  +  localStorage.newsLe);
+    //Function to clean number of fetched news ( old one are deleted)
+    function cleanOldNews(){
+      var nI= document.querySelectorAll(".news_item");
+      if(nI.length > 30 ){
+        for(var i = (nI.length -1);i>30;i--)
+          nI[i].remove();
+      }
+    }
     //Function to load news 
     function loadGNews() {
       if (shouldIC()){document.getElementById('news').innerHTML == "";}
@@ -1121,20 +1201,21 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
         console.log("Fetching news..");
         render_news_loading();
         try{
-          fetch(newsServer + 'foryou' + localStorage.newsLe, {method: 'GET',credentials: 'include'})
+          fetch(newsServer  +  'foryou'  +  localStorage.newsLe, {method: 'GET',credentials: 'include',})
           .then(function(response){
             if (response.url.includes("&ceid=")){localStorage.newsLe = response.url.substr(response.url.lastIndexOf('?'));}
               return response.text();
           }).then(function(answer){render_gnews(answer);localStorage.cachedNewsUpdate = (Date.now() / 1000);});
-        } catch (err) {console.log('Fetch news failed for: ' + err.message);}
+        } catch (err) {console.log('Fetch news failed for: '  +  err.message);}
         try{
-          fetch(newsServer + localStorage.newsLe, {method: 'GET',mode: 'cors'})
+          fetch(newsServer  +  localStorage.newsLe, {method: 'GET',mode: 'cors'})
             .then(function(response){if(response.url.includes("&ceid=")){localStorage.newsLe = response.url.substr(response.url.lastIndexOf('?'));}
               return response.text();
             })
             .then(function(answer){render_gnews(answer);localStorage.cachedNewsUpdate=(Date.now() / 1000);});
-        }catch(err){console.log('Fetch generic news failed for: ' + err.message);        }
+        }catch(err){console.log('Fetch generic news failed for: '  +  err.message);        }
       }
+      cleanOldNews();
     }
     const locales = {
       'English | Australia': '?hl=en-AU&gl=AU&ceid=AU:en',
@@ -1246,7 +1327,7 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
     //Save widget by caching it
     function f_cache_tb(ntvalue) {
       if (ntvalue) {ntp_wdg[4].ntarea = ntvalue;
-      } else {const pos = (ntp_sett.order).indexOf(4);ntp_wdg[4].cached = document.getElementById('wdg_'+pos).innerHTML;}
+      } else {const pos = (ntp_sett.order).indexOf(4);ntp_wdg[4].cached = document.getElementById('wdg_' + pos).innerHTML;}
       console.log("Cache Tabs : static");
       localStore("ntp_wdg", ntp_wdg);
     }
@@ -1273,7 +1354,7 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
       }
       formtd.addEventListener('submit', function (e) {
         e.preventDefault();
-        tdlist.innerHTML += '<li>' + tdlinput.value + '</li>';
+        tdlist.innerHTML += '<li>'  +  tdlinput.value  +  '</li>';
         tdlinput.value = "";
         f_ev_tdl();
         f_cache_tb();
@@ -1298,7 +1379,7 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
       }
       formlk.addEventListener('submit', function (e) {
         e.preventDefault();
-        lklist.innerHTML += '<li>' + lkinput.value + '</li>';
+        lklist.innerHTML  += '<li>'  +  lkinput.value  +  '</li>';
         lkinput.value = "";
         f_cache_tb();
         f_ev_lkl()
@@ -1312,33 +1393,33 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
 
   /* ---- Config Widgets List Toggle ---- */
   var listO = new Sortable.create(document.getElementById("stt_lwo"), {
-    handle: '.stt_lwoh',
+    handle: 'svg',
     animation: 150,
     onEnd: function (evt) {
       var list = document.getElementById("stt_lwo").getElementsByTagName("li");
-      console.log("OnEnd 1:>>"+ntp_sett.order);
+      console.log("OnEnd 1:>>" + ntp_sett.order);
       for (var z = 0; z < list.length; z++) {
         var widget = parseInt(list[z].getAttribute("data-id"));
         ntp_sett.order[z] = widget;
         orderListChanged = 1;
       }
-      console.log("OnEnd 2:>>"+ntp_sett.order);
+      console.log("OnEnd 2:>>" + ntp_sett.order);
       localStore("ntp_sett", ntp_sett);
       load_widgets();
-      if (ntp_sett.status[1])load_tl();
-      if (ntp_sett.status[4])load_tb();
-      if (ntp_sett.status[2])load_wt();
+      if (ntp_sett.status[1])f_setup_gtiles();
+      if (ntp_sett.status[4])f_setup_tabs();
+      if (ntp_sett.status[2])f_setup_wth();
     }
   });
   function toggle_widget(i) {
     var pos= (ntp_sett.order).indexOf(i);
     var status = (ntp_sett.status[i] == 1) ? 0 : 1;
-    console.log(" Widget : " + i + " Order : " + pos + " Status :" + ntp_sett.status[i] + " - >" + status);
+    console.log(" Widget : "  +  i  +  " Order : "  +  pos  +  " Status :"  +  ntp_sett.status[i]  +  " - >"  +  status);
     ntp_sett.status[i] = status;
-    document.getElementById("wdg_" + pos).style.display = (status) ? "block" : "none";
-    customInner(document.getElementById("wdg_" + pos), (status) ? ntp_wdg[i].cached : "");
+    document.getElementById("wdg_"  +  pos).style.display = (status) ? "block" : "none";
+    customInner(document.getElementById("wdg_"  +  pos), (status) ? ntp_wdg[i].cached : "");
     localStore("ntp_sett", ntp_sett);
-    if (ntp_sett.status[i] && i == 1) load_tl();if (ntp_sett.status[i] && i == 4) load_tb();if (ntp_sett.status[i] && i == 2) load_wt();
+    if (ntp_sett.status[i] && i == 1) f_setup_gtiles();if (ntp_sett.status[i] && i == 4) f_setup_tabs();if (ntp_sett.status[i] && i == 2) f_setup_wth();
   }
   /* ----- End of Config Widgets List Toggle ---- */
 
@@ -1354,14 +1435,14 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
       G: Math.floor(Math.random() * 255),
       B: Math.floor(Math.random() * 255)
     };
-    colorOne.rgb = 'rgb(' + colorOne.R + ',' + colorOne.G + ',' + colorOne.B + ')';
-    colorTwo.rgb = 'rgb(' + colorTwo.R + ',' + colorTwo.G + ',' + colorTwo.B + ')';
-    var gradientC = 'radial-gradient(at top left, ' + colorOne.rgb + ', ' + colorTwo.rgb + ')';
+    colorOne.rgb = 'rgb('  +  colorOne.R  +  ','  +  colorOne.G  +  ','  +  colorOne.B  +  ')';
+    colorTwo.rgb = 'rgb('  +  colorTwo.R  +  ','  +  colorTwo.G  +  ','  +  colorTwo.B  +  ')';
+    var gradientC = 'radial-gradient(at top left, '  +  colorOne.rgb  +  ', '  +  colorTwo.rgb  +  ')';
   }
 
   /* ----------- Config NTP Background ---------- */
   const wDevice = (window.innerWidth) ? window.innerWidth : screen.width;
-  const hDevice = (window.innerHeight) ? (window.innerHeight + 56) : screen.height;
+  const hDevice = (window.innerHeight) ? (window.innerHeight  +  56) : screen.height;
   const bg_pld = document.getElementById('bg_pld'),
     crop = document.getElementById('crop'),
     result = document.getElementById('result'),
@@ -1369,10 +1450,10 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
     crpp = document.getElementById('croppie');
   var cr, cr_img = '',img_w = wDevice / 2,img_h = hDevice / 2,isCrop = 0;
   while (img_w > 670) {img_w = img_w / 1.2;img_h = img_h / 1.2;}
-  ntp_bdy.style.setProperty("--bg-cw", img_w + "px");
-  ntp_bdy.style.setProperty("--bg-ch", img_h + "px");
+  ntp_bdy.style.setProperty("--bg-cw", img_w  +  "px");
+  ntp_bdy.style.setProperty("--bg-ch", img_h  +  "px");
   function savebg_cropped(t) {
-    ntp_bdy.style.setProperty("--bg-img", "url(" + imgRes.src + ")");
+    ntp_bdy.style.setProperty("--bg-img", "url("  +  imgRes.src  +  ")");
     ntp_bdy.style.setProperty("--bg-cl", "#fff");
     save_ntpbdy();
     save_ntpbdy();
@@ -1462,7 +1543,7 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
     cancelButton: true,
     onDone: function (color) {
       if (cp_current_el != null && cp_current_el != "bgcl") {
-        ntp_bdy.style.setProperty("--c" + cp_current_el, color.hex);
+        ntp_bdy.style.setProperty("--c"  +  cp_current_el, color.hex);
         save_ntpbdy();
       } else {
         if (cp_current_el == "bgcl") {
@@ -1491,7 +1572,7 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
   }
   function f_cp_rgb(t) {
     cp_current_el = t;
-    let color = getComputedStyle(ntp_bdy).getPropertyValue("--c" + t);
+    let color = getComputedStyle(ntp_bdy).getPropertyValue("--c"  +  t);
     picker.setColor(color, true);
     cp_lrt.classList.toggle("show-lrt");
   }
