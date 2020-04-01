@@ -1176,7 +1176,7 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
           'a': article.querySelector(".WW6dff").getAttribute("datetime"),
           'b': article.querySelector(".WW6dff").innerHTML
         };
-        if (link) link = link.replace(/. + ?(?=articles)/, 'https://news.google.com/');
+        if (link) link = link.replace("https://d3ward.github.io/ntp/", 'https://news.google.com/');
         if (link && image && title) {
           add_gnews(title, news_time, source, source_logo, link, image);
         }
