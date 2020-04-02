@@ -157,7 +157,7 @@ body {
   background-color: var(--bg-cl);
   background-attachment:fixed !important;
   opacity: 1;
-  transition:opacity 0.1s ease-in;
+  transition:opacity 0.4s linear;
   height:100%;
 }
 
