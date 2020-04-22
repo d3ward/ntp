@@ -109,6 +109,27 @@ from Grid Tiles Sliders settings group which can be accessed by long clicking on
 
 ## Weather
 
+      Openweathermap api
+
+      495420df08840c119868152dd11d21da
+
+      a0e5bf199805c7ff4838b4c032788407
+
+      4c004c7b51430be9f99798f0f98e447f
+
+      3684ec848d8a98acee4b6d8b499a7ca9
+
+      b2c1e39303f7c08c2aef5643d804a5d5
+
+      39cb45dc540f0dd1802abeb33d402bfc
+
+      f1711e78290d197557c1745315e90892
+
+      5fcf02142ae5a5ada1f210e83bac0aea
+
+      1b412c1c78a7ac09f93769587b9adb05
+
+      2926a6f3cd75c7734060f10165eb5435
 ## News Section
 
 ## Tabs
