@@ -3,8 +3,11 @@
 
 *Mobile first New Tab Page.Feature rich and higly customizable.*
 
-You can this NTP online from any browser ( Desktop/Mobile) at https://d3ward.github.io/ntp/local_ntp
-This project is bundled in Kiwi Browser ( Android ) 
+You can use this NTP online from any browser ( Desktop/Mobile ) at https://d3ward.github.io/ntp/local_ntp 
+
+Also there is a special version with service workers [PWA Next NTP](https://nextntp.glitch.me/) 
+
+This project is bundled in [Kiwi Browser](https://kiwibrowser.com/) ( Android ) available at 'chrome-search://local-ntp/new-ntp.html'
 
 The  original ntp  was made up of two part:
  - A list of most visited websites, ordered on a grid of tiles
@@ -43,9 +46,9 @@ You can directly try this fork of the new tab page online by going with your fav
 Forked Repo - https://kiwibrowser.github.io/ntp/local_ntp.html 
 
 Libraries included in this project 
- - (Sortable 1.10.0-rc3)[https://sortablejs.github.io/Sortable/] (MIT License)[https://github.com/SortableJS/Sortable/blob/master/LICENSE]  | JavaScript library for reorderable drag-and-drop lists 
- - (Croppie)[http://foliotek.github.io/Croppie/] | (MIT License)[https://github.com/Foliotek/Croppie/blob/master/LICENSE] A Javascript Image Cropper  
- - (Vanilla-Picker v2.10.1)[https://vanilla-picker.js.org] | (ISC License)[https://github.com/Sphinxxxx/vanilla-picker/blob/master/LICENSE.md] A simple, easy to use vanilla JS color picker with alpha selection.
+ - [Sortable 1.10.0-rc3](https://sortablejs.github.io/Sortable/) | [MIT License](https://github.com/SortableJS/Sortable/blob/master/LICENSE)  | JavaScript library for reorderable drag-and-drop lists 
+ - [Croppie](http://foliotek.github.io/Croppie/) | [MIT License](https://github.com/Foliotek/Croppie/blob/master/LICENSE) | A Javascript Image Cropper  
+ - [Vanilla-Picker v2.10.1](https://vanilla-picker.js.org) | [ISC License](https://github.com/Sphinxxxx/vanilla-picker/blob/master/LICENSE.md) | A simple, easy to use vanilla JS color picker with alpha selection.
  
 Copyright 2019 Geometry OU / Kiwi Browser
 Licensed under https://creativecommons.org/licenses/by-nc-sa/4.0/
