@@ -1,10 +1,18 @@
-if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
+
+var isIncognito;
+try {
+   isIncognito=window.chrome.embeddedSearch.newTabPage.isIncognito
+} catch (error) {
+  isIncognito=false
+}
+
+if (isIncognito) {
   metaTColor.setAttribute("content", "#000000");
   document.getElementById('incognito').style.display = 'inline';
   document.getElementById('ntp_cnt').style.display = 'none';
   ntp_bdy.classList.remove("op");
 } else {
-  var ntp_ver = "4.1.0";
+  var ntp_ver = "4.1.1";
   console.log("NTP Version "  +  ntp_ver);
   var orderListChanged = 0;
   document.getElementById("sett_mtc").style.background = localStorage.ntp_mtc;
@@ -12,8 +20,7 @@ if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
   /* ---- Check ntp_ver and show changelog ---- */
   if (localStorage.ntp_ver != ntp_ver || !localStorage.ntp_ver) {
     localStorage.ntp_ver = ntp_ver;
-    showBox("<b> New update - "  +  ntp_ver  +  "</b><br><br> - Replaced online icon fonts with svg ( faster and cached ) <br> - Clean news on reload ( limit to 30 items ) and swipe to hide improvements"
-     + "<br> - Added spacing on Widgets <br> - Fixed empty tile, if you still see that bug just move the tile to another position<br> - Added padding on rounded search bar <br> - General improvements and bug fixes<br><br>");
+    showBox("<b> New update - "  +  ntp_ver  +  "</b><br><br> - Fix ntp not loading on other browsers <br> <br><br>");
   }
   document.getElementById("version").innerHTML="Version " + ntp_ver;
   /* ------ Function to get default widgets ----- */

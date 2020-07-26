@@ -1,24 +1,31 @@
 <html>
+
 <head>
   <script>
     var newsServer = 'https://news.google.com/';
-    if (typeof window.chrome.embeddedSearch == "undefined") {
-      console.log("Oh , looks like window.chrome.embeddedSearch is undefined");
-      window.chrome = {
-        "embeddedSearch": {
-          "newTabPage": {
-            "isIncognito": false,
+    try {
+      if (typeof window.chrome.embeddedSearch == "undefined") {
+        console.log("Oh , looks like window.chrome.embeddedSearch is undefined");
+        window.chrome = {
+          "embeddedSearch": {
+            "newTabPage": {
+              "isIncognito": false,
+            }
           }
         }
+        newsServer = 'https://chromecontentsuggestions-pa.kiwibrowser.com/testnews/?';
       }
-      newsServer = 'https://chromecontentsuggestions-pa.kiwibrowser.com/testnews/?';
+    } catch (error) {
+      //Do nothing
     }
+
     function reset_page() {
       if (confirm("This will reset NTP back to default, are you sure ?")) {
         localStorage.clear();
         location.reload();
       }
     }
+
     function fabAction() {
       var el = document.getElementById('flt_btn');
       el.classList.toggle('open');
@@ -29,7 +36,8 @@
       }
     }
   </script>
-  <!----><base href="https://d3ward.github.io/ntp/">
+  <!---->
+  <base href="https://d3ward.github.io/ntp/">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta name="theme-color" content="#000000" />
   <link rel="stylesheet" href="./local_ntp.min.css?%%COMMIT%%">
@@ -46,20 +54,25 @@
     }
   </script>
 </head>
+
 <body class="op">
   <script>
     var ntp_bdy = document.body;
+
     function dismBox() {
       document.getElementById("lrt").classList.toggle("show-lrt");
     }
+
     function showBox(txt) {
       document.getElementById("lrt_body").innerHTML = txt;
       document.getElementById("lrt").classList.toggle("show-lrt");
       ntp_bdy.classList.toggle("sl");
     }
+
     function f_codef_c() {
       document.getElementById("code_f").value = "";
     }
+
     function f_codef_e() {
       try {
         eval(document.getElementById("code_f").value);
@@ -86,7 +99,9 @@
     <div class="lrt_cnt">
       <div id="lrt_bfl"></div>
       <div id="fld_editA" class="edit_mode">
-        <div id="edit_bin2"></div><div id="edit_out2"></div><div id="edit_pencil2"></div>
+        <div id="edit_bin2"></div>
+        <div id="edit_out2"></div>
+        <div id="edit_pencil2"></div>
       </div>
     </div>
   </div>
@@ -151,9 +166,16 @@
   <div id="dlg_st" class="lrt">
     <div class="lrt_cnt">
       <div>
-        <button type="button" class="b_dark b_close" onclick="func_dlg_st(0)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512"><path d="M207.6 256l107.7-107.7c6.2-6.2 6.2-16.3 0-22.6l-25-25c-6.2-6.2-16.3-6.2-22.6 0L160 208.4 52.3 100.7c-6.2-6.2-16.3-6.2-22.6 0L4.7 125.7c-6.2 6.2-6.2 16.3 0 22.6L112.4 256 4.7 363.7c-6.2 6.2-6.2 16.3 0 22.6l25 25c6.2 6.2 16.3 6.2 22.6 0L160 303.6l107.7 107.7c6.2 6.2 16.3 6.2 22.6 0l25-25c6.2-6.2 6.2-16.3 0-22.6L207.6 256z"/></svg></button>
+        <button type="button" class="b_dark b_close" onclick="func_dlg_st(0)"><svg xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 320 512">
+            <path
+              d="M207.6 256l107.7-107.7c6.2-6.2 6.2-16.3 0-22.6l-25-25c-6.2-6.2-16.3-6.2-22.6 0L160 208.4 52.3 100.7c-6.2-6.2-16.3-6.2-22.6 0L4.7 125.7c-6.2 6.2-6.2 16.3 0 22.6L112.4 256 4.7 363.7c-6.2 6.2-6.2 16.3 0 22.6l25 25c6.2 6.2 16.3 6.2 22.6 0L160 303.6l107.7 107.7c6.2 6.2 16.3 6.2 22.6 0l25-25c6.2-6.2 6.2-16.3 0-22.6L207.6 256z" />
+            </svg></button>
         <button class="stt_menu" onclick="func_st_page(0);">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M436 124H12c-6.6 0-12-5.4-12-12V80c0-6.6 5.4-12 12-12h424c6.6 0 12 5.4 12 12v32c0 6.6-5.4 12-12 12zm0 160H12c-6.6 0-12-5.4-12-12v-32c0-6.6 5.4-12 12-12h424c6.6 0 12 5.4 12 12v32c0 6.6-5.4 12-12 12zm0 160H12c-6.6 0-12-5.4-12-12v-32c0-6.6 5.4-12 12-12h424c6.6 0 12 5.4 12 12v32c0 6.6-5.4 12-12 12z"/></svg>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+            <path
+              d="M436 124H12c-6.6 0-12-5.4-12-12V80c0-6.6 5.4-12 12-12h424c6.6 0 12 5.4 12 12v32c0 6.6-5.4 12-12 12zm0 160H12c-6.6 0-12-5.4-12-12v-32c0-6.6 5.4-12 12-12h424c6.6 0 12 5.4 12 12v32c0 6.6-5.4 12-12 12zm0 160H12c-6.6 0-12-5.4-12-12v-32c0-6.6 5.4-12 12-12h424c6.6 0 12 5.4 12 12v32c0 6.6-5.4 12-12 12z" />
+            </svg>
         </button>
       </div>
       <div class="dlg_cnt">
@@ -242,7 +264,8 @@
             <li> Wdg 3 <input type="text" onchange="setMTop(this,3)"></li>
             <li> Wdg 4 <input type="text" onchange="setMTop(this,4)"></li>
           </ul>
-          <div class="vrl_wrp vw2 "><button class="b_dark" style="width:100%;" onclick="f_rwmt()">Reset margins to default</button></div><br><br>
+          <div class="vrl_wrp vw2 "><button class="b_dark" style="width:100%;" onclick="f_rwmt()">Reset margins to
+              default</button></div><br><br>
         </section>
         <section>
           <div class="vrl_wrp  ">
@@ -253,7 +276,8 @@
           <div class="vrl_wrp"><label class="btn"
               style="padding: 0;text-align: center;height: 35px;line-height: 35px;width: 100%;display: inline-block;border-radius: 5px;background: #000;">
               <input type="file" id="sb_lgf" /> Upload from file </label></div>
-          <div class="vrl_wrp"><button type="button" class="b_dark" id="sb_lg2" style="width: 100%;"> From Link</button></div>
+          <div class="vrl_wrp"><button type="button" class="b_dark" id="sb_lg2" style="width: 100%;"> From Link</button>
+          </div>
           <div class="vrl_wrp">
             <div class="stt_lbl">Search Bar Logo Rounding</div>
           </div>
@@ -286,7 +310,8 @@
           <div class="vrl_wrp">
             <div class="stt_lbl">Search Bar Config</div><textarea id="sb_len"></textarea>
           </div>
-          <div class="vrl_wrp vw2 "><button class="b_dark save_btns" style="width: calc(100% - 10px);" onclick="f_svsbc()"></button></div>
+          <div class="vrl_wrp vw2 "><button class="b_dark save_btns" style="width: calc(100% - 10px);"
+              onclick="f_svsbc()"></button></div>
         </section>
         <section>
           <div class="vrl_wrp">
@@ -332,8 +357,10 @@
           <div class="vrl_wrp vw2"><label><b>OpenWeatherMap API Key</b></label><input id="wt_ik" type="text" /></div>
           <div class="vrl_wrp vw2"><label><b>Latitude</b></label><input id="wt_ila" type="text" /></div>
           <div class="vrl_wrp vw2"><label><b>Longitude</b></label><input id="wt_iln" type="text" /></div>
-          <div class="vrl_wrp vw2"><button class="b_dark save_btns" style="width:100%;" onclick="f_save_wth()"></button></div>
-          <div class="vrl_wrp vw2"><button class="b_dark" style="width:100%;" onclick="f_get_ll()">Get longitute and latitude</button></div>
+          <div class="vrl_wrp vw2"><button class="b_dark save_btns" style="width:100%;" onclick="f_save_wth()"></button>
+          </div>
+          <div class="vrl_wrp vw2"><button class="b_dark" style="width:100%;" onclick="f_get_ll()">Get longitute and
+              latitude</button></div>
           <hr><br>
           <div class="vrl_wrp vw2"><label class="stt_opt">Show City in Weather Widget</label><input id="stt_opt5"
               class="toggle" type="checkbox" value="inline-block" onchange="set_option_t(this,'none',5)" /></div>
@@ -378,7 +405,8 @@
           <hr>
           <div class="vrl_wrp vw2"><label class="stt_opt">Compact view items </label><input id="stt_opt4" class="toggle"
               type="checkbox" value="150px" onchange="set_option_t(this,'auto',4)" /></div>
-          <div class="vrl_wrp vw2 "><button class="b_dark" style="width:100%;" onclick="f_nsrl(2)">Clean Fetched News</button></div><br><br>
+          <div class="vrl_wrp vw2 "><button class="b_dark" style="width:100%;" onclick="f_nsrl(2)">Clean Fetched
+              News</button></div><br><br>
         </section>
         <section>
           <div class="vrl_wrp">
@@ -489,7 +517,7 @@
           <br><br>
           <hr>
           <br>
-          <div style="width: 100%;text-align: center;">Made with 	&#x2764;
+          <div style="width: 100%;text-align: center;">Made with &#x2764;
             by Eduard Ursu (@d3ward)</div>
         </section>
       </div>
@@ -504,51 +532,57 @@
     <div id="flt_btn" class="buttons"></div>
   </div>
   <div id="incognito" style="display: none;width: 100%;height: 100vh;background:black;">
-    <div style="text-align: center;padding-top:50px;" id="dark_kiwi"><br/>
-      <span style="color: #fff;"><h2>Private mode</h2></span>
+    <div style="text-align: center;padding-top:50px;" id="dark_kiwi"><br />
+      <span style="color: #fff;">
+        <h2>Private mode</h2>
+      </span>
     </div>
   </div>
 </body>
-  <!-- crossorigin="anonymous"  -->
-  <script src="./lib_min.js?%%COMMIT%%" crossorigin="anonymous" ></script>
-  <script>
-    //Config Settings page 
-    var stSections = document.querySelectorAll("section");
-    var stSec = 0;
-    document.getElementById("flt_btn").innerHTML= '<div class="flt_acs"><div class="flt_ac" onclick="f_dlg(2)">'
-      +ntp_icons["folder-plus"]+'  Add new folder</div><div class="flt_ac" onclick="f_dlg(0)">'
-      +ntp_icons["plus"]+'  Add new tile</div><div class="flt_ac" onclick="func_dlg_st(1);func_st_page(3);">'
-      +ntp_icons["rectangle-wide"]+'  Widgets </div><div class="flt_ac" onclick="reset_page()">'
-      +ntp_icons["excl-triangle"]+'  Reset NTP</div><div class="flt_ac" onclick="window.open(\'https:\/\/todontp.glitch.me/\',\'_blank\');">'
-      +ntp_icons["list-ol"]+'  To-do NTP</div><div class="flt_ac" id="settings-btn" onclick="func_dlg_st(1)">'
-      +ntp_icons["cogs"]+'  Settings</div></div><button class="flt_trg" onclick="fabAction()" id="fb-eg"><span id="fb-btn">'+ntp_icons["caret-up"]+'</span></button>';
-    document.getElementById("dlg_home").innerHTML= 
-    ' <button onclick="func_st_page(1);">'+ntp_icons["cogs"]+'General</button>'+
-    '<button onclick="func_st_page(2);">'+ntp_icons["image"]+'NTP Background</button>'+
-    '<button onclick="func_st_page(3);">'+ntp_icons["rectangle-wide"]+'Widgets</button>'+
-    '<button onclick="func_st_page(4);">'+ntp_icons["search"]+'Search Bar</button>'+
-    '<button onclick="func_st_page(5);">'+ntp_icons["grip-horizontal"]+'Tiles Grid</button>'+
-    '<button onclick="func_st_page(6);">'+ntp_icons["cloud-sun"]+'Weather</button>'+
-    '<button onclick="func_st_page(7);">'+ntp_icons["newspaper"]+'News Section</button>'+
-    '<button onclick="func_st_page(8);">'+ntp_icons["window-alt"]+'Tabs </button>'+
-    '<button onclick="func_st_page(9);">'+ntp_icons["redo-alt"]+'Backup&Restore </button>'+
-    '<button onclick="func_st_page(10);">'+ntp_icons["info-square"]+'About</button>';
-    //Toggle Settings lrt
-    function func_dlg_st(a) {
-      document.getElementById("dlg_st").classList.toggle("show-lrt");
-      ntp_bdy.classList.toggle("sl");
-      stSections[0].style.display = "block";
-      if (a == 0) stSections[stSec].style.display = "none";
-      document.getElementById('flt_btn').classList.remove("open")
-      document.getElementById("fb-btn").innerHTML = ntp_icons["caret-up"];
-    }
-    //Function to slide to setting page 
-    function func_st_page(i) {
-      stSections[0].style.display = "none";
-      stSections[stSec].style.display = "none";
-      stSections[i].style.display = "block";
-      stSec = i;
-    }
-  </script>
-  <script src="./local_ntp.js?%%COMMIT%%" crossorigin="anonymous" ></script>
+<!-- crossorigin="anonymous"  -->
+<script src="./lib_min.js?%%COMMIT%%" crossorigin="anonymous"></script>
+<script>
+  //Config Settings page 
+  var stSections = document.querySelectorAll("section");
+  var stSec = 0;
+  document.getElementById("flt_btn").innerHTML = '<div class="flt_acs"><div class="flt_ac" onclick="f_dlg(2)">' +
+    ntp_icons["folder-plus"] + '  Add new folder</div><div class="flt_ac" onclick="f_dlg(0)">' +
+    ntp_icons["plus"] + '  Add new tile</div><div class="flt_ac" onclick="func_dlg_st(1);func_st_page(3);">' +
+    ntp_icons["rectangle-wide"] + '  Widgets </div><div class="flt_ac" onclick="reset_page()">' +
+    ntp_icons["excl-triangle"] +
+    '  Reset NTP</div><div class="flt_ac" onclick="window.open(\'https:\/\/todontp.glitch.me/\',\'_blank\');">' +
+    ntp_icons["list-ol"] + '  To-do NTP</div><div class="flt_ac" id="settings-btn" onclick="func_dlg_st(1)">' +
+    ntp_icons["cogs"] +
+    '  Settings</div></div><button class="flt_trg" onclick="fabAction()" id="fb-eg"><span id="fb-btn">' + ntp_icons[
+      "caret-up"] + '</span></button>';
+  document.getElementById("dlg_home").innerHTML =
+    ' <button onclick="func_st_page(1);">' + ntp_icons["cogs"] + 'General</button>' +
+    '<button onclick="func_st_page(2);">' + ntp_icons["image"] + 'NTP Background</button>' +
+    '<button onclick="func_st_page(3);">' + ntp_icons["rectangle-wide"] + 'Widgets</button>' +
+    '<button onclick="func_st_page(4);">' + ntp_icons["search"] + 'Search Bar</button>' +
+    '<button onclick="func_st_page(5);">' + ntp_icons["grip-horizontal"] + 'Tiles Grid</button>' +
+    '<button onclick="func_st_page(6);">' + ntp_icons["cloud-sun"] + 'Weather</button>' +
+    '<button onclick="func_st_page(7);">' + ntp_icons["newspaper"] + 'News Section</button>' +
+    '<button onclick="func_st_page(8);">' + ntp_icons["window-alt"] + 'Tabs </button>' +
+    '<button onclick="func_st_page(9);">' + ntp_icons["redo-alt"] + 'Backup&Restore </button>' +
+    '<button onclick="func_st_page(10);">' + ntp_icons["info-square"] + 'About</button>';
+  //Toggle Settings lrt
+  function func_dlg_st(a) {
+    document.getElementById("dlg_st").classList.toggle("show-lrt");
+    ntp_bdy.classList.toggle("sl");
+    stSections[0].style.display = "block";
+    if (a == 0) stSections[stSec].style.display = "none";
+    document.getElementById('flt_btn').classList.remove("open")
+    document.getElementById("fb-btn").innerHTML = ntp_icons["caret-up"];
+  }
+  //Function to slide to setting page 
+  function func_st_page(i) {
+    stSections[0].style.display = "none";
+    stSections[stSec].style.display = "none";
+    stSections[i].style.display = "block";
+    stSec = i;
+  }
+</script>
+<script src="./local_ntp.js?%%COMMIT%%" crossorigin="anonymous"></script>
+
 </html>
