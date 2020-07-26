@@ -1,10 +1,7 @@
 
 var isIncognito;
-try {
-   isIncognito=window.chrome.embeddedSearch.newTabPage.isIncognito
-} catch (error) {
-  isIncognito=false
-}
+try {isIncognito=window.chrome.embeddedSearch.newTabPage.isIncognito
+} catch (error) {isIncognito=false}
 
 if (isIncognito) {
   metaTColor.setAttribute("content", "#000000");
