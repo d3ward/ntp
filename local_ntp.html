@@ -81,12 +81,17 @@
         showBox("Something gone wrong ! Info _:" + error.message);
       }
     }
-    if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
-      ntp_bdy.style.backgroundImage = 'none';
-      ntp_bdy.style.backgroundColor = '#000';
-    } else {
-      if (localStorage.ntp_bdy != undefined) ntp_bdy.setAttribute("style", (localStorage.ntp_bdy).replace('"', ''));
+    try {
+        if (window.chrome.embeddedSearch.newTabPage.isIncognito) {
+        ntp_bdy.style.backgroundImage = 'none';
+        ntp_bdy.style.backgroundColor = '#000';
+      } else {
+        if (localStorage.ntp_bdy != undefined) ntp_bdy.setAttribute("style", (localStorage.ntp_bdy).replace('"', ''));
+      }
+    } catch (error) {
+      //Do nothing
     }
+    
   </script>
   <div id="lrt" class="lrt">
     <div class="lrt_cnt">
